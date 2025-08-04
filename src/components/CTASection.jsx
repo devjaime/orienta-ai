@@ -1,12 +1,7 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, Target, Heart } from 'lucide-react';
+import { ArrowRight, Sparkles, Target, Heart, MessageCircle } from 'lucide-react';
 
-const CTASection = () => {
-  const handleTestClick = () => {
-    // Simular redirección al test
-    alert('¡Test vocacional próximamente disponible! Serás redirigido a nuestra plataforma.');
-  };
-
+const CTASection = ({ onOpenChat }) => {
   const benefits = [
     {
       icon: Target,
@@ -67,20 +62,21 @@ const CTASection = () => {
               ¿Listo para descubrir tu vocación?
             </h3>
             <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-              Nuestro test vocacional con IA te ayudará a encontrar el camino perfecto 
-              para tu futuro profesional en solo 30 minutos.
+              Nuestro chat de IA te ayudará a encontrar el camino perfecto 
+              para tu futuro profesional en solo 5 minutos.
             </p>
             
             <button 
-              onClick={handleTestClick}
+              onClick={onOpenChat}
               className="bg-white text-orienta-dark px-10 py-4 rounded-2xl font-semibold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto"
             >
+              <MessageCircle size={20} />
               Realiza tu Test Vocacional
               <ArrowRight size={20} />
             </button>
             
             <p className="text-white/70 text-sm mt-4">
-              ✓ Gratuito • ✓ Sin registro • ✓ Resultados inmediatos
+              ✓ Gratuito • ✓ Sin registro • ✓ Resultados inmediatos • ✓ Chat interactivo
             </p>
           </div>
         </motion.div>
@@ -155,9 +151,10 @@ const CTASection = () => {
               No pierdas más tiempo. Comienza tu viaje hacia una carrera satisfactoria y significativa.
             </p>
             <button 
-              onClick={handleTestClick}
+              onClick={onOpenChat}
               className="btn-primary text-lg px-10 py-4 flex items-center gap-2 mx-auto"
             >
+              <MessageCircle size={20} />
               Comenzar Ahora
               <ArrowRight size={20} />
             </button>

@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 
-const Header = () => {
+const Header = ({ onOpenChat }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -45,8 +45,15 @@ const Header = () => {
             </a>
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* CTA Buttons */}
+          <div className="hidden md:flex items-center gap-4">
+            <button 
+              onClick={onOpenChat}
+              className="flex items-center gap-2 bg-orienta-blue/20 text-orienta-blue px-4 py-2 rounded-xl hover:bg-orienta-blue/30 transition-all duration-300"
+            >
+              <MessageCircle size={18} />
+              <span>Chat IA</span>
+            </button>
             <button className="btn-primary">
               Explorar Plataforma
             </button>
@@ -82,7 +89,14 @@ const Header = () => {
               <a href="#test" className="text-white/80 hover:text-orienta-blue transition-colors duration-300">
                 Test Vocacional
               </a>
-              <button className="btn-primary w-full mt-4">
+              <button 
+                onClick={onOpenChat}
+                className="flex items-center gap-2 bg-orienta-blue/20 text-orienta-blue px-4 py-2 rounded-xl hover:bg-orienta-blue/30 transition-all duration-300 w-full justify-center"
+              >
+                <MessageCircle size={18} />
+                <span>Chat IA</span>
+              </button>
+              <button className="btn-primary w-full">
                 Explorar Plataforma
               </button>
             </nav>

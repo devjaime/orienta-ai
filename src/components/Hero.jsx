@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { ArrowDown, Compass, Brain, Heart } from 'lucide-react';
+import { ArrowDown, Compass, Brain, Heart, MessageCircle } from 'lucide-react';
 
-const Hero = () => {
+const Hero = ({ onOpenChat }) => {
   const scrollToNext = () => {
     document.getElementById('problema').scrollIntoView({ behavior: 'smooth' });
   };
@@ -50,7 +50,11 @@ const Hero = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <button className="btn-primary text-lg px-10 py-4">
+              <button 
+                onClick={onOpenChat}
+                className="btn-primary text-lg px-10 py-4 flex items-center justify-center gap-2"
+              >
+                <MessageCircle size={20} />
                 Explorar Plataforma
               </button>
               <button 
