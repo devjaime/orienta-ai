@@ -2,8 +2,12 @@ import { motion } from 'framer-motion';
 import { ArrowDown, Compass, Brain, Heart, MessageCircle } from 'lucide-react';
 
 const Hero = ({ onOpenChat }) => {
-  const scrollToNext = () => {
-    document.getElementById('problema').scrollIntoView({ behavior: 'smooth' });
+  const scrollToProblem = () => {
+    document.getElementById('problema')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToTest = () => {
+    document.getElementById('test')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -50,15 +54,26 @@ const Hero = ({ onOpenChat }) => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
+              {/* Desktop: Explorar Plataforma */}
               <button 
                 onClick={onOpenChat}
-                className="btn-primary text-lg px-10 py-4 flex items-center justify-center gap-2"
+                className="btn-primary text-lg px-10 py-4 hidden md:inline-flex items-center justify-center gap-2"
               >
                 <MessageCircle size={20} />
                 Explorar Plataforma
               </button>
+
+              {/* Mobile: Realizar Test */}
               <button 
-                onClick={scrollToNext}
+                onClick={scrollToTest}
+                className="btn-primary text-lg px-10 py-4 inline-flex md:hidden items-center justify-center gap-2"
+              >
+                Realizar Test
+              </button>
+
+              {/* Conoce Más */}
+              <button 
+                onClick={scrollToProblem}
                 className="btn-secondary text-lg px-10 py-4 flex items-center justify-center gap-2"
               >
                 Conoce Más
@@ -172,7 +187,7 @@ const Hero = ({ onOpenChat }) => {
         transition={{ duration: 2, repeat: Infinity }}
       >
         <button 
-          onClick={scrollToNext}
+          onClick={scrollToProblem}
           className="text-white/60 hover:text-orienta-blue transition-colors duration-300"
         >
           <ArrowDown size={24} />

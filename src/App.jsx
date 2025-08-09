@@ -8,6 +8,7 @@ import ComparisonSection from './components/ComparisonSection';
 import CTASection from './components/CTASection';
 import Footer from './components/Footer';
 import AIChat from './components/AIChat';
+import RiasecEmbed from './components/RiasecEmbed';
 
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -28,6 +29,7 @@ function App() {
         <ProblemSection />
         <SolutionSection />
         <ComparisonSection />
+        <RiasecEmbed />
         <CTASection onOpenChat={openChat} />
       </main>
       <Footer />

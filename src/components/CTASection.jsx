@@ -21,7 +21,7 @@ const CTASection = ({ onOpenChat }) => {
   ];
 
   return (
-    <section id="test" className="section-padding bg-orienta-dark relative overflow-hidden">
+    <section id="cta" className="section-padding bg-orienta-dark relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-orienta-blue rounded-full blur-3xl"></div>

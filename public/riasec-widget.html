@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Widget Test Vocacional RIASEC (Holland)</title>
+
+  <!--
+  ========================== INSTRUCCIONES DE INTEGRACIÓN ==========================
+  1) Como página/iframe (recomendado para "embebible" sin build):
+     <iframe src="/riasec-widget.html" width="100%" height="1200" style="border:0;"></iframe>
+
+     Esta página se auto-inicializa en el contenedor #riasec-root con valores por defecto.
+     Para personalizar textos o endpoint en modo iframe, duplica y edita este archivo.
+
+  2) En la misma página (si copias el HTML/JS dentro de tu sitio):
+     - Asegúrate de mantener la etiqueta de Chart.js por CDN.
+     - Llama a la función global initRiasecWidget(args) después de que exista el contenedor.
+
+     Ejemplo:
+     <div id="riasec-test"></div>
+     <script>
+       window.onRiasecResult = function(result) {
+         console.log('Resultado RIASEC:', result);
+       };
+       initRiasecWidget({
+         questionsCount: 12,
+         mount: '#riasec-test',
+         onComplete: window.onRiasecResult,
+         ctaText: 'Hablar con un orientador',
+         ctaHref: '#contacto',
+         endpoint: null // p.ej.: '/.netlify/functions/riasec'
+       });
+     </script>
+
+  3) Callback y evento:
+     - Callback global (opcional): window.onRiasecResult(result)
+     - CustomEvent: document.dispatchEvent(new CustomEvent('riasec:completed', { detail: result }))
+
+  4) Resultado que se expone:
+     {
+       scores: { R:number, I:number, A:number, S:number, E:number, C:number },
+       ordered: string[], // mayor→menor, ej: ['S','I','A','R','E','C']
+       top3: string,      // ej: 'SIA'
+       descriptions: { R:string, I:string, A:string, S:string, E:string, C:string }
+     }
+
+  5) Endpoint (opcional):
+     - Si pasas `endpoint` en init, se hace POST con JSON del resultado.
+     - También dispones de window.sendToEndpoint(url) para reenviar el último resultado.
+
+  ================================================================================
+  -->
+
+  <!-- Chart.js por CDN (única dependencia) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #121821;
+      --panel-2: #161e29;
+      --text: #e6eef7;
+      --muted: #9fb0c6;
+      --accent: #60a5fa;
+      --accent-2: #34d399;
+      --danger: #ef4444;
+      --ok: #22c55e;
+      --ring: #3b82f6;
+    }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .riasec-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      padding: 16px;
+    }
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 4px;
+      letter-spacing: 0.2px;
+    }
+    .subtitle {
+      color: var(--muted);
+      margin: 0 0 16px;
+      font-size: 0.95rem;
+    }
+
+    /* Preguntas */
+    .q-list {
+      display: grid;
+      gap: 12px;
+    }
+    .q-item {
+      display: grid;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.02);
+    }
+    .q-label {
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .scale {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(44px, 1fr));
+      gap: 8px;
+      align-items: center;
+    }
+    .scale-legend {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: -2px;
+      margin-bottom: 8px;
+    }
+    .radio-chip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      height: 40px;
+      padding: 0 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+      outline: none;
+    }
+    .radio-chip:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.06);
+    }
+    .radio-chip input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .radio-chip:has(input:focus-visible) {
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.35);
+    }
+    .radio-chip:has(input:checked) {
+      border-color: var(--ring);
+      background: rgba(59,130,246,0.14);
+      color: #eaf2ff;
+      font-weight: 700;
+    }
+
+    /* Emojis y animaciones divertidas */
+    .radio-chip .emoji { font-size: 1.3rem; line-height: 1; display: inline-block; transition: transform 0.22s ease; }
+    .radio-chip:hover .emoji { animation: floaty 1s ease-in-out infinite; }
+    .radio-chip:has(input:checked) .emoji { animation: pop 0.34s ease-out; }
+    /* Oculta el número visualmente pero permanece en el DOM si se necesita */
+    .radio-chip .val { display: none; }
+
+    /* Tintes por valencia */
+    .radio-chip.neg { border-color: rgba(239,68,68,0.22); }
+    .radio-chip.neg:has(input:checked) { background: rgba(239,68,68,0.18); }
+    .radio-chip.pos { border-color: rgba(34,197,94,0.22); }
+    .radio-chip.pos:has(input:checked) { background: rgba(34,197,94,0.18); }
+    .radio-chip.neu { border-color: rgba(148,163,184,0.22); }
+    .radio-chip.neu:has(input:checked) { background: rgba(148,163,184,0.18); }
+
+    @keyframes pop { 0% { transform: scale(0.88); } 60% { transform: scale(1.12); } 100% { transform: scale(1); } }
+    @keyframes floaty { 0% { transform: translateY(0); } 50% { transform: translateY(-3.5px); } 100% { transform: translateY(0); } }
+
+    /* Barra inferior */
+    .bar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(255,255,255,0.1);
+    }
+    .progress {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .btn {
+      border: 1px solid rgba(255,255,255,0.10);
+      color: white;
+      background: linear-gradient(180deg, #2563eb, #1d4ed8);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.06s ease, box-shadow 0.15s ease, opacity 0.12s ease;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+    }
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .btn.secondary {
+      background: linear-gradient(180deg, #059669, #047857);
+      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.25);
+    }
+    .btn.link {
+      background: transparent;
+      border-color: rgba(255,255,255,0.12);
+      box-shadow: none;
+    }
+    .btn:active {
+      transform: translateY(1px);
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    /* Resultado */
+    .result {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .top3 {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .code {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #eaf2ff;
+      text-shadow: 0 2px 24px rgba(96,165,250,0.35);
+    }
+    .pill {
+      background: rgba(52,211,153,0.14);
+      color: #d1fae5;
+      border: 1px solid rgba(52,211,153,0.4);
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .desc-list {
+      display: grid;
+      gap: 8px;
+    }
+    .desc-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .desc-item b {
+      letter-spacing: 0.5px;
+    }
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+    @media (min-width: 860px) {
+      .grid {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+    }
+    .chart-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .scores-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .scores-table th, .scores-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .scores-table th {
+      text-align: left;
+      color: var(--muted);
+      font-weight: 600;
+      background: rgba(255,255,255,0.03);
+    }
+    .scores-table tr:last-child td {
+      border-bottom: none;
+    }
+    .cta {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      background: linear-gradient(180deg, #059669, #047857);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 8px 20px rgba(5,150,105,0.25);
+    }
+
+    /* Accesibilidad visual */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Print */
+    @media print {
+      .bar,
+      .btn-row,
+      .scale-legend,
+      .q-list,
+      .subtitle {
+        display: none !important;
+      }
+      .card {
+        border: none;
+        box-shadow: none;
+        background: white;
+        color: black;
+      }
+      body {
+        background: white;
+        color: black;
+      }
+      .scores-table,
+      .chart-card,
+      .desc-item {
+        border-color: #ddd !important;
+      }
+      a.cta {
+        border: 1px solid #333;
+        color: black;
+        background: #f2f2f2;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="riasec-container">
+    <div id="riasec-root" class="card" role="region" aria-label="Test vocacional RIASEC">
+      <p class="subtitle">Cargando widget RIASEC…</p>
+    </div>
+  </div>
+
+  <script defer>
+    (function () {
+      // Estado por instancia
+      const containerState = new WeakMap();
+
+      // Descripciones por letra
+      const LETTER_DESCRIPTIONS = {
+        R: 'Realista: orientado/a a la acción práctica, herramientas y entornos físicos.',
+        I: 'Investigador/a: analítico/a, curioso/a, disfruta comprender y explicar fenómenos.',
+        A: 'Artístico/a: creativo/a, expresivo/a, valora la originalidad y la estética.',
+        S: 'Social: colaborativo/a, empático/a, enfocado/a en ayudar y enseñar.',
+        E: 'Emprendedor/a: líder, persuasivo/a, orientado/a a metas y resultados.',
+        C: 'Convencional: organizado/a, detallista, eficiente con datos y sistemas.'
+      };
+
+      // Banco de preguntas (18: 3 por letra). Se puede reducir a 12 (2 por letra).
+      function getQuestionBank() {
+        return {
+          R: [
+            'Disfruto actividades manuales o técnicas.',
+            'Me gusta reparar o armar objetos o equipos.',
+            'Preferiría un trabajo al aire libre usando herramientas.'
+          ],
+          I: [
+            'Me gusta analizar datos para entender patrones.',
+            'Disfruto resolver problemas teóricos o lógicos.',
+            'Me interesa experimentar para comprobar ideas.'
+          ],
+          A: [
+            'Me atrae crear contenido visual, musical o escrito.',
+            'Disfruto improvisar o explorar ideas creativas.',
+            'Prefiero tareas con libertad y poca estructura rígida.'
+          ],
+          S: [
+            'Me motiva ayudar a otras personas con sus metas.',
+            'Disfruto enseñar o explicar conceptos.',
+            'Prefiero trabajos con colaboración y servicio.'
+          ],
+          E: [
+            'Me entusiasma liderar proyectos y tomar decisiones.',
+            'Disfruto persuadir y presentar ideas ante otros.',
+            'Me atrae asumir riesgos calculados para lograr objetivos.'
+          ],
+          C: [
+            'Me siento cómodo/a organizando información y procesos.',
+            'Prefiero tareas con procedimientos claros y consistentes.',
+            'Me gusta trabajar con datos, registros y sistemas.'
+          ]
+        };
+      }
+
+      // Selección de preguntas: soporta 12 (2 por letra) o 18 (3 por letra)
+      function pickQuestions(questionsCount) {
+        const bank = getQuestionBank();
+        const perLetter = (questionsCount === 12) ? 2 : 3; // por defecto 18 si no es 12
+        const letters = ['R', 'I', 'A', 'S', 'E', 'C'];
+        const result = [];
+        let idx = 0;
+        for (const letter of letters) {
+          const arr = bank[letter].slice(0, perLetter);
+          for (const q of arr) {
+            result.push({
+              id: 'q' + idx++,
+              letter,
+              text: q
+            });
+          }
+        }
+        return result;
+      }
+
+      // Render principal
+      function renderWidget(container, config) {
+        const {
+          questionsCount = 12,
+          ctaText = 'Hablar con un orientador',
+          ctaHref = '#contacto'
+        } = config || {};
+
+        const questions = pickQuestions(questionsCount);
+        const total = questions.length;
+
+        container.innerHTML = '';
+        const titleEl = el('h1', { class: 'title', text: 'Test RIASEC (Holland)' });
+        const subtitleEl = el('p', { class: 'subtitle', text: 'Responde todas las afirmaciones usando la escala de −2 a +2. Luego, verás tu código RIASEC y un gráfico.' });
+
+        const form = el('form', { class: 'q-form', novalidate: true, autocomplete: 'off' });
+        const list = el('div', { class: 'q-list' });
+
+        const scaleLegend = el('div', { class: 'scale-legend', text: 'Escala: −2 Muy en desacuerdo · −1 En desacuerdo · 0 Neutral · +1 De acuerdo · +2 Muy de acuerdo' });
+
+        // Construcción de preguntas
+        questions.forEach((q, i) => {
+          const fieldset = el('fieldset', { class: 'q-item' });
+          fieldset.setAttribute('aria-describedby', q.id + '-legend');
+          fieldset.dataset.letter = q.letter;
+
+          const legend = el('legend', { id: q.id + '-legend', class: 'q-label' });
+          legend.textContent = `${i + 1}. ${q.text} (${q.letter})`;
+
+          const scale = el('div', { class: 'scale' });
+
+          const name = q.id;
+          const options = [
+            { v: -2, emoji: '😖', cls: 'neg', label: 'Muy en desacuerdo' },
+            { v: -1, emoji: '🙁', cls: 'neg', label: 'En desacuerdo' },
+            { v: 0,  emoji: '😐', cls: 'neu', label: 'Neutral' },
+            { v: 1,  emoji: '🙂', cls: 'pos', label: 'De acuerdo' },
+            { v: 2,  emoji: '🤩', cls: 'pos', label: 'Muy de acuerdo' }
+          ];
+          options.forEach((opt) => {
+            const label = el('label', { class: `radio-chip ${opt.cls}` });
+            label.setAttribute('aria-label', `${opt.label} para la pregunta ${i + 1}`);
+            const input = el('input', { type: 'radio', name, value: String(opt.v) });
+            input.required = true;
+            input.dataset.letter = q.letter;
+            const emoji = el('span', { class: 'emoji', text: opt.emoji });
+            const span = el('span', { class: 'val', text: String(opt.v) });
+            label.appendChild(input);
+            label.appendChild(emoji);
+            label.appendChild(span);
+            scale.appendChild(label);
+          });
+
+          fieldset.appendChild(legend);
+          fieldset.appendChild(scale);
+          list.appendChild(fieldset);
+        });
+
+        // Barra inferior con progreso + acciones
+        const bar = el('div', { class: 'bar' });
+        const progress = el('div', { class: 'progress', text: `0/${total} respondidas` });
+
+        const btnRow = el('div', { class: 'btn-row' });
+        const pdfBtn = el('button', { type: 'button', class: 'btn link', text: 'Descargar PDF' });
+        pdfBtn.addEventListener('click', () => window.print());
+
+        const submit = el('button', { type: 'submit', class: 'btn', text: 'Ver mi resultado' });
+        submit.disabled = true;
+
+        btnRow.appendChild(pdfBtn);
+        btnRow.appendChild(submit);
+
+        bar.appendChild(progress);
+        bar.appendChild(btnRow);
+
+        form.appendChild(scaleLegend);
+        form.appendChild(list);
+        form.appendChild(bar);
+
+        const resultWrap = el('div', { class: 'result', ariaLive: 'polite' });
+
+        container.appendChild(titleEl);
+        container.appendChild(subtitleEl);
+        container.appendChild(form);
+        container.appendChild(resultWrap);
+
+        // Estado por contenedor
+        containerState.set(container, {
+          config,
+          questionsCount,
+          totalQuestions: total,
+          chart: null,
+          lastResult: null
+        });
+
+        // Listeners
+        form.addEventListener('change', () => {
+          const answered = getAnsweredCount(form);
+          progress.textContent = `${answered}/${total} respondidas`;
+          submit.disabled = answered < total;
+        });
+
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const result = computeResult(form, container);
+          renderResult(container, result, ctaText, ctaHref);
+          dispatchResult(container, result);
+          maybeSendToEndpoint(container, result);
+        });
+      }
+
+      function getAnsweredCount(formEl) {
+        const names = new Set();
+        formEl.querySelectorAll('input[type="radio"]:checked').forEach((inp) => names.add(inp.name));
+        return names.size;
+      }
+
+      function computeResult(formEl, container) {
+        const state = containerState.get(container);
+        const perLetterMax = state.questionsCount === 12 ? 2 : 3;
+        const maxAbs = perLetterMax * 2;
+
+        const scores = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+        formEl.querySelectorAll('input[type="radio"]:checked').forEach((inp) => {
+          const letter = inp.dataset.letter;
+          const val = Number(inp.value);
+          scores[letter] += val;
+        });
+
+        const ordered = orderLetters(scores);
+        const top3 = ordered.slice(0, 3).join('');
+        const descriptions = describeLetters();
+
+        const result = { scores, ordered, top3, descriptions, meta: { perLetterMax, maxAbs } };
+        const stateObj = containerState.get(container);
+        stateObj.lastResult = result;
+        return result;
+      }
+
+      function orderLetters(scores) {
+        const entries = Object.entries(scores);
+        // Orden descendente por puntaje; empate: orden alfabético
+        entries.sort((a, b) => {
+          if (b[1] !== a[1]) return b[1] - a[1];
+          return a[0].localeCompare(b[0]);
+        });
+        return entries.map(([k]) => k);
+      }
+
+      function describeLetters() {
+        return { ...LETTER_DESCRIPTIONS };
+      }
+
+      function drawChart(container, scores) {
+        const state = containerState.get(container);
+        const ctx = container.querySelector('canvas').getContext('2d');
+        const labels = ['R', 'I', 'A', 'S', 'E', 'C'];
+        const data = labels.map((k) => scores[k]);
+        const maxAbs = state.metaMaxAbs || state.lastResult?.meta?.maxAbs || 6;
+
+        if (state.chart) {
+          state.chart.data.labels = labels;
+          state.chart.data.datasets[0].data = data;
+          state.chart.options.scales.r.suggestedMin = -maxAbs;
+          state.chart.options.scales.r.suggestedMax = maxAbs;
+          state.chart.update();
+          return;
+        }
+
+        const chart = new Chart(ctx, {
+          type: 'radar',
+          data: {
+            labels,
+            datasets: [
+              {
+                label: 'Puntajes RIASEC',
+                data,
+                borderColor: 'rgba(96,165,250,0.95)',
+                pointBackgroundColor: 'rgba(96,165,250,1)',
+                backgroundColor: 'rgba(96,165,250,0.18)',
+                borderWidth: 2,
+                pointRadius: 3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#e6eef7' } },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.label}: ${ctx.formattedValue}`
+                }
+              }
+            },
+            scales: {
+              r: {
+                angleLines: { color: 'rgba(255,255,255,0.12)' },
+                grid: { color: 'rgba(255,255,255,0.12)' },
+                pointLabels: { color: '#e6eef7', font: { weight: '600' } },
+                suggestedMin: -maxAbs,
+                suggestedMax: maxAbs,
+                ticks: {
+                  color: '#9fb0c6',
+                  stepSize: 2,
+                  showLabelBackdrop: false
+                }
+              }
+            }
+          }
+        });
+
+        state.chart = chart;
+      }
+
+      function renderResult(container, result, ctaText, ctaHref) {
+        const state = containerState.get(container);
+        const resultWrap = container.querySelector('.result');
+        resultWrap.innerHTML = '';
+
+        const top = el('div', { class: 'top3' });
+        const code = el('div', { class: 'code', text: result.top3 });
+        const pill = el('span', { class: 'pill', text: 'Top 3 RIASEC' });
+        top.appendChild(code);
+        top.appendChild(pill);
+
+        const grid = el('div', { class: 'grid' });
+
+        // Descripciones (solo top 3)
+        const desc = el('div', { class: 'desc-list' });
+        result.ordered.slice(0, 3).forEach((letter, idx) => {
+          const item = el('div', { class: 'desc-item' });
+          item.innerHTML = `<b>${idx + 1}. ${letter}</b> — ${result.descriptions[letter]}`;
+          desc.appendChild(item);
+        });
+
+        // Tabla de puntajes + CTA + PDF
+        const right = el('div', { class: 'chart-card' });
+        const canvasWrap = el('div', { style: 'height: 300px; margin-bottom: 10px;' });
+        const canvas = el('canvas', {});
+        canvasWrap.appendChild(canvas);
+
+        const table = el('table', { class: 'scores-table', role: 'table' });
+        const thead = el('thead', {});
+        const thr = el('tr', {});
+        thr.appendChild(el('th', { text: 'Letra' }));
+        thr.appendChild(el('th', { text: 'Puntaje' }));
+        thead.appendChild(thr);
+        table.appendChild(thead);
+
+        const tbody = el('tbody', {});
+        Object.entries(result.scores).forEach(([letter, val]) => {
+          const tr = el('tr', {});
+          tr.appendChild(el('td', { text: letter }));
+          tr.appendChild(el('td', { text: String(val) }));
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+
+        const actions = el('div', { class: 'btn-row', style: 'margin-top: 10px;' });
+        const cta = el('a', { class: 'cta', href: ctaHref, text: ctaText });
+        const pdf = el('button', { type: 'button', class: 'btn secondary', text: 'Descargar PDF' });
+        pdf.addEventListener('click', () => window.print());
+        actions.appendChild(cta);
+        actions.appendChild(pdf);
+
+        right.appendChild(canvasWrap);
+        right.appendChild(table);
+        right.appendChild(actions);
+
+        grid.appendChild(desc);
+        grid.appendChild(right);
+
+        resultWrap.appendChild(top);
+        resultWrap.appendChild(grid);
+
+        // Guardar meta y dibujar chart
+        state.metaMaxAbs = result.meta.maxAbs;
+        drawChart(container, result.scores);
+      }
+
+      function dispatchResult(container, result) {
+        // Evento
+        const evt = new CustomEvent('riasec:completed', { detail: result });
+        document.dispatchEvent(evt);
+
+        // Callback explícito en config
+        const state = containerState.get(container);
+        const cb = state?.config?.onComplete;
+        if (typeof cb === 'function') {
+          try { cb(result); } catch (e) { console.error(e); }
+        }
+
+        // Callback global si existe
+        if (typeof window.onRiasecResult === 'function') {
+          try { window.onRiasecResult(result); } catch (e) { console.error(e); }
+        }
+      }
+
+      function maybeSendToEndpoint(container, result) {
+        const state = containerState.get(container);
+        const url = state?.config?.endpoint;
+        if (url && typeof url === 'string') {
+          sendToEndpoint(url, result);
+        }
+      }
+
+      // Extra opcional: enviar resultado al endpoint por POST JSON
+      async function sendToEndpoint(url, resultMaybe) {
+        try {
+          const result = resultMaybe || getLastResultAny();
+          if (!result) return;
+          await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(result)
+          });
+        } catch (err) {
+          console.warn('Fallo al enviar RIASEC al endpoint:', err);
+        }
+      }
+      // expone global
+      window.sendToEndpoint = (url) => sendToEndpoint(url);
+
+      function getLastResultAny() {
+        // Devuelve el último resultado de cualquier instancia montada (conveniencia)
+        for (const [container, state] of containerStateEntries()) {
+          if (state.lastResult) return state.lastResult;
+        }
+        return null;
+      }
+      function* containerStateEntries() {
+        // WeakMap no es iterable; este es un no-op. Mantenemos un espejo ligero por instancia.
+        // Implementamos un registro manual:
+        // Mitigación: guardamos el último result en window.__riasec_last_result.
+        if (window.__riasec_last_result) {
+          yield [null, { lastResult: window.__riasec_last_result }];
+        }
+      }
+
+      // Utilidad para crear elementos
+      function el(tag, attrs) {
+        const node = document.createElement(tag);
+        if (attrs) {
+          for (const [k, v] of Object.entries(attrs)) {
+            if (k === 'class') node.className = v;
+            else if (k === 'text') node.textContent = v;
+            else if (k === 'html') node.innerHTML = v;
+            else if (k === 'ariaLive') node.setAttribute('aria-live', v);
+            else if (k in node) node[k] = v;
+            else node.setAttribute(k, v);
+          }
+        }
+        return node;
+      }
+
+      // API pública
+      window.initRiasecWidget = function initRiasecWidget(options) {
+        const cfg = {
+          questionsCount: 12,
+          mount: '#riasec-root',
+          onComplete: null,
+          ctaText: 'Hablar con un orientador',
+          ctaHref: '#contacto',
+          endpoint: null,
+          ...(options || {})
+        };
+
+        // Soportamos solo 12 o 18 preguntas de forma explícita
+        if (cfg.questionsCount !== 12 && cfg.questionsCount !== 18) {
+          cfg.questionsCount = 12;
+        }
+
+        const mountEl = typeof cfg.mount === 'string' ? document.querySelector(cfg.mount) : cfg.mount;
+        if (!mountEl) {
+          console.error('[RIASEC] Contenedor no encontrado:', cfg.mount);
+          return;
+        }
+
+        renderWidget(mountEl, cfg);
+      };
+
+      // Auto-inicialización si se abre standalone
+      document.addEventListener('DOMContentLoaded', () => {
+        const defaultRoot = document.querySelector('#riasec-root');
+        if (defaultRoot) {
+          window.initRiasecWidget({
+            questionsCount: 12,
+            mount: defaultRoot,
+            onComplete: window.onRiasecResult || null,
+            ctaText: 'Hablar con un orientador',
+            ctaHref: '#contacto',
+            endpoint: null
+          });
+        }
+      });
+
+      // Guarda el último resultado globalmente para sendToEndpoint(url) simple
+      document.addEventListener('riasec:completed', (e) => {
+        window.__riasec_last_result = e.detail;
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
