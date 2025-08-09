@@ -1,0 +1,9 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/.netlify/functions/riasec"
+  to = "/riasec"
+  status = 200
+
+
