@@ -1,40 +1,25 @@
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import ProblemSection from './components/ProblemSection';
-import SolutionSection from './components/SolutionSection';
-import ComparisonSection from './components/ComparisonSection';
-import CTASection from './components/CTASection';
-import Footer from './components/Footer';
-import AIChat from './components/AIChat';
-import RiasecEmbed from './components/RiasecEmbed';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import TestRIASEC from './pages/TestRIASEC';
+import Resultados from './pages/Resultados';
+import AuthCallback from './pages/AuthCallback';
+import CompleteProfile from './pages/CompleteProfile';
+import OrientadorDashboard from './pages/OrientadorDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
-  const [isChatOpen, setIsChatOpen] = useState(false);
-
-  const openChat = () => {
-    setIsChatOpen(true);
-  };
-
-  const closeChat = () => {
-    setIsChatOpen(false);
-  };
-
   return (
-    <div className="min-h-screen bg-orienta-dark">
-      <Header onOpenChat={openChat} />
-      <main>
-        <Hero onOpenChat={openChat} />
-        <ProblemSection />
-        <SolutionSection />
-        <ComparisonSection />
-        <RiasecEmbed />
-        <CTASection onOpenChat={openChat} />
-      </main>
-      <Footer />
-      <AIChat isOpen={isChatOpen} onClose={closeChat} />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route path="/test" element={<TestRIASEC />} />
+        <Route path="/resultados" element={<Resultados />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/orientador" element={<OrientadorDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
+    </Router>
   );
 }
 

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Target, Heart, MessageCircle } from 'lucide-react';
+import ScheduleButton from './ScheduleButton';
 
 const CTASection = ({ onOpenChat }) => {
   const benefits = [
@@ -104,6 +105,17 @@ const CTASection = ({ onOpenChat }) => {
               </div>
             </div>
           ))}
+        </motion.div>
+
+        {/* Botón de Agendamiento con Orientador */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <ScheduleButton />
         </motion.div>
 
         {/* Social Proof */}

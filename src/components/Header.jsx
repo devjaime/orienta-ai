@@ -1,9 +1,34 @@
 import { motion } from 'framer-motion';
-import { Menu, X, MessageCircle } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, MessageCircle, LogOut, User } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { getCurrentUser, signOut } from '../lib/supabase';
 
-const Header = ({ onOpenChat }) => {
+const Header = ({ onOpenChat, onStartTest }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    checkUser();
+  }, []);
+
+  const checkUser = async () => {
+    const currentUser = await getCurrentUser();
+    setUser(currentUser);
+
+    if (currentUser) {
+      // Get user role
+      const { getUserProfile } = await import('../lib/supabase');
+      const profile = await getUserProfile();
+      setUserRole(profile?.role || 'user');
+    }
+  };
+
+  const handleLogout = async () => {
+    await signOut();
+    setUser(null);
+    window.location.href = '/';
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -47,16 +72,55 @@ const Header = ({ onOpenChat }) => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <button 
+            <button
               onClick={onOpenChat}
               className="flex items-center gap-2 bg-orienta-blue/20 text-orienta-blue px-4 py-2 rounded-xl hover:bg-orienta-blue/30 transition-all duration-300"
             >
               <MessageCircle size={18} />
               <span>Chat IA</span>
             </button>
-            <button className="btn-primary">
-              Explorar Plataforma
+            <button
+              onClick={onStartTest}
+              className="btn-primary"
+            >
+              Hacer Test Vocacional
             </button>
+
+            {/* User Menu */}
+            {user && (
+              <div className="flex items-center gap-4 pl-4 border-l border-white/20">
+                {/* Dashboard Links */}
+                {userRole === 'admin' && (
+                  <a
+                    href="/admin"
+                    className="text-purple-400 hover:text-purple-300 transition-colors text-sm font-medium"
+                  >
+                    Admin
+                  </a>
+                )}
+                {(userRole === 'orientador' || userRole === 'admin') && (
+                  <a
+                    href="/orientador"
+                    className="text-orienta-blue hover:text-blue-300 transition-colors text-sm font-medium"
+                  >
+                    Dashboard
+                  </a>
+                )}
+
+                <img
+                  src={user.user_metadata?.avatar_url}
+                  alt={user.user_metadata?.full_name}
+                  className="w-8 h-8 rounded-full border-2 border-orienta-blue/50"
+                />
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 text-white/80 hover:text-white transition-colors"
+                  title="Cerrar sesión"
+                >
+                  <LogOut size={18} />
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -89,16 +153,67 @@ const Header = ({ onOpenChat }) => {
               <a href="#test" className="text-white/80 hover:text-orienta-blue transition-colors duration-300">
                 Test Vocacional
               </a>
-              <button 
+              <button
                 onClick={onOpenChat}
                 className="flex items-center gap-2 bg-orienta-blue/20 text-orienta-blue px-4 py-2 rounded-xl hover:bg-orienta-blue/30 transition-all duration-300 w-full justify-center"
               >
                 <MessageCircle size={18} />
                 <span>Chat IA</span>
               </button>
-              <button className="btn-primary w-full">
-                Explorar Plataforma
+              <button
+                onClick={onStartTest}
+                className="btn-primary w-full"
+              >
+                Hacer Test Vocacional
               </button>
+
+              {/* User Info & Logout (Mobile) */}
+              {user && (
+                <div className="pt-4 border-t border-white/20 space-y-3">
+                  {/* Dashboard Links */}
+                  {userRole === 'admin' && (
+                    <a
+                      href="/admin"
+                      className="flex items-center gap-2 bg-purple-500/20 text-purple-400 px-4 py-3 rounded-xl hover:bg-purple-500/30 transition-all duration-300 w-full"
+                    >
+                      <User size={18} />
+                      <span>Panel de Administración</span>
+                    </a>
+                  )}
+                  {(userRole === 'orientador' || userRole === 'admin') && (
+                    <a
+                      href="/orientador"
+                      className="flex items-center gap-2 bg-orienta-blue/20 text-orienta-blue px-4 py-3 rounded-xl hover:bg-orienta-blue/30 transition-all duration-300 w-full"
+                    >
+                      <User size={18} />
+                      <span>Dashboard Orientador</span>
+                    </a>
+                  )}
+
+                  <div className="flex items-center justify-between bg-white/5 rounded-xl p-3">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={user.user_metadata?.avatar_url}
+                        alt={user.user_metadata?.full_name}
+                        className="w-10 h-10 rounded-full border-2 border-orienta-blue/50"
+                      />
+                      <div>
+                        <p className="text-white font-medium text-sm">
+                          {user.user_metadata?.full_name}
+                        </p>
+                        <p className="text-white/60 text-xs">{user.email}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-2 text-white/80 hover:text-white transition-colors px-3 py-2"
+                    >
+                      <LogOut size={18} />
+                      <span className="text-sm">Salir</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </nav>
           </motion.div>
         )}
