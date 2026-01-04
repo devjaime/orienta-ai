@@ -6,4 +6,10 @@
   to = "/riasec"
   status = 200
 
+# SPA fallback - Redirige todas las rutas al index.html para React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
 
