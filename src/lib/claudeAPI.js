@@ -30,6 +30,10 @@ export async function generarExplicacionIA(resultadoTest) {
 
     if (!response.ok) {
       const error = await response.json();
+      // Propagar el mensaje específico de rate limit
+      if (response.status === 429) {
+        throw new Error(error.message || error.error || 'Límite de uso alcanzado');
+      }
       throw new Error(error.error || 'Error al generar explicación');
     }
 

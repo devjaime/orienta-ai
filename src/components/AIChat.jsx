@@ -1,13 +1,16 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Sparkles, Brain, Target, Heart, Loader2 } from 'lucide-react';
+import { Send, Bot, User, Sparkles, Brain, Target, Heart, Loader2, AlertCircle } from 'lucide-react';
+import { canUseChatAI, recordChatAIUsage, getLimitMessages, isAIEnabled, LIMITS } from '../lib/usageLimits';
 
 const AIChat = ({ isOpen, onClose }) => {
   const [messages, setMessages] = useState([
     {
       id: 1,
       type: 'ai',
-      content: '¡Hola! Soy Brújula, tu asistente de orientación vocacional con IA. 🤖✨\n\nEstoy aquí para ayudarte a descubrir tu camino profesional. ¿Te gustaría que empecemos con algunas preguntas para conocerte mejor?',
+      content: isAIEnabled()
+        ? '¡Hola! Soy Brújula, tu asistente de orientación vocacional con IA. 🤖✨\n\nEstoy aquí para ayudarte a descubrir tu camino profesional. ¿Te gustaría que empecemos con algunas preguntas para conocerte mejor?'
+        : '👋 ¡Hola! Soy Brújula.\n\n🔒 Las funcionalidades de IA están actualmente desactivadas en esta demo.\n\nPara acceso completo con análisis personalizados ilimitados, contáctanos en ' + LIMITS.CONTACT_EMAIL,
       timestamp: new Date(),
       avatar: '🧭'
     }
@@ -15,6 +18,7 @@ const AIChat = ({ isOpen, onClose }) => {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  const [chatLimitReached, setChatLimitReached] = useState(!canUseChatAI());
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -93,6 +97,34 @@ const AIChat = ({ isOpen, onClose }) => {
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isTyping) return;
 
+    // Verificar si la IA está habilitada
+    if (!isAIEnabled()) {
+      const warningMessage = {
+        id: Date.now(),
+        type: 'ai',
+        content: '🔒 Las funcionalidades de IA están desactivadas en esta demo.\n\nPara acceso completo, contáctanos en ' + LIMITS.CONTACT_EMAIL,
+        timestamp: new Date(),
+        avatar: '🧭'
+      };
+      setMessages(prev => [...prev, warningMessage]);
+      return;
+    }
+
+    // Verificar límite de mensajes
+    if (!canUseChatAI()) {
+      setChatLimitReached(true);
+      const limitMsg = getLimitMessages().chatLimit;
+      const limitMessage = {
+        id: Date.now(),
+        type: 'ai',
+        content: '🔒 ' + limitMsg.message,
+        timestamp: new Date(),
+        avatar: '🧭'
+      };
+      setMessages(prev => [...prev, limitMessage]);
+      return;
+    }
+
     const userMessage = {
       id: Date.now(),
       type: 'user',
@@ -103,7 +135,10 @@ const AIChat = ({ isOpen, onClose }) => {
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
-    
+
+    // Registrar uso de chat
+    recordChatAIUsage();
+
     await generateAIResponse(inputValue);
   };
 
@@ -149,11 +184,19 @@ const AIChat = ({ isOpen, onClose }) => {
               <p className="text-sm text-white/80">Orientación Vocacional</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 text-xs">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span>IA Activa</span>
-            </div>
+          <div className="flex items-center gap-3">
+            {isAIEnabled() && !chatLimitReached && (
+              <div className="flex items-center gap-1 text-xs bg-white/10 px-2 py-1 rounded-full">
+                <Sparkles size={12} />
+                <span>{getLimitMessages().chatLimit.remaining} mensajes gratis</span>
+              </div>
+            )}
+            {isAIEnabled() && (
+              <div className="flex items-center gap-1 text-xs">
+                <div className={`w-2 h-2 ${chatLimitReached ? 'bg-red-400' : 'bg-green-400'} rounded-full ${!chatLimitReached && 'animate-pulse'}`}></div>
+                <span className="hidden sm:inline">{chatLimitReached ? 'Límite alcanzado' : 'IA Activa'}</span>
+              </div>
+            )}
             <button
               onClick={onClose}
               className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
@@ -255,6 +298,17 @@ const AIChat = ({ isOpen, onClose }) => {
 
         {/* Input */}
         <div className="p-4 border-t bg-white">
+          {chatLimitReached && (
+            <div className="mb-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg flex items-start gap-2">
+              <AlertCircle size={16} className="text-yellow-600 mt-0.5 flex-shrink-0" />
+              <p className="text-sm text-yellow-800">
+                Has alcanzado el límite de mensajes gratuitos. Para continuar, contáctanos en{' '}
+                <a href={'mailto:' + LIMITS.CONTACT_EMAIL} className="underline font-semibold">
+                  {LIMITS.CONTACT_EMAIL}
+                </a>
+              </p>
+            </div>
+          )}
           <div className="flex gap-3">
             <div className="flex-1 relative">
               <textarea
@@ -262,14 +316,14 @@ const AIChat = ({ isOpen, onClose }) => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Escribe tu respuesta..."
-                className="w-full p-3 pr-12 border border-gray-300 rounded-2xl resize-none focus:outline-none focus:border-orienta-blue focus:ring-2 focus:ring-orienta-blue/20"
+                placeholder={chatLimitReached ? 'Límite alcanzado...' : 'Escribe tu respuesta...'}
+                className="w-full p-3 pr-12 border border-gray-300 rounded-2xl resize-none focus:outline-none focus:border-orienta-blue focus:ring-2 focus:ring-orienta-blue/20 disabled:bg-gray-50 disabled:cursor-not-allowed"
                 rows="1"
-                disabled={isTyping}
+                disabled={isTyping || chatLimitReached || !isAIEnabled()}
               />
               <button
                 onClick={handleSendMessage}
-                disabled={!inputValue.trim() || isTyping}
+                disabled={!inputValue.trim() || isTyping || chatLimitReached || !isAIEnabled()}
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-orienta-blue text-white rounded-full flex items-center justify-center hover:bg-orienta-blue/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <Send size={16} />

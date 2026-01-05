@@ -28,7 +28,7 @@ const Hero = ({ onOpenChat }) => {
             transition={{ duration: 0.8 }}
             className="text-center lg:text-left"
           >
-            <motion.h1 
+            <motion.h1
               className="text-4xl md:text-6xl lg:text-7xl font-poppins font-bold text-white mb-6"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -39,7 +39,21 @@ const Hero = ({ onOpenChat }) => {
               <span className="block text-2xl md:text-3xl lg:text-4xl mt-4">con IA</span>
             </motion.h1>
 
-            <motion.p 
+            {/* Demo Notice */}
+            <motion.div
+              className="inline-block px-4 py-2 bg-yellow-500/20 border border-yellow-500/30 rounded-lg mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <p className="text-sm text-yellow-300/90">
+                🎯 <strong>Modo Demo:</strong> Funcionalidades de IA limitadas.
+                <br className="sm:hidden" />
+                <span className="ml-1">Para acceso completo: <a href="mailto:hernandez.hs@gmail.com" className="underline hover:text-yellow-200">hernandez.hs@gmail.com</a></span>
+              </p>
+            </motion.div>
+
+            <motion.p
               className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}

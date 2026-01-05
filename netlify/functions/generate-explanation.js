@@ -8,6 +8,49 @@ const CORS_HEADERS = {
   'Content-Type': 'application/json'
 };
 
+// Rate limiting: almacenamiento en memoria de IPs y sus intentos
+// Formato: { ip: [timestamp1, timestamp2, ...] }
+const ipAttempts = new Map();
+const MAX_TESTS_PER_IP = 3;
+const TIME_WINDOW_MS = 24 * 60 * 60 * 1000; // 24 horas
+
+/**
+ * Verifica si una IP ha excedido el límite de intentos
+ * @param {string} ip - Dirección IP del cliente
+ * @returns {object} - { allowed: boolean, remaining: number }
+ */
+function checkRateLimit(ip) {
+  const now = Date.now();
+
+  // Obtener intentos previos de esta IP
+  let attempts = ipAttempts.get(ip) || [];
+
+  // Limpiar intentos antiguos (>24 horas)
+  attempts = attempts.filter(timestamp => now - timestamp < TIME_WINDOW_MS);
+
+  // Verificar si ha excedido el límite
+  if (attempts.length >= MAX_TESTS_PER_IP) {
+    const oldestAttempt = Math.min(...attempts);
+    const timeUntilReset = TIME_WINDOW_MS - (now - oldestAttempt);
+    const hoursUntilReset = Math.ceil(timeUntilReset / (60 * 60 * 1000));
+
+    return {
+      allowed: false,
+      remaining: 0,
+      resetIn: hoursUntilReset
+    };
+  }
+
+  // Registrar nuevo intento
+  attempts.push(now);
+  ipAttempts.set(ip, attempts);
+
+  return {
+    allowed: true,
+    remaining: MAX_TESTS_PER_IP - attempts.length
+  };
+}
+
 exports.handler = async function handler(event) {
   // Preflight CORS
   if (event.httpMethod === 'OPTIONS') {
@@ -19,6 +62,27 @@ exports.handler = async function handler(event) {
       statusCode: 405,
       headers: CORS_HEADERS,
       body: JSON.stringify({ ok: false, error: 'Method Not Allowed' })
+    };
+  }
+
+  // Obtener IP del cliente (Netlify provee esto en headers)
+  const clientIP = event.headers['x-nf-client-connection-ip'] ||
+                   event.headers['client-ip'] ||
+                   'unknown';
+
+  // Verificar rate limit por IP
+  const rateLimitCheck = checkRateLimit(clientIP);
+  if (!rateLimitCheck.allowed) {
+    console.log(`⚠️ Rate limit excedido para IP: ${clientIP}`);
+    return {
+      statusCode: 429,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({
+        ok: false,
+        error: 'Límite de uso alcanzado',
+        message: `Has alcanzado el límite de ${MAX_TESTS_PER_IP} tests en 24 horas. Intenta nuevamente en ${rateLimitCheck.resetIn} hora(s).`,
+        resetIn: rateLimitCheck.resetIn
+      })
     };
   }
 

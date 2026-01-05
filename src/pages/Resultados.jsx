@@ -7,6 +7,7 @@ import { recomendarCarreras } from '../lib/recomendacionCarreras';
 import { generarExplicacionIA } from '../lib/claudeAPI';
 import { saveTestResult } from '../lib/supabase';
 import { dimensionDescriptions } from '../data/riasecQuestions';
+import { canUseTestAI, recordTestAIUsage, getLimitMessages, isAIEnabled, LIMITS } from '../lib/usageLimits';
 import CarrerasRecomendadas from '../components/CarrerasRecomendadas';
 import ScheduleButton from '../components/ScheduleButton';
 
@@ -51,20 +52,56 @@ function Resultados() {
       });
       setRecomendaciones(carreras);
 
-      // 4. Generar explicación IA
-      setLoadingIA(true);
-      try {
-        const explicacion = await generarExplicacionIA(resultadoTest);
-        setExplicacionIA(explicacion);
-      } catch (err) {
-        console.error('Error generando explicación IA:', err);
+      // 4. Generar explicación IA (si está habilitada y hay cuota disponible)
+      const aiEnabled = isAIEnabled();
+      const canUseAI = canUseTestAI();
+
+      if (!aiEnabled) {
+        // IA desactivada por variable de entorno
         setExplicacionIA(
+          `🔒 **Modo Demo Limitado**\n\n` +
+          `Las funcionalidades de IA están actualmente limitadas en esta demo.\n\n` +
           `Tu perfil ${resultadoTest.codigo_holland} combina las dimensiones ${interp.perfil}. ` +
-          `Esto indica que tienes fortalezas en ${interp.fortalezas.join(' y ')}. ` +
-          `Las carreras recomendadas se alinean con estas características.`
+          `Esto indica que tienes fortalezas en ${interp.fortalezas.join(' y ')}.\n\n` +
+          `**¿Quieres acceso completo?**\nContáctanos en ${LIMITS.CONTACT_EMAIL} para obtener análisis personalizados ilimitados con IA.`
         );
-      } finally {
-        setLoadingIA(false);
+      } else if (!canUseAI) {
+        // Límite alcanzado
+        const limitMsg = getLimitMessages().testLimit;
+        setExplicacionIA(
+          `🔒 **${limitMsg.message}**\n\n` +
+          `Tu perfil ${resultadoTest.codigo_holland} combina las dimensiones ${interp.perfil}. ` +
+          `Esto indica que tienes fortalezas en ${interp.fortalezas.join(' y ')}.`
+        );
+      } else {
+        // Puede usar IA
+        setLoadingIA(true);
+        try {
+          const explicacion = await generarExplicacionIA(resultadoTest);
+          setExplicacionIA(explicacion);
+          recordTestAIUsage(); // Registrar uso exitoso
+        } catch (err) {
+          console.error('Error generando explicación IA:', err);
+
+          // Verificar si es error de rate limit (429)
+          if (err.message?.includes('429') || err.message?.includes('Límite')) {
+            setExplicacionIA(
+              `⏱️ **Límite de uso alcanzado**\n\n` +
+              err.message + `\n\n` +
+              `Tu perfil ${resultadoTest.codigo_holland} combina las dimensiones ${interp.perfil}. ` +
+              `Para más información, contáctanos en ${LIMITS.CONTACT_EMAIL}`
+            );
+          } else {
+            // Error genérico, mostrar fallback básico
+            setExplicacionIA(
+              `Tu perfil ${resultadoTest.codigo_holland} combina las dimensiones ${interp.perfil}. ` +
+              `Esto indica que tienes fortalezas en ${interp.fortalezas.join(' y ')}. ` +
+              `Las carreras recomendadas se alinean con estas características.`
+            );
+          }
+        } finally {
+          setLoadingIA(false);
+        }
       }
 
       // 5. Guardar en Supabase
