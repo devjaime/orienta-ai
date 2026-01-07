@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Download, Share2, Sparkles, TrendingUp, Award, Loader2 } from 'lucide-react';
+import { Download, Share2, Sparkles, TrendingUp, Award, Loader2, BarChart3 } from 'lucide-react';
 import { calcularCodigoRIASEC, generarInterpretacion } from '../lib/riasecScoring';
 import { recomendarCarreras } from '../lib/recomendacionCarreras';
 import { generarExplicacionIA } from '../lib/claudeAPI';
@@ -10,6 +10,7 @@ import { dimensionDescriptions } from '../data/riasecQuestions';
 import { canUseTestAI, recordTestAIUsage, getLimitMessages, isAIEnabled, LIMITS } from '../lib/usageLimits';
 import CarrerasRecomendadas from '../components/CarrerasRecomendadas';
 import ScheduleButton from '../components/ScheduleButton';
+import CareerProjectionCard from '../components/CareerProjectionCard';
 
 function Resultados() {
   const navigate = useNavigate();
@@ -19,10 +20,26 @@ function Resultados() {
   const [explicacionIA, setExplicacionIA] = useState('');
   const [loadingIA, setLoadingIA] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [projectionsData, setProjectionsData] = useState(null);
+  const [loadingProjections, setLoadingProjections] = useState(true);
 
   useEffect(() => {
     cargarResultados();
+    cargarProyecciones();
   }, []);
+
+  const cargarProyecciones = async () => {
+    try {
+      const response = await fetch('/data/processed/future-projections.json');
+      const data = await response.json();
+      setProjectionsData(data);
+    } catch (error) {
+      console.error('Error cargando proyecciones:', error);
+      // No bloqueamos si no hay proyecciones
+    } finally {
+      setLoadingProjections(false);
+    }
+  };
 
   const cargarResultados = async () => {
     // Obtener respuestas del sessionStorage
@@ -113,7 +130,7 @@ function Resultados() {
           puntajes: resultadoTest.puntajes,
           respuestas: responses,
           duracion_minutos: parseInt(duration) || 10,
-          explicacion_ia: explicacion || null,
+          explicacion_ia: explicacionIA || null,
           carreras_recomendadas: carreras.map(c => c.id)
         });
       } catch (err) {
@@ -262,6 +279,62 @@ function Resultados() {
             codigoUsuario={resultado.codigo_holland}
           />
         </motion.div>
+
+        {/* Proyecciones y Tendencias del Mercado Laboral */}
+        {projectionsData && !loadingProjections && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="mt-12"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <BarChart3 className="w-6 h-6 text-orienta-blue" />
+              <h2 className="text-2xl font-bold text-white">
+                Proyecciones del Mercado Laboral
+              </h2>
+            </div>
+
+            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-2xl p-6 mb-6">
+              <p className="text-white/90 leading-relaxed">
+                Basado en datos reales de MINEDUC 2025 y proyecciones a 5 años, aquí están las
+                tendencias del mercado laboral para las carreras recomendadas según tu perfil vocacional.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {recomendaciones.slice(0, 6).map((carrera) => {
+                const proyeccion = projectionsData.proyecciones?.[carrera.nombre];
+                if (!proyeccion) return null;
+
+                return (
+                  <motion.div
+                    key={carrera.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    <CareerProjectionCard
+                      carrera={carrera}
+                      proyeccion={proyeccion}
+                    />
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Link al dashboard completo */}
+            <div className="mt-8 text-center">
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orienta-blue to-purple-500 text-white font-bold rounded-lg hover:shadow-lg transition-all"
+              >
+                <BarChart3 size={20} />
+                Ver Dashboard Completo con Todas las Carreras
+              </Link>
+            </div>
+          </motion.div>
+        )}
 
         {/* Botón de Agendamiento */}
         <motion.div

@@ -24,3 +24,21 @@ dist-ssr
 *.sw?
 
 .env
+.env.local
+.env.production
+
+# Datos MINEDUC (archivos grandes)
+data/mineduc-raw/**/*.rar
+data/mineduc-raw/**/*.csv
+data/mineduc-raw/**/*.xlsx
+data/mineduc-raw/**/*.xls
+
+# Datos procesados (pueden ser grandes)
+data/processed/*.json
+
+# Keep directory structure but ignore contents
+!data/mineduc-raw/README.md
+!data/mineduc-raw/matricula/.gitkeep
+!data/mineduc-raw/titulados/.gitkeep
+!data/mineduc-raw/admision/.gitkeep
+!data/processed/.gitkeep

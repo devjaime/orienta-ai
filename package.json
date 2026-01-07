@@ -7,7 +7,17 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "setup": "node scripts/00-setup-wizard.js",
+    "process-matricula": "node scripts/02-process-matricula-real.js",
+    "process-titulados": "node scripts/03-process-titulados.js",
+    "merge-carreras": "node scripts/04-merge-carreras.js",
+    "upload-supabase": "node scripts/05-upload-supabase.js",
+    "analyze-trends": "node scripts/06-analyze-trends-real.js",
+    "project-future": "node scripts/07-project-future-real.js",
+    "analyze-riasec": "node scripts/08-analyze-riasec.js",
+    "sync-mineduc-full": "npm run process-matricula && npm run merge-carreras && npm run upload-supabase",
+    "analytics-full": "npm run analyze-trends && npm run project-future && npm run analyze-riasec"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.89.0",
@@ -15,7 +25,8 @@
     "lucide-react": "^0.536.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^6.22.0"
+    "react-router-dom": "^6.22.0",
+    "recharts": "^2.12.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
@@ -23,6 +34,8 @@
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
     "autoprefixer": "^10.4.21",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.4.5",
     "eslint": "^9.30.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",

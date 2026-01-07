@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { riasecQuestions, scaleLabels, validateResponses } from '../data/riasecQuestions';
 import GoogleSignIn from '../components/GoogleSignIn';
 import { getCurrentUser, supabase } from '../lib/supabase';
+import SaturationAlert from '../components/SaturationAlert';
+import { checkPartialTestSaturation } from '../lib/saturationChecker';
 
 function TestRIASEC() {
   const navigate = useNavigate();
@@ -13,10 +15,44 @@ function TestRIASEC() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState({});
   const [startTime] = useState(Date.now());
+  const [saturationAlert, setSaturationAlert] = useState(null);
+  const [alertDismissed, setAlertDismissed] = useState(false);
+  const [alertCheckpoint, setAlertCheckpoint] = useState(false);
 
   useEffect(() => {
     checkAuth();
   }, []);
+
+  // Verificar saturación en el punto medio del test
+  useEffect(() => {
+    const MIDPOINT = 15; // Mitad del test (30 preguntas)
+    const answeredCount = Object.keys(responses).length;
+
+    // Solo verificar una vez cuando llegamos al punto medio
+    if (answeredCount >= MIDPOINT && !alertCheckpoint && !alertDismissed) {
+      checkSaturation();
+      setAlertCheckpoint(true);
+    }
+  }, [responses, alertCheckpoint, alertDismissed]);
+
+  const checkSaturation = () => {
+    // Calcular puntajes parciales
+    const partialScores = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+
+    Object.entries(responses).forEach(([questionId, value]) => {
+      const question = riasecQuestions.find(q => q.id === questionId);
+      if (question) {
+        partialScores[question.dimension] += value;
+      }
+    });
+
+    // Verificar si hay alertas de saturación
+    const result = checkPartialTestSaturation(partialScores);
+
+    if (result.show && result.message) {
+      setSaturationAlert(result.message);
+    }
+  };
 
   const checkAuth = async () => {
     const currentUser = await getCurrentUser();
@@ -166,6 +202,27 @@ function TestRIASEC() {
 
       {/* Question */}
       <div className="container mx-auto px-4 py-12 max-w-3xl">
+        {/* Alerta de Saturación */}
+        {saturationAlert && !alertDismissed && (
+          <div className="mb-6">
+            <SaturationAlert
+              careerName={saturationAlert.careers?.[0]?.career || 'las carreras de tu perfil'}
+              saturationLevel={saturationAlert.type === 'critical' ? 'crítica' : saturationAlert.type === 'warning' ? 'alta' : 'media'}
+              show={true}
+              onDismiss={() => setAlertDismissed(true)}
+            />
+            {saturationAlert.message && (
+              <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+                <p className="text-sm text-blue-200 leading-relaxed">
+                  <strong className="font-semibold">{saturationAlert.title}</strong>
+                  <br />
+                  {saturationAlert.message}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
         <motion.div
           key={currentQuestion}
           initial={{ opacity: 0, x: 20 }}

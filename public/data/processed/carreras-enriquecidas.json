@@ -1,0 +1,3922 @@
+{
+  "version": "2.0",
+  "updated": "2026-01-06T02:32:18.177Z",
+  "total": 30,
+  "fuente": "Carreras.json + MINEDUC Datos Abiertos",
+  "estadisticas": {
+    "matches_encontrados": 29,
+    "matches_no_encontrados": 1,
+    "porcentaje_exito": "96.7%"
+  },
+  "carreras": [
+    {
+      "id": 1,
+      "nombre": "Ingeniería Civil en Informática",
+      "codigo_holland": "IRC",
+      "dimension_principal": "I",
+      "area": "Tecnología",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Alto",
+      "empleabilidad": "Muy Alta",
+      "salario_promedio_chile_clp": 1800000,
+      "descripcion": "Diseña, desarrolla y gestiona sistemas de información y soluciones tecnológicas. Combina fundamentos de ingeniería con programación avanzada.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "UTFSM",
+        "Universidad de Concepción"
+      ],
+      "campos_laborales": [
+        "Desarrollo de software",
+        "Data Science",
+        "Ciberseguridad",
+        "Consultoría TI",
+        "Inteligencia Artificial"
+      ],
+      "perfil_ideal": "Personas analíticas, con habilidades lógicas y pasión por resolver problemas complejos mediante tecnología.",
+      "mineduc_data": {
+        "matricula_actual": 30086,
+        "instituciones_count": 29,
+        "instituciones_ofrecen": [
+          "IP INACAP",
+          "IP DUOC UC",
+          "IP SANTO TOMAS",
+          "UNIVERSIDAD BERNARDO O'HIGGINS",
+          "IP IACC",
+          "IP DR. VIRGINIO GOMEZ G.",
+          "UNIVERSIDAD DE VALPARAISO",
+          "UNIVERSIDAD DE LOS LAGOS",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD DEL BIO-BIO",
+          "UNIVERSIDAD DE SANTIAGO DE CHILE",
+          "IP DE CHILE",
+          "IP SAN SEBASTIAN",
+          "IP IPG",
+          "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+          "IP LATINOAMERICANO DE COMERCIO EXTERIOR - IPLACEX",
+          "UNIVERSIDAD TECNOLOGICA METROPOLITANA",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "IP AIEP"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Atacama",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "IP DUOC UC",
+            "matricula": 11432,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP INACAP",
+            "matricula": 6845,
+            "region": "Maule",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP SANTO TOMAS",
+            "matricula": 2139,
+            "region": "Tarapacá",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP IACC",
+            "matricula": 1087,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+            "matricula": 1033,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL BIO-BIO",
+            "matricula": 843,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD TECNOLOGICA METROPOLITANA",
+            "matricula": 673,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+            "matricula": 655,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "IP LATINOAMERICANO DE COMERCIO EXTERIOR - IPLACEX",
+            "matricula": 587,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE VALPARAISO",
+            "matricula": 552,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.422Z"
+      }
+    },
+    {
+      "id": 2,
+      "nombre": "Medicina",
+      "codigo_holland": "ISR",
+      "dimension_principal": "I",
+      "area": "Salud",
+      "duracion_anos": 7,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Muy Alta",
+      "salario_promedio_chile_clp": 2500000,
+      "descripcion": "Previene, diagnostica y trata enfermedades humanas. Requiere estudio científico profundo y vocación de servicio.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad de Concepción",
+        "Universidad Austral"
+      ],
+      "campos_laborales": [
+        "Hospital público/privado",
+        "Atención primaria",
+        "Especialidades médicas",
+        "Investigación",
+        "Salud pública"
+      ],
+      "perfil_ideal": "Vocación de servicio, capacidad analítica, resistencia al estrés y excelencia académica.",
+      "mineduc_data": {
+        "matricula_actual": 21131,
+        "instituciones_count": 29,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD DE O'HIGGINS",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD DEL DESARROLLO",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "UNIVERSIDAD DE VALPARAISO",
+          "UNIVERSIDAD MAYOR",
+          "UNIVERSIDAD DEL ALBA",
+          "UNIVERSIDAD DE LOS ANDES",
+          "UNIVERSIDAD DE CHILE",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD DE SANTIAGO DE CHILE",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD DE TALCA",
+          "UNIVERSIDAD CATOLICA DEL MAULE",
+          "UNIVERSIDAD DE ANTOFAGASTA",
+          "UNIVERSIDAD CATOLICA DEL NORTE",
+          "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+          "UNIVERSIDAD DIEGO PORTALES",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD DE CONCEPCION"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Atacama",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 2713,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 2214,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 1829,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD MAYOR",
+            "matricula": 1071,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE VALPARAISO",
+            "matricula": 920,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LOS ANDES",
+            "matricula": 900,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL ALBA",
+            "matricula": 869,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 836,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 781,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+            "matricula": 749,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.446Z"
+      }
+    },
+    {
+      "id": 3,
+      "nombre": "Psicología",
+      "codigo_holland": "SIA",
+      "dimension_principal": "S",
+      "area": "Ciencias Sociales",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Bajo",
+      "empleabilidad": "Media",
+      "salario_promedio_chile_clp": 900000,
+      "descripcion": "Estudia el comportamiento humano y los procesos mentales. Ayuda a personas, grupos y organizaciones a mejorar su bienestar.",
+      "universidades_destacadas": [
+        "PUC",
+        "Universidad de Chile",
+        "Universidad Diego Portales",
+        "Universidad Adolfo Ibáñez"
+      ],
+      "campos_laborales": [
+        "Clínica",
+        "Organizacional",
+        "Educacional",
+        "Recursos Humanos",
+        "Investigación"
+      ],
+      "perfil_ideal": "Empatía, escucha activa, curiosidad por el comportamiento humano y habilidades interpersonales.",
+      "mineduc_data": {
+        "matricula_actual": 54890,
+        "instituciones_count": 51,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD DEL DESARROLLO",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "UNIVERSIDAD DIEGO PORTALES",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD DE VALPARAISO",
+          "UNIVERSIDAD DE ARTES, CIENCIAS Y COMUNICACION - UNIACC",
+          "UNIVERSIDAD SANTO TOMAS",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD CATOLICA DEL NORTE",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD DE TALCA",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "UNIVERSIDAD DEL ALBA",
+          "UNIVERSIDAD GABRIELA MISTRAL",
+          "UNIVERSIDAD SEK",
+          "UNIVERSIDAD ADVENTISTA DE CHILE",
+          "UNIVERSIDAD BERNARDO O'HIGGINS"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Atacama",
+          "Aysén",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "Semipresencial",
+          "No Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 5528,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SANTO TOMAS",
+            "matricula": 4960,
+            "region": "Coquimbo",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 4472,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 4373,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LAS AMERICAS",
+            "matricula": 4027,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CENTRAL DE CHILE",
+            "matricula": 2309,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD GABRIELA MISTRAL",
+            "matricula": 1748,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE ARTES, CIENCIAS Y COMUNICACION - UNIACC",
+            "matricula": 1695,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL DESARROLLO",
+            "matricula": 1591,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD MAYOR",
+            "matricula": 1485,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.463Z"
+      }
+    },
+    {
+      "id": 4,
+      "nombre": "Arquitectura",
+      "codigo_holland": "AIR",
+      "dimension_principal": "A",
+      "area": "Arte y Diseño",
+      "duracion_anos": 6,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Media",
+      "salario_promedio_chile_clp": 1200000,
+      "descripcion": "Diseña espacios habitables combinando arte, técnica y funcionalidad. Crea edificios y espacios urbanos.",
+      "universidades_destacadas": [
+        "PUC",
+        "Universidad de Chile",
+        "Universidad del Bío-Bío",
+        "UTFSM"
+      ],
+      "campos_laborales": [
+        "Oficinas de arquitectura",
+        "Construcción",
+        "Urbanismo",
+        "Diseño de interiores",
+        "Restauración patrimonial"
+      ],
+      "perfil_ideal": "Creatividad espacial, sensibilidad estética, habilidades técnicas y visión integral.",
+      "mineduc_data": {
+        "matricula_actual": 17703,
+        "instituciones_count": 32,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD DE VALPARAISO",
+          "UNIVERSIDAD DE SANTIAGO DE CHILE",
+          "UNIVERSIDAD GABRIELA MISTRAL",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD TECNOLOGICA METROPOLITANA",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD DE TALCA",
+          "UNIVERSIDAD DIEGO PORTALES",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD AUSTRAL DE CHILE",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD DEL DESARROLLO",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD CATOLICA DEL NORTE"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 1425,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 1218,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL DESARROLLO",
+            "matricula": 1159,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+            "matricula": 996,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 935,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DIEGO PORTALES",
+            "matricula": 803,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD MAYOR",
+            "matricula": 794,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+            "matricula": 767,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD TECNOLOGICA METROPOLITANA",
+            "matricula": 745,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE VALPARAISO",
+            "matricula": 702,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.483Z"
+      }
+    },
+    {
+      "id": 5,
+      "nombre": "Administración de Empresas",
+      "codigo_holland": "ECS",
+      "dimension_principal": "E",
+      "area": "Negocios",
+      "duracion_anos": 4,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 1100000,
+      "descripcion": "Gestiona recursos empresariales, planifica estrategias y lidera equipos para alcanzar objetivos organizacionales.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad Adolfo Ibáñez",
+        "Universidad Diego Portales"
+      ],
+      "campos_laborales": [
+        "Gerencia",
+        "Consultoría",
+        "Marketing",
+        "Recursos Humanos",
+        "Emprendimiento"
+      ],
+      "perfil_ideal": "Liderazgo, visión estratégica, habilidades de negociación y orientación a resultados.",
+      "mineduc_data": {
+        "matricula_actual": 6206,
+        "instituciones_count": 10,
+        "instituciones_ofrecen": [
+          "CFT INACAP",
+          "CFT SAN AGUSTIN",
+          "CFT LOTA-ARAUCO",
+          "CFT JUAN BOHON",
+          "CFT DE LA REGION DE LOS LAGOS",
+          "CFT DE LA REGION DE ATACAMA",
+          "IP DUOC UC",
+          "CFT CEDUC - UCN",
+          "CFT INSTITUTO CENTRAL DE CAPACITACION EDUCACIONAL ICCE",
+          "CFT ESCUELA DE COMERCIO"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Atacama",
+          "Aysén",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "CFT INACAP",
+            "matricula": 4949,
+            "region": "Arica y Parinacota",
+            "tipo": "Centros de Formación Técnica"
+          },
+          {
+            "institucion": "CFT SAN AGUSTIN",
+            "matricula": 478,
+            "region": "Maule",
+            "tipo": "Centros de Formación Técnica"
+          },
+          {
+            "institucion": "IP DUOC UC",
+            "matricula": 322,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "CFT LOTA-ARAUCO",
+            "matricula": 150,
+            "region": "Biobío",
+            "tipo": "Centros de Formación Técnica"
+          },
+          {
+            "institucion": "CFT DE LA REGION DE LOS LAGOS",
+            "matricula": 106,
+            "region": "Los Lagos",
+            "tipo": "Centros de Formación Técnica"
+          },
+          {
+            "institucion": "CFT DE LA REGION DE ATACAMA",
+            "matricula": 72,
+            "region": "Atacama",
+            "tipo": "Centros de Formación Técnica"
+          },
+          {
+            "institucion": "CFT CEDUC - UCN",
+            "matricula": 61,
+            "region": "Biobío",
+            "tipo": "Centros de Formación Técnica"
+          },
+          {
+            "institucion": "CFT JUAN BOHON",
+            "matricula": 45,
+            "region": "Coquimbo",
+            "tipo": "Centros de Formación Técnica"
+          },
+          {
+            "institucion": "CFT INSTITUTO CENTRAL DE CAPACITACION EDUCACIONAL ICCE",
+            "matricula": 18,
+            "region": "Metropolitana",
+            "tipo": "Centros de Formación Técnica"
+          },
+          {
+            "institucion": "CFT ESCUELA DE COMERCIO",
+            "matricula": 5,
+            "region": "Metropolitana",
+            "tipo": "Centros de Formación Técnica"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.527Z"
+      }
+    },
+    {
+      "id": 6,
+      "nombre": "Contador Auditor",
+      "codigo_holland": "CES",
+      "dimension_principal": "C",
+      "area": "Negocios",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Alto",
+      "empleabilidad": "Muy Alta",
+      "salario_promedio_chile_clp": 1300000,
+      "descripcion": "Gestiona información financiera, realiza auditorías y asesora en temas tributarios y contables.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad de Santiago",
+        "Universidad de Concepción"
+      ],
+      "campos_laborales": [
+        "Auditoría",
+        "Contabilidad empresarial",
+        "Asesoría tributaria",
+        "Contraloría",
+        "Consultoría financiera"
+      ],
+      "perfil_ideal": "Precisión, organización, pensamiento analítico y atención al detalle.",
+      "mineduc_data": {
+        "matricula_actual": 9647,
+        "instituciones_count": 24,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "IP SANTO TOMAS",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD ANDRES BELLO",
+          "IP PROVIDENCIA",
+          "IP ESCUELA DE CONTADORES AUDITORES DE SANTIAGO",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "IP IACC",
+          "IP DIEGO PORTALES",
+          "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "UNIVERSIDAD DIEGO PORTALES",
+          "IP LOS LEONES",
+          "UNIVERSIDAD DE CHILE",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "IP ESCUELA DE COMERCIO DE SANTIAGO",
+          "UNIVERSIDAD BERNARDO O'HIGGINS",
+          "UNIVERSIDAD CATOLICA DEL MAULE",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "IP IPG"
+        ],
+        "regiones_disponibles": [
+          "Aysén",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "IP ESCUELA DE CONTADORES AUDITORES DE SANTIAGO",
+            "matricula": 1895,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP SANTO TOMAS",
+            "matricula": 1566,
+            "region": "Los Lagos",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 960,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "IP IACC",
+            "matricula": 591,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP PROVIDENCIA",
+            "matricula": 550,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LAS AMERICAS",
+            "matricula": 520,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+            "matricula": 484,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "IP ESCUELA DE COMERCIO DE SANTIAGO",
+            "matricula": 483,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 451,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+            "matricula": 369,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.555Z"
+      }
+    },
+    {
+      "id": 7,
+      "nombre": "Ingeniería Civil",
+      "codigo_holland": "RIC",
+      "dimension_principal": "R",
+      "area": "Ingeniería",
+      "duracion_anos": 6,
+      "nivel_matematicas": "Muy Alto",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 1700000,
+      "descripcion": "Diseña, construye y mantiene infraestructura: puentes, carreteras, edificios y obras hidráulicas.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "UTFSM",
+        "Universidad de Concepción"
+      ],
+      "campos_laborales": [
+        "Construcción",
+        "Proyectos viales",
+        "Estructuras",
+        "Hidráulica",
+        "Consultoría"
+      ],
+      "perfil_ideal": "Pensamiento lógico-matemático, capacidad de resolución de problemas prácticos y visión espacial.",
+      "mineduc_data": {
+        "matricula_actual": 10595,
+        "instituciones_count": 17,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD DE VALPARAISO",
+          "UNIVERSIDAD DE LA SERENA",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD CATOLICA DEL NORTE",
+          "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+          "UNIVERSIDAD CATOLICA DEL MAULE",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD DEL BIO-BIO",
+          "UNIVERSIDAD DE LOS ANDES",
+          "UNIVERSIDAD DE LOS LAGOS",
+          "UNIVERSIDAD ADOLFO IBAÑEZ"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Los Lagos",
+          "Maule",
+          "Metropolitana",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+            "matricula": 5384,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+            "matricula": 981,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL BIO-BIO",
+            "matricula": 507,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+            "matricula": 500,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 499,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+            "matricula": 474,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DEL MAULE",
+            "matricula": 389,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LA FRONTERA",
+            "matricula": 334,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LA SERENA",
+            "matricula": 243,
+            "region": "Coquimbo",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 241,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.574Z"
+      }
+    },
+    {
+      "id": 8,
+      "nombre": "Derecho",
+      "codigo_holland": "ESI",
+      "dimension_principal": "E",
+      "area": "Ciencias Jurídicas",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Bajo",
+      "empleabilidad": "Media",
+      "salario_promedio_chile_clp": 1400000,
+      "descripcion": "Estudia e interpreta las leyes, defiende derechos y representa personas ante tribunales.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad Adolfo Ibáñez",
+        "Universidad Diego Portales"
+      ],
+      "campos_laborales": [
+        "Abogacía privada",
+        "Sector público",
+        "Corporativo",
+        "Litigación",
+        "Académico"
+      ],
+      "perfil_ideal": "Argumentación, oratoria, pensamiento crítico y sentido de justicia.",
+      "mineduc_data": {
+        "matricula_actual": 48541,
+        "instituciones_count": 48,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD DEL DESARROLLO",
+          "UNIVERSIDAD ADOLFO IBAÑEZ",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "UNIVERSIDAD DE TALCA",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD DIEGO PORTALES",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD CATOLICA DEL NORTE",
+          "UNIVERSIDAD SANTO TOMAS",
+          "UNIVERSIDAD ADVENTISTA DE CHILE",
+          "UNIVERSIDAD AUSTRAL DE CHILE",
+          "UNIVERSIDAD ALBERTO HURTADO",
+          "UNIVERSIDAD BERNARDO O'HIGGINS",
+          "UNIVERSIDAD DE ANTOFAGASTA",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD MAYOR",
+          "UNIVERSIDAD DE LOS LAGOS"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Atacama",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 3644,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 3600,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 3512,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 3009,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SANTO TOMAS",
+            "matricula": 2563,
+            "region": "Coquimbo",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LAS AMERICAS",
+            "matricula": 2299,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+            "matricula": 1984,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CENTRAL DE CHILE",
+            "matricula": 1737,
+            "region": "Coquimbo",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DIEGO PORTALES",
+            "matricula": 1568,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DEL NORTE",
+            "matricula": 1448,
+            "region": "Antofagasta",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.588Z"
+      }
+    },
+    {
+      "id": 9,
+      "nombre": "Pedagogía en Educación Básica",
+      "codigo_holland": "SAE",
+      "dimension_principal": "S",
+      "area": "Educación",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Bajo",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 800000,
+      "descripcion": "Forma estudiantes de educación básica en todas las asignaturas fundamentales.",
+      "universidades_destacadas": [
+        "PUC",
+        "Universidad de Chile",
+        "Universidad Alberto Hurtado",
+        "UMCE"
+      ],
+      "campos_laborales": [
+        "Colegios públicos",
+        "Colegios privados",
+        "Programas educativos",
+        "ONG",
+        "Coordinación académica"
+      ],
+      "perfil_ideal": "Vocación por enseñar, paciencia, creatividad pedagógica y empatía con niños.",
+      "mineduc_data": {
+        "matricula_actual": 1968,
+        "instituciones_count": 12,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+          "UNIVERSIDAD ACADEMIA DE HUMANISMO CRISTIANO",
+          "UNIVERSIDAD DE O'HIGGINS",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "UNIVERSIDAD DE TARAPACA",
+          "UNIVERSIDAD DE PLAYA ANCHA DE CIENCIAS DE LA EDUCACION",
+          "UNIVERSIDAD ARTURO PRAT",
+          "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD FINIS TERRAE",
+          "UNIVERSIDAD ALBERTO HURTADO",
+          "UNIVERSIDAD SAN SEBASTIAN"
+        ],
+        "regiones_disponibles": [
+          "Arica y Parinacota",
+          "Biobío",
+          "Lib. Gral. B. O'Higgins",
+          "Los Ríos",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+            "matricula": 311,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE O'HIGGINS",
+            "matricula": 280,
+            "region": "Lib. Gral. B. O'Higgins",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+            "matricula": 255,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LAS AMERICAS",
+            "matricula": 227,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 174,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE PLAYA ANCHA DE CIENCIAS DE LA EDUCACION",
+            "matricula": 167,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ALBERTO HURTADO",
+            "matricula": 141,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE TARAPACA",
+            "matricula": 125,
+            "region": "Arica y Parinacota",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ARTURO PRAT",
+            "matricula": 109,
+            "region": "Tarapacá",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD FINIS TERRAE",
+            "matricula": 92,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.637Z"
+      }
+    },
+    {
+      "id": 10,
+      "nombre": "Diseño Gráfico",
+      "codigo_holland": "AEC",
+      "dimension_principal": "A",
+      "area": "Arte y Diseño",
+      "duracion_anos": 4,
+      "nivel_matematicas": "Bajo",
+      "empleabilidad": "Media",
+      "salario_promedio_chile_clp": 850000,
+      "descripcion": "Comunica mensajes visuales mediante imágenes, tipografía y composición. Trabaja en medios digitales e impresos.",
+      "universidades_destacadas": [
+        "PUC",
+        "Universidad Diego Portales",
+        "Universidad del Desarrollo",
+        "UNIACC"
+      ],
+      "campos_laborales": [
+        "Agencias publicitarias",
+        "Freelance",
+        "Diseño editorial",
+        "Branding",
+        "UX/UI Design"
+      ],
+      "perfil_ideal": "Creatividad visual, manejo de herramientas digitales, sensibilidad estética y adaptabilidad.",
+      "mineduc_data": {
+        "matricula_actual": 3869,
+        "instituciones_count": 6,
+        "instituciones_ofrecen": [
+          "IP DUOC UC",
+          "UNIVERSIDAD DEL BIO-BIO",
+          "IP SANTO TOMAS",
+          "UNIVERSIDAD ANDRES BELLO",
+          "IP AIEP",
+          "UNIVERSIDAD CATOLICA DE TEMUCO"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Maule",
+          "Metropolitana",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "IP DUOC UC",
+            "matricula": 2218,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP SANTO TOMAS",
+            "matricula": 1206,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL BIO-BIO",
+            "matricula": 218,
+            "region": "Ñuble",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 168,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "IP AIEP",
+            "matricula": 55,
+            "region": "Lib. Gral. B. O'Higgins",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DE TEMUCO",
+            "matricula": 4,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.661Z"
+      }
+    },
+    {
+      "id": 11,
+      "nombre": "Enfermería",
+      "codigo_holland": "SRI",
+      "dimension_principal": "S",
+      "area": "Salud",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Muy Alta",
+      "salario_promedio_chile_clp": 950000,
+      "descripcion": "Cuida y asiste a pacientes, administra tratamientos y colabora con equipos médicos.",
+      "universidades_destacadas": [
+        "PUC",
+        "Universidad de Chile",
+        "Universidad Andrés Bello",
+        "Universidad de Concepción"
+      ],
+      "campos_laborales": [
+        "Hospitales",
+        "Clínicas",
+        "Atención primaria",
+        "Gestión de salud",
+        "Educación en salud"
+      ],
+      "perfil_ideal": "Empatía, resistencia física y emocional, capacidad de trabajo en equipo y vocación de servicio.",
+      "mineduc_data": {
+        "matricula_actual": 36736,
+        "instituciones_count": 44,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD DE MAGALLANES",
+          "UNIVERSIDAD LA REPUBLICA",
+          "UNIVERSIDAD DE LOS LAGOS",
+          "UNIVERSIDAD SANTO TOMAS",
+          "UNIVERSIDAD DE SANTIAGO DE CHILE",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "UNIVERSIDAD DIEGO PORTALES",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD DE TARAPACA",
+          "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+          "UNIVERSIDAD ADVENTISTA DE CHILE",
+          "UNIVERSIDAD DEL DESARROLLO",
+          "UNIVERSIDAD DE ACONCAGUA",
+          "UNIVERSIDAD DE LOS ANDES",
+          "UNIVERSIDAD DE CONCEPCION",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD DE VALPARAISO",
+          "UNIVERSIDAD CENTRAL DE CHILE"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Aysén",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD DE LAS AMERICAS",
+            "matricula": 4870,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SANTO TOMAS",
+            "matricula": 4023,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 3212,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 2849,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 1759,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL DESARROLLO",
+            "matricula": 1206,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL ALBA",
+            "matricula": 1199,
+            "region": "Coquimbo",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 1144,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CENTRAL DE CHILE",
+            "matricula": 1018,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LOS LAGOS",
+            "matricula": 898,
+            "region": "Los Lagos",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.678Z"
+      }
+    },
+    {
+      "id": 12,
+      "nombre": "Ingeniería Comercial",
+      "codigo_holland": "ECI",
+      "dimension_principal": "E",
+      "area": "Negocios",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Alto",
+      "empleabilidad": "Muy Alta",
+      "salario_promedio_chile_clp": 1600000,
+      "descripcion": "Combina administración, economía y finanzas para gestionar empresas y crear estrategias de negocio.",
+      "universidades_destacadas": [
+        "PUC",
+        "Universidad de Chile",
+        "Universidad Adolfo Ibáñez",
+        "Universidad de los Andes"
+      ],
+      "campos_laborales": [
+        "Finanzas",
+        "Consultoría",
+        "Marketing",
+        "Gerencia",
+        "Banca de inversión"
+      ],
+      "perfil_ideal": "Visión estratégica, habilidades numéricas, liderazgo y orientación a resultados.",
+      "mineduc_data": {
+        "matricula_actual": 43793,
+        "instituciones_count": 46,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD FINIS TERRAE",
+          "UNIVERSIDAD TECNOLOGICA METROPOLITANA",
+          "UNIVERSIDAD ARTURO PRAT",
+          "UNIVERSIDAD DEL DESARROLLO",
+          "UNIVERSIDAD DE VALPARAISO",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD ADOLFO IBAÑEZ",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD DE LOS ANDES",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD DE SANTIAGO DE CHILE",
+          "UNIVERSIDAD CATOLICA DEL NORTE",
+          "UNIVERSIDAD DE TARAPACA",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD BERNARDO O'HIGGINS"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Atacama",
+          "Aysén",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 3631,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 3039,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ADOLFO IBAÑEZ",
+            "matricula": 2776,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+            "matricula": 2622,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 2339,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+            "matricula": 2324,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL DESARROLLO",
+            "matricula": 2274,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DIEGO PORTALES",
+            "matricula": 1740,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 1738,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE SANTIAGO DE CHILE",
+            "matricula": 1642,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.713Z"
+      }
+    },
+    {
+      "id": 13,
+      "nombre": "Periodismo",
+      "codigo_holland": "AES",
+      "dimension_principal": "A",
+      "area": "Comunicación",
+      "duracion_anos": 4,
+      "nivel_matematicas": "Bajo",
+      "empleabilidad": "Media",
+      "salario_promedio_chile_clp": 800000,
+      "descripcion": "Investiga, produce y difunde información de interés público a través de diversos medios.",
+      "universidades_destacadas": [
+        "PUC",
+        "Universidad de Chile",
+        "Universidad Diego Portales",
+        "Universidad Católica de Valparaíso"
+      ],
+      "campos_laborales": [
+        "Medios de comunicación",
+        "Comunicación corporativa",
+        "Periodismo digital",
+        "Producción audiovisual",
+        "Investigación"
+      ],
+      "perfil_ideal": "Curiosidad, capacidad de escritura, pensamiento crítico y adaptabilidad a nuevos medios.",
+      "mineduc_data": {
+        "matricula_actual": 6117,
+        "instituciones_count": 26,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD AUSTRAL DE CHILE",
+          "UNIVERSIDAD FINIS TERRAE",
+          "UNIVERSIDAD MAYOR",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD DE PLAYA ANCHA DE CIENCIAS DE LA EDUCACION",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD CATOLICA DEL NORTE",
+          "UNIVERSIDAD ADOLFO IBAÑEZ",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD DIEGO PORTALES",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD GABRIELA MISTRAL",
+          "UNIVERSIDAD DE LOS ANDES",
+          "UNIVERSIDAD ALBERTO HURTADO",
+          "UNIVERSIDAD DE ARTES, CIENCIAS Y COMUNICACION - UNIACC",
+          "UNIVERSIDAD DE LA SERENA",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Los Ríos",
+          "Maule",
+          "Metropolitana",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD DIEGO PORTALES",
+            "matricula": 730,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 721,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 508,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+            "matricula": 411,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD FINIS TERRAE",
+            "matricula": 365,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 338,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+            "matricula": 322,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ALBERTO HURTADO",
+            "matricula": 278,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LOS ANDES",
+            "matricula": 256,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 248,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.730Z"
+      }
+    },
+    {
+      "id": 14,
+      "nombre": "Kinesiología",
+      "codigo_holland": "SIR",
+      "dimension_principal": "S",
+      "area": "Salud",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 1000000,
+      "descripcion": "Previene y trata lesiones y enfermedades mediante movimiento y terapias físicas.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad del Desarrollo",
+        "Universidad Finis Terrae"
+      ],
+      "campos_laborales": [
+        "Clínicas",
+        "Hospitales",
+        "Deportivo",
+        "Neurorehabilitación",
+        "Consulta privada"
+      ],
+      "perfil_ideal": "Empatía, conocimiento del cuerpo humano, paciencia y habilidades manuales.",
+      "mineduc_data": {
+        "matricula_actual": 24973,
+        "instituciones_count": 43,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD SANTO TOMAS",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD DE LOS LAGOS",
+          "UNIVERSIDAD DE MAGALLANES",
+          "UNIVERSIDAD DE ACONCAGUA",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD FINIS TERRAE",
+          "UNIVERSIDAD AUSTRAL DE CHILE",
+          "UNIVERSIDAD DE ANTOFAGASTA",
+          "UNIVERSIDAD DE O'HIGGINS",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD MAYOR",
+          "UNIVERSIDAD DEL ALBA",
+          "UNIVERSIDAD DIEGO PORTALES"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Atacama",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD SANTO TOMAS",
+            "matricula": 2434,
+            "region": "Los Ríos",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 2424,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LAS AMERICAS",
+            "matricula": 2075,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 1742,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 1494,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "IP DE CHILE",
+            "matricula": 1481,
+            "region": "Lib. Gral. B. O'Higgins",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD MAYOR",
+            "matricula": 758,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL ALBA",
+            "matricula": 702,
+            "region": "Coquimbo",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LOS LAGOS",
+            "matricula": 583,
+            "region": "Los Lagos",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+            "matricula": 583,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.750Z"
+      }
+    },
+    {
+      "id": 15,
+      "nombre": "Trabajo Social",
+      "codigo_holland": "SEA",
+      "dimension_principal": "S",
+      "area": "Ciencias Sociales",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Bajo",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 850000,
+      "descripcion": "Interviene en problemáticas sociales, apoya a personas vulnerables y promueve el cambio social.",
+      "universidades_destacadas": [
+        "PUC",
+        "Universidad de Chile",
+        "Universidad Alberto Hurtado",
+        "UCSH"
+      ],
+      "campos_laborales": [
+        "Municipalidades",
+        "ONG",
+        "Hospitales",
+        "Empresas",
+        "Programas sociales"
+      ],
+      "perfil_ideal": "Compromiso social, empatía, capacidad de gestión y trabajo con comunidades.",
+      "mineduc_data": {
+        "matricula_actual": 23121,
+        "instituciones_count": 43,
+        "instituciones_ofrecen": [
+          "IP IACC",
+          "IP LATINOAMERICANO DE COMERCIO EXTERIOR - IPLACEX",
+          "UNIVERSIDAD ANDRES BELLO",
+          "IP AIEP",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD ARTURO PRAT",
+          "IP DE CHILE",
+          "UNIVERSIDAD MIGUEL DE CERVANTES",
+          "UNIVERSIDAD DE ARTES, CIENCIAS Y COMUNICACION - UNIACC",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+          "UNIVERSIDAD SANTO TOMAS",
+          "UNIVERSIDAD DE LOS LAGOS",
+          "CFT LOTA-ARAUCO",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD DE TARAPACA",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "IP DEL VALLE CENTRAL"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Atacama",
+          "Aysén",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "No Presencial",
+          "Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "IP AIEP",
+            "matricula": 5241,
+            "region": "Valparaíso",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP LATINOAMERICANO DE COMERCIO EXTERIOR - IPLACEX",
+            "matricula": 4083,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP DE CHILE",
+            "matricula": 1819,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 928,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SANTO TOMAS",
+            "matricula": 824,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 727,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL BIO-BIO",
+            "matricula": 459,
+            "region": "Ñuble",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DEL MAULE",
+            "matricula": 445,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+            "matricula": 441,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE TARAPACA",
+            "matricula": 427,
+            "region": "Arica y Parinacota",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.774Z"
+      }
+    },
+    {
+      "id": 16,
+      "nombre": "Ingeniería en Construcción",
+      "codigo_holland": "REC",
+      "dimension_principal": "R",
+      "area": "Ingeniería",
+      "duracion_anos": 4,
+      "nivel_matematicas": "Alto",
+      "empleabilidad": "Muy Alta",
+      "salario_promedio_chile_clp": 1400000,
+      "descripcion": "Ejecuta y administra proyectos de construcción, supervisa obras y gestiona recursos.",
+      "universidades_destacadas": [
+        "DUOC UC",
+        "INACAP",
+        "Universidad del Bío-Bío",
+        "UTFSM"
+      ],
+      "campos_laborales": [
+        "Constructoras",
+        "Proyectos inmobiliarios",
+        "Inspección técnica",
+        "Gestión de obras",
+        "Presupuesto"
+      ],
+      "perfil_ideal": "Capacidad organizativa, liderazgo de equipos, visión práctica y resistencia física.",
+      "mineduc_data": {
+        "matricula_actual": 11949,
+        "instituciones_count": 23,
+        "instituciones_ofrecen": [
+          "IP LATINOAMERICANO DE COMERCIO EXTERIOR - IPLACEX",
+          "IP DUOC UC",
+          "UNIVERSIDAD DE MAGALLANES",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD CATOLICA DEL MAULE",
+          "UNIVERSIDAD MAYOR",
+          "UNIVERSIDAD TECNOLOGICA METROPOLITANA",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+          "UNIVERSIDAD DE VALPARAISO",
+          "IP DR. VIRGINIO GOMEZ G.",
+          "UNIVERSIDAD DE LA SERENA",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD TECNOLOGICA DE CHILE INACAP",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD DEL BIO-BIO",
+          "UNIVERSIDAD CATOLICA DEL NORTE"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Aysén",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Semipresencial",
+          "Presencial",
+          "No Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "IP DUOC UC",
+            "matricula": 4819,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP LATINOAMERICANO DE COMERCIO EXTERIOR - IPLACEX",
+            "matricula": 1963,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 643,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+            "matricula": 593,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "IP DR. VIRGINIO GOMEZ G.",
+            "matricula": 452,
+            "region": "Ñuble",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL BIO-BIO",
+            "matricula": 395,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 384,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD MAYOR",
+            "matricula": 277,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE VALPARAISO",
+            "matricula": 271,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LA FRONTERA",
+            "matricula": 261,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.818Z"
+      }
+    },
+    {
+      "id": 17,
+      "nombre": "Veterinaria",
+      "codigo_holland": "IRS",
+      "dimension_principal": "I",
+      "area": "Salud Animal",
+      "duracion_anos": 6,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Media",
+      "salario_promedio_chile_clp": 1100000,
+      "descripcion": "Previene, diagnostica y trata enfermedades en animales. Trabaja en salud animal y producción.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "Universidad Austral",
+        "Universidad de Concepción",
+        "UMAYOR"
+      ],
+      "campos_laborales": [
+        "Clínica de mascotas",
+        "Producción animal",
+        "Salud pública",
+        "Investigación",
+        "Laboratorios"
+      ],
+      "perfil_ideal": "Amor por animales, capacidad analítica, empatía y resistencia emocional.",
+      "mineduc_data": null
+    },
+    {
+      "id": 18,
+      "nombre": "Sociología",
+      "codigo_holland": "IAS",
+      "dimension_principal": "I",
+      "area": "Ciencias Sociales",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Baja",
+      "salario_promedio_chile_clp": 900000,
+      "descripcion": "Analiza estructuras sociales, comportamientos colectivos y fenómenos de la sociedad contemporánea.",
+      "universidades_destacadas": [
+        "PUC",
+        "Universidad de Chile",
+        "Universidad Diego Portales",
+        "Universidad Alberto Hurtado"
+      ],
+      "campos_laborales": [
+        "Investigación",
+        "Consultoría",
+        "ONG",
+        "Políticas públicas",
+        "Academia"
+      ],
+      "perfil_ideal": "Pensamiento crítico, capacidad analítica, interés por problemáticas sociales y escritura académica.",
+      "mineduc_data": {
+        "matricula_actual": 2439,
+        "instituciones_count": 17,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD ALBERTO HURTADO",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD DIEGO PORTALES",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD DE VALPARAISO",
+          "UNIVERSIDAD ACADEMIA DE HUMANISMO CRISTIANO",
+          "UNIVERSIDAD ARTURO PRAT",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD DE PLAYA ANCHA DE CIENCIAS DE LA EDUCACION",
+          "UNIVERSIDAD CATOLICA DEL MAULE",
+          "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+          "UNIVERSIDAD MAYOR",
+          "UNIVERSIDAD DE VIÑA DEL MAR"
+        ],
+        "regiones_disponibles": [
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 535,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+            "matricula": 385,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 272,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DIEGO PORTALES",
+            "matricula": 249,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE VALPARAISO",
+            "matricula": 202,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ALBERTO HURTADO",
+            "matricula": 173,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CENTRAL DE CHILE",
+            "matricula": 128,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LA FRONTERA",
+            "matricula": 97,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DEL MAULE",
+            "matricula": 79,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE PLAYA ANCHA DE CIENCIAS DE LA EDUCACION",
+            "matricula": 77,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.854Z"
+      }
+    },
+    {
+      "id": 19,
+      "nombre": "Agronomía",
+      "codigo_holland": "RIS",
+      "dimension_principal": "R",
+      "area": "Ciencias Agropecuarias",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 1200000,
+      "descripcion": "Optimiza la producción agrícola, gestiona recursos naturales y desarrolla tecnologías para el campo.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad de Talca",
+        "Universidad Austral"
+      ],
+      "campos_laborales": [
+        "Producción agrícola",
+        "Asesoría técnica",
+        "Investigación",
+        "Exportación",
+        "Agroindustria"
+      ],
+      "perfil_ideal": "Conexión con la naturaleza, pensamiento científico, capacidad de adaptación y trabajo al aire libre.",
+      "mineduc_data": {
+        "matricula_actual": 4761,
+        "instituciones_count": 18,
+        "instituciones_ofrecen": [
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD AUSTRAL DE CHILE",
+          "UNIVERSIDAD SANTO TOMAS",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD DE MAGALLANES",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD MAYOR",
+          "UNIVERSIDAD DE TALCA",
+          "UNIVERSIDAD CATOLICA DEL MAULE",
+          "UNIVERSIDAD DE AYSEN",
+          "UNIVERSIDAD ADVENTISTA DE CHILE",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD DE LOS LAGOS",
+          "UNIVERSIDAD DE TARAPACA",
+          "UNIVERSIDAD ARTURO PRAT"
+        ],
+        "regiones_disponibles": [
+          "Arica y Parinacota",
+          "Aysén",
+          "Biobío",
+          "La Araucanía",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 859,
+            "region": "Ñuble",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD MAYOR",
+            "matricula": 557,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUSTRAL DE CHILE",
+            "matricula": 530,
+            "region": "Los Ríos",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE TALCA",
+            "matricula": 453,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+            "matricula": 364,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DE TEMUCO",
+            "matricula": 330,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DEL MAULE",
+            "matricula": 299,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LA FRONTERA",
+            "matricula": 264,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE TARAPACA",
+            "matricula": 244,
+            "region": "Arica y Parinacota",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LAS AMERICAS",
+            "matricula": 169,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.869Z"
+      }
+    },
+    {
+      "id": 20,
+      "nombre": "Publicidad",
+      "codigo_holland": "AES",
+      "dimension_principal": "A",
+      "area": "Comunicación",
+      "duracion_anos": 4,
+      "nivel_matematicas": "Bajo",
+      "empleabilidad": "Media",
+      "salario_promedio_chile_clp": 950000,
+      "descripcion": "Crea campañas para promover productos, servicios o ideas mediante estrategias creativas.",
+      "universidades_destacadas": [
+        "Universidad Diego Portales",
+        "Universidad del Desarrollo",
+        "Universidad de los Andes",
+        "UNIACC"
+      ],
+      "campos_laborales": [
+        "Agencias publicitarias",
+        "Departamentos de marketing",
+        "Medios digitales",
+        "Freelance",
+        "Branding"
+      ],
+      "perfil_ideal": "Creatividad, pensamiento estratégico, capacidad de persuasión y adaptabilidad a tendencias.",
+      "mineduc_data": {
+        "matricula_actual": 4235,
+        "instituciones_count": 14,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "UNIVERSIDAD DIEGO PORTALES",
+          "IP DUOC UC",
+          "UNIVERSIDAD DEL DESARROLLO",
+          "IP SANTO TOMAS",
+          "UNIVERSIDAD DE ARTES, CIENCIAS Y COMUNICACION - UNIACC",
+          "UNIVERSIDAD FINIS TERRAE",
+          "UNIVERSIDAD DE SANTIAGO DE CHILE",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD DE LOS ANDES",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD GABRIELA MISTRAL",
+          "UNIVERSIDAD DE LAS AMERICAS"
+        ],
+        "regiones_disponibles": [
+          "Biobío",
+          "Metropolitana",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "IP DUOC UC",
+            "matricula": 1481,
+            "region": "Valparaíso",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL DESARROLLO",
+            "matricula": 544,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DIEGO PORTALES",
+            "matricula": 500,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD FINIS TERRAE",
+            "matricula": 452,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE SANTIAGO DE CHILE",
+            "matricula": 291,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 208,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LOS ANDES",
+            "matricula": 163,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "IP SANTO TOMAS",
+            "matricula": 148,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD CENTRAL DE CHILE",
+            "matricula": 147,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE ARTES, CIENCIAS Y COMUNICACION - UNIACC",
+            "matricula": 102,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.886Z"
+      }
+    },
+    {
+      "id": 21,
+      "nombre": "Bioquímica",
+      "codigo_holland": "IRE",
+      "dimension_principal": "I",
+      "area": "Ciencias",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Alto",
+      "empleabilidad": "Media",
+      "salario_promedio_chile_clp": 1300000,
+      "descripcion": "Estudia procesos químicos en organismos vivos, investiga enfermedades y desarrolla diagnósticos.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad de Concepción",
+        "Universidad Austral"
+      ],
+      "campos_laborales": [
+        "Laboratorios clínicos",
+        "Investigación",
+        "Industria farmacéutica",
+        "Control de calidad",
+        "Docencia"
+      ],
+      "perfil_ideal": "Rigor científico, curiosidad investigativa, habilidades de laboratorio y pensamiento analítico.",
+      "mineduc_data": {
+        "matricula_actual": 2690,
+        "instituciones_count": 11,
+        "instituciones_ofrecen": [
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD DE ANTOFAGASTA",
+          "UNIVERSIDAD DE TALCA",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD AUSTRAL DE CHILE",
+          "UNIVERSIDAD DE VIÑA DEL MAR"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Biobío",
+          "La Araucanía",
+          "Los Ríos",
+          "Maule",
+          "Metropolitana",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 395,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 362,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+            "matricula": 357,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+            "matricula": 299,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 285,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUSTRAL DE CHILE",
+            "matricula": 250,
+            "region": "Los Ríos",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 240,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE TALCA",
+            "matricula": 192,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LA FRONTERA",
+            "matricula": 152,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE ANTOFAGASTA",
+            "matricula": 140,
+            "region": "Antofagasta",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.903Z"
+      }
+    },
+    {
+      "id": 22,
+      "nombre": "Odontología",
+      "codigo_holland": "ISR",
+      "dimension_principal": "I",
+      "area": "Salud",
+      "duracion_anos": 6,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 1800000,
+      "descripcion": "Previene, diagnostica y trata enfermedades bucodentales. Realiza procedimientos estéticos y restauradores.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad de los Andes",
+        "Universidad del Desarrollo"
+      ],
+      "campos_laborales": [
+        "Consulta privada",
+        "Clínicas",
+        "Especialidades",
+        "Salud pública",
+        "Docencia"
+      ],
+      "perfil_ideal": "Habilidades manuales finas, empatía con pacientes, precisión y vocación de servicio.",
+      "mineduc_data": {
+        "matricula_actual": 14781,
+        "instituciones_count": 21,
+        "instituciones_ofrecen": [
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD DE VALPARAISO",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD DEL DESARROLLO",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD DE TALCA",
+          "UNIVERSIDAD DIEGO PORTALES",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD DE LOS ANDES",
+          "UNIVERSIDAD DE LA SERENA",
+          "UNIVERSIDAD ARTURO PRAT",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD MAYOR",
+          "UNIVERSIDAD DE ANTOFAGASTA",
+          "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD AUSTRAL DE CHILE",
+          "UNIVERSIDAD FINIS TERRAE"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Los Lagos",
+          "Los Ríos",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 3106,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 2354,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL DESARROLLO",
+            "matricula": 1297,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 877,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD MAYOR",
+            "matricula": 828,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 666,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LOS ANDES",
+            "matricula": 513,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LA FRONTERA",
+            "matricula": 507,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE VIÑA DEL MAR",
+            "matricula": 501,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 472,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.922Z"
+      }
+    },
+    {
+      "id": 23,
+      "nombre": "Nutrición y Dietética",
+      "codigo_holland": "SIC",
+      "dimension_principal": "S",
+      "area": "Salud",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 900000,
+      "descripcion": "Promueve la salud mediante la alimentación, diseña planes nutricionales y educa sobre hábitos saludables.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad del Desarrollo",
+        "Universidad Finis Terrae"
+      ],
+      "campos_laborales": [
+        "Hospitales",
+        "Consulta privada",
+        "Deporte",
+        "Servicios de alimentación",
+        "Industria alimentaria"
+      ],
+      "perfil_ideal": "Interés por la salud, empatía, capacidad educativa y actualización constante.",
+      "mineduc_data": {
+        "matricula_actual": 14136,
+        "instituciones_count": 37,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "UNIVERSIDAD DE VALPARAISO",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "IP DE CHILE",
+          "UNIVERSIDAD SANTO TOMAS",
+          "UNIVERSIDAD FINIS TERRAE",
+          "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+          "UNIVERSIDAD DE TALCA",
+          "UNIVERSIDAD CATOLICA DEL NORTE",
+          "UNIVERSIDAD ADVENTISTA DE CHILE",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD SEK",
+          "UNIVERSIDAD DE PLAYA ANCHA DE CIENCIAS DE LA EDUCACION",
+          "UNIVERSIDAD DE ANTOFAGASTA",
+          "UNIVERSIDAD BERNARDO O'HIGGINS",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD DE LOS LAGOS",
+          "UNIVERSIDAD DE LA FRONTERA"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Atacama",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD SANTO TOMAS",
+            "matricula": 1629,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 1252,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 1092,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LAS AMERICAS",
+            "matricula": 928,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 878,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "IP DE CHILE",
+            "matricula": 547,
+            "region": "Coquimbo",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD MAYOR",
+            "matricula": 533,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE TARAPACA",
+            "matricula": 444,
+            "region": "Arica y Parinacota",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CENTRAL DE CHILE",
+            "matricula": 386,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+            "matricula": 369,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.957Z"
+      }
+    },
+    {
+      "id": 24,
+      "nombre": "Ingeniería en Minas",
+      "codigo_holland": "RIE",
+      "dimension_principal": "R",
+      "area": "Ingeniería",
+      "duracion_anos": 6,
+      "nivel_matematicas": "Muy Alto",
+      "empleabilidad": "Muy Alta",
+      "salario_promedio_chile_clp": 2200000,
+      "descripcion": "Planifica y gestiona la extracción de minerales de forma eficiente, segura y sustentable.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "UTFSM",
+        "Universidad de Santiago",
+        "Universidad de Atacama"
+      ],
+      "campos_laborales": [
+        "Minería",
+        "Consultoría",
+        "Geología",
+        "Sustentabilidad",
+        "Gerencia de operaciones"
+      ],
+      "perfil_ideal": "Capacidad analítica, liderazgo, disposición para trabajar en terreno y visión de sustentabilidad.",
+      "mineduc_data": {
+        "matricula_actual": 8839,
+        "instituciones_count": 15,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD DE ATACAMA",
+          "UNIVERSIDAD ANDRES BELLO",
+          "IP IACC",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "IP INACAP",
+          "IP DE CHILE",
+          "IP AIEP",
+          "UNIVERSIDAD DE ANTOFAGASTA",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "UNIVERSIDAD DEL ALBA",
+          "UNIVERSIDAD MAYOR",
+          "UNIVERSIDAD SANTO TOMAS",
+          "UNIVERSIDAD DE SANTIAGO DE CHILE",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD DE LAS AMERICAS"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Atacama",
+          "Biobío",
+          "Coquimbo",
+          "Lib. Gral. B. O'Higgins",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "IP INACAP",
+            "matricula": 2022,
+            "region": "Antofagasta",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP IACC",
+            "matricula": 1686,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP AIEP",
+            "matricula": 1420,
+            "region": "Coquimbo",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 666,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "IP DE CHILE",
+            "matricula": 630,
+            "region": "Coquimbo",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE ATACAMA",
+            "matricula": 458,
+            "region": "Atacama",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 455,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE SANTIAGO DE CHILE",
+            "matricula": 429,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CENTRAL DE CHILE",
+            "matricula": 368,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE ANTOFAGASTA",
+            "matricula": 216,
+            "region": "Antofagasta",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:17.993Z"
+      }
+    },
+    {
+      "id": 25,
+      "nombre": "Fonoaudiología",
+      "codigo_holland": "SIA",
+      "dimension_principal": "S",
+      "area": "Salud",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Bajo",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 950000,
+      "descripcion": "Previene, evalúa y trata trastornos de comunicación, habla, voz, audición y deglución.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad de Talca",
+        "Universidad del Desarrollo"
+      ],
+      "campos_laborales": [
+        "Hospitales",
+        "Consulta privada",
+        "Colegios",
+        "Centros de rehabilitación",
+        "Empresas"
+      ],
+      "perfil_ideal": "Paciencia, empatía, capacidad de escucha y habilidades comunicativas.",
+      "mineduc_data": {
+        "matricula_actual": 8111,
+        "instituciones_count": 29,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD DEL BIO-BIO",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "UNIVERSIDAD DE ANTOFAGASTA",
+          "UNIVERSIDAD DE VALPARAISO",
+          "UNIVERSIDAD DE PLAYA ANCHA DE CIENCIAS DE LA EDUCACION",
+          "UNIVERSIDAD SANTO TOMAS",
+          "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "UNIVERSIDAD BERNARDO O'HIGGINS",
+          "UNIVERSIDAD MAYOR",
+          "UNIVERSIDAD DE LOS LAGOS",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD DE TALCA",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD ARTURO PRAT",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "IP DE CHILE"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Magallanes",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 1045,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 643,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "IP DE CHILE",
+            "matricula": 640,
+            "region": "La Araucanía",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD SANTO TOMAS",
+            "matricula": 544,
+            "region": "Tarapacá",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 537,
+            "region": "Los Lagos",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LAS AMERICAS",
+            "matricula": 498,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE VALPARAISO",
+            "matricula": 439,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD MAYOR",
+            "matricula": 389,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+            "matricula": 323,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL BIO-BIO",
+            "matricula": 283,
+            "region": "Ñuble",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:18.019Z"
+      }
+    },
+    {
+      "id": 26,
+      "nombre": "Geología",
+      "codigo_holland": "IRE",
+      "dimension_principal": "I",
+      "area": "Ciencias de la Tierra",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Alto",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 1600000,
+      "descripcion": "Estudia la estructura, composición y evolución de la Tierra. Trabaja en exploración y recursos naturales.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "Universidad Católica del Norte",
+        "Universidad de Concepción",
+        "UTFSM"
+      ],
+      "campos_laborales": [
+        "Minería",
+        "Exploración",
+        "Hidrogeología",
+        "Riesgos naturales",
+        "Consultoría ambiental"
+      ],
+      "perfil_ideal": "Curiosidad científica, disposición para trabajo en terreno, capacidad analítica y observación.",
+      "mineduc_data": {
+        "matricula_actual": 4023,
+        "instituciones_count": 14,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD CATOLICA DEL MAULE",
+          "UNIVERSIDAD DE ATACAMA",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD CATOLICA DEL NORTE",
+          "UNIVERSIDAD DEL DESARROLLO",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD AUSTRAL DE CHILE",
+          "UNIVERSIDAD SANTO TOMAS",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "UNIVERSIDAD MAYOR",
+          "UNIVERSIDAD DEL ALBA",
+          "UNIVERSIDAD SAN SEBASTIAN"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Atacama",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Los Ríos",
+          "Maule",
+          "Metropolitana",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 872,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE ATACAMA",
+            "matricula": 446,
+            "region": "Atacama",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DEL NORTE",
+            "matricula": 378,
+            "region": "Antofagasta",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD MAYOR",
+            "matricula": 323,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DE TEMUCO",
+            "matricula": 299,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUSTRAL DE CHILE",
+            "matricula": 298,
+            "region": "Los Ríos",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DEL MAULE",
+            "matricula": 255,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 251,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL DESARROLLO",
+            "matricula": 218,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SANTO TOMAS",
+            "matricula": 212,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:18.034Z"
+      }
+    },
+    {
+      "id": 27,
+      "nombre": "Pedagogía en Educación Física",
+      "codigo_holland": "SRE",
+      "dimension_principal": "S",
+      "area": "Educación",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Bajo",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 800000,
+      "descripcion": "Enseña actividad física, promueve hábitos saludables y desarrolla habilidades motrices en estudiantes.",
+      "universidades_destacadas": [
+        "UMCE",
+        "USACH",
+        "Universidad de Playa Ancha",
+        "Universidad Católica Silva Henríquez"
+      ],
+      "campos_laborales": [
+        "Colegios",
+        "Centros deportivos",
+        "Entrenamiento deportivo",
+        "Recreación",
+        "Salud preventiva"
+      ],
+      "perfil_ideal": "Pasión por el deporte, capacidad didáctica, energía y vocación por enseñar.",
+      "mineduc_data": {
+        "matricula_actual": 4628,
+        "instituciones_count": 19,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD DE SANTIAGO DE CHILE",
+          "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+          "UNIVERSIDAD DE ANTOFAGASTA",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD CATOLICA DEL MAULE",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "UNIVERSIDAD DEL BIO-BIO",
+          "UNIVERSIDAD CENTRAL DE CHILE",
+          "UNIVERSIDAD DE LAS AMERICAS",
+          "UNIVERSIDAD ADVENTISTA DE CHILE",
+          "UNIVERSIDAD SANTO TOMAS",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD ARTURO PRAT"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "Semipresencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 569,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 446,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA CARDENAL RAUL SILVA HENRIQUEZ",
+            "matricula": 374,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+            "matricula": 372,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DEL MAULE",
+            "matricula": 358,
+            "region": "Maule",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CENTRAL DE CHILE",
+            "matricula": 320,
+            "region": "Coquimbo",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 317,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+            "matricula": 293,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD SANTO TOMAS",
+            "matricula": 270,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL BIO-BIO",
+            "matricula": 261,
+            "region": "Ñuble",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:18.084Z"
+      }
+    },
+    {
+      "id": 28,
+      "nombre": "Diseño Industrial",
+      "codigo_holland": "AIR",
+      "dimension_principal": "A",
+      "area": "Arte y Diseño",
+      "duracion_anos": 5,
+      "nivel_matematicas": "Medio",
+      "empleabilidad": "Media",
+      "salario_promedio_chile_clp": 1000000,
+      "descripcion": "Diseña productos funcionales y estéticos que mejoran la vida cotidiana de las personas.",
+      "universidades_destacadas": [
+        "PUC",
+        "Universidad del Bío-Bío",
+        "Universidad Diego Portales",
+        "Universidad del Desarrollo"
+      ],
+      "campos_laborales": [
+        "Empresas de diseño",
+        "Industria manufacturera",
+        "Emprendimiento",
+        "Consultoría",
+        "Innovación"
+      ],
+      "perfil_ideal": "Creatividad aplicada, visión espacial, capacidad técnica y orientación al usuario.",
+      "mineduc_data": {
+        "matricula_actual": 1295,
+        "instituciones_count": 6,
+        "instituciones_ofrecen": [
+          "IP DUOC UC",
+          "UNIVERSIDAD DEL BIO-BIO",
+          "UNIVERSIDAD TECNOLOGICA METROPOLITANA",
+          "UNIVERSIDAD DE SANTIAGO DE CHILE",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO"
+        ],
+        "regiones_disponibles": [
+          "Biobío",
+          "La Araucanía",
+          "Metropolitana",
+          "Valparaíso"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "IP DUOC UC",
+            "matricula": 710,
+            "region": "Valparaíso",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL BIO-BIO",
+            "matricula": 221,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE SANTIAGO DE CHILE",
+            "matricula": 176,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD TECNOLOGICA METROPOLITANA",
+            "matricula": 175,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DE TEMUCO",
+            "matricula": 9,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+            "matricula": 4,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:18.113Z"
+      }
+    },
+    {
+      "id": 29,
+      "nombre": "Química y Farmacia",
+      "codigo_holland": "IRC",
+      "dimension_principal": "I",
+      "area": "Salud",
+      "duracion_anos": 6,
+      "nivel_matematicas": "Alto",
+      "empleabilidad": "Alta",
+      "salario_promedio_chile_clp": 1200000,
+      "descripcion": "Desarrolla, produce y dispensa medicamentos. Asesora sobre uso correcto de fármacos.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "Universidad de Concepción",
+        "Universidad de Valparaíso"
+      ],
+      "campos_laborales": [
+        "Farmacias",
+        "Industria farmacéutica",
+        "Hospitales",
+        "Investigación",
+        "Control de calidad"
+      ],
+      "perfil_ideal": "Rigor científico, precisión, responsabilidad y vocación de servicio en salud.",
+      "mineduc_data": {
+        "matricula_actual": 11842,
+        "instituciones_count": 22,
+        "instituciones_ofrecen": [
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD CATOLICA DEL MAULE",
+          "UNIVERSIDAD DE LOS LAGOS",
+          "UNIVERSIDAD CATOLICA DEL NORTE",
+          "UNIVERSIDAD SAN SEBASTIAN",
+          "UNIVERSIDAD AUSTRAL DE CHILE",
+          "UNIVERSIDAD DE VALPARAISO",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD AUTONOMA DE CHILE",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+          "UNIVERSIDAD DE SANTIAGO DE CHILE",
+          "UNIVERSIDAD DE CONCEPCION",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD BERNARDO O'HIGGINS",
+          "UNIVERSIDAD DE VIÑA DEL MAR",
+          "UNIVERSIDAD ADVENTISTA DE CHILE",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD ARTURO PRAT",
+          "UNIVERSIDAD DEL DESARROLLO",
+          "UNIVERSIDAD DE ANTOFAGASTA"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Biobío",
+          "La Araucanía",
+          "Los Lagos",
+          "Los Ríos",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "UNIVERSIDAD SAN SEBASTIAN",
+            "matricula": 2193,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD ANDRES BELLO",
+            "matricula": 1985,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUTONOMA DE CHILE",
+            "matricula": 1288,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 1111,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 630,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE CHILE",
+            "matricula": 598,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD AUSTRAL DE CHILE",
+            "matricula": 541,
+            "region": "Los Ríos",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE VALPARAISO",
+            "matricula": 473,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE SANTIAGO DE CHILE",
+            "matricula": 442,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD CATOLICA DEL MAULE",
+            "matricula": 405,
+            "region": "Maule",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:18.142Z"
+      }
+    },
+    {
+      "id": 30,
+      "nombre": "Ingeniería Eléctrica",
+      "codigo_holland": "RIC",
+      "dimension_principal": "R",
+      "area": "Ingeniería",
+      "duracion_anos": 6,
+      "nivel_matematicas": "Muy Alto",
+      "empleabilidad": "Muy Alta",
+      "salario_promedio_chile_clp": 1900000,
+      "descripcion": "Diseña sistemas eléctricos, automatización y energías renovables para la industria y sociedad.",
+      "universidades_destacadas": [
+        "Universidad de Chile",
+        "PUC",
+        "UTFSM",
+        "Universidad de Concepción"
+      ],
+      "campos_laborales": [
+        "Generación eléctrica",
+        "Automatización",
+        "Energías renovables",
+        "Telecomunicaciones",
+        "Industria"
+      ],
+      "perfil_ideal": "Habilidades matemáticas, pensamiento lógico, capacidad de resolución de problemas técnicos.",
+      "mineduc_data": {
+        "matricula_actual": 10884,
+        "instituciones_count": 18,
+        "instituciones_ofrecen": [
+          "IP INACAP",
+          "UNIVERSIDAD DE TARAPACA",
+          "UNIVERSIDAD DE CONCEPCION",
+          "IP LATINOAMERICANO DE COMERCIO EXTERIOR - IPLACEX",
+          "UNIVERSIDAD DE LOS ANDES",
+          "UNIVERSIDAD DEL BIO-BIO",
+          "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+          "UNIVERSIDAD DE LOS LAGOS",
+          "UNIVERSIDAD CATOLICA DE TEMUCO",
+          "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+          "UNIVERSIDAD CATOLICA DE LA SANTISIMA CONCEPCION",
+          "UNIVERSIDAD DE CHILE",
+          "UNIVERSIDAD DE TALCA",
+          "UNIVERSIDAD DE ANTOFAGASTA",
+          "UNIVERSIDAD DE LA FRONTERA",
+          "UNIVERSIDAD ANDRES BELLO",
+          "UNIVERSIDAD DE O'HIGGINS",
+          "UNIVERSIDAD TECNOLOGICA DE CHILE INACAP"
+        ],
+        "regiones_disponibles": [
+          "Antofagasta",
+          "Arica y Parinacota",
+          "Biobío",
+          "Coquimbo",
+          "La Araucanía",
+          "Lib. Gral. B. O'Higgins",
+          "Los Lagos",
+          "Los Ríos",
+          "Maule",
+          "Metropolitana",
+          "Tarapacá",
+          "Valparaíso",
+          "Ñuble"
+        ],
+        "modalidades": [
+          "Presencial",
+          "No Presencial"
+        ],
+        "top_instituciones": [
+          {
+            "institucion": "IP INACAP",
+            "matricula": 4361,
+            "region": "Los Lagos",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "IP LATINOAMERICANO DE COMERCIO EXTERIOR - IPLACEX",
+            "matricula": 1803,
+            "region": "Metropolitana",
+            "tipo": "Institutos Profesionales"
+          },
+          {
+            "institucion": "UNIVERSIDAD TECNICA FEDERICO SANTA MARIA",
+            "matricula": 848,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "PONTIFICIA UNIVERSIDAD CATOLICA DE VALPARAISO",
+            "matricula": 596,
+            "region": "Valparaíso",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CHILE",
+            "matricula": 475,
+            "region": "Metropolitana",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DEL BIO-BIO",
+            "matricula": 387,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE CONCEPCION",
+            "matricula": 382,
+            "region": "Biobío",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE TARAPACA",
+            "matricula": 353,
+            "region": "Arica y Parinacota",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE LA FRONTERA",
+            "matricula": 317,
+            "region": "La Araucanía",
+            "tipo": "Universidades"
+          },
+          {
+            "institucion": "UNIVERSIDAD DE ANTOFAGASTA",
+            "matricula": 267,
+            "region": "Antofagasta",
+            "tipo": "Universidades"
+          }
+        ],
+        "titulados_ultimo_ano": null,
+        "tasa_titulacion": null,
+        "duracion_real_anos": null,
+        "match_score_matricula": 1,
+        "match_score_titulados": null,
+        "fuente": "MINEDUC Datos Abiertos",
+        "fecha_actualizacion": "2026-01-06T02:32:18.177Z"
+      }
+    }
+  ]
+}

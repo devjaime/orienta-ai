@@ -1,0 +1,3766 @@
+{
+  "version": "2.0",
+  "generado": "2026-01-06T02:49:06.525Z",
+  "año_base": 2025,
+  "año_objetivo": 2030,
+  "años_proyectados": 5,
+  "parametros": {
+    "inflacion_anual": "3%",
+    "crecimiento_base_salarios": "2%"
+  },
+  "total_carreras": 30,
+  "proyecciones": {
+    "Ingeniería Civil en Informática": {
+      "nombre": "Ingeniería Civil en Informática",
+      "codigo_holland": "IRC",
+      "sector": "tecnología",
+      "datos_base_2025": {
+        "matricula": 30086,
+        "salario_promedio": 1800000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 73
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 33389,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 31519,
+          "intervalo_maximo": 35259
+        },
+        "2027": {
+          "matricula_proyectada": 37047,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 34750,
+          "intervalo_maximo": 39344
+        },
+        "2028": {
+          "matricula_proyectada": 41098,
+          "crecimiento_anual": "10.9%",
+          "intervalo_minimo": 38303,
+          "intervalo_maximo": 43892
+        },
+        "2029": {
+          "matricula_proyectada": 45582,
+          "crecimiento_anual": "10.9%",
+          "intervalo_minimo": 42209,
+          "intervalo_maximo": 48955
+        },
+        "2030": {
+          "matricula_proyectada": 50546,
+          "crecimiento_anual": "10.9%",
+          "intervalo_minimo": 46502,
+          "intervalo_maximo": 54590
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1990800,
+          "crecimiento_real": "7.6%"
+        },
+        "2027": {
+          "salario_proyectado": 2201825,
+          "crecimiento_real": "7.6%"
+        },
+        "2028": {
+          "salario_proyectado": 2435218,
+          "crecimiento_real": "7.6%"
+        },
+        "2029": {
+          "salario_proyectado": 2693351,
+          "crecimiento_real": "7.6%"
+        },
+        "2030": {
+          "salario_proyectado": 2978847,
+          "crecimiento_real": "7.6%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 4296,
+          "empleados_estimados": 3652,
+          "desempleados_estimados": 644,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 4381,
+          "empleados_estimados": 3724,
+          "desempleados_estimados": 657,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 4465,
+          "empleados_estimados": 3795,
+          "desempleados_estimados": 670,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 4549,
+          "empleados_estimados": 3867,
+          "desempleados_estimados": 682,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 4633,
+          "empleados_estimados": 3938,
+          "desempleados_estimados": 695,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 30086,
+        "matricula_proyectada_2030": 50546,
+        "crecimiento_total": "68.0%",
+        "umbral_saturacion": 100000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "68.0%",
+        "crecimiento_salario_real_total": "50.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "precaución",
+        "emoji": "⚠️",
+        "mensaje": "Mercado saturado. Es crucial diferenciarse para destacar.",
+        "acciones": [
+          "Enfocarse en especializaciones de nicho",
+          "Obtener experiencia práctica durante la carrera",
+          "Considerar postgrados o certificaciones internacionales",
+          "Desarrollar habilidades complementarias (idiomas, tecnología)"
+        ]
+      }
+    },
+    "Medicina": {
+      "nombre": "Medicina",
+      "codigo_holland": "ISR",
+      "sector": "salud",
+      "datos_base_2025": {
+        "matricula": 21131,
+        "salario_promedio": 2500000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 76
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 22821,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 21543,
+          "intervalo_maximo": 24099
+        },
+        "2027": {
+          "matricula_proyectada": 24647,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 23119,
+          "intervalo_maximo": 26175
+        },
+        "2028": {
+          "matricula_proyectada": 26619,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 24809,
+          "intervalo_maximo": 28429
+        },
+        "2029": {
+          "matricula_proyectada": 28748,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 26621,
+          "intervalo_maximo": 30876
+        },
+        "2030": {
+          "matricula_proyectada": 31048,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 28565,
+          "intervalo_maximo": 33532
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 2750000,
+          "crecimiento_real": "7.0%"
+        },
+        "2027": {
+          "salario_proyectado": 3025000,
+          "crecimiento_real": "7.0%"
+        },
+        "2028": {
+          "salario_proyectado": 3327500,
+          "crecimiento_real": "7.0%"
+        },
+        "2029": {
+          "salario_proyectado": 3660250,
+          "crecimiento_real": "7.0%"
+        },
+        "2030": {
+          "salario_proyectado": 4026275,
+          "crecimiento_real": "7.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 3018,
+          "empleados_estimados": 2565,
+          "desempleados_estimados": 453,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 3077,
+          "empleados_estimados": 2615,
+          "desempleados_estimados": 462,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 3136,
+          "empleados_estimados": 2666,
+          "desempleados_estimados": 470,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 3195,
+          "empleados_estimados": 2716,
+          "desempleados_estimados": 479,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 3254,
+          "empleados_estimados": 2766,
+          "desempleados_estimados": 488,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 21131,
+        "matricula_proyectada_2030": 31048,
+        "crecimiento_total": "46.9%",
+        "umbral_saturacion": 80000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "46.9%",
+        "crecimiento_salario_real_total": "46.1%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Psicología": {
+      "nombre": "Psicología",
+      "codigo_holland": "SIA",
+      "sector": "ciencias_sociales",
+      "datos_base_2025": {
+        "matricula": 54890,
+        "salario_promedio": 900000,
+        "instituciones": null,
+        "empleabilidad": "media",
+        "oportunidad_index": 39
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 52162,
+          "crecimiento_anual": "-5.0%",
+          "intervalo_minimo": 49241,
+          "intervalo_maximo": 55083
+        },
+        "2027": {
+          "matricula_proyectada": 49585,
+          "crecimiento_anual": "-4.9%",
+          "intervalo_minimo": 46511,
+          "intervalo_maximo": 52659
+        },
+        "2028": {
+          "matricula_proyectada": 47151,
+          "crecimiento_anual": "-4.9%",
+          "intervalo_minimo": 43944,
+          "intervalo_maximo": 50357
+        },
+        "2029": {
+          "matricula_proyectada": 44850,
+          "crecimiento_anual": "-4.9%",
+          "intervalo_minimo": 41531,
+          "intervalo_maximo": 48168
+        },
+        "2030": {
+          "matricula_proyectada": 42674,
+          "crecimiento_anual": "-4.9%",
+          "intervalo_minimo": 39260,
+          "intervalo_maximo": 46088
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 921600,
+          "crecimiento_real": "-0.6%"
+        },
+        "2027": {
+          "salario_proyectado": 943718,
+          "crecimiento_real": "-0.6%"
+        },
+        "2028": {
+          "salario_proyectado": 966368,
+          "crecimiento_real": "-0.6%"
+        },
+        "2029": {
+          "salario_proyectado": 989560,
+          "crecimiento_real": "-0.6%"
+        },
+        "2030": {
+          "salario_proyectado": 1013310,
+          "crecimiento_real": "-0.6%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 7838,
+          "empleados_estimados": 3919,
+          "desempleados_estimados": 3919,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2027": {
+          "egresados_estimados": 7992,
+          "empleados_estimados": 3996,
+          "desempleados_estimados": 3996,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2028": {
+          "egresados_estimados": 8146,
+          "empleados_estimados": 4073,
+          "desempleados_estimados": 4073,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2029": {
+          "egresados_estimados": 8299,
+          "empleados_estimados": 4150,
+          "desempleados_estimados": 4149,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2030": {
+          "egresados_estimados": 8453,
+          "empleados_estimados": 4227,
+          "desempleados_estimados": 4226,
+          "tasa_empleabilidad": "50.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "alta",
+        "matricula_actual": 54890,
+        "matricula_proyectada_2030": 42674,
+        "crecimiento_total": "-22.3%",
+        "umbral_saturacion": 40000,
+        "alerta": "Saturación moderada proyectada. Importante destacar con postgrados o certificaciones."
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "-22.3%",
+        "crecimiento_salario_real_total": "-2.4%",
+        "tendencia": "decreciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "precaución",
+        "emoji": "⚠️",
+        "mensaje": "Mercado saturado. Es crucial diferenciarse para destacar.",
+        "acciones": [
+          "Enfocarse en especializaciones de nicho",
+          "Obtener experiencia práctica durante la carrera",
+          "Considerar postgrados o certificaciones internacionales",
+          "Desarrollar habilidades complementarias (idiomas, tecnología)"
+        ]
+      }
+    },
+    "Arquitectura": {
+      "nombre": "Arquitectura",
+      "codigo_holland": "AIR",
+      "sector": "artes_diseño",
+      "datos_base_2025": {
+        "matricula": 17703,
+        "salario_promedio": 1200000,
+        "instituciones": null,
+        "empleabilidad": "media",
+        "oportunidad_index": 59
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 18588,
+          "crecimiento_anual": "5.0%",
+          "intervalo_minimo": 17547,
+          "intervalo_maximo": 19629
+        },
+        "2027": {
+          "matricula_proyectada": 19518,
+          "crecimiento_anual": "5.0%",
+          "intervalo_minimo": 18307,
+          "intervalo_maximo": 20728
+        },
+        "2028": {
+          "matricula_proyectada": 20493,
+          "crecimiento_anual": "5.0%",
+          "intervalo_minimo": 19100,
+          "intervalo_maximo": 21887
+        },
+        "2029": {
+          "matricula_proyectada": 21518,
+          "crecimiento_anual": "5.0%",
+          "intervalo_minimo": 19926,
+          "intervalo_maximo": 23110
+        },
+        "2030": {
+          "matricula_proyectada": 22594,
+          "crecimiento_anual": "5.0%",
+          "intervalo_minimo": 20786,
+          "intervalo_maximo": 24402
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1288800,
+          "crecimiento_real": "4.4%"
+        },
+        "2027": {
+          "salario_proyectado": 1384171,
+          "crecimiento_real": "4.4%"
+        },
+        "2028": {
+          "salario_proyectado": 1486600,
+          "crecimiento_real": "4.4%"
+        },
+        "2029": {
+          "salario_proyectado": 1596608,
+          "crecimiento_real": "4.4%"
+        },
+        "2030": {
+          "salario_proyectado": 1714757,
+          "crecimiento_real": "4.4%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 2528,
+          "empleados_estimados": 1264,
+          "desempleados_estimados": 1264,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2027": {
+          "egresados_estimados": 2578,
+          "empleados_estimados": 1289,
+          "desempleados_estimados": 1289,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2028": {
+          "egresados_estimados": 2627,
+          "empleados_estimados": 1314,
+          "desempleados_estimados": 1313,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2029": {
+          "egresados_estimados": 2677,
+          "empleados_estimados": 1339,
+          "desempleados_estimados": 1338,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2030": {
+          "egresados_estimados": 2726,
+          "empleados_estimados": 1363,
+          "desempleados_estimados": 1363,
+          "tasa_empleabilidad": "50.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 17703,
+        "matricula_proyectada_2030": 22594,
+        "crecimiento_total": "27.6%",
+        "umbral_saturacion": 40000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "27.6%",
+        "crecimiento_salario_real_total": "27.9%",
+        "tendencia": "estable",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Administración de Empresas": {
+      "nombre": "Administración de Empresas",
+      "codigo_holland": "ECS",
+      "sector": "negocios",
+      "datos_base_2025": {
+        "matricula": 6206,
+        "salario_promedio": 1100000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 81
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 6640,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 6269,
+          "intervalo_maximo": 7012
+        },
+        "2027": {
+          "matricula_proyectada": 7105,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 6665,
+          "intervalo_maximo": 7546
+        },
+        "2028": {
+          "matricula_proyectada": 7603,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 7086,
+          "intervalo_maximo": 8120
+        },
+        "2029": {
+          "matricula_proyectada": 8135,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 7533,
+          "intervalo_maximo": 8737
+        },
+        "2030": {
+          "matricula_proyectada": 8704,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 8008,
+          "intervalo_maximo": 9401
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1212200,
+          "crecimiento_real": "7.2%"
+        },
+        "2027": {
+          "salario_proyectado": 1335844,
+          "crecimiento_real": "7.2%"
+        },
+        "2028": {
+          "salario_proyectado": 1472101,
+          "crecimiento_real": "7.2%"
+        },
+        "2029": {
+          "salario_proyectado": 1622255,
+          "crecimiento_real": "7.2%"
+        },
+        "2030": {
+          "salario_proyectado": 1787725,
+          "crecimiento_real": "7.2%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 886,
+          "empleados_estimados": 753,
+          "desempleados_estimados": 133,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 904,
+          "empleados_estimados": 768,
+          "desempleados_estimados": 136,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 921,
+          "empleados_estimados": 783,
+          "desempleados_estimados": 138,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 938,
+          "empleados_estimados": 797,
+          "desempleados_estimados": 141,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 956,
+          "empleados_estimados": 813,
+          "desempleados_estimados": 143,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 6206,
+        "matricula_proyectada_2030": 8704,
+        "crecimiento_total": "40.3%",
+        "umbral_saturacion": 60000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "40.3%",
+        "crecimiento_salario_real_total": "47.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Contador Auditor": {
+      "nombre": "Contador Auditor",
+      "codigo_holland": "CES",
+      "sector": "negocios",
+      "datos_base_2025": {
+        "matricula": 9647,
+        "salario_promedio": 1300000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 81
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 10322,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 9744,
+          "intervalo_maximo": 10900
+        },
+        "2027": {
+          "matricula_proyectada": 11045,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 10360,
+          "intervalo_maximo": 11730
+        },
+        "2028": {
+          "matricula_proyectada": 11818,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 11014,
+          "intervalo_maximo": 12622
+        },
+        "2029": {
+          "matricula_proyectada": 12645,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 11710,
+          "intervalo_maximo": 13581
+        },
+        "2030": {
+          "matricula_proyectada": 13530,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 12448,
+          "intervalo_maximo": 14613
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1432600,
+          "crecimiento_real": "7.2%"
+        },
+        "2027": {
+          "salario_proyectado": 1578725,
+          "crecimiento_real": "7.2%"
+        },
+        "2028": {
+          "salario_proyectado": 1739755,
+          "crecimiento_real": "7.2%"
+        },
+        "2029": {
+          "salario_proyectado": 1917210,
+          "crecimiento_real": "7.2%"
+        },
+        "2030": {
+          "salario_proyectado": 2112766,
+          "crecimiento_real": "7.2%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 1378,
+          "empleados_estimados": 1171,
+          "desempleados_estimados": 207,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 1405,
+          "empleados_estimados": 1194,
+          "desempleados_estimados": 211,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 1432,
+          "empleados_estimados": 1217,
+          "desempleados_estimados": 215,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 1459,
+          "empleados_estimados": 1240,
+          "desempleados_estimados": 219,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 1486,
+          "empleados_estimados": 1263,
+          "desempleados_estimados": 223,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 9647,
+        "matricula_proyectada_2030": 13530,
+        "crecimiento_total": "40.3%",
+        "umbral_saturacion": 60000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "40.3%",
+        "crecimiento_salario_real_total": "47.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Ingeniería Civil": {
+      "nombre": "Ingeniería Civil",
+      "codigo_holland": "RIC",
+      "sector": "ingeniería",
+      "datos_base_2025": {
+        "matricula": 10595,
+        "salario_promedio": 1700000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 83
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 11549,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 10902,
+          "intervalo_maximo": 12195
+        },
+        "2027": {
+          "matricula_proyectada": 12588,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 11807,
+          "intervalo_maximo": 13368
+        },
+        "2028": {
+          "matricula_proyectada": 13721,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 12788,
+          "intervalo_maximo": 14654
+        },
+        "2029": {
+          "matricula_proyectada": 14956,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 13849,
+          "intervalo_maximo": 16062
+        },
+        "2030": {
+          "matricula_proyectada": 16302,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 14998,
+          "intervalo_maximo": 17606
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1887000,
+          "crecimiento_real": "8.0%"
+        },
+        "2027": {
+          "salario_proyectado": 2094570,
+          "crecimiento_real": "8.0%"
+        },
+        "2028": {
+          "salario_proyectado": 2324973,
+          "crecimiento_real": "8.0%"
+        },
+        "2029": {
+          "salario_proyectado": 2580720,
+          "crecimiento_real": "8.0%"
+        },
+        "2030": {
+          "salario_proyectado": 2864599,
+          "crecimiento_real": "8.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 1513,
+          "empleados_estimados": 1286,
+          "desempleados_estimados": 227,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 1543,
+          "empleados_estimados": 1312,
+          "desempleados_estimados": 231,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 1572,
+          "empleados_estimados": 1336,
+          "desempleados_estimados": 236,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 1602,
+          "empleados_estimados": 1362,
+          "desempleados_estimados": 240,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 1632,
+          "empleados_estimados": 1387,
+          "desempleados_estimados": 245,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 10595,
+        "matricula_proyectada_2030": 16302,
+        "crecimiento_total": "53.9%",
+        "umbral_saturacion": 70000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "53.9%",
+        "crecimiento_salario_real_total": "53.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Derecho": {
+      "nombre": "Derecho",
+      "codigo_holland": "ESI",
+      "sector": "derecho",
+      "datos_base_2025": {
+        "matricula": 48541,
+        "salario_promedio": 1400000,
+        "instituciones": null,
+        "empleabilidad": "media",
+        "oportunidad_index": 44
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 46603,
+          "crecimiento_anual": "-4.0%",
+          "intervalo_minimo": 43993,
+          "intervalo_maximo": 49213
+        },
+        "2027": {
+          "matricula_proyectada": 44747,
+          "crecimiento_anual": "-4.0%",
+          "intervalo_minimo": 41972,
+          "intervalo_maximo": 47521
+        },
+        "2028": {
+          "matricula_proyectada": 42967,
+          "crecimiento_anual": "-4.0%",
+          "intervalo_minimo": 40046,
+          "intervalo_maximo": 45889
+        },
+        "2029": {
+          "matricula_proyectada": 41262,
+          "crecimiento_anual": "-4.0%",
+          "intervalo_minimo": 38209,
+          "intervalo_maximo": 44316
+        },
+        "2030": {
+          "matricula_proyectada": 39629,
+          "crecimiento_anual": "-4.0%",
+          "intervalo_minimo": 36458,
+          "intervalo_maximo": 42799
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1444800,
+          "crecimiento_real": "0.2%"
+        },
+        "2027": {
+          "salario_proyectado": 1491034,
+          "crecimiento_real": "0.2%"
+        },
+        "2028": {
+          "salario_proyectado": 1538747,
+          "crecimiento_real": "0.2%"
+        },
+        "2029": {
+          "salario_proyectado": 1587987,
+          "crecimiento_real": "0.2%"
+        },
+        "2030": {
+          "salario_proyectado": 1638802,
+          "crecimiento_real": "0.2%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 6932,
+          "empleados_estimados": 3466,
+          "desempleados_estimados": 3466,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2027": {
+          "egresados_estimados": 7068,
+          "empleados_estimados": 3534,
+          "desempleados_estimados": 3534,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2028": {
+          "egresados_estimados": 7203,
+          "empleados_estimados": 3602,
+          "desempleados_estimados": 3601,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2029": {
+          "egresados_estimados": 7339,
+          "empleados_estimados": 3670,
+          "desempleados_estimados": 3669,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2030": {
+          "egresados_estimados": 7475,
+          "empleados_estimados": 3738,
+          "desempleados_estimados": 3737,
+          "tasa_empleabilidad": "50.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "alta",
+        "matricula_actual": 48541,
+        "matricula_proyectada_2030": 39629,
+        "crecimiento_total": "-18.4%",
+        "umbral_saturacion": 35000,
+        "alerta": "Saturación moderada proyectada. Importante destacar con postgrados o certificaciones."
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "-18.4%",
+        "crecimiento_salario_real_total": "2.1%",
+        "tendencia": "decreciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "precaución",
+        "emoji": "⚠️",
+        "mensaje": "Mercado saturado. Es crucial diferenciarse para destacar.",
+        "acciones": [
+          "Enfocarse en especializaciones de nicho",
+          "Obtener experiencia práctica durante la carrera",
+          "Considerar postgrados o certificaciones internacionales",
+          "Desarrollar habilidades complementarias (idiomas, tecnología)"
+        ]
+      }
+    },
+    "Pedagogía en Educación Básica": {
+      "nombre": "Pedagogía en Educación Básica",
+      "codigo_holland": "SAE",
+      "sector": "educación",
+      "datos_base_2025": {
+        "matricula": 1968,
+        "salario_promedio": 800000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 89
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 2145,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 2025,
+          "intervalo_maximo": 2265
+        },
+        "2027": {
+          "matricula_proyectada": 2338,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 2193,
+          "intervalo_maximo": 2483
+        },
+        "2028": {
+          "matricula_proyectada": 2549,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 2375,
+          "intervalo_maximo": 2722
+        },
+        "2029": {
+          "matricula_proyectada": 2778,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 2572,
+          "intervalo_maximo": 2984
+        },
+        "2030": {
+          "matricula_proyectada": 3028,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 2786,
+          "intervalo_maximo": 3270
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 892800,
+          "crecimiento_real": "8.6%"
+        },
+        "2027": {
+          "salario_proyectado": 996365,
+          "crecimiento_real": "8.6%"
+        },
+        "2028": {
+          "salario_proyectado": 1111943,
+          "crecimiento_real": "8.6%"
+        },
+        "2029": {
+          "salario_proyectado": 1240929,
+          "crecimiento_real": "8.6%"
+        },
+        "2030": {
+          "salario_proyectado": 1384876,
+          "crecimiento_real": "8.6%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 281,
+          "empleados_estimados": 239,
+          "desempleados_estimados": 42,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 287,
+          "empleados_estimados": 244,
+          "desempleados_estimados": 43,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 292,
+          "empleados_estimados": 248,
+          "desempleados_estimados": 44,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 298,
+          "empleados_estimados": 253,
+          "desempleados_estimados": 45,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 303,
+          "empleados_estimados": 258,
+          "desempleados_estimados": 45,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 1968,
+        "matricula_proyectada_2030": 3028,
+        "crecimiento_total": "53.9%",
+        "umbral_saturacion": 50000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "53.9%",
+        "crecimiento_salario_real_total": "58.1%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Diseño Gráfico": {
+      "nombre": "Diseño Gráfico",
+      "codigo_holland": "AEC",
+      "sector": "artes_diseño",
+      "datos_base_2025": {
+        "matricula": 3869,
+        "salario_promedio": 850000,
+        "instituciones": null,
+        "empleabilidad": "media",
+        "oportunidad_index": 77
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 4295,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 4054,
+          "intervalo_maximo": 4535
+        },
+        "2027": {
+          "matricula_proyectada": 4767,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 4471,
+          "intervalo_maximo": 5063
+        },
+        "2028": {
+          "matricula_proyectada": 5291,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 4932,
+          "intervalo_maximo": 5651
+        },
+        "2029": {
+          "matricula_proyectada": 5873,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 5439,
+          "intervalo_maximo": 6308
+        },
+        "2030": {
+          "matricula_proyectada": 6519,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 5998,
+          "intervalo_maximo": 7041
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 943500,
+          "crecimiento_real": "8.0%"
+        },
+        "2027": {
+          "salario_proyectado": 1047285,
+          "crecimiento_real": "8.0%"
+        },
+        "2028": {
+          "salario_proyectado": 1162486,
+          "crecimiento_real": "8.0%"
+        },
+        "2029": {
+          "salario_proyectado": 1290360,
+          "crecimiento_real": "8.0%"
+        },
+        "2030": {
+          "salario_proyectado": 1432299,
+          "crecimiento_real": "8.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 552,
+          "empleados_estimados": 276,
+          "desempleados_estimados": 276,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2027": {
+          "egresados_estimados": 563,
+          "empleados_estimados": 282,
+          "desempleados_estimados": 281,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2028": {
+          "egresados_estimados": 574,
+          "empleados_estimados": 287,
+          "desempleados_estimados": 287,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2029": {
+          "egresados_estimados": 585,
+          "empleados_estimados": 293,
+          "desempleados_estimados": 292,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2030": {
+          "egresados_estimados": 596,
+          "empleados_estimados": 298,
+          "desempleados_estimados": 298,
+          "tasa_empleabilidad": "50.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 3869,
+        "matricula_proyectada_2030": 6519,
+        "crecimiento_total": "68.5%",
+        "umbral_saturacion": 40000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "68.5%",
+        "crecimiento_salario_real_total": "53.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Enfermería": {
+      "nombre": "Enfermería",
+      "codigo_holland": "SRI",
+      "sector": "salud",
+      "datos_base_2025": {
+        "matricula": 36736,
+        "salario_promedio": 950000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 67
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 38569,
+          "crecimiento_anual": "5.0%",
+          "intervalo_minimo": 36409,
+          "intervalo_maximo": 40729
+        },
+        "2027": {
+          "matricula_proyectada": 40490,
+          "crecimiento_anual": "5.0%",
+          "intervalo_minimo": 37979,
+          "intervalo_maximo": 43000
+        },
+        "2028": {
+          "matricula_proyectada": 42502,
+          "crecimiento_anual": "5.0%",
+          "intervalo_minimo": 39612,
+          "intervalo_maximo": 45392
+        },
+        "2029": {
+          "matricula_proyectada": 44610,
+          "crecimiento_anual": "5.0%",
+          "intervalo_minimo": 41309,
+          "intervalo_maximo": 47911
+        },
+        "2030": {
+          "matricula_proyectada": 46819,
+          "crecimiento_anual": "4.9%",
+          "intervalo_minimo": 43073,
+          "intervalo_maximo": 50564
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1027900,
+          "crecimiento_real": "5.2%"
+        },
+        "2027": {
+          "salario_proyectado": 1112188,
+          "crecimiento_real": "5.2%"
+        },
+        "2028": {
+          "salario_proyectado": 1203387,
+          "crecimiento_real": "5.2%"
+        },
+        "2029": {
+          "salario_proyectado": 1302065,
+          "crecimiento_real": "5.2%"
+        },
+        "2030": {
+          "salario_proyectado": 1408834,
+          "crecimiento_real": "5.2%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 5246,
+          "empleados_estimados": 4459,
+          "desempleados_estimados": 787,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 5349,
+          "empleados_estimados": 4547,
+          "desempleados_estimados": 802,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 5452,
+          "empleados_estimados": 4634,
+          "desempleados_estimados": 818,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 5554,
+          "empleados_estimados": 4721,
+          "desempleados_estimados": 833,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 5657,
+          "empleados_estimados": 4808,
+          "desempleados_estimados": 849,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 36736,
+        "matricula_proyectada_2030": 46819,
+        "crecimiento_total": "27.4%",
+        "umbral_saturacion": 80000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "27.4%",
+        "crecimiento_salario_real_total": "33.3%",
+        "tendencia": "estable",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "precaución",
+        "emoji": "⚠️",
+        "mensaje": "Mercado saturado. Es crucial diferenciarse para destacar.",
+        "acciones": [
+          "Enfocarse en especializaciones de nicho",
+          "Obtener experiencia práctica durante la carrera",
+          "Considerar postgrados o certificaciones internacionales",
+          "Desarrollar habilidades complementarias (idiomas, tecnología)"
+        ]
+      }
+    },
+    "Ingeniería Comercial": {
+      "nombre": "Ingeniería Comercial",
+      "codigo_holland": "ECI",
+      "sector": "ingeniería",
+      "datos_base_2025": {
+        "matricula": 43793,
+        "salario_promedio": 1600000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 65
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 45104,
+          "crecimiento_anual": "3.0%",
+          "intervalo_minimo": 42578,
+          "intervalo_maximo": 47630
+        },
+        "2027": {
+          "matricula_proyectada": 46452,
+          "crecimiento_anual": "3.0%",
+          "intervalo_minimo": 43572,
+          "intervalo_maximo": 49332
+        },
+        "2028": {
+          "matricula_proyectada": 47837,
+          "crecimiento_anual": "3.0%",
+          "intervalo_minimo": 44584,
+          "intervalo_maximo": 51090
+        },
+        "2029": {
+          "matricula_proyectada": 49261,
+          "crecimiento_anual": "3.0%",
+          "intervalo_minimo": 45615,
+          "intervalo_maximo": 52906
+        },
+        "2030": {
+          "matricula_proyectada": 50724,
+          "crecimiento_anual": "3.0%",
+          "intervalo_minimo": 46666,
+          "intervalo_maximo": 54782
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1718400,
+          "crecimiento_real": "4.4%"
+        },
+        "2027": {
+          "salario_proyectado": 1845562,
+          "crecimiento_real": "4.4%"
+        },
+        "2028": {
+          "salario_proyectado": 1982133,
+          "crecimiento_real": "4.4%"
+        },
+        "2029": {
+          "salario_proyectado": 2128811,
+          "crecimiento_real": "4.4%"
+        },
+        "2030": {
+          "salario_proyectado": 2286343,
+          "crecimiento_real": "4.4%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 6254,
+          "empleados_estimados": 5316,
+          "desempleados_estimados": 938,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 6376,
+          "empleados_estimados": 5420,
+          "desempleados_estimados": 956,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 6499,
+          "empleados_estimados": 5524,
+          "desempleados_estimados": 975,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 6622,
+          "empleados_estimados": 5629,
+          "desempleados_estimados": 993,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 6744,
+          "empleados_estimados": 5732,
+          "desempleados_estimados": 1012,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "media",
+        "matricula_actual": 43793,
+        "matricula_proyectada_2030": 50724,
+        "crecimiento_total": "15.8%",
+        "umbral_saturacion": 70000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "15.8%",
+        "crecimiento_salario_real_total": "27.9%",
+        "tendencia": "estable",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "precaución",
+        "emoji": "⚠️",
+        "mensaje": "Mercado saturado. Es crucial diferenciarse para destacar.",
+        "acciones": [
+          "Enfocarse en especializaciones de nicho",
+          "Obtener experiencia práctica durante la carrera",
+          "Considerar postgrados o certificaciones internacionales",
+          "Desarrollar habilidades complementarias (idiomas, tecnología)"
+        ]
+      }
+    },
+    "Periodismo": {
+      "nombre": "Periodismo",
+      "codigo_holland": "AES",
+      "sector": "otros",
+      "datos_base_2025": {
+        "matricula": 6117,
+        "salario_promedio": 800000,
+        "instituciones": null,
+        "empleabilidad": "media",
+        "oportunidad_index": 67
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 6545,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 6179,
+          "intervalo_maximo": 6912
+        },
+        "2027": {
+          "matricula_proyectada": 7003,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 6569,
+          "intervalo_maximo": 7438
+        },
+        "2028": {
+          "matricula_proyectada": 7494,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 6984,
+          "intervalo_maximo": 8003
+        },
+        "2029": {
+          "matricula_proyectada": 8018,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 7425,
+          "intervalo_maximo": 8611
+        },
+        "2030": {
+          "matricula_proyectada": 8579,
+          "crecimiento_anual": "7.0%",
+          "intervalo_minimo": 7893,
+          "intervalo_maximo": 9266
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 870400,
+          "crecimiento_real": "5.8%"
+        },
+        "2027": {
+          "salario_proyectado": 946995,
+          "crecimiento_real": "5.8%"
+        },
+        "2028": {
+          "salario_proyectado": 1030331,
+          "crecimiento_real": "5.8%"
+        },
+        "2029": {
+          "salario_proyectado": 1121000,
+          "crecimiento_real": "5.8%"
+        },
+        "2030": {
+          "salario_proyectado": 1219648,
+          "crecimiento_real": "5.8%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 874,
+          "empleados_estimados": 437,
+          "desempleados_estimados": 437,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2027": {
+          "egresados_estimados": 891,
+          "empleados_estimados": 446,
+          "desempleados_estimados": 445,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2028": {
+          "egresados_estimados": 908,
+          "empleados_estimados": 454,
+          "desempleados_estimados": 454,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2029": {
+          "egresados_estimados": 925,
+          "empleados_estimados": 463,
+          "desempleados_estimados": 462,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2030": {
+          "egresados_estimados": 942,
+          "empleados_estimados": 471,
+          "desempleados_estimados": 471,
+          "tasa_empleabilidad": "50.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 6117,
+        "matricula_proyectada_2030": 8579,
+        "crecimiento_total": "40.2%",
+        "umbral_saturacion": 40000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "40.2%",
+        "crecimiento_salario_real_total": "37.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Kinesiología": {
+      "nombre": "Kinesiología",
+      "codigo_holland": "SIR",
+      "sector": "salud",
+      "datos_base_2025": {
+        "matricula": 24973,
+        "salario_promedio": 1000000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 76
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 26971,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 25460,
+          "intervalo_maximo": 28481
+        },
+        "2027": {
+          "matricula_proyectada": 29129,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 27323,
+          "intervalo_maximo": 30934
+        },
+        "2028": {
+          "matricula_proyectada": 31459,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 29320,
+          "intervalo_maximo": 33598
+        },
+        "2029": {
+          "matricula_proyectada": 33975,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 31461,
+          "intervalo_maximo": 36490
+        },
+        "2030": {
+          "matricula_proyectada": 36694,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 33758,
+          "intervalo_maximo": 39629
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1100000,
+          "crecimiento_real": "7.0%"
+        },
+        "2027": {
+          "salario_proyectado": 1210000,
+          "crecimiento_real": "7.0%"
+        },
+        "2028": {
+          "salario_proyectado": 1331000,
+          "crecimiento_real": "7.0%"
+        },
+        "2029": {
+          "salario_proyectado": 1464100,
+          "crecimiento_real": "7.0%"
+        },
+        "2030": {
+          "salario_proyectado": 1610510,
+          "crecimiento_real": "7.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 3566,
+          "empleados_estimados": 3031,
+          "desempleados_estimados": 535,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 3636,
+          "empleados_estimados": 3091,
+          "desempleados_estimados": 545,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 3706,
+          "empleados_estimados": 3150,
+          "desempleados_estimados": 556,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 3776,
+          "empleados_estimados": 3210,
+          "desempleados_estimados": 566,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 3846,
+          "empleados_estimados": 3269,
+          "desempleados_estimados": 577,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 24973,
+        "matricula_proyectada_2030": 36694,
+        "crecimiento_total": "46.9%",
+        "umbral_saturacion": 80000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "46.9%",
+        "crecimiento_salario_real_total": "46.1%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Trabajo Social": {
+      "nombre": "Trabajo Social",
+      "codigo_holland": "SEA",
+      "sector": "ciencias_sociales",
+      "datos_base_2025": {
+        "matricula": 23121,
+        "salario_promedio": 850000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 68
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 23121,
+          "crecimiento_anual": "0.0%",
+          "intervalo_minimo": 21826,
+          "intervalo_maximo": 24416
+        },
+        "2027": {
+          "matricula_proyectada": 23121,
+          "crecimiento_anual": "0.0%",
+          "intervalo_minimo": 21687,
+          "intervalo_maximo": 24555
+        },
+        "2028": {
+          "matricula_proyectada": 23121,
+          "crecimiento_anual": "0.0%",
+          "intervalo_minimo": 21549,
+          "intervalo_maximo": 24693
+        },
+        "2029": {
+          "matricula_proyectada": 23121,
+          "crecimiento_anual": "0.0%",
+          "intervalo_minimo": 21410,
+          "intervalo_maximo": 24832
+        },
+        "2030": {
+          "matricula_proyectada": 23121,
+          "crecimiento_anual": "0.0%",
+          "intervalo_minimo": 21271,
+          "intervalo_maximo": 24971
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 907800,
+          "crecimiento_real": "3.8%"
+        },
+        "2027": {
+          "salario_proyectado": 969530,
+          "crecimiento_real": "3.8%"
+        },
+        "2028": {
+          "salario_proyectado": 1035458,
+          "crecimiento_real": "3.8%"
+        },
+        "2029": {
+          "salario_proyectado": 1105870,
+          "crecimiento_real": "3.8%"
+        },
+        "2030": {
+          "salario_proyectado": 1181069,
+          "crecimiento_real": "3.8%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 3302,
+          "empleados_estimados": 2807,
+          "desempleados_estimados": 495,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 3366,
+          "empleados_estimados": 2861,
+          "desempleados_estimados": 505,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 3431,
+          "empleados_estimados": 2916,
+          "desempleados_estimados": 515,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 3496,
+          "empleados_estimados": 2972,
+          "desempleados_estimados": 524,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 3561,
+          "empleados_estimados": 3027,
+          "desempleados_estimados": 534,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 23121,
+        "matricula_proyectada_2030": 23121,
+        "crecimiento_total": "0.0%",
+        "umbral_saturacion": 40000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "0.0%",
+        "crecimiento_salario_real_total": "23.9%",
+        "tendencia": "estable",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Ingeniería en Construcción": {
+      "nombre": "Ingeniería en Construcción",
+      "codigo_holland": "REC",
+      "sector": "ingeniería",
+      "datos_base_2025": {
+        "matricula": 11949,
+        "salario_promedio": 1400000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 83
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 13024,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 12295,
+          "intervalo_maximo": 13754
+        },
+        "2027": {
+          "matricula_proyectada": 14197,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 13316,
+          "intervalo_maximo": 15077
+        },
+        "2028": {
+          "matricula_proyectada": 15474,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 14422,
+          "intervalo_maximo": 16527
+        },
+        "2029": {
+          "matricula_proyectada": 16867,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 15619,
+          "intervalo_maximo": 18115
+        },
+        "2030": {
+          "matricula_proyectada": 18385,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 16914,
+          "intervalo_maximo": 19856
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1554000,
+          "crecimiento_real": "8.0%"
+        },
+        "2027": {
+          "salario_proyectado": 1724940,
+          "crecimiento_real": "8.0%"
+        },
+        "2028": {
+          "salario_proyectado": 1914683,
+          "crecimiento_real": "8.0%"
+        },
+        "2029": {
+          "salario_proyectado": 2125299,
+          "crecimiento_real": "8.0%"
+        },
+        "2030": {
+          "salario_proyectado": 2359081,
+          "crecimiento_real": "8.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 1706,
+          "empleados_estimados": 1450,
+          "desempleados_estimados": 256,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 1740,
+          "empleados_estimados": 1479,
+          "desempleados_estimados": 261,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 1773,
+          "empleados_estimados": 1507,
+          "desempleados_estimados": 266,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 1807,
+          "empleados_estimados": 1536,
+          "desempleados_estimados": 271,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 1840,
+          "empleados_estimados": 1564,
+          "desempleados_estimados": 276,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 11949,
+        "matricula_proyectada_2030": 18385,
+        "crecimiento_total": "53.9%",
+        "umbral_saturacion": 70000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "53.9%",
+        "crecimiento_salario_real_total": "53.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Veterinaria": {
+      "nombre": "Veterinaria",
+      "codigo_holland": "IRS",
+      "sector": "otros",
+      "datos_base_2025": {
+        "matricula": null,
+        "salario_promedio": 1100000,
+        "instituciones": null,
+        "empleabilidad": "media",
+        "oportunidad_index": 52
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 10200,
+          "crecimiento_anual": "2.0%",
+          "intervalo_minimo": 9629,
+          "intervalo_maximo": 10771
+        },
+        "2027": {
+          "matricula_proyectada": 10404,
+          "crecimiento_anual": "2.0%",
+          "intervalo_minimo": 9759,
+          "intervalo_maximo": 11049
+        },
+        "2028": {
+          "matricula_proyectada": 10612,
+          "crecimiento_anual": "2.0%",
+          "intervalo_minimo": 9890,
+          "intervalo_maximo": 11334
+        },
+        "2029": {
+          "matricula_proyectada": 10824,
+          "crecimiento_anual": "2.0%",
+          "intervalo_minimo": 10023,
+          "intervalo_maximo": 11625
+        },
+        "2030": {
+          "matricula_proyectada": 11041,
+          "crecimiento_anual": "2.0%",
+          "intervalo_minimo": 10158,
+          "intervalo_maximo": 11924
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1163800,
+          "crecimiento_real": "2.8%"
+        },
+        "2027": {
+          "salario_proyectado": 1231300,
+          "crecimiento_real": "2.8%"
+        },
+        "2028": {
+          "salario_proyectado": 1302716,
+          "crecimiento_real": "2.8%"
+        },
+        "2029": {
+          "salario_proyectado": 1378273,
+          "crecimiento_real": "2.8%"
+        },
+        "2030": {
+          "salario_proyectado": 1458213,
+          "crecimiento_real": "2.8%"
+        }
+      },
+      "proyecciones_demanda": null,
+      "saturacion_futura": null,
+      "resumen": {
+        "crecimiento_matricula_total": "10.4%",
+        "crecimiento_salario_real_total": "17.6%",
+        "tendencia": "estable",
+        "confianza": 0.7
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Sociología": {
+      "nombre": "Sociología",
+      "codigo_holland": "IAS",
+      "sector": "ciencias_sociales",
+      "datos_base_2025": {
+        "matricula": 2439,
+        "salario_promedio": 900000,
+        "instituciones": null,
+        "empleabilidad": "baja",
+        "oportunidad_index": 64
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 2585,
+          "crecimiento_anual": "6.0%",
+          "intervalo_minimo": 2441,
+          "intervalo_maximo": 2730
+        },
+        "2027": {
+          "matricula_proyectada": 2740,
+          "crecimiento_anual": "6.0%",
+          "intervalo_minimo": 2571,
+          "intervalo_maximo": 2910
+        },
+        "2028": {
+          "matricula_proyectada": 2905,
+          "crecimiento_anual": "6.0%",
+          "intervalo_minimo": 2707,
+          "intervalo_maximo": 3102
+        },
+        "2029": {
+          "matricula_proyectada": 3079,
+          "crecimiento_anual": "6.0%",
+          "intervalo_minimo": 2851,
+          "intervalo_maximo": 3307
+        },
+        "2030": {
+          "matricula_proyectada": 3264,
+          "crecimiento_anual": "6.0%",
+          "intervalo_minimo": 3003,
+          "intervalo_maximo": 3525
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 973800,
+          "crecimiento_real": "5.2%"
+        },
+        "2027": {
+          "salario_proyectado": 1053652,
+          "crecimiento_real": "5.2%"
+        },
+        "2028": {
+          "salario_proyectado": 1140051,
+          "crecimiento_real": "5.2%"
+        },
+        "2029": {
+          "salario_proyectado": 1233535,
+          "crecimiento_real": "5.2%"
+        },
+        "2030": {
+          "salario_proyectado": 1334685,
+          "crecimiento_real": "5.2%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 348,
+          "empleados_estimados": 104,
+          "desempleados_estimados": 244,
+          "tasa_empleabilidad": "30.0%"
+        },
+        "2027": {
+          "egresados_estimados": 355,
+          "empleados_estimados": 107,
+          "desempleados_estimados": 248,
+          "tasa_empleabilidad": "30.0%"
+        },
+        "2028": {
+          "egresados_estimados": 362,
+          "empleados_estimados": 109,
+          "desempleados_estimados": 253,
+          "tasa_empleabilidad": "30.0%"
+        },
+        "2029": {
+          "egresados_estimados": 369,
+          "empleados_estimados": 111,
+          "desempleados_estimados": 258,
+          "tasa_empleabilidad": "30.0%"
+        },
+        "2030": {
+          "egresados_estimados": 376,
+          "empleados_estimados": 113,
+          "desempleados_estimados": 263,
+          "tasa_empleabilidad": "30.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 2439,
+        "matricula_proyectada_2030": 3264,
+        "crecimiento_total": "33.8%",
+        "umbral_saturacion": 40000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "33.8%",
+        "crecimiento_salario_real_total": "33.3%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Agronomía": {
+      "nombre": "Agronomía",
+      "codigo_holland": "RIS",
+      "sector": "otros",
+      "datos_base_2025": {
+        "matricula": 4761,
+        "salario_promedio": 1200000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 90
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 5237,
+          "crecimiento_anual": "10.0%",
+          "intervalo_minimo": 4944,
+          "intervalo_maximo": 5530
+        },
+        "2027": {
+          "matricula_proyectada": 5761,
+          "crecimiento_anual": "10.0%",
+          "intervalo_minimo": 5404,
+          "intervalo_maximo": 6118
+        },
+        "2028": {
+          "matricula_proyectada": 6337,
+          "crecimiento_anual": "10.0%",
+          "intervalo_minimo": 5906,
+          "intervalo_maximo": 6768
+        },
+        "2029": {
+          "matricula_proyectada": 6971,
+          "crecimiento_anual": "10.0%",
+          "intervalo_minimo": 6455,
+          "intervalo_maximo": 7486
+        },
+        "2030": {
+          "matricula_proyectada": 7668,
+          "crecimiento_anual": "10.0%",
+          "intervalo_minimo": 7054,
+          "intervalo_maximo": 8281
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1344000,
+          "crecimiento_real": "9.0%"
+        },
+        "2027": {
+          "salario_proyectado": 1505280,
+          "crecimiento_real": "9.0%"
+        },
+        "2028": {
+          "salario_proyectado": 1685914,
+          "crecimiento_real": "9.0%"
+        },
+        "2029": {
+          "salario_proyectado": 1888223,
+          "crecimiento_real": "9.0%"
+        },
+        "2030": {
+          "salario_proyectado": 2114810,
+          "crecimiento_real": "9.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 680,
+          "empleados_estimados": 578,
+          "desempleados_estimados": 102,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 693,
+          "empleados_estimados": 589,
+          "desempleados_estimados": 104,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 707,
+          "empleados_estimados": 601,
+          "desempleados_estimados": 106,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 720,
+          "empleados_estimados": 612,
+          "desempleados_estimados": 108,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 733,
+          "empleados_estimados": 623,
+          "desempleados_estimados": 110,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 4761,
+        "matricula_proyectada_2030": 7668,
+        "crecimiento_total": "61.1%",
+        "umbral_saturacion": 40000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "61.1%",
+        "crecimiento_salario_real_total": "61.2%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Publicidad": {
+      "nombre": "Publicidad",
+      "codigo_holland": "AES",
+      "sector": "artes_diseño",
+      "datos_base_2025": {
+        "matricula": 4235,
+        "salario_promedio": 950000,
+        "instituciones": null,
+        "empleabilidad": "media",
+        "oportunidad_index": 77
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 4701,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 4438,
+          "intervalo_maximo": 4964
+        },
+        "2027": {
+          "matricula_proyectada": 5218,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 4894,
+          "intervalo_maximo": 5541
+        },
+        "2028": {
+          "matricula_proyectada": 5792,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 5398,
+          "intervalo_maximo": 6186
+        },
+        "2029": {
+          "matricula_proyectada": 6429,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 5953,
+          "intervalo_maximo": 6905
+        },
+        "2030": {
+          "matricula_proyectada": 7136,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 6565,
+          "intervalo_maximo": 7707
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1054500,
+          "crecimiento_real": "8.0%"
+        },
+        "2027": {
+          "salario_proyectado": 1170495,
+          "crecimiento_real": "8.0%"
+        },
+        "2028": {
+          "salario_proyectado": 1299249,
+          "crecimiento_real": "8.0%"
+        },
+        "2029": {
+          "salario_proyectado": 1442167,
+          "crecimiento_real": "8.0%"
+        },
+        "2030": {
+          "salario_proyectado": 1600805,
+          "crecimiento_real": "8.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 605,
+          "empleados_estimados": 303,
+          "desempleados_estimados": 302,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2027": {
+          "egresados_estimados": 617,
+          "empleados_estimados": 309,
+          "desempleados_estimados": 308,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2028": {
+          "egresados_estimados": 628,
+          "empleados_estimados": 314,
+          "desempleados_estimados": 314,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2029": {
+          "egresados_estimados": 640,
+          "empleados_estimados": 320,
+          "desempleados_estimados": 320,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2030": {
+          "egresados_estimados": 652,
+          "empleados_estimados": 326,
+          "desempleados_estimados": 326,
+          "tasa_empleabilidad": "50.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 4235,
+        "matricula_proyectada_2030": 7136,
+        "crecimiento_total": "68.5%",
+        "umbral_saturacion": 40000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "68.5%",
+        "crecimiento_salario_real_total": "53.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Bioquímica": {
+      "nombre": "Bioquímica",
+      "codigo_holland": "IRE",
+      "sector": "ciencias",
+      "datos_base_2025": {
+        "matricula": 2690,
+        "salario_promedio": 1300000,
+        "instituciones": null,
+        "empleabilidad": "media",
+        "oportunidad_index": 77
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 2986,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 2819,
+          "intervalo_maximo": 3153
+        },
+        "2027": {
+          "matricula_proyectada": 3314,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 3109,
+          "intervalo_maximo": 3520
+        },
+        "2028": {
+          "matricula_proyectada": 3679,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 3429,
+          "intervalo_maximo": 3929
+        },
+        "2029": {
+          "matricula_proyectada": 4084,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 3781,
+          "intervalo_maximo": 4386
+        },
+        "2030": {
+          "matricula_proyectada": 4533,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 4170,
+          "intervalo_maximo": 4895
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1443000,
+          "crecimiento_real": "8.0%"
+        },
+        "2027": {
+          "salario_proyectado": 1601730,
+          "crecimiento_real": "8.0%"
+        },
+        "2028": {
+          "salario_proyectado": 1777920,
+          "crecimiento_real": "8.0%"
+        },
+        "2029": {
+          "salario_proyectado": 1973492,
+          "crecimiento_real": "8.0%"
+        },
+        "2030": {
+          "salario_proyectado": 2190576,
+          "crecimiento_real": "8.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 384,
+          "empleados_estimados": 192,
+          "desempleados_estimados": 192,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2027": {
+          "egresados_estimados": 392,
+          "empleados_estimados": 196,
+          "desempleados_estimados": 196,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2028": {
+          "egresados_estimados": 399,
+          "empleados_estimados": 200,
+          "desempleados_estimados": 199,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2029": {
+          "egresados_estimados": 407,
+          "empleados_estimados": 204,
+          "desempleados_estimados": 203,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2030": {
+          "egresados_estimados": 414,
+          "empleados_estimados": 207,
+          "desempleados_estimados": 207,
+          "tasa_empleabilidad": "50.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 2690,
+        "matricula_proyectada_2030": 4533,
+        "crecimiento_total": "68.5%",
+        "umbral_saturacion": 30000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "68.5%",
+        "crecimiento_salario_real_total": "53.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Odontología": {
+      "nombre": "Odontología",
+      "codigo_holland": "ISR",
+      "sector": "salud",
+      "datos_base_2025": {
+        "matricula": 14781,
+        "salario_promedio": 1800000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 85
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 16407,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 15488,
+          "intervalo_maximo": 17326
+        },
+        "2027": {
+          "matricula_proyectada": 18212,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 17083,
+          "intervalo_maximo": 19341
+        },
+        "2028": {
+          "matricula_proyectada": 20215,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 18840,
+          "intervalo_maximo": 21590
+        },
+        "2029": {
+          "matricula_proyectada": 22439,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 20778,
+          "intervalo_maximo": 24099
+        },
+        "2030": {
+          "matricula_proyectada": 24907,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 22914,
+          "intervalo_maximo": 26899
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 2012400,
+          "crecimiento_real": "8.8%"
+        },
+        "2027": {
+          "salario_proyectado": 2249863,
+          "crecimiento_real": "8.8%"
+        },
+        "2028": {
+          "salario_proyectado": 2515347,
+          "crecimiento_real": "8.8%"
+        },
+        "2029": {
+          "salario_proyectado": 2812158,
+          "crecimiento_real": "8.8%"
+        },
+        "2030": {
+          "salario_proyectado": 3143993,
+          "crecimiento_real": "8.8%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 2111,
+          "empleados_estimados": 1794,
+          "desempleados_estimados": 317,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 2152,
+          "empleados_estimados": 1829,
+          "desempleados_estimados": 323,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 2194,
+          "empleados_estimados": 1865,
+          "desempleados_estimados": 329,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 2235,
+          "empleados_estimados": 1900,
+          "desempleados_estimados": 335,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 2276,
+          "empleados_estimados": 1935,
+          "desempleados_estimados": 341,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 14781,
+        "matricula_proyectada_2030": 24907,
+        "crecimiento_total": "68.5%",
+        "umbral_saturacion": 80000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "68.5%",
+        "crecimiento_salario_real_total": "59.7%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Nutrición y Dietética": {
+      "nombre": "Nutrición y Dietética",
+      "codigo_holland": "SIC",
+      "sector": "salud",
+      "datos_base_2025": {
+        "matricula": 14136,
+        "salario_promedio": 900000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 85
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 15691,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 14812,
+          "intervalo_maximo": 16570
+        },
+        "2027": {
+          "matricula_proyectada": 17417,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 16337,
+          "intervalo_maximo": 18497
+        },
+        "2028": {
+          "matricula_proyectada": 19333,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 18018,
+          "intervalo_maximo": 20647
+        },
+        "2029": {
+          "matricula_proyectada": 21459,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 19871,
+          "intervalo_maximo": 23047
+        },
+        "2030": {
+          "matricula_proyectada": 23820,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 21914,
+          "intervalo_maximo": 25726
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1006200,
+          "crecimiento_real": "8.8%"
+        },
+        "2027": {
+          "salario_proyectado": 1124932,
+          "crecimiento_real": "8.8%"
+        },
+        "2028": {
+          "salario_proyectado": 1257674,
+          "crecimiento_real": "8.8%"
+        },
+        "2029": {
+          "salario_proyectado": 1406079,
+          "crecimiento_real": "8.8%"
+        },
+        "2030": {
+          "salario_proyectado": 1571996,
+          "crecimiento_real": "8.8%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 2019,
+          "empleados_estimados": 1716,
+          "desempleados_estimados": 303,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 2058,
+          "empleados_estimados": 1749,
+          "desempleados_estimados": 309,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 2098,
+          "empleados_estimados": 1783,
+          "desempleados_estimados": 315,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 2137,
+          "empleados_estimados": 1816,
+          "desempleados_estimados": 321,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 2177,
+          "empleados_estimados": 1850,
+          "desempleados_estimados": 327,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 14136,
+        "matricula_proyectada_2030": 23820,
+        "crecimiento_total": "68.5%",
+        "umbral_saturacion": 80000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "68.5%",
+        "crecimiento_salario_real_total": "59.7%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Ingeniería en Minas": {
+      "nombre": "Ingeniería en Minas",
+      "codigo_holland": "RIE",
+      "sector": "ingeniería",
+      "datos_base_2025": {
+        "matricula": 8839,
+        "salario_promedio": 2200000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 83
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 9635,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 9095,
+          "intervalo_maximo": 10174
+        },
+        "2027": {
+          "matricula_proyectada": 10502,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 9851,
+          "intervalo_maximo": 11153
+        },
+        "2028": {
+          "matricula_proyectada": 11447,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 10668,
+          "intervalo_maximo": 12225
+        },
+        "2029": {
+          "matricula_proyectada": 12477,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 11554,
+          "intervalo_maximo": 13400
+        },
+        "2030": {
+          "matricula_proyectada": 13600,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 12512,
+          "intervalo_maximo": 14688
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 2442000,
+          "crecimiento_real": "8.0%"
+        },
+        "2027": {
+          "salario_proyectado": 2710620,
+          "crecimiento_real": "8.0%"
+        },
+        "2028": {
+          "salario_proyectado": 3008788,
+          "crecimiento_real": "8.0%"
+        },
+        "2029": {
+          "salario_proyectado": 3339755,
+          "crecimiento_real": "8.0%"
+        },
+        "2030": {
+          "salario_proyectado": 3707128,
+          "crecimiento_real": "8.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 1262,
+          "empleados_estimados": 1073,
+          "desempleados_estimados": 189,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 1287,
+          "empleados_estimados": 1094,
+          "desempleados_estimados": 193,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 1312,
+          "empleados_estimados": 1115,
+          "desempleados_estimados": 197,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 1336,
+          "empleados_estimados": 1136,
+          "desempleados_estimados": 200,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 1361,
+          "empleados_estimados": 1157,
+          "desempleados_estimados": 204,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 8839,
+        "matricula_proyectada_2030": 13600,
+        "crecimiento_total": "53.9%",
+        "umbral_saturacion": 70000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "53.9%",
+        "crecimiento_salario_real_total": "53.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Fonoaudiología": {
+      "nombre": "Fonoaudiología",
+      "codigo_holland": "SIA",
+      "sector": "salud",
+      "datos_base_2025": {
+        "matricula": 8111,
+        "salario_promedio": 950000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 85
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 9003,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 8499,
+          "intervalo_maximo": 9507
+        },
+        "2027": {
+          "matricula_proyectada": 9994,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 9374,
+          "intervalo_maximo": 10613
+        },
+        "2028": {
+          "matricula_proyectada": 11093,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 10339,
+          "intervalo_maximo": 11847
+        },
+        "2029": {
+          "matricula_proyectada": 12313,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 11402,
+          "intervalo_maximo": 13224
+        },
+        "2030": {
+          "matricula_proyectada": 13668,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 12574,
+          "intervalo_maximo": 14761
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1062100,
+          "crecimiento_real": "8.8%"
+        },
+        "2027": {
+          "salario_proyectado": 1187428,
+          "crecimiento_real": "8.8%"
+        },
+        "2028": {
+          "salario_proyectado": 1327544,
+          "crecimiento_real": "8.8%"
+        },
+        "2029": {
+          "salario_proyectado": 1484195,
+          "crecimiento_real": "8.8%"
+        },
+        "2030": {
+          "salario_proyectado": 1659329,
+          "crecimiento_real": "8.8%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 1158,
+          "empleados_estimados": 984,
+          "desempleados_estimados": 174,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 1181,
+          "empleados_estimados": 1004,
+          "desempleados_estimados": 177,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 1204,
+          "empleados_estimados": 1023,
+          "desempleados_estimados": 181,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 1226,
+          "empleados_estimados": 1042,
+          "desempleados_estimados": 184,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 1249,
+          "empleados_estimados": 1062,
+          "desempleados_estimados": 187,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 8111,
+        "matricula_proyectada_2030": 13668,
+        "crecimiento_total": "68.5%",
+        "umbral_saturacion": 80000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "68.5%",
+        "crecimiento_salario_real_total": "59.7%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Geología": {
+      "nombre": "Geología",
+      "codigo_holland": "IRE",
+      "sector": "ciencias",
+      "datos_base_2025": {
+        "matricula": 4023,
+        "salario_promedio": 1600000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 91
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 4466,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 4215,
+          "intervalo_maximo": 4716
+        },
+        "2027": {
+          "matricula_proyectada": 4957,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 4649,
+          "intervalo_maximo": 5264
+        },
+        "2028": {
+          "matricula_proyectada": 5502,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 5128,
+          "intervalo_maximo": 5876
+        },
+        "2029": {
+          "matricula_proyectada": 6107,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 5655,
+          "intervalo_maximo": 6559
+        },
+        "2030": {
+          "matricula_proyectada": 6779,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 6237,
+          "intervalo_maximo": 7321
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1798400,
+          "crecimiento_real": "9.4%"
+        },
+        "2027": {
+          "salario_proyectado": 2021402,
+          "crecimiento_real": "9.4%"
+        },
+        "2028": {
+          "salario_proyectado": 2272055,
+          "crecimiento_real": "9.4%"
+        },
+        "2029": {
+          "salario_proyectado": 2553790,
+          "crecimiento_real": "9.4%"
+        },
+        "2030": {
+          "salario_proyectado": 2870460,
+          "crecimiento_real": "9.4%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 574,
+          "empleados_estimados": 488,
+          "desempleados_estimados": 86,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 586,
+          "empleados_estimados": 498,
+          "desempleados_estimados": 88,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 597,
+          "empleados_estimados": 507,
+          "desempleados_estimados": 90,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 608,
+          "empleados_estimados": 517,
+          "desempleados_estimados": 91,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 620,
+          "empleados_estimados": 527,
+          "desempleados_estimados": 93,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 4023,
+        "matricula_proyectada_2030": 6779,
+        "crecimiento_total": "68.5%",
+        "umbral_saturacion": 30000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "68.5%",
+        "crecimiento_salario_real_total": "64.4%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Pedagogía en Educación Física": {
+      "nombre": "Pedagogía en Educación Física",
+      "codigo_holland": "SRE",
+      "sector": "educación",
+      "datos_base_2025": {
+        "matricula": 4628,
+        "salario_promedio": 800000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 89
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 5045,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 4762,
+          "intervalo_maximo": 5327
+        },
+        "2027": {
+          "matricula_proyectada": 5499,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 5158,
+          "intervalo_maximo": 5839
+        },
+        "2028": {
+          "matricula_proyectada": 5993,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 5586,
+          "intervalo_maximo": 6401
+        },
+        "2029": {
+          "matricula_proyectada": 6533,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 6049,
+          "intervalo_maximo": 7016
+        },
+        "2030": {
+          "matricula_proyectada": 7121,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 6551,
+          "intervalo_maximo": 7690
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 892800,
+          "crecimiento_real": "8.6%"
+        },
+        "2027": {
+          "salario_proyectado": 996365,
+          "crecimiento_real": "8.6%"
+        },
+        "2028": {
+          "salario_proyectado": 1111943,
+          "crecimiento_real": "8.6%"
+        },
+        "2029": {
+          "salario_proyectado": 1240929,
+          "crecimiento_real": "8.6%"
+        },
+        "2030": {
+          "salario_proyectado": 1384876,
+          "crecimiento_real": "8.6%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 661,
+          "empleados_estimados": 562,
+          "desempleados_estimados": 99,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 674,
+          "empleados_estimados": 573,
+          "desempleados_estimados": 101,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 687,
+          "empleados_estimados": 584,
+          "desempleados_estimados": 103,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 700,
+          "empleados_estimados": 595,
+          "desempleados_estimados": 105,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 713,
+          "empleados_estimados": 606,
+          "desempleados_estimados": 107,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 4628,
+        "matricula_proyectada_2030": 7121,
+        "crecimiento_total": "53.9%",
+        "umbral_saturacion": 50000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "53.9%",
+        "crecimiento_salario_real_total": "58.1%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Diseño Industrial": {
+      "nombre": "Diseño Industrial",
+      "codigo_holland": "AIR",
+      "sector": "artes_diseño",
+      "datos_base_2025": {
+        "matricula": 1295,
+        "salario_promedio": 1000000,
+        "instituciones": null,
+        "empleabilidad": "media",
+        "oportunidad_index": 77
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 1437,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 1357,
+          "intervalo_maximo": 1518
+        },
+        "2027": {
+          "matricula_proyectada": 1596,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 1497,
+          "intervalo_maximo": 1694
+        },
+        "2028": {
+          "matricula_proyectada": 1771,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 1651,
+          "intervalo_maximo": 1892
+        },
+        "2029": {
+          "matricula_proyectada": 1966,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 1820,
+          "intervalo_maximo": 2111
+        },
+        "2030": {
+          "matricula_proyectada": 2182,
+          "crecimiento_anual": "11.0%",
+          "intervalo_minimo": 2008,
+          "intervalo_maximo": 2357
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1110000,
+          "crecimiento_real": "8.0%"
+        },
+        "2027": {
+          "salario_proyectado": 1232100,
+          "crecimiento_real": "8.0%"
+        },
+        "2028": {
+          "salario_proyectado": 1367631,
+          "crecimiento_real": "8.0%"
+        },
+        "2029": {
+          "salario_proyectado": 1518070,
+          "crecimiento_real": "8.0%"
+        },
+        "2030": {
+          "salario_proyectado": 1685058,
+          "crecimiento_real": "8.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 185,
+          "empleados_estimados": 93,
+          "desempleados_estimados": 92,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2027": {
+          "egresados_estimados": 189,
+          "empleados_estimados": 95,
+          "desempleados_estimados": 94,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2028": {
+          "egresados_estimados": 192,
+          "empleados_estimados": 96,
+          "desempleados_estimados": 96,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2029": {
+          "egresados_estimados": 196,
+          "empleados_estimados": 98,
+          "desempleados_estimados": 98,
+          "tasa_empleabilidad": "50.0%"
+        },
+        "2030": {
+          "egresados_estimados": 199,
+          "empleados_estimados": 100,
+          "desempleados_estimados": 99,
+          "tasa_empleabilidad": "50.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 1295,
+        "matricula_proyectada_2030": 2182,
+        "crecimiento_total": "68.5%",
+        "umbral_saturacion": 40000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "68.5%",
+        "crecimiento_salario_real_total": "53.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Química y Farmacia": {
+      "nombre": "Química y Farmacia",
+      "codigo_holland": "IRC",
+      "sector": "ciencias",
+      "datos_base_2025": {
+        "matricula": 11842,
+        "salario_promedio": 1200000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 82
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 12789,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 12073,
+          "intervalo_maximo": 13506
+        },
+        "2027": {
+          "matricula_proyectada": 13813,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 12956,
+          "intervalo_maximo": 14669
+        },
+        "2028": {
+          "matricula_proyectada": 14918,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 13903,
+          "intervalo_maximo": 15932
+        },
+        "2029": {
+          "matricula_proyectada": 16111,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 14919,
+          "intervalo_maximo": 17303
+        },
+        "2030": {
+          "matricula_proyectada": 17400,
+          "crecimiento_anual": "8.0%",
+          "intervalo_minimo": 16008,
+          "intervalo_maximo": 18792
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 1327200,
+          "crecimiento_real": "7.6%"
+        },
+        "2027": {
+          "salario_proyectado": 1467883,
+          "crecimiento_real": "7.6%"
+        },
+        "2028": {
+          "salario_proyectado": 1623479,
+          "crecimiento_real": "7.6%"
+        },
+        "2029": {
+          "salario_proyectado": 1795568,
+          "crecimiento_real": "7.6%"
+        },
+        "2030": {
+          "salario_proyectado": 1985898,
+          "crecimiento_real": "7.6%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 1691,
+          "empleados_estimados": 1437,
+          "desempleados_estimados": 254,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 1724,
+          "empleados_estimados": 1465,
+          "desempleados_estimados": 259,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 1757,
+          "empleados_estimados": 1493,
+          "desempleados_estimados": 264,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 1791,
+          "empleados_estimados": 1522,
+          "desempleados_estimados": 269,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 1824,
+          "empleados_estimados": 1550,
+          "desempleados_estimados": 274,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 11842,
+        "matricula_proyectada_2030": 17400,
+        "crecimiento_total": "46.9%",
+        "umbral_saturacion": 30000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "46.9%",
+        "crecimiento_salario_real_total": "50.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    },
+    "Ingeniería Eléctrica": {
+      "nombre": "Ingeniería Eléctrica",
+      "codigo_holland": "RIC",
+      "sector": "ingeniería",
+      "datos_base_2025": {
+        "matricula": 10884,
+        "salario_promedio": 1900000,
+        "instituciones": null,
+        "empleabilidad": "alta",
+        "oportunidad_index": 83
+      },
+      "proyecciones_matricula": {
+        "2026": {
+          "matricula_proyectada": 11864,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 11199,
+          "intervalo_maximo": 12528
+        },
+        "2027": {
+          "matricula_proyectada": 12931,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 12130,
+          "intervalo_maximo": 13733
+        },
+        "2028": {
+          "matricula_proyectada": 14095,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 13137,
+          "intervalo_maximo": 15054
+        },
+        "2029": {
+          "matricula_proyectada": 15364,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 14227,
+          "intervalo_maximo": 16501
+        },
+        "2030": {
+          "matricula_proyectada": 16746,
+          "crecimiento_anual": "9.0%",
+          "intervalo_minimo": 15407,
+          "intervalo_maximo": 18086
+        }
+      },
+      "proyecciones_salario": {
+        "2026": {
+          "salario_proyectado": 2109000,
+          "crecimiento_real": "8.0%"
+        },
+        "2027": {
+          "salario_proyectado": 2340990,
+          "crecimiento_real": "8.0%"
+        },
+        "2028": {
+          "salario_proyectado": 2598499,
+          "crecimiento_real": "8.0%"
+        },
+        "2029": {
+          "salario_proyectado": 2884334,
+          "crecimiento_real": "8.0%"
+        },
+        "2030": {
+          "salario_proyectado": 3201610,
+          "crecimiento_real": "8.0%"
+        }
+      },
+      "proyecciones_demanda": {
+        "2026": {
+          "egresados_estimados": 1554,
+          "empleados_estimados": 1321,
+          "desempleados_estimados": 233,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2027": {
+          "egresados_estimados": 1585,
+          "empleados_estimados": 1347,
+          "desempleados_estimados": 238,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2028": {
+          "egresados_estimados": 1615,
+          "empleados_estimados": 1373,
+          "desempleados_estimados": 242,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2029": {
+          "egresados_estimados": 1646,
+          "empleados_estimados": 1399,
+          "desempleados_estimados": 247,
+          "tasa_empleabilidad": "85.0%"
+        },
+        "2030": {
+          "egresados_estimados": 1676,
+          "empleados_estimados": 1425,
+          "desempleados_estimados": 251,
+          "tasa_empleabilidad": "85.0%"
+        }
+      },
+      "saturacion_futura": {
+        "nivel": "baja",
+        "matricula_actual": 10884,
+        "matricula_proyectada_2030": 16746,
+        "crecimiento_total": "53.9%",
+        "umbral_saturacion": 70000,
+        "alerta": null
+      },
+      "resumen": {
+        "crecimiento_matricula_total": "53.9%",
+        "crecimiento_salario_real_total": "53.5%",
+        "tendencia": "creciente",
+        "confianza": 0.85
+      },
+      "recomendacion": {
+        "nivel": "moderado",
+        "emoji": "➡️",
+        "mensaje": "Perspectivas estables. Requiere diferenciación para destacar.",
+        "acciones": [
+          "Enfocarse en prácticas profesionales de calidad",
+          "Desarrollar red de contactos en la industria",
+          "Considerar especializaciones según intereses"
+        ]
+      }
+    }
+  },
+  "rankings": {
+    "mayor_crecimiento_matricula": [
+      {
+        "nombre": "Diseño Gráfico",
+        "crecimiento": "68.5%",
+        "sector": "artes_diseño"
+      },
+      {
+        "nombre": "Publicidad",
+        "crecimiento": "68.5%",
+        "sector": "artes_diseño"
+      },
+      {
+        "nombre": "Bioquímica",
+        "crecimiento": "68.5%",
+        "sector": "ciencias"
+      },
+      {
+        "nombre": "Odontología",
+        "crecimiento": "68.5%",
+        "sector": "salud"
+      },
+      {
+        "nombre": "Nutrición y Dietética",
+        "crecimiento": "68.5%",
+        "sector": "salud"
+      },
+      {
+        "nombre": "Fonoaudiología",
+        "crecimiento": "68.5%",
+        "sector": "salud"
+      },
+      {
+        "nombre": "Geología",
+        "crecimiento": "68.5%",
+        "sector": "ciencias"
+      },
+      {
+        "nombre": "Diseño Industrial",
+        "crecimiento": "68.5%",
+        "sector": "artes_diseño"
+      },
+      {
+        "nombre": "Ingeniería Civil en Informática",
+        "crecimiento": "68.0%",
+        "sector": "tecnología"
+      },
+      {
+        "nombre": "Agronomía",
+        "crecimiento": "61.1%",
+        "sector": "otros"
+      }
+    ],
+    "mayor_crecimiento_salario": [
+      {
+        "nombre": "Geología",
+        "crecimiento_real": "64.4%",
+        "salario_2030": 2870460
+      },
+      {
+        "nombre": "Agronomía",
+        "crecimiento_real": "61.2%",
+        "salario_2030": 2114810
+      },
+      {
+        "nombre": "Odontología",
+        "crecimiento_real": "59.7%",
+        "salario_2030": 3143993
+      },
+      {
+        "nombre": "Nutrición y Dietética",
+        "crecimiento_real": "59.7%",
+        "salario_2030": 1571996
+      },
+      {
+        "nombre": "Fonoaudiología",
+        "crecimiento_real": "59.7%",
+        "salario_2030": 1659329
+      },
+      {
+        "nombre": "Pedagogía en Educación Básica",
+        "crecimiento_real": "58.1%",
+        "salario_2030": 1384876
+      },
+      {
+        "nombre": "Pedagogía en Educación Física",
+        "crecimiento_real": "58.1%",
+        "salario_2030": 1384876
+      },
+      {
+        "nombre": "Ingeniería Civil",
+        "crecimiento_real": "53.5%",
+        "salario_2030": 2864599
+      },
+      {
+        "nombre": "Diseño Gráfico",
+        "crecimiento_real": "53.5%",
+        "salario_2030": 1432299
+      },
+      {
+        "nombre": "Ingeniería en Construcción",
+        "crecimiento_real": "53.5%",
+        "salario_2030": 2359081
+      }
+    ],
+    "recomendadas": [],
+    "saturacion_critica": [
+      {
+        "nombre": "Psicología",
+        "saturacion": "alta",
+        "alerta": "Saturación moderada proyectada. Importante destacar con postgrados o certificaciones."
+      },
+      {
+        "nombre": "Derecho",
+        "saturacion": "alta",
+        "alerta": "Saturación moderada proyectada. Importante destacar con postgrados o certificaciones."
+      }
+    ]
+  },
+  "metodologia": {
+    "matricula": "Proyección exponencial con factores de saturación",
+    "salarios": "Inflación + crecimiento real + factor de demanda",
+    "demanda": "Estimación basada en tasa de titulación y empleabilidad",
+    "confianza": "Basada en calidad de datos y volatilidad del sector"
+  }
+}

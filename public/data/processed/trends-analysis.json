@@ -1,0 +1,1206 @@
+{
+  "version": "2.0",
+  "generado": "2026-01-06T02:47:08.455Z",
+  "año_base": 2025,
+  "fuente": "Carreras enriquecidas + Análisis de tendencias",
+  "total_carreras": 30,
+  "carreras": [
+    {
+      "nombre": "Ingeniería Civil en Informática",
+      "codigo_holland": "IRC",
+      "area": "Tecnología",
+      "sector": "tecnología",
+      "datos_2025": {
+        "matricula": 30086,
+        "instituciones": null,
+        "regiones": 15,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "alta",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 73,
+        "crecimiento_sector": "12.0%",
+        "crecimiento_proyectado": "11.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.12,
+        "factor_saturacion": -0.01,
+        "factor_total": 0.11,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Medicina",
+      "codigo_holland": "ISR",
+      "area": "Salud",
+      "sector": "salud",
+      "datos_2025": {
+        "matricula": 21131,
+        "instituciones": null,
+        "regiones": 14,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "media",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 76,
+        "crecimiento_sector": "6.0%",
+        "crecimiento_proyectado": "8.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.06,
+        "factor_saturacion": 0.02,
+        "factor_total": 0.08,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Psicología",
+      "codigo_holland": "SIA",
+      "area": "Ciencias Sociales",
+      "sector": "ciencias_sociales",
+      "datos_2025": {
+        "matricula": 54890,
+        "instituciones": null,
+        "regiones": 16,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "decreciente",
+        "saturacion": "muy_alta",
+        "empleabilidad": "media",
+        "empleabilidad_score": 50,
+        "oportunidad_index": 39,
+        "crecimiento_sector": "-2.0%",
+        "crecimiento_proyectado": "-5.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": -0.02,
+        "factor_saturacion": -0.03,
+        "factor_total": -0.05,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Arquitectura",
+      "codigo_holland": "AIR",
+      "area": "Arte y Diseño",
+      "sector": "artes_diseño",
+      "datos_2025": {
+        "matricula": 17703,
+        "instituciones": null,
+        "regiones": 11,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "estable",
+        "saturacion": "media",
+        "empleabilidad": "media",
+        "empleabilidad_score": 50,
+        "oportunidad_index": 59,
+        "crecimiento_sector": "3.0%",
+        "crecimiento_proyectado": "5.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.03,
+        "factor_saturacion": 0.02,
+        "factor_total": 0.05,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Administración de Empresas",
+      "codigo_holland": "ECS",
+      "area": "Negocios",
+      "sector": "negocios",
+      "datos_2025": {
+        "matricula": 6206,
+        "instituciones": null,
+        "regiones": 16,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 81,
+        "crecimiento_sector": "2.0%",
+        "crecimiento_proyectado": "7.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.02,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.07,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Contador Auditor",
+      "codigo_holland": "CES",
+      "area": "Negocios",
+      "sector": "negocios",
+      "datos_2025": {
+        "matricula": 9647,
+        "instituciones": null,
+        "regiones": 12,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 81,
+        "crecimiento_sector": "2.0%",
+        "crecimiento_proyectado": "7.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.02,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.07,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Ingeniería Civil",
+      "codigo_holland": "RIC",
+      "area": "Ingeniería",
+      "sector": "ingeniería",
+      "datos_2025": {
+        "matricula": 10595,
+        "instituciones": null,
+        "regiones": 8,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 83,
+        "crecimiento_sector": "4.0%",
+        "crecimiento_proyectado": "9.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.04,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.09,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Derecho",
+      "codigo_holland": "ESI",
+      "area": "Ciencias Jurídicas",
+      "sector": "derecho",
+      "datos_2025": {
+        "matricula": 48541,
+        "instituciones": null,
+        "regiones": 15,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "decreciente",
+        "saturacion": "alta",
+        "empleabilidad": "media",
+        "empleabilidad_score": 50,
+        "oportunidad_index": 44,
+        "crecimiento_sector": "-3.0%",
+        "crecimiento_proyectado": "-4.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": -0.03,
+        "factor_saturacion": -0.01,
+        "factor_total": -0.04,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Pedagogía en Educación Básica",
+      "codigo_holland": "SAE",
+      "area": "Educación",
+      "sector": "educación",
+      "datos_2025": {
+        "matricula": 1968,
+        "instituciones": null,
+        "regiones": 7,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "muy_baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 89,
+        "crecimiento_sector": "1.0%",
+        "crecimiento_proyectado": "9.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.01,
+        "factor_saturacion": 0.08,
+        "factor_total": 0.09,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Diseño Gráfico",
+      "codigo_holland": "AEC",
+      "area": "Arte y Diseño",
+      "sector": "artes_diseño",
+      "datos_2025": {
+        "matricula": 3869,
+        "instituciones": null,
+        "regiones": 11,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "muy_baja",
+        "empleabilidad": "media",
+        "empleabilidad_score": 50,
+        "oportunidad_index": 77,
+        "crecimiento_sector": "3.0%",
+        "crecimiento_proyectado": "11.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.03,
+        "factor_saturacion": 0.08,
+        "factor_total": 0.11,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Enfermería",
+      "codigo_holland": "SRI",
+      "area": "Salud",
+      "sector": "salud",
+      "datos_2025": {
+        "matricula": 36736,
+        "instituciones": null,
+        "regiones": 15,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "estable",
+        "saturacion": "alta",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 67,
+        "crecimiento_sector": "6.0%",
+        "crecimiento_proyectado": "5.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.06,
+        "factor_saturacion": -0.01,
+        "factor_total": 0.049999999999999996,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Ingeniería Comercial",
+      "codigo_holland": "ECI",
+      "area": "Negocios",
+      "sector": "ingeniería",
+      "datos_2025": {
+        "matricula": 43793,
+        "instituciones": null,
+        "regiones": 16,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "estable",
+        "saturacion": "alta",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 65,
+        "crecimiento_sector": "4.0%",
+        "crecimiento_proyectado": "3.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.04,
+        "factor_saturacion": -0.01,
+        "factor_total": 0.03,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Periodismo",
+      "codigo_holland": "AES",
+      "area": "Comunicación",
+      "sector": "otros",
+      "datos_2025": {
+        "matricula": 6117,
+        "instituciones": null,
+        "regiones": 8,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "media",
+        "empleabilidad_score": 50,
+        "oportunidad_index": 67,
+        "crecimiento_sector": "2.0%",
+        "crecimiento_proyectado": "7.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.02,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.07,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Kinesiología",
+      "codigo_holland": "SIR",
+      "area": "Salud",
+      "sector": "salud",
+      "datos_2025": {
+        "matricula": 24973,
+        "instituciones": null,
+        "regiones": 15,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "media",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 76,
+        "crecimiento_sector": "6.0%",
+        "crecimiento_proyectado": "8.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.06,
+        "factor_saturacion": 0.02,
+        "factor_total": 0.08,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Trabajo Social",
+      "codigo_holland": "SEA",
+      "area": "Ciencias Sociales",
+      "sector": "ciencias_sociales",
+      "datos_2025": {
+        "matricula": 23121,
+        "instituciones": null,
+        "regiones": 16,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "estable",
+        "saturacion": "media",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 68,
+        "crecimiento_sector": "-2.0%",
+        "crecimiento_proyectado": "0.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": -0.02,
+        "factor_saturacion": 0.02,
+        "factor_total": 0,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Ingeniería en Construcción",
+      "codigo_holland": "REC",
+      "area": "Ingeniería",
+      "sector": "ingeniería",
+      "datos_2025": {
+        "matricula": 11949,
+        "instituciones": null,
+        "regiones": 15,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 83,
+        "crecimiento_sector": "4.0%",
+        "crecimiento_proyectado": "9.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.04,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.09,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Veterinaria",
+      "codigo_holland": "IRS",
+      "area": "Salud Animal",
+      "sector": "otros",
+      "datos_2025": {
+        "matricula": null,
+        "instituciones": null,
+        "regiones": null,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "estable",
+        "saturacion": "desconocida",
+        "empleabilidad": "media",
+        "empleabilidad_score": 50,
+        "oportunidad_index": 52,
+        "crecimiento_sector": "2.0%",
+        "crecimiento_proyectado": "2.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.02,
+        "factor_saturacion": 0,
+        "factor_total": 0.02,
+        "confianza": 0.7
+      }
+    },
+    {
+      "nombre": "Sociología",
+      "codigo_holland": "IAS",
+      "area": "Ciencias Sociales",
+      "sector": "ciencias_sociales",
+      "datos_2025": {
+        "matricula": 2439,
+        "instituciones": null,
+        "regiones": 7,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "muy_baja",
+        "empleabilidad": "baja",
+        "empleabilidad_score": 30,
+        "oportunidad_index": 64,
+        "crecimiento_sector": "-2.0%",
+        "crecimiento_proyectado": "6.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": -0.02,
+        "factor_saturacion": 0.08,
+        "factor_total": 0.06,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Agronomía",
+      "codigo_holland": "RIS",
+      "area": "Ciencias Agropecuarias",
+      "sector": "otros",
+      "datos_2025": {
+        "matricula": 4761,
+        "instituciones": null,
+        "regiones": 12,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "muy_baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 90,
+        "crecimiento_sector": "2.0%",
+        "crecimiento_proyectado": "10.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.02,
+        "factor_saturacion": 0.08,
+        "factor_total": 0.1,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Publicidad",
+      "codigo_holland": "AES",
+      "area": "Comunicación",
+      "sector": "artes_diseño",
+      "datos_2025": {
+        "matricula": 4235,
+        "instituciones": null,
+        "regiones": 3,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "muy_baja",
+        "empleabilidad": "media",
+        "empleabilidad_score": 50,
+        "oportunidad_index": 77,
+        "crecimiento_sector": "3.0%",
+        "crecimiento_proyectado": "11.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.03,
+        "factor_saturacion": 0.08,
+        "factor_total": 0.11,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Bioquímica",
+      "codigo_holland": "IRE",
+      "area": "Ciencias",
+      "sector": "ciencias",
+      "datos_2025": {
+        "matricula": 2690,
+        "instituciones": null,
+        "regiones": 7,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "muy_baja",
+        "empleabilidad": "media",
+        "empleabilidad_score": 50,
+        "oportunidad_index": 77,
+        "crecimiento_sector": "3.0%",
+        "crecimiento_proyectado": "11.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.03,
+        "factor_saturacion": 0.08,
+        "factor_total": 0.11,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Odontología",
+      "codigo_holland": "ISR",
+      "area": "Salud",
+      "sector": "salud",
+      "datos_2025": {
+        "matricula": 14781,
+        "instituciones": null,
+        "regiones": 10,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 85,
+        "crecimiento_sector": "6.0%",
+        "crecimiento_proyectado": "11.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.06,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.11,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Nutrición y Dietética",
+      "codigo_holland": "SIC",
+      "area": "Salud",
+      "sector": "salud",
+      "datos_2025": {
+        "matricula": 14136,
+        "instituciones": null,
+        "regiones": 15,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 85,
+        "crecimiento_sector": "6.0%",
+        "crecimiento_proyectado": "11.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.06,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.11,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Ingeniería en Minas",
+      "codigo_holland": "RIE",
+      "area": "Ingeniería",
+      "sector": "ingeniería",
+      "datos_2025": {
+        "matricula": 8839,
+        "instituciones": null,
+        "regiones": 8,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 83,
+        "crecimiento_sector": "4.0%",
+        "crecimiento_proyectado": "9.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.04,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.09,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Fonoaudiología",
+      "codigo_holland": "SIA",
+      "area": "Salud",
+      "sector": "salud",
+      "datos_2025": {
+        "matricula": 8111,
+        "instituciones": null,
+        "regiones": 13,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 85,
+        "crecimiento_sector": "6.0%",
+        "crecimiento_proyectado": "11.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.06,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.11,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Geología",
+      "codigo_holland": "IRE",
+      "area": "Ciencias de la Tierra",
+      "sector": "ciencias",
+      "datos_2025": {
+        "matricula": 4023,
+        "instituciones": null,
+        "regiones": 9,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "muy_baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 91,
+        "crecimiento_sector": "3.0%",
+        "crecimiento_proyectado": "11.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.03,
+        "factor_saturacion": 0.08,
+        "factor_total": 0.11,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Pedagogía en Educación Física",
+      "codigo_holland": "SRE",
+      "area": "Educación",
+      "sector": "educación",
+      "datos_2025": {
+        "matricula": 4628,
+        "instituciones": null,
+        "regiones": 9,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "muy_baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 89,
+        "crecimiento_sector": "1.0%",
+        "crecimiento_proyectado": "9.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.01,
+        "factor_saturacion": 0.08,
+        "factor_total": 0.09,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Diseño Industrial",
+      "codigo_holland": "AIR",
+      "area": "Arte y Diseño",
+      "sector": "artes_diseño",
+      "datos_2025": {
+        "matricula": 1295,
+        "instituciones": null,
+        "regiones": 4,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "muy_baja",
+        "empleabilidad": "media",
+        "empleabilidad_score": 50,
+        "oportunidad_index": 77,
+        "crecimiento_sector": "3.0%",
+        "crecimiento_proyectado": "11.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.03,
+        "factor_saturacion": 0.08,
+        "factor_total": 0.11,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Química y Farmacia",
+      "codigo_holland": "IRC",
+      "area": "Salud",
+      "sector": "ciencias",
+      "datos_2025": {
+        "matricula": 11842,
+        "instituciones": null,
+        "regiones": 10,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 82,
+        "crecimiento_sector": "3.0%",
+        "crecimiento_proyectado": "8.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.03,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.08,
+        "confianza": 0.85
+      }
+    },
+    {
+      "nombre": "Ingeniería Eléctrica",
+      "codigo_holland": "RIC",
+      "area": "Ingeniería",
+      "sector": "ingeniería",
+      "datos_2025": {
+        "matricula": 10884,
+        "instituciones": null,
+        "regiones": 13,
+        "titulados": null,
+        "tasa_titulacion": null
+      },
+      "analisis": {
+        "tendencia": "creciente",
+        "saturacion": "baja",
+        "empleabilidad": "alta",
+        "empleabilidad_score": 85,
+        "oportunidad_index": 83,
+        "crecimiento_sector": "4.0%",
+        "crecimiento_proyectado": "9.0%"
+      },
+      "factores_proyeccion": {
+        "factor_sector": 0.04,
+        "factor_saturacion": 0.05,
+        "factor_total": 0.09,
+        "confianza": 0.85
+      }
+    }
+  ],
+  "estadisticas_sector": {
+    "tecnología": {
+      "carreras": [
+        "Ingeniería Civil en Informática"
+      ],
+      "total_matricula": 30086,
+      "avg_oportunidad": 73,
+      "count": 1
+    },
+    "salud": {
+      "carreras": [
+        "Medicina",
+        "Enfermería",
+        "Kinesiología",
+        "Odontología",
+        "Nutrición y Dietética",
+        "Fonoaudiología"
+      ],
+      "total_matricula": 119868,
+      "avg_oportunidad": 79,
+      "count": 6
+    },
+    "ciencias_sociales": {
+      "carreras": [
+        "Psicología",
+        "Trabajo Social",
+        "Sociología"
+      ],
+      "total_matricula": 80450,
+      "avg_oportunidad": 57,
+      "count": 3
+    },
+    "artes_diseño": {
+      "carreras": [
+        "Arquitectura",
+        "Diseño Gráfico",
+        "Publicidad",
+        "Diseño Industrial"
+      ],
+      "total_matricula": 27102,
+      "avg_oportunidad": 73,
+      "count": 4
+    },
+    "negocios": {
+      "carreras": [
+        "Administración de Empresas",
+        "Contador Auditor"
+      ],
+      "total_matricula": 15853,
+      "avg_oportunidad": 81,
+      "count": 2
+    },
+    "ingeniería": {
+      "carreras": [
+        "Ingeniería Civil",
+        "Ingeniería Comercial",
+        "Ingeniería en Construcción",
+        "Ingeniería en Minas",
+        "Ingeniería Eléctrica"
+      ],
+      "total_matricula": 86060,
+      "avg_oportunidad": 79,
+      "count": 5
+    },
+    "derecho": {
+      "carreras": [
+        "Derecho"
+      ],
+      "total_matricula": 48541,
+      "avg_oportunidad": 44,
+      "count": 1
+    },
+    "educación": {
+      "carreras": [
+        "Pedagogía en Educación Básica",
+        "Pedagogía en Educación Física"
+      ],
+      "total_matricula": 6596,
+      "avg_oportunidad": 89,
+      "count": 2
+    },
+    "otros": {
+      "carreras": [
+        "Periodismo",
+        "Veterinaria",
+        "Agronomía"
+      ],
+      "total_matricula": 10878,
+      "avg_oportunidad": 70,
+      "count": 3
+    },
+    "ciencias": {
+      "carreras": [
+        "Bioquímica",
+        "Geología",
+        "Química y Farmacia"
+      ],
+      "total_matricula": 18555,
+      "avg_oportunidad": 83,
+      "count": 3
+    }
+  },
+  "rankings": {
+    "por_oportunidad": [
+      {
+        "nombre": "Geología",
+        "oportunidad_index": 91,
+        "tendencia": "creciente"
+      },
+      {
+        "nombre": "Agronomía",
+        "oportunidad_index": 90,
+        "tendencia": "creciente"
+      },
+      {
+        "nombre": "Pedagogía en Educación Básica",
+        "oportunidad_index": 89,
+        "tendencia": "creciente"
+      },
+      {
+        "nombre": "Pedagogía en Educación Física",
+        "oportunidad_index": 89,
+        "tendencia": "creciente"
+      },
+      {
+        "nombre": "Odontología",
+        "oportunidad_index": 85,
+        "tendencia": "creciente"
+      },
+      {
+        "nombre": "Nutrición y Dietética",
+        "oportunidad_index": 85,
+        "tendencia": "creciente"
+      },
+      {
+        "nombre": "Fonoaudiología",
+        "oportunidad_index": 85,
+        "tendencia": "creciente"
+      },
+      {
+        "nombre": "Ingeniería Civil",
+        "oportunidad_index": 83,
+        "tendencia": "creciente"
+      },
+      {
+        "nombre": "Ingeniería en Construcción",
+        "oportunidad_index": 83,
+        "tendencia": "creciente"
+      },
+      {
+        "nombre": "Ingeniería en Minas",
+        "oportunidad_index": 83,
+        "tendencia": "creciente"
+      }
+    ],
+    "por_matricula": [
+      {
+        "nombre": "Psicología",
+        "matricula": 54890,
+        "saturacion": "muy_alta"
+      },
+      {
+        "nombre": "Derecho",
+        "matricula": 48541,
+        "saturacion": "alta"
+      },
+      {
+        "nombre": "Ingeniería Comercial",
+        "matricula": 43793,
+        "saturacion": "alta"
+      },
+      {
+        "nombre": "Enfermería",
+        "matricula": 36736,
+        "saturacion": "alta"
+      },
+      {
+        "nombre": "Ingeniería Civil en Informática",
+        "matricula": 30086,
+        "saturacion": "alta"
+      },
+      {
+        "nombre": "Kinesiología",
+        "matricula": 24973,
+        "saturacion": "media"
+      },
+      {
+        "nombre": "Trabajo Social",
+        "matricula": 23121,
+        "saturacion": "media"
+      },
+      {
+        "nombre": "Medicina",
+        "matricula": 21131,
+        "saturacion": "media"
+      },
+      {
+        "nombre": "Arquitectura",
+        "matricula": 17703,
+        "saturacion": "media"
+      },
+      {
+        "nombre": "Odontología",
+        "matricula": 14781,
+        "saturacion": "baja"
+      }
+    ],
+    "alto_crecimiento": [
+      {
+        "nombre": "Ingeniería Civil en Informática",
+        "crecimiento_proyectado": "11.0%",
+        "sector": "tecnología"
+      },
+      {
+        "nombre": "Diseño Gráfico",
+        "crecimiento_proyectado": "11.0%",
+        "sector": "artes_diseño"
+      },
+      {
+        "nombre": "Publicidad",
+        "crecimiento_proyectado": "11.0%",
+        "sector": "artes_diseño"
+      },
+      {
+        "nombre": "Bioquímica",
+        "crecimiento_proyectado": "11.0%",
+        "sector": "ciencias"
+      },
+      {
+        "nombre": "Odontología",
+        "crecimiento_proyectado": "11.0%",
+        "sector": "salud"
+      },
+      {
+        "nombre": "Nutrición y Dietética",
+        "crecimiento_proyectado": "11.0%",
+        "sector": "salud"
+      },
+      {
+        "nombre": "Fonoaudiología",
+        "crecimiento_proyectado": "11.0%",
+        "sector": "salud"
+      },
+      {
+        "nombre": "Geología",
+        "crecimiento_proyectado": "11.0%",
+        "sector": "ciencias"
+      },
+      {
+        "nombre": "Diseño Industrial",
+        "crecimiento_proyectado": "11.0%",
+        "sector": "artes_diseño"
+      },
+      {
+        "nombre": "Agronomía",
+        "crecimiento_proyectado": "10.0%",
+        "sector": "otros"
+      },
+      {
+        "nombre": "Ingeniería Civil",
+        "crecimiento_proyectado": "9.0%",
+        "sector": "ingeniería"
+      },
+      {
+        "nombre": "Pedagogía en Educación Básica",
+        "crecimiento_proyectado": "9.0%",
+        "sector": "educación"
+      },
+      {
+        "nombre": "Ingeniería en Construcción",
+        "crecimiento_proyectado": "9.0%",
+        "sector": "ingeniería"
+      },
+      {
+        "nombre": "Ingeniería en Minas",
+        "crecimiento_proyectado": "9.0%",
+        "sector": "ingeniería"
+      },
+      {
+        "nombre": "Pedagogía en Educación Física",
+        "crecimiento_proyectado": "9.0%",
+        "sector": "educación"
+      },
+      {
+        "nombre": "Ingeniería Eléctrica",
+        "crecimiento_proyectado": "9.0%",
+        "sector": "ingeniería"
+      },
+      {
+        "nombre": "Medicina",
+        "crecimiento_proyectado": "8.0%",
+        "sector": "salud"
+      },
+      {
+        "nombre": "Kinesiología",
+        "crecimiento_proyectado": "8.0%",
+        "sector": "salud"
+      },
+      {
+        "nombre": "Química y Farmacia",
+        "crecimiento_proyectado": "8.0%",
+        "sector": "ciencias"
+      },
+      {
+        "nombre": "Administración de Empresas",
+        "crecimiento_proyectado": "7.0%",
+        "sector": "negocios"
+      },
+      {
+        "nombre": "Contador Auditor",
+        "crecimiento_proyectado": "7.0%",
+        "sector": "negocios"
+      },
+      {
+        "nombre": "Periodismo",
+        "crecimiento_proyectado": "7.0%",
+        "sector": "otros"
+      },
+      {
+        "nombre": "Sociología",
+        "crecimiento_proyectado": "6.0%",
+        "sector": "ciencias_sociales"
+      }
+    ],
+    "saturadas": [
+      {
+        "nombre": "Ingeniería Civil en Informática",
+        "matricula": 30086,
+        "saturacion": "alta"
+      },
+      {
+        "nombre": "Psicología",
+        "matricula": 54890,
+        "saturacion": "muy_alta"
+      },
+      {
+        "nombre": "Derecho",
+        "matricula": 48541,
+        "saturacion": "alta"
+      },
+      {
+        "nombre": "Enfermería",
+        "matricula": 36736,
+        "saturacion": "alta"
+      },
+      {
+        "nombre": "Ingeniería Comercial",
+        "matricula": 43793,
+        "saturacion": "alta"
+      }
+    ]
+  },
+  "metadata": {
+    "sectores_analizados": 10,
+    "carreras_crecimiento": 23,
+    "carreras_saturadas": 5
+  }
+}

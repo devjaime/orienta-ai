@@ -1,0 +1,1398 @@
+{
+  "version": "1.0",
+  "generado": "2026-01-06T02:50:38.049Z",
+  "descripcion": "Análisis de carreras por código Holland/RIASEC",
+  "perfiles_riasec": {
+    "R": {
+      "nombre": "Realista",
+      "dimension": "Realistic",
+      "descripcion": "Personas prácticas que disfrutan trabajar con sus manos, herramientas y objetos físicos.",
+      "caracteristicas": [
+        "Práctico",
+        "Físico",
+        "Concreto",
+        "Técnico"
+      ],
+      "entornos": [
+        "Taller",
+        "Campo",
+        "Construcción",
+        "Mecánica"
+      ]
+    },
+    "I": {
+      "nombre": "Investigativo",
+      "dimension": "Investigative",
+      "descripcion": "Pensadores analíticos interesados en la ciencia, investigación y resolución de problemas.",
+      "caracteristicas": [
+        "Analítico",
+        "Científico",
+        "Intelectual",
+        "Curioso"
+      ],
+      "entornos": [
+        "Laboratorio",
+        "Investigación",
+        "Universidad",
+        "Centro médico"
+      ]
+    },
+    "A": {
+      "nombre": "Artístico",
+      "dimension": "Artistic",
+      "descripcion": "Creativos e innovadores que valoran la autoexpresión y el trabajo original.",
+      "caracteristicas": [
+        "Creativo",
+        "Original",
+        "Expresivo",
+        "Estético"
+      ],
+      "entornos": [
+        "Estudio",
+        "Teatro",
+        "Galería",
+        "Agencia creativa"
+      ]
+    },
+    "S": {
+      "nombre": "Social",
+      "dimension": "Social",
+      "descripcion": "Personas orientadas a ayudar, enseñar y cuidar a otros.",
+      "caracteristicas": [
+        "Empático",
+        "Servicial",
+        "Comunicativo",
+        "Colaborativo"
+      ],
+      "entornos": [
+        "Escuela",
+        "Hospital",
+        "ONG",
+        "Comunidad"
+      ]
+    },
+    "E": {
+      "nombre": "Emprendedor",
+      "dimension": "Enterprising",
+      "descripcion": "Líderes persuasivos interesados en los negocios, ventas y administración.",
+      "caracteristicas": [
+        "Persuasivo",
+        "Líder",
+        "Ambicioso",
+        "Enérgico"
+      ],
+      "entornos": [
+        "Empresa",
+        "Ventas",
+        "Política",
+        "Marketing"
+      ]
+    },
+    "C": {
+      "nombre": "Convencional",
+      "dimension": "Conventional",
+      "descripcion": "Organizados y metódicos que disfrutan trabajar con datos y sistemas estructurados.",
+      "caracteristicas": [
+        "Organizado",
+        "Detallista",
+        "Sistemático",
+        "Preciso"
+      ],
+      "entornos": [
+        "Oficina",
+        "Banco",
+        "Administración",
+        "Contabilidad"
+      ]
+    }
+  },
+  "analisis_por_dimension": {
+    "R": {
+      "carreras": [
+        {
+          "nombre": "Agronomía",
+          "codigo_completo": "RIS",
+          "area": "Ciencias Agropecuarias",
+          "matricula": 4761,
+          "oportunidad_index": 90,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "61.1%",
+          "saturacion": "muy_baja",
+          "empleabilidad": "alta",
+          "salario_2030": 2114810
+        },
+        {
+          "nombre": "Ingeniería Civil",
+          "codigo_completo": "RIC",
+          "area": "Ingeniería",
+          "matricula": 10595,
+          "oportunidad_index": 83,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "53.9%",
+          "saturacion": "baja",
+          "empleabilidad": "alta",
+          "salario_2030": 2864599
+        },
+        {
+          "nombre": "Ingeniería en Construcción",
+          "codigo_completo": "REC",
+          "area": "Ingeniería",
+          "matricula": 11949,
+          "oportunidad_index": 83,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "53.9%",
+          "saturacion": "baja",
+          "empleabilidad": "alta",
+          "salario_2030": 2359081
+        },
+        {
+          "nombre": "Ingeniería en Minas",
+          "codigo_completo": "RIE",
+          "area": "Ingeniería",
+          "matricula": 8839,
+          "oportunidad_index": 83,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "53.9%",
+          "saturacion": "baja",
+          "empleabilidad": "alta",
+          "salario_2030": 3707128
+        },
+        {
+          "nombre": "Ingeniería Eléctrica",
+          "codigo_completo": "RIC",
+          "area": "Ingeniería",
+          "matricula": 10884,
+          "oportunidad_index": 83,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "53.9%",
+          "saturacion": "baja",
+          "empleabilidad": "alta",
+          "salario_2030": 3201610
+        }
+      ],
+      "total_matricula": 47028,
+      "avg_oportunidad": 84,
+      "count": 5
+    },
+    "I": {
+      "carreras": [
+        {
+          "nombre": "Geología",
+          "codigo_completo": "IRE",
+          "area": "Ciencias de la Tierra",
+          "matricula": 4023,
+          "oportunidad_index": 91,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "68.5%",
+          "saturacion": "muy_baja",
+          "empleabilidad": "alta",
+          "salario_2030": 2870460
+        },
+        {
+          "nombre": "Odontología",
+          "codigo_completo": "ISR",
+          "area": "Salud",
+          "matricula": 14781,
+          "oportunidad_index": 85,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "68.5%",
+          "saturacion": "baja",
+          "empleabilidad": "alta",
+          "salario_2030": 3143993
+        },
+        {
+          "nombre": "Química y Farmacia",
+          "codigo_completo": "IRC",
+          "area": "Salud",
+          "matricula": 11842,
+          "oportunidad_index": 82,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "46.9%",
+          "saturacion": "baja",
+          "empleabilidad": "alta",
+          "salario_2030": 1985898
+        },
+        {
+          "nombre": "Bioquímica",
+          "codigo_completo": "IRE",
+          "area": "Ciencias",
+          "matricula": 2690,
+          "oportunidad_index": 77,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "68.5%",
+          "saturacion": "muy_baja",
+          "empleabilidad": "media",
+          "salario_2030": 2190576
+        },
+        {
+          "nombre": "Medicina",
+          "codigo_completo": "ISR",
+          "area": "Salud",
+          "matricula": 21131,
+          "oportunidad_index": 76,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "46.9%",
+          "saturacion": "media",
+          "empleabilidad": "alta",
+          "salario_2030": 4026275
+        },
+        {
+          "nombre": "Ingeniería Civil en Informática",
+          "codigo_completo": "IRC",
+          "area": "Tecnología",
+          "matricula": 30086,
+          "oportunidad_index": 73,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "68.0%",
+          "saturacion": "alta",
+          "empleabilidad": "alta",
+          "salario_2030": 2978847
+        },
+        {
+          "nombre": "Sociología",
+          "codigo_completo": "IAS",
+          "area": "Ciencias Sociales",
+          "matricula": 2439,
+          "oportunidad_index": 64,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "33.8%",
+          "saturacion": "muy_baja",
+          "empleabilidad": "baja",
+          "salario_2030": 1334685
+        },
+        {
+          "nombre": "Veterinaria",
+          "codigo_completo": "IRS",
+          "area": "Salud Animal",
+          "matricula": null,
+          "oportunidad_index": 52,
+          "tendencia": "estable",
+          "crecimiento_proyectado": "10.4%",
+          "saturacion": "desconocida",
+          "empleabilidad": "media",
+          "salario_2030": 1458213
+        }
+      ],
+      "total_matricula": 86992,
+      "avg_oportunidad": 75,
+      "count": 8
+    },
+    "A": {
+      "carreras": [
+        {
+          "nombre": "Diseño Gráfico",
+          "codigo_completo": "AEC",
+          "area": "Arte y Diseño",
+          "matricula": 3869,
+          "oportunidad_index": 77,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "68.5%",
+          "saturacion": "muy_baja",
+          "empleabilidad": "media",
+          "salario_2030": 1432299
+        },
+        {
+          "nombre": "Publicidad",
+          "codigo_completo": "AES",
+          "area": "Comunicación",
+          "matricula": 4235,
+          "oportunidad_index": 77,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "68.5%",
+          "saturacion": "muy_baja",
+          "empleabilidad": "media",
+          "salario_2030": 1600805
+        },
+        {
+          "nombre": "Diseño Industrial",
+          "codigo_completo": "AIR",
+          "area": "Arte y Diseño",
+          "matricula": 1295,
+          "oportunidad_index": 77,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "68.5%",
+          "saturacion": "muy_baja",
+          "empleabilidad": "media",
+          "salario_2030": 1685058
+        },
+        {
+          "nombre": "Periodismo",
+          "codigo_completo": "AES",
+          "area": "Comunicación",
+          "matricula": 6117,
+          "oportunidad_index": 67,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "40.2%",
+          "saturacion": "baja",
+          "empleabilidad": "media",
+          "salario_2030": 1219648
+        },
+        {
+          "nombre": "Arquitectura",
+          "codigo_completo": "AIR",
+          "area": "Arte y Diseño",
+          "matricula": 17703,
+          "oportunidad_index": 59,
+          "tendencia": "estable",
+          "crecimiento_proyectado": "27.6%",
+          "saturacion": "media",
+          "empleabilidad": "media",
+          "salario_2030": 1714757
+        }
+      ],
+      "total_matricula": 33219,
+      "avg_oportunidad": 71,
+      "count": 5
+    },
+    "S": {
+      "carreras": [
+        {
+          "nombre": "Pedagogía en Educación Básica",
+          "codigo_completo": "SAE",
+          "area": "Educación",
+          "matricula": 1968,
+          "oportunidad_index": 89,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "53.9%",
+          "saturacion": "muy_baja",
+          "empleabilidad": "alta",
+          "salario_2030": 1384876
+        },
+        {
+          "nombre": "Pedagogía en Educación Física",
+          "codigo_completo": "SRE",
+          "area": "Educación",
+          "matricula": 4628,
+          "oportunidad_index": 89,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "53.9%",
+          "saturacion": "muy_baja",
+          "empleabilidad": "alta",
+          "salario_2030": 1384876
+        },
+        {
+          "nombre": "Nutrición y Dietética",
+          "codigo_completo": "SIC",
+          "area": "Salud",
+          "matricula": 14136,
+          "oportunidad_index": 85,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "68.5%",
+          "saturacion": "baja",
+          "empleabilidad": "alta",
+          "salario_2030": 1571996
+        },
+        {
+          "nombre": "Fonoaudiología",
+          "codigo_completo": "SIA",
+          "area": "Salud",
+          "matricula": 8111,
+          "oportunidad_index": 85,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "68.5%",
+          "saturacion": "baja",
+          "empleabilidad": "alta",
+          "salario_2030": 1659329
+        },
+        {
+          "nombre": "Kinesiología",
+          "codigo_completo": "SIR",
+          "area": "Salud",
+          "matricula": 24973,
+          "oportunidad_index": 76,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "46.9%",
+          "saturacion": "media",
+          "empleabilidad": "alta",
+          "salario_2030": 1610510
+        },
+        {
+          "nombre": "Trabajo Social",
+          "codigo_completo": "SEA",
+          "area": "Ciencias Sociales",
+          "matricula": 23121,
+          "oportunidad_index": 68,
+          "tendencia": "estable",
+          "crecimiento_proyectado": "0.0%",
+          "saturacion": "media",
+          "empleabilidad": "alta",
+          "salario_2030": 1181069
+        },
+        {
+          "nombre": "Enfermería",
+          "codigo_completo": "SRI",
+          "area": "Salud",
+          "matricula": 36736,
+          "oportunidad_index": 67,
+          "tendencia": "estable",
+          "crecimiento_proyectado": "27.4%",
+          "saturacion": "alta",
+          "empleabilidad": "alta",
+          "salario_2030": 1408834
+        },
+        {
+          "nombre": "Psicología",
+          "codigo_completo": "SIA",
+          "area": "Ciencias Sociales",
+          "matricula": 54890,
+          "oportunidad_index": 39,
+          "tendencia": "decreciente",
+          "crecimiento_proyectado": "-22.3%",
+          "saturacion": "muy_alta",
+          "empleabilidad": "media",
+          "salario_2030": 1013310
+        }
+      ],
+      "total_matricula": 168563,
+      "avg_oportunidad": 75,
+      "count": 8
+    },
+    "E": {
+      "carreras": [
+        {
+          "nombre": "Administración de Empresas",
+          "codigo_completo": "ECS",
+          "area": "Negocios",
+          "matricula": 6206,
+          "oportunidad_index": 81,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "40.3%",
+          "saturacion": "baja",
+          "empleabilidad": "alta",
+          "salario_2030": 1787725
+        },
+        {
+          "nombre": "Ingeniería Comercial",
+          "codigo_completo": "ECI",
+          "area": "Negocios",
+          "matricula": 43793,
+          "oportunidad_index": 65,
+          "tendencia": "estable",
+          "crecimiento_proyectado": "15.8%",
+          "saturacion": "alta",
+          "empleabilidad": "alta",
+          "salario_2030": 2286343
+        },
+        {
+          "nombre": "Derecho",
+          "codigo_completo": "ESI",
+          "area": "Ciencias Jurídicas",
+          "matricula": 48541,
+          "oportunidad_index": 44,
+          "tendencia": "decreciente",
+          "crecimiento_proyectado": "-18.4%",
+          "saturacion": "alta",
+          "empleabilidad": "media",
+          "salario_2030": 1638802
+        }
+      ],
+      "total_matricula": 98540,
+      "avg_oportunidad": 63,
+      "count": 3
+    },
+    "C": {
+      "carreras": [
+        {
+          "nombre": "Contador Auditor",
+          "codigo_completo": "CES",
+          "area": "Negocios",
+          "matricula": 9647,
+          "oportunidad_index": 81,
+          "tendencia": "creciente",
+          "crecimiento_proyectado": "40.3%",
+          "saturacion": "baja",
+          "empleabilidad": "alta",
+          "salario_2030": 2112766
+        }
+      ],
+      "total_matricula": 9647,
+      "avg_oportunidad": 81,
+      "count": 1
+    }
+  },
+  "analisis_por_codigo_completo": [
+    {
+      "codigo": "IRC",
+      "dimensiones": {
+        "principal": "I",
+        "secundaria": "R",
+        "terciaria": "C"
+      },
+      "carreras": [
+        {
+          "nombre": "Ingeniería Civil en Informática",
+          "matricula": 30086,
+          "oportunidad_index": 73,
+          "crecimiento_proyectado": "68.0%"
+        },
+        {
+          "nombre": "Química y Farmacia",
+          "matricula": 11842,
+          "oportunidad_index": 82,
+          "crecimiento_proyectado": "46.9%"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "codigo": "ISR",
+      "dimensiones": {
+        "principal": "I",
+        "secundaria": "S",
+        "terciaria": "R"
+      },
+      "carreras": [
+        {
+          "nombre": "Medicina",
+          "matricula": 21131,
+          "oportunidad_index": 76,
+          "crecimiento_proyectado": "46.9%"
+        },
+        {
+          "nombre": "Odontología",
+          "matricula": 14781,
+          "oportunidad_index": 85,
+          "crecimiento_proyectado": "68.5%"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "codigo": "SIA",
+      "dimensiones": {
+        "principal": "S",
+        "secundaria": "I",
+        "terciaria": "A"
+      },
+      "carreras": [
+        {
+          "nombre": "Psicología",
+          "matricula": 54890,
+          "oportunidad_index": 39,
+          "crecimiento_proyectado": "-22.3%"
+        },
+        {
+          "nombre": "Fonoaudiología",
+          "matricula": 8111,
+          "oportunidad_index": 85,
+          "crecimiento_proyectado": "68.5%"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "codigo": "AIR",
+      "dimensiones": {
+        "principal": "A",
+        "secundaria": "I",
+        "terciaria": "R"
+      },
+      "carreras": [
+        {
+          "nombre": "Arquitectura",
+          "matricula": 17703,
+          "oportunidad_index": 59,
+          "crecimiento_proyectado": "27.6%"
+        },
+        {
+          "nombre": "Diseño Industrial",
+          "matricula": 1295,
+          "oportunidad_index": 77,
+          "crecimiento_proyectado": "68.5%"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "codigo": "RIC",
+      "dimensiones": {
+        "principal": "R",
+        "secundaria": "I",
+        "terciaria": "C"
+      },
+      "carreras": [
+        {
+          "nombre": "Ingeniería Civil",
+          "matricula": 10595,
+          "oportunidad_index": 83,
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Ingeniería Eléctrica",
+          "matricula": 10884,
+          "oportunidad_index": 83,
+          "crecimiento_proyectado": "53.9%"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "codigo": "AES",
+      "dimensiones": {
+        "principal": "A",
+        "secundaria": "E",
+        "terciaria": "S"
+      },
+      "carreras": [
+        {
+          "nombre": "Periodismo",
+          "matricula": 6117,
+          "oportunidad_index": 67,
+          "crecimiento_proyectado": "40.2%"
+        },
+        {
+          "nombre": "Publicidad",
+          "matricula": 4235,
+          "oportunidad_index": 77,
+          "crecimiento_proyectado": "68.5%"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "codigo": "IRE",
+      "dimensiones": {
+        "principal": "I",
+        "secundaria": "R",
+        "terciaria": "E"
+      },
+      "carreras": [
+        {
+          "nombre": "Bioquímica",
+          "matricula": 2690,
+          "oportunidad_index": 77,
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Geología",
+          "matricula": 4023,
+          "oportunidad_index": 91,
+          "crecimiento_proyectado": "68.5%"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "codigo": "ECS",
+      "dimensiones": {
+        "principal": "E",
+        "secundaria": "C",
+        "terciaria": "S"
+      },
+      "carreras": [
+        {
+          "nombre": "Administración de Empresas",
+          "matricula": 6206,
+          "oportunidad_index": 81,
+          "crecimiento_proyectado": "40.3%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "CES",
+      "dimensiones": {
+        "principal": "C",
+        "secundaria": "E",
+        "terciaria": "S"
+      },
+      "carreras": [
+        {
+          "nombre": "Contador Auditor",
+          "matricula": 9647,
+          "oportunidad_index": 81,
+          "crecimiento_proyectado": "40.3%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "ESI",
+      "dimensiones": {
+        "principal": "E",
+        "secundaria": "S",
+        "terciaria": "I"
+      },
+      "carreras": [
+        {
+          "nombre": "Derecho",
+          "matricula": 48541,
+          "oportunidad_index": 44,
+          "crecimiento_proyectado": "-18.4%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "SAE",
+      "dimensiones": {
+        "principal": "S",
+        "secundaria": "A",
+        "terciaria": "E"
+      },
+      "carreras": [
+        {
+          "nombre": "Pedagogía en Educación Básica",
+          "matricula": 1968,
+          "oportunidad_index": 89,
+          "crecimiento_proyectado": "53.9%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "AEC",
+      "dimensiones": {
+        "principal": "A",
+        "secundaria": "E",
+        "terciaria": "C"
+      },
+      "carreras": [
+        {
+          "nombre": "Diseño Gráfico",
+          "matricula": 3869,
+          "oportunidad_index": 77,
+          "crecimiento_proyectado": "68.5%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "SRI",
+      "dimensiones": {
+        "principal": "S",
+        "secundaria": "R",
+        "terciaria": "I"
+      },
+      "carreras": [
+        {
+          "nombre": "Enfermería",
+          "matricula": 36736,
+          "oportunidad_index": 67,
+          "crecimiento_proyectado": "27.4%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "ECI",
+      "dimensiones": {
+        "principal": "E",
+        "secundaria": "C",
+        "terciaria": "I"
+      },
+      "carreras": [
+        {
+          "nombre": "Ingeniería Comercial",
+          "matricula": 43793,
+          "oportunidad_index": 65,
+          "crecimiento_proyectado": "15.8%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "SIR",
+      "dimensiones": {
+        "principal": "S",
+        "secundaria": "I",
+        "terciaria": "R"
+      },
+      "carreras": [
+        {
+          "nombre": "Kinesiología",
+          "matricula": 24973,
+          "oportunidad_index": 76,
+          "crecimiento_proyectado": "46.9%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "SEA",
+      "dimensiones": {
+        "principal": "S",
+        "secundaria": "E",
+        "terciaria": "A"
+      },
+      "carreras": [
+        {
+          "nombre": "Trabajo Social",
+          "matricula": 23121,
+          "oportunidad_index": 68,
+          "crecimiento_proyectado": "0.0%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "REC",
+      "dimensiones": {
+        "principal": "R",
+        "secundaria": "E",
+        "terciaria": "C"
+      },
+      "carreras": [
+        {
+          "nombre": "Ingeniería en Construcción",
+          "matricula": 11949,
+          "oportunidad_index": 83,
+          "crecimiento_proyectado": "53.9%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "IRS",
+      "dimensiones": {
+        "principal": "I",
+        "secundaria": "R",
+        "terciaria": "S"
+      },
+      "carreras": [
+        {
+          "nombre": "Veterinaria",
+          "matricula": null,
+          "oportunidad_index": 52,
+          "crecimiento_proyectado": "10.4%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "IAS",
+      "dimensiones": {
+        "principal": "I",
+        "secundaria": "A",
+        "terciaria": "S"
+      },
+      "carreras": [
+        {
+          "nombre": "Sociología",
+          "matricula": 2439,
+          "oportunidad_index": 64,
+          "crecimiento_proyectado": "33.8%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "RIS",
+      "dimensiones": {
+        "principal": "R",
+        "secundaria": "I",
+        "terciaria": "S"
+      },
+      "carreras": [
+        {
+          "nombre": "Agronomía",
+          "matricula": 4761,
+          "oportunidad_index": 90,
+          "crecimiento_proyectado": "61.1%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "SIC",
+      "dimensiones": {
+        "principal": "S",
+        "secundaria": "I",
+        "terciaria": "C"
+      },
+      "carreras": [
+        {
+          "nombre": "Nutrición y Dietética",
+          "matricula": 14136,
+          "oportunidad_index": 85,
+          "crecimiento_proyectado": "68.5%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "RIE",
+      "dimensiones": {
+        "principal": "R",
+        "secundaria": "I",
+        "terciaria": "E"
+      },
+      "carreras": [
+        {
+          "nombre": "Ingeniería en Minas",
+          "matricula": 8839,
+          "oportunidad_index": 83,
+          "crecimiento_proyectado": "53.9%"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "codigo": "SRE",
+      "dimensiones": {
+        "principal": "S",
+        "secundaria": "R",
+        "terciaria": "E"
+      },
+      "carreras": [
+        {
+          "nombre": "Pedagogía en Educación Física",
+          "matricula": 4628,
+          "oportunidad_index": 89,
+          "crecimiento_proyectado": "53.9%"
+        }
+      ],
+      "count": 1
+    }
+  ],
+  "recomendaciones": {
+    "R": {
+      "perfil": {
+        "nombre": "Realista",
+        "dimension": "Realistic",
+        "descripcion": "Personas prácticas que disfrutan trabajar con sus manos, herramientas y objetos físicos.",
+        "caracteristicas": [
+          "Práctico",
+          "Físico",
+          "Concreto",
+          "Técnico"
+        ],
+        "entornos": [
+          "Taller",
+          "Campo",
+          "Construcción",
+          "Mecánica"
+        ]
+      },
+      "estadisticas": {
+        "total_carreras": 5,
+        "total_matricula": 47028,
+        "oportunidad_promedio": 84
+      },
+      "recomendacion": "Para tu perfil Realista, se identificaron 5 carreras con alta proyección. 5 carreras presentan alto crecimiento proyectado.",
+      "top_carreras": [
+        {
+          "nombre": "Agronomía",
+          "oportunidad_index": 90,
+          "crecimiento_proyectado": "61.1%"
+        },
+        {
+          "nombre": "Ingeniería Civil",
+          "oportunidad_index": 83,
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Ingeniería en Construcción",
+          "oportunidad_index": 83,
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Ingeniería en Minas",
+          "oportunidad_index": 83,
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Ingeniería Eléctrica",
+          "oportunidad_index": 83,
+          "crecimiento_proyectado": "53.9%"
+        }
+      ],
+      "saturadas": [],
+      "emergentes": [
+        {
+          "nombre": "Agronomía",
+          "crecimiento_proyectado": "61.1%"
+        },
+        {
+          "nombre": "Ingeniería Civil",
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Ingeniería en Construcción",
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Ingeniería en Minas",
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Ingeniería Eléctrica",
+          "crecimiento_proyectado": "53.9%"
+        }
+      ]
+    },
+    "I": {
+      "perfil": {
+        "nombre": "Investigativo",
+        "dimension": "Investigative",
+        "descripcion": "Pensadores analíticos interesados en la ciencia, investigación y resolución de problemas.",
+        "caracteristicas": [
+          "Analítico",
+          "Científico",
+          "Intelectual",
+          "Curioso"
+        ],
+        "entornos": [
+          "Laboratorio",
+          "Investigación",
+          "Universidad",
+          "Centro médico"
+        ]
+      },
+      "estadisticas": {
+        "total_carreras": 8,
+        "total_matricula": 86992,
+        "oportunidad_promedio": 75
+      },
+      "recomendacion": "Para tu perfil Investigativo, se identificaron 5 carreras con alta proyección. Considera que 1 carreras muestran alta saturación. 5 carreras presentan alto crecimiento proyectado.",
+      "top_carreras": [
+        {
+          "nombre": "Geología",
+          "oportunidad_index": 91,
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Odontología",
+          "oportunidad_index": 85,
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Química y Farmacia",
+          "oportunidad_index": 82,
+          "crecimiento_proyectado": "46.9%"
+        },
+        {
+          "nombre": "Bioquímica",
+          "oportunidad_index": 77,
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Medicina",
+          "oportunidad_index": 76,
+          "crecimiento_proyectado": "46.9%"
+        }
+      ],
+      "saturadas": [
+        {
+          "nombre": "Ingeniería Civil en Informática",
+          "saturacion": "alta",
+          "matricula": 30086
+        }
+      ],
+      "emergentes": [
+        {
+          "nombre": "Geología",
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Odontología",
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Química y Farmacia",
+          "crecimiento_proyectado": "46.9%"
+        },
+        {
+          "nombre": "Bioquímica",
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Medicina",
+          "crecimiento_proyectado": "46.9%"
+        }
+      ]
+    },
+    "A": {
+      "perfil": {
+        "nombre": "Artístico",
+        "dimension": "Artistic",
+        "descripcion": "Creativos e innovadores que valoran la autoexpresión y el trabajo original.",
+        "caracteristicas": [
+          "Creativo",
+          "Original",
+          "Expresivo",
+          "Estético"
+        ],
+        "entornos": [
+          "Estudio",
+          "Teatro",
+          "Galería",
+          "Agencia creativa"
+        ]
+      },
+      "estadisticas": {
+        "total_carreras": 5,
+        "total_matricula": 33219,
+        "oportunidad_promedio": 71
+      },
+      "recomendacion": "Para tu perfil Artístico, se identificaron 3 carreras con alta proyección. 4 carreras presentan alto crecimiento proyectado.",
+      "top_carreras": [
+        {
+          "nombre": "Diseño Gráfico",
+          "oportunidad_index": 77,
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Publicidad",
+          "oportunidad_index": 77,
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Diseño Industrial",
+          "oportunidad_index": 77,
+          "crecimiento_proyectado": "68.5%"
+        }
+      ],
+      "saturadas": [],
+      "emergentes": [
+        {
+          "nombre": "Diseño Gráfico",
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Publicidad",
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Diseño Industrial",
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Periodismo",
+          "crecimiento_proyectado": "40.2%"
+        }
+      ]
+    },
+    "S": {
+      "perfil": {
+        "nombre": "Social",
+        "dimension": "Social",
+        "descripcion": "Personas orientadas a ayudar, enseñar y cuidar a otros.",
+        "caracteristicas": [
+          "Empático",
+          "Servicial",
+          "Comunicativo",
+          "Colaborativo"
+        ],
+        "entornos": [
+          "Escuela",
+          "Hospital",
+          "ONG",
+          "Comunidad"
+        ]
+      },
+      "estadisticas": {
+        "total_carreras": 8,
+        "total_matricula": 168563,
+        "oportunidad_promedio": 75
+      },
+      "recomendacion": "Para tu perfil Social, se identificaron 5 carreras con alta proyección. Considera que 2 carreras muestran alta saturación. 5 carreras presentan alto crecimiento proyectado.",
+      "top_carreras": [
+        {
+          "nombre": "Pedagogía en Educación Básica",
+          "oportunidad_index": 89,
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Pedagogía en Educación Física",
+          "oportunidad_index": 89,
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Nutrición y Dietética",
+          "oportunidad_index": 85,
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Fonoaudiología",
+          "oportunidad_index": 85,
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Kinesiología",
+          "oportunidad_index": 76,
+          "crecimiento_proyectado": "46.9%"
+        }
+      ],
+      "saturadas": [
+        {
+          "nombre": "Enfermería",
+          "saturacion": "alta",
+          "matricula": 36736
+        },
+        {
+          "nombre": "Psicología",
+          "saturacion": "muy_alta",
+          "matricula": 54890
+        }
+      ],
+      "emergentes": [
+        {
+          "nombre": "Pedagogía en Educación Básica",
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Pedagogía en Educación Física",
+          "crecimiento_proyectado": "53.9%"
+        },
+        {
+          "nombre": "Nutrición y Dietética",
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Fonoaudiología",
+          "crecimiento_proyectado": "68.5%"
+        },
+        {
+          "nombre": "Kinesiología",
+          "crecimiento_proyectado": "46.9%"
+        }
+      ]
+    },
+    "E": {
+      "perfil": {
+        "nombre": "Emprendedor",
+        "dimension": "Enterprising",
+        "descripcion": "Líderes persuasivos interesados en los negocios, ventas y administración.",
+        "caracteristicas": [
+          "Persuasivo",
+          "Líder",
+          "Ambicioso",
+          "Enérgico"
+        ],
+        "entornos": [
+          "Empresa",
+          "Ventas",
+          "Política",
+          "Marketing"
+        ]
+      },
+      "estadisticas": {
+        "total_carreras": 3,
+        "total_matricula": 98540,
+        "oportunidad_promedio": 63
+      },
+      "recomendacion": "Para tu perfil Emprendedor, se identificaron 1 carreras con alta proyección. Considera que 2 carreras muestran alta saturación. 1 carreras presentan alto crecimiento proyectado.",
+      "top_carreras": [
+        {
+          "nombre": "Administración de Empresas",
+          "oportunidad_index": 81,
+          "crecimiento_proyectado": "40.3%"
+        }
+      ],
+      "saturadas": [
+        {
+          "nombre": "Ingeniería Comercial",
+          "saturacion": "alta",
+          "matricula": 43793
+        },
+        {
+          "nombre": "Derecho",
+          "saturacion": "alta",
+          "matricula": 48541
+        }
+      ],
+      "emergentes": [
+        {
+          "nombre": "Administración de Empresas",
+          "crecimiento_proyectado": "40.3%"
+        }
+      ]
+    },
+    "C": {
+      "perfil": {
+        "nombre": "Convencional",
+        "dimension": "Conventional",
+        "descripcion": "Organizados y metódicos que disfrutan trabajar con datos y sistemas estructurados.",
+        "caracteristicas": [
+          "Organizado",
+          "Detallista",
+          "Sistemático",
+          "Preciso"
+        ],
+        "entornos": [
+          "Oficina",
+          "Banco",
+          "Administración",
+          "Contabilidad"
+        ]
+      },
+      "estadisticas": {
+        "total_carreras": 1,
+        "total_matricula": 9647,
+        "oportunidad_promedio": 81
+      },
+      "recomendacion": "Para tu perfil Convencional, se identificaron 1 carreras con alta proyección. 1 carreras presentan alto crecimiento proyectado.",
+      "top_carreras": [
+        {
+          "nombre": "Contador Auditor",
+          "oportunidad_index": 81,
+          "crecimiento_proyectado": "40.3%"
+        }
+      ],
+      "saturadas": [],
+      "emergentes": [
+        {
+          "nombre": "Contador Auditor",
+          "crecimiento_proyectado": "40.3%"
+        }
+      ]
+    }
+  },
+  "matriz_compatibilidad": {
+    "R": {
+      "R": 100,
+      "I": 75,
+      "A": 50,
+      "S": 25,
+      "E": 50,
+      "C": 75
+    },
+    "I": {
+      "R": 75,
+      "I": 100,
+      "A": 75,
+      "S": 50,
+      "E": 25,
+      "C": 50
+    },
+    "A": {
+      "R": 50,
+      "I": 75,
+      "A": 100,
+      "S": 75,
+      "E": 50,
+      "C": 25
+    },
+    "S": {
+      "R": 25,
+      "I": 50,
+      "A": 75,
+      "S": 100,
+      "E": 75,
+      "C": 50
+    },
+    "E": {
+      "R": 50,
+      "I": 25,
+      "A": 50,
+      "S": 75,
+      "E": 100,
+      "C": 75
+    },
+    "C": {
+      "R": 75,
+      "I": 50,
+      "A": 25,
+      "S": 50,
+      "E": 75,
+      "C": 100
+    }
+  },
+  "estadisticas_generales": {
+    "total_carreras": 30,
+    "dimension_mas_carreras": "I",
+    "dimension_mayor_oportunidad": "R",
+    "combinaciones_unicas": 23
+  }
+}
