@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
+import ProfileSelector from '../components/ProfileSelector';
 import ProblemSection from '../components/ProblemSection';
 import SolutionSection from '../components/SolutionSection';
 import ComparisonSection from '../components/ComparisonSection';
@@ -32,6 +32,7 @@ function LandingPage() {
       <Header onOpenChat={openChat} onStartTest={goToTest} />
       <main>
         <Hero onOpenChat={openChat} onStartTest={goToTest} />
+        <ProfileSelector />
         <ProblemSection />
         <SolutionSection />
         <ComparisonSection />
