@@ -6,9 +6,43 @@
  * - Cambiar roles y estados
  * - Ver estadísticas de usuarios
  * - Control de acceso y seguridad
+ * - Crear perfiles de orientadores, apoderados y estudiantes
  */
 
 import { supabase } from './supabase';
+
+// ========================================
+// CREACIÓN DE PERFILES POR ADMIN
+// ========================================
+
+/**
+ * Crea un perfil de usuario (el usuario debe estar ya registrado con Google)
+ * @param {string} email - Email del usuario (debe existir en auth.users)
+ * @param {string} nombre - Nombre completo
+ * @param {string} role - Rol (estudiante, apoderado, orientador, admin)
+ * @param {number} edad - Edad del usuario (opcional, default 18)
+ * @param {string} genero - Género (opcional, default 'Prefiero no decir')
+ * @param {string} telefono - Teléfono/WhatsApp (opcional)
+ * @returns {Promise<string>} UUID del usuario creado
+ */
+export async function createUserProfile(email, nombre, role, edad = 18, genero = 'Prefiero no decir', telefono = null) {
+  const { data, error } = await supabase
+    .rpc('admin_create_user_profile', {
+      p_email: email,
+      p_nombre: nombre,
+      p_role: role,
+      p_edad: edad,
+      p_genero: genero,
+      p_telefono: telefono
+    });
+
+  if (error) {
+    console.error('Error creating user profile:', error);
+    throw error;
+  }
+
+  return data;
+}
 
 // ========================================
 // GESTIÓN DE USUARIOS PENDIENTES
