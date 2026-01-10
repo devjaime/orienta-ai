@@ -338,6 +338,12 @@ DROP POLICY IF EXISTS "Usuarios activos actualizan su perfil" ON user_profiles;
 DROP POLICY IF EXISTS "Admins ven todos los usuarios" ON user_profiles;
 DROP POLICY IF EXISTS "Admins actualizan usuarios" ON user_profiles;
 
+-- Eliminar también las políticas nuevas (por si ya existen)
+DROP POLICY IF EXISTS "users_select_own_profile" ON user_profiles;
+DROP POLICY IF EXISTS "users_insert_own_profile" ON user_profiles;
+DROP POLICY IF EXISTS "users_update_own_profile" ON user_profiles;
+DROP POLICY IF EXISTS "admins_delete_profiles" ON user_profiles;
+
 -- POLICY 1: SELECT - Los usuarios ven su propio perfil, orientadores/admins ven todos
 CREATE POLICY "users_select_own_profile"
   ON user_profiles FOR SELECT
