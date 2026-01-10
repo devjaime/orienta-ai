@@ -326,56 +326,63 @@ COMMENT ON VIEW admin_users_management IS 'Vista completa para gestión de usuar
 -- ACTUALIZAR POLÍTICAS RLS
 -- ============================================
 
--- Policy: Solo usuarios activos pueden acceder
+-- Eliminar políticas antiguas (todos los nombres posibles)
+DROP POLICY IF EXISTS "Usuarios ven solo su perfil" ON user_profiles;
 DROP POLICY IF EXISTS "Usuarios ven su perfil" ON user_profiles;
-CREATE POLICY "Usuarios activos ven su perfil"
-  ON user_profiles FOR SELECT
-  USING (
-    auth.uid() = user_id
-    OR EXISTS (
-      SELECT 1 FROM user_profiles
-      WHERE user_id = auth.uid()
-      AND role IN ('admin', 'orientador')
-      AND status = 'active'
-    )
-  );
-
--- Policy: Solo usuarios activos pueden actualizar su perfil
+DROP POLICY IF EXISTS "Usuarios activos ven su perfil" ON user_profiles;
+DROP POLICY IF EXISTS "Usuarios crean solo su perfil" ON user_profiles;
+DROP POLICY IF EXISTS "Usuarios crean su perfil" ON user_profiles;
+DROP POLICY IF EXISTS "Usuarios actualizan solo su perfil" ON user_profiles;
 DROP POLICY IF EXISTS "Usuarios actualizan su perfil" ON user_profiles;
-CREATE POLICY "Usuarios activos actualizan su perfil"
-  ON user_profiles FOR UPDATE
-  USING (
-    auth.uid() = user_id
-    AND status IN ('active', 'pending')
-  )
-  WITH CHECK (
-    auth.uid() = user_id
-    -- Los usuarios no pueden cambiar su propio rol o estado
-    AND role = (SELECT role FROM user_profiles WHERE user_id = auth.uid())
-    AND status = (SELECT status FROM user_profiles WHERE user_id = auth.uid())
-  );
+DROP POLICY IF EXISTS "Usuarios activos actualizan su perfil" ON user_profiles;
+DROP POLICY IF EXISTS "Admins ven todos los usuarios" ON user_profiles;
+DROP POLICY IF EXISTS "Admins actualizan usuarios" ON user_profiles;
 
--- Policy: Admins pueden ver todos los usuarios
-CREATE POLICY "Admins ven todos los usuarios"
+-- POLICY 1: SELECT - Los usuarios ven su propio perfil, orientadores/admins ven todos
+CREATE POLICY "users_select_own_profile"
   ON user_profiles FOR SELECT
   USING (
+    -- El usuario ve su propio perfil
+    auth.uid() = user_id
+    OR
+    -- Los orientadores y admins pueden ver todos los perfiles
     EXISTS (
-      SELECT 1 FROM user_profiles
-      WHERE user_id = auth.uid()
-      AND role = 'admin'
-      AND status = 'active'
+      SELECT 1 FROM user_profiles up
+      WHERE up.user_id = auth.uid()
+      AND up.role IN ('orientador', 'admin')
+      AND up.status = 'active'
     )
   );
 
--- Policy: Admins pueden actualizar cualquier usuario
-CREATE POLICY "Admins actualizan usuarios"
+-- POLICY 2: INSERT - Los usuarios pueden crear su propio perfil
+CREATE POLICY "users_insert_own_profile"
+  ON user_profiles FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+-- POLICY 3: UPDATE - Los usuarios actualizan su perfil, admins actualizan cualquiera
+CREATE POLICY "users_update_own_profile"
   ON user_profiles FOR UPDATE
   USING (
+    auth.uid() = user_id
+    OR
+    -- Los admins pueden actualizar cualquier perfil
     EXISTS (
-      SELECT 1 FROM user_profiles
-      WHERE user_id = auth.uid()
-      AND role = 'admin'
-      AND status = 'active'
+      SELECT 1 FROM user_profiles up
+      WHERE up.user_id = auth.uid()
+      AND up.role = 'admin'
+      AND up.status = 'active'
+    )
+  );
+
+-- POLICY 4: DELETE - Solo admins pueden eliminar perfiles
+CREATE POLICY "admins_delete_profiles"
+  ON user_profiles FOR DELETE
+  USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles up
+      WHERE up.user_id = auth.uid()
+      AND up.role = 'admin'
+      AND up.status = 'active'
     )
   );
 
