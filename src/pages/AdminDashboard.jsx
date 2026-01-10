@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Users, ClipboardList, Calendar, Shield, Search, LogOut, UserCog } from 'lucide-react';
+import { Users, ClipboardList, Calendar, Shield, Search, LogOut, UserCog, UserPlus, X } from 'lucide-react';
 import { hasRole, getAllUsers, getAllTestResults, getAllScheduledSessions, signOut, supabase } from '../lib/supabase';
+import { createUserProfile } from '../lib/adminService';
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -12,6 +13,18 @@ function AdminDashboard() {
   const [sessions, setSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
+
+  // Estado para crear nuevo usuario
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [creatingUser, setCreatingUser] = useState(false);
+  const [newUser, setNewUser] = useState({
+    email: '',
+    nombre: '',
+    role: 'estudiante',
+    edad: 18,
+    genero: 'Prefiero no decir',
+    telefono: ''
+  });
 
   useEffect(() => {
     checkAccess();
@@ -69,6 +82,51 @@ function AdminDashboard() {
     }
   };
 
+  const handleCreateUser = async (e) => {
+    e.preventDefault();
+    setCreatingUser(true);
+
+    try {
+      // Validar que el email no esté vacío
+      if (!newUser.email || !newUser.nombre) {
+        alert('Email y nombre son obligatorios');
+        return;
+      }
+
+      // Llamar a la función de adminService
+      await createUserProfile(
+        newUser.email,
+        newUser.nombre,
+        newUser.role,
+        newUser.edad,
+        newUser.genero,
+        newUser.telefono || null
+      );
+
+      alert(`✅ Perfil creado exitosamente para ${newUser.nombre}`);
+
+      // Limpiar formulario
+      setNewUser({
+        email: '',
+        nombre: '',
+        role: 'estudiante',
+        edad: 18,
+        genero: 'Prefiero no decir',
+        telefono: ''
+      });
+
+      // Cerrar modal y recargar datos
+      setShowCreateModal(false);
+      await loadData();
+
+    } catch (error) {
+      console.error('Error creating user:', error);
+      alert(`❌ Error: ${error.message || 'No se pudo crear el perfil'}\n\nEl usuario debe registrarse primero con Google en la app.`);
+    } finally {
+      setCreatingUser(false);
+    }
+  };
+
   // Estadísticas
   const stats = {
     totalUsers: users.length,
@@ -100,6 +158,13 @@ function AdminDashboard() {
               </div>
             </div>
             <div className="flex items-center gap-4">
+              <button
+                onClick={() => setShowCreateModal(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+              >
+                <UserPlus size={18} />
+                Crear Nuevo Usuario
+              </button>
               <button
                 onClick={() => navigate('/orientador')}
                 className="px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
@@ -262,6 +327,152 @@ function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Modal: Crear Nuevo Usuario */}
+      {showCreateModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-orienta-dark border border-white/20 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-white">Crear Nuevo Usuario</h2>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="text-white/60 hover:text-white transition-colors"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 mb-6">
+              <p className="text-yellow-300 text-sm">
+                <strong>Importante:</strong> El usuario debe haberse registrado PRIMERO con Google en la app.
+                Luego podrás crear su perfil aquí ingresando su email.
+              </p>
+            </div>
+
+            <form onSubmit={handleCreateUser} className="space-y-4">
+              {/* Email */}
+              <div>
+                <label className="block text-white/80 text-sm font-medium mb-2">
+                  Email del Usuario <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={newUser.email}
+                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                  placeholder="usuario@gmail.com"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-orienta-blue"
+                />
+                <p className="text-white/40 text-xs mt-1">
+                  El usuario ya debe estar registrado con Google
+                </p>
+              </div>
+
+              {/* Nombre */}
+              <div>
+                <label className="block text-white/80 text-sm font-medium mb-2">
+                  Nombre Completo <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newUser.nombre}
+                  onChange={(e) => setNewUser({ ...newUser, nombre: e.target.value })}
+                  placeholder="Juan Pérez"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-orienta-blue"
+                />
+              </div>
+
+              {/* Rol */}
+              <div>
+                <label className="block text-white/80 text-sm font-medium mb-2">
+                  Rol <span className="text-red-400">*</span>
+                </label>
+                <select
+                  value={newUser.role}
+                  onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-orienta-blue"
+                >
+                  <option value="estudiante">Estudiante</option>
+                  <option value="apoderado">Apoderado</option>
+                  <option value="orientador">Orientador</option>
+                  <option value="admin">Administrador</option>
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                {/* Edad */}
+                <div>
+                  <label className="block text-white/80 text-sm font-medium mb-2">
+                    Edad
+                  </label>
+                  <input
+                    type="number"
+                    min="13"
+                    max="120"
+                    value={newUser.edad}
+                    onChange={(e) => setNewUser({ ...newUser, edad: parseInt(e.target.value) })}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-orienta-blue"
+                  />
+                </div>
+
+                {/* Género */}
+                <div>
+                  <label className="block text-white/80 text-sm font-medium mb-2">
+                    Género
+                  </label>
+                  <select
+                    value={newUser.genero}
+                    onChange={(e) => setNewUser({ ...newUser, genero: e.target.value })}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-orienta-blue"
+                  >
+                    <option value="Mujer">Mujer</option>
+                    <option value="Hombre">Hombre</option>
+                    <option value="Otro">Otro</option>
+                    <option value="Prefiero no decir">Prefiero no decir</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Teléfono / WhatsApp */}
+              <div>
+                <label className="block text-white/80 text-sm font-medium mb-2">
+                  Teléfono / WhatsApp (opcional)
+                </label>
+                <input
+                  type="tel"
+                  value={newUser.telefono}
+                  onChange={(e) => setNewUser({ ...newUser, telefono: e.target.value })}
+                  placeholder="+56912345678"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-orienta-blue"
+                />
+              </div>
+
+              {/* Botones */}
+              <div className="flex gap-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(false)}
+                  className="flex-1 px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={creatingUser}
+                  className="flex-1 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {creatingUser ? 'Creando...' : 'Crear Usuario'}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
