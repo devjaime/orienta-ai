@@ -61,6 +61,16 @@ BEGIN
     );
   END IF;
 
+  -- Campo para teléfono/WhatsApp de contacto
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'user_profiles'
+    AND column_name = 'telefono'
+  ) THEN
+    ALTER TABLE user_profiles
+    ADD COLUMN telefono TEXT;
+  END IF;
+
   RAISE NOTICE 'Columnas de control de estado agregadas a user_profiles';
 END $$;
 
