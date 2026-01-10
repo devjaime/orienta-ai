@@ -124,7 +124,7 @@ SELECT
   -- Información del estudiante
   sp.nombre as student_name,
   sp.edad as student_age,
-  sp.email as student_email,
+  sp.user_email as student_email,
 
   -- Tests del estudiante
   (
@@ -254,7 +254,7 @@ BEGIN
   -- Buscar estudiante por email
   SELECT user_id INTO v_student_id
   FROM user_profiles
-  WHERE email = p_student_email
+  WHERE user_email = p_student_email
   AND role = 'estudiante';
 
   IF v_student_id IS NULL THEN

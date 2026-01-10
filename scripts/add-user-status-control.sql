@@ -263,7 +263,7 @@ BEGIN
   RETURN QUERY
   SELECT
     up.user_id,
-    up.email,
+    up.user_email,
     up.nombre,
     up.requested_role,
     up.created_at,
@@ -286,7 +286,7 @@ COMMENT ON FUNCTION get_pending_users IS 'Obtiene lista de usuarios pendientes d
 CREATE OR REPLACE VIEW admin_users_management AS
 SELECT
   up.user_id,
-  up.email,
+  up.user_email as email,
   up.nombre,
   up.role,
   up.status,
@@ -433,7 +433,7 @@ BEGIN
   -- Insertar o actualizar perfil
   INSERT INTO user_profiles (
     user_id,
-    email,
+    user_email,
     nombre,
     role,
     status,
@@ -453,7 +453,7 @@ BEGIN
   )
   ON CONFLICT (user_id) DO UPDATE
   SET
-    email = EXCLUDED.email,
+    user_email = EXCLUDED.user_email,
     nombre = EXCLUDED.nombre,
     requested_role = EXCLUDED.requested_role,
     edad = EXCLUDED.edad,
