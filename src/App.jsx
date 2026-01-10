@@ -4,10 +4,15 @@ import TestRIASEC from './pages/TestRIASEC';
 import Resultados from './pages/Resultados';
 import AuthCallback from './pages/AuthCallback';
 import CompleteProfile from './pages/CompleteProfile';
-import OrientadorDashboard from './pages/OrientadorDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import Dashboard from './pages/Dashboard';
 import ParentDashboard from './pages/ParentDashboard';
+
+// Páginas del sistema orientador
+import OrientadorDashboardPage from './pages/OrientadorDashboardPage';
+import OrientadorStudentProfilePage from './pages/OrientadorStudentProfilePage';
+import AvailabilityPage from './pages/AvailabilityPage';
+import SessionNotesPage from './pages/SessionNotesPage';
 
 function App() {
   return (
@@ -20,7 +25,14 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/parent" element={<ParentDashboard />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
-        <Route path="/orientador" element={<OrientadorDashboard />} />
+
+        {/* Rutas del sistema orientador */}
+        <Route path="/orientador" element={<OrientadorDashboardPage />} />
+        <Route path="/orientador/dashboard" element={<OrientadorDashboardPage />} />
+        <Route path="/orientador/disponibilidad" element={<AvailabilityPage />} />
+        <Route path="/orientador/estudiante/:studentId" element={<OrientadorStudentProfilePage />} />
+        <Route path="/orientador/notas/:sessionId" element={<SessionNotesPage />} />
+
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
