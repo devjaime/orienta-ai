@@ -26,25 +26,65 @@ function AuthCallback() {
         if (session) {
           console.log('✅ Usuario autenticado:', session.user.email);
 
-          // Verificar si el usuario ya completó su perfil
-          const { data: profile, error: profileError } = await supabase
+          // PASO 1: Verificar si ya tiene perfil vinculado por user_id
+          let { data: profile, error: profileError } = await supabase
             .from('user_profiles')
             .select('*')
             .eq('user_id', session.user.id)
             .single();
 
           if (profileError && profileError.code !== 'PGRST116') {
-            // Error real (no solo "no encontrado")
             console.error('Error checking profile:', profileError);
           }
 
+          // PASO 2: Si no tiene perfil vinculado, buscar perfil pendiente por email
+          if (!profile) {
+            console.log('🔍 Buscando perfil pendiente por email:', session.user.email);
+
+            const { data: pendingProfile } = await supabase
+              .from('user_profiles')
+              .select('*')
+              .eq('user_email', session.user.email)
+              .is('user_id', null)
+              .single();
+
+            // Si existe un perfil pendiente, vincularlo
+            if (pendingProfile) {
+              console.log('🔗 Vinculando perfil pendiente...');
+
+              const { error: linkError } = await supabase
+                .from('user_profiles')
+                .update({ user_id: session.user.id })
+                .eq('id', pendingProfile.id);
+
+              if (!linkError) {
+                console.log('✅ Perfil vinculado exitosamente');
+                profile = { ...pendingProfile, user_id: session.user.id };
+              } else {
+                console.error('❌ Error vinculando perfil:', linkError);
+              }
+            }
+          }
+
+          // PASO 3: Redirigir según el perfil
           if (profile) {
-            // Ya tiene perfil, ir al destino solicitado o al test
-            const returnTo = sessionStorage.getItem('returnTo') || '/test';
+            // Ya tiene perfil, redirigir según el rol
+            const roleRedirects = {
+              admin: '/admin',
+              orientador: '/orientador/dashboard',
+              apoderado: '/parent',
+              estudiante: '/dashboard'
+            };
+
+            const defaultRedirect = roleRedirects[profile.role] || '/dashboard';
+            const returnTo = sessionStorage.getItem('returnTo') || defaultRedirect;
             sessionStorage.removeItem('returnTo');
+
+            console.log('🚀 Redirigiendo a:', returnTo);
             navigate(returnTo);
           } else {
-            // No tiene perfil, redirigir a completar perfil
+            // No tiene perfil (ni vinculado ni pendiente), completar perfil
+            console.log('📝 Redirigiendo a completar perfil');
             navigate('/complete-profile');
           }
         } else {

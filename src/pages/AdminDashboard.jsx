@@ -346,10 +346,11 @@ function AdminDashboard() {
               </button>
             </div>
 
-            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 mb-6">
-              <p className="text-yellow-300 text-sm">
-                <strong>Importante:</strong> El usuario debe haberse registrado PRIMERO con Google en la app.
-                Luego podrás crear su perfil aquí ingresando su email.
+            <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 mb-6">
+              <p className="text-blue-300 text-sm">
+                <strong>Flujo de registro:</strong> Crea el perfil del usuario aquí. Cuando el usuario
+                inicie sesión con Google por primera vez, el sistema lo reconocerá automáticamente por su
+                email y lo redirigirá a su dashboard correspondiente.
               </p>
             </div>
 
