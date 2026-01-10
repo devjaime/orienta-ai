@@ -23,6 +23,20 @@ function ProfileSelector() {
       path: '/dashboard'
     },
     {
+      id: 'apoderado',
+      title: 'Apoderado',
+      description: 'Registra a tus hijos y acompaña su proceso de orientación vocacional',
+      icon: Users,
+      color: 'green',
+      features: [
+        'Vincular estudiantes (hijos)',
+        'Ver resultados de tests',
+        'Seguimiento de sesiones',
+        'Resúmenes IA del orientador'
+      ],
+      path: '/parent'
+    },
+    {
       id: 'orientador',
       title: 'Orientador',
       description: 'Gestiona estudiantes, agenda sesiones y genera reportes con IA',
@@ -60,6 +74,13 @@ function ProfileSelector() {
         text: 'text-blue-400',
         hover: 'hover:bg-blue-500/30',
         icon: 'text-blue-400'
+      },
+      green: {
+        bg: 'bg-green-500/20',
+        border: 'border-green-500/50',
+        text: 'text-green-400',
+        hover: 'hover:bg-green-500/30',
+        icon: 'text-green-400'
       },
       purple: {
         bg: 'bg-purple-500/20',
@@ -117,7 +138,7 @@ function ProfileSelector() {
         </motion.div>
 
         {/* Profile Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {profiles.map((profile, index) => {
             const Icon = profile.icon;
             const colors = getColorClasses(profile.color);
