@@ -1,5 +1,5 @@
 /**
- * Servicio de Orientador - OrientaIA
+ * Servicio de Orientador - Vocari
  *
  * Gestión completa de funcionalidades para orientadores:
  * - Disponibilidad y calendario

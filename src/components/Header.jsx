@@ -44,14 +44,14 @@ const Header = ({ onOpenChat, onStartTest }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <motion.div 
+          <motion.div
             className="flex items-center space-x-2"
             whileHover={{ scale: 1.05 }}
           >
             <div className="w-8 h-8 bg-orienta-blue rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">B</span>
+              <span className="text-white font-bold text-lg">V</span>
             </div>
-            <span className="text-white font-poppins font-semibold text-xl">Brújula</span>
+            <span className="text-white font-poppins font-semibold text-xl">Vocari</span>
           </motion.div>
 
           {/* Desktop Navigation */}

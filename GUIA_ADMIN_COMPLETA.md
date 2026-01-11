@@ -475,10 +475,21 @@ SELECT approve_user_with_role(
 
 | Rol | Puede hacer test | Aprobación | Límite de estudiantes | Rutas |
 |-----|-----------------|------------|----------------------|-------|
-| **Admin** | ❌ | Auto-aprobado | N/A | `/admin` |
+| **Admin** | ❌ | Auto-aprobado | N/A | `/admin` + **TODAS las rutas** ✨ |
 | **Orientador** | ❌ | Requiere admin | N/A | `/orientador/*` |
 | **Apoderado** | ❌ | Requiere admin | Máx 5 estudiantes | `/parent` |
 | **Estudiante** | ✅ | Auto-aprobado | N/A | `/dashboard`, `/test` |
+
+### 🎭 Acceso Especial del Admin
+
+Como administrador, tienes **acceso completo a TODAS las vistas** para hacer demos y pruebas:
+
+- ✅ Puedes entrar a `/dashboard` (vista estudiante)
+- ✅ Puedes entrar a `/parent` (vista apoderado)
+- ✅ Puedes entrar a `/orientador/dashboard` (vista orientador)
+- ✅ Puedes entrar a `/admin` (tu panel)
+
+**En el Panel Admin verás un selector "Vista Demo"** con botones para cambiar rápidamente entre roles.
 
 ---
 

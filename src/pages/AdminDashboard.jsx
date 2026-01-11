@@ -154,7 +154,7 @@ function AdminDashboard() {
               <Shield size={32} className="text-purple-400" />
               <div>
                 <h1 className="text-3xl font-bold text-white mb-1">Panel de Administración</h1>
-                <p className="text-white/60">Control total del sistema OrientaIA</p>
+                <p className="text-white/60">Control total del sistema Vocari</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -165,12 +165,33 @@ function AdminDashboard() {
                 <UserPlus size={18} />
                 Crear Nuevo Usuario
               </button>
-              <button
-                onClick={() => navigate('/orientador')}
-                className="px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
-              >
-                Vista Orientador
-              </button>
+
+              {/* Selector de Vistas Demo */}
+              <div className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 border border-purple-400/30 rounded-lg">
+                <span className="text-white/70 text-sm font-medium">Vista Demo:</span>
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors"
+                  title="Ver como Estudiante"
+                >
+                  Estudiante
+                </button>
+                <button
+                  onClick={() => navigate('/parent')}
+                  className="px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600 transition-colors"
+                  title="Ver como Apoderado"
+                >
+                  Apoderado
+                </button>
+                <button
+                  onClick={() => navigate('/orientador/dashboard')}
+                  className="px-3 py-1 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 transition-colors"
+                  title="Ver como Orientador"
+                >
+                  Orientador
+                </button>
+              </div>
+
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-2 px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"

@@ -1,5 +1,5 @@
 /**
- * Servicio de Apoderado - OrientaIA
+ * Servicio de Apoderado - Vocari
  *
  * Gestión completa de funcionalidades para apoderados:
  * - Vincular estudiantes (hijos)

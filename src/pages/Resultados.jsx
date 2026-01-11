@@ -366,7 +366,7 @@ function Resultados() {
               if (navigator.share) {
                 navigator.share({
                   title: `Mi perfil vocacional: ${resultado.codigo_holland}`,
-                  text: `Descubrí mi vocación con OrientaIA. Mi código Holland es ${resultado.codigo_holland}.`,
+                  text: `Descubrí mi vocación con Vocari. Mi código Holland es ${resultado.codigo_holland}.`,
                   url: window.location.href
                 });
               }

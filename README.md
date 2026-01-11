@@ -1,10 +1,10 @@
-# 🧭 Brújula: Orientación Vocacional con IA
+# 🎓 Vocari: Orientación Vocacional con IA
 
-Una landing page moderna para **orienta AI**, una plataforma de orientación vocacional con inteligencia artificial dirigida a jóvenes de 16 a 24 años en Chile y LATAM.
+Una plataforma moderna de orientación vocacional con inteligencia artificial dirigida a jóvenes de 16 a 24 años en Chile y LATAM.
 
 ## 🎯 Propósito
 
-Brújula combina tecnología de inteligencia artificial con psicología vocacional para ayudar a los jóvenes a tomar decisiones conscientes, felices y alineadas con su verdadero propósito profesional.
+Vocari combina tecnología de inteligencia artificial con psicología vocacional para ayudar a los jóvenes a tomar decisiones conscientes, felices y alineadas con su verdadero propósito profesional.
 
 ## ✨ Características
 

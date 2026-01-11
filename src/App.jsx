@@ -1,30 +1,46 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import TestRIASEC from './pages/TestRIASEC';
-import Resultados from './pages/Resultados';
-import AuthCallback from './pages/AuthCallback';
-import CompleteProfile from './pages/CompleteProfile';
-import AdminDashboard from './pages/AdminDashboard';
-import Dashboard from './pages/Dashboard';
-import ParentDashboard from './pages/ParentDashboard';
+import { lazy, Suspense } from 'react';
 
-// Páginas del sistema orientador
-import OrientadorDashboardPage from './pages/OrientadorDashboardPage';
-import OrientadorStudentProfilePage from './pages/OrientadorStudentProfilePage';
-import AvailabilityPage from './pages/AvailabilityPage';
-import SessionNotesPage from './pages/SessionNotesPage';
+// Rutas públicas - carga inmediata
+import LandingPage from './pages/LandingPage';
+import AuthCallback from './pages/AuthCallback';
+
+// Lazy loading para rutas protegidas (mejora performance inicial)
+const TestRIASEC = lazy(() => import('./pages/TestRIASEC'));
+const Resultados = lazy(() => import('./pages/Resultados'));
+const CompleteProfile = lazy(() => import('./pages/CompleteProfile'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const ParentDashboard = lazy(() => import('./pages/ParentDashboard'));
+
+// Páginas del sistema orientador - lazy loading
+const OrientadorDashboardPage = lazy(() => import('./pages/OrientadorDashboardPage'));
+const OrientadorStudentProfilePage = lazy(() => import('./pages/OrientadorStudentProfilePage'));
+const AvailabilityPage = lazy(() => import('./pages/AvailabilityPage'));
+const SessionNotesPage = lazy(() => import('./pages/SessionNotesPage'));
 
 // Componente de protección de rutas
 import ProtectedRoute from './components/ProtectedRoute';
 
+// Loading fallback para lazy loaded components
+const LoadingFallback = () => (
+  <div className="min-h-screen bg-orienta-dark flex items-center justify-center">
+    <div className="text-center">
+      <div className="w-16 h-16 border-4 border-orienta-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+      <p className="text-white/60">Cargando...</p>
+    </div>
+  </div>
+);
+
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* Rutas públicas */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/auth/callback" element={<AuthCallback />} />
-        <Route path="/complete-profile" element={<CompleteProfile />} />
+      <Suspense fallback={<LoadingFallback />}>
+        <Routes>
+          {/* Rutas públicas */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/complete-profile" element={<CompleteProfile />} />
 
         {/* Ruta del test - SOLO para estudiantes */}
         <Route
@@ -120,7 +136,8 @@ function App() {
             </ProtectedRoute>
           }
         />
-      </Routes>
+        </Routes>
+      </Suspense>
     </Router>
   );
 }

@@ -1,5 +1,5 @@
 /**
- * Servicio de Administración - OrientaIA
+ * Servicio de Administración - Vocari
  *
  * Gestión completa de usuarios y roles por el administrador:
  * - Aprobar/rechazar usuarios
@@ -450,12 +450,17 @@ export async function hasRole(userId, role) {
 export async function canAccessSystem(userId) {
   const { data } = await supabase
     .from('user_profiles')
-    .select('status, role, rejection_reason')
+    .select('status, role, rejection_reason, expires_at')
     .eq('user_id', userId)
     .single();
 
   if (!data) {
     return { canAccess: false, reason: 'Usuario no encontrado' };
+  }
+
+  // Verificar si el acceso ha expirado
+  if (data.expires_at && new Date(data.expires_at) < new Date()) {
+    return { canAccess: false, reason: 'Tu acceso temporal ha expirado' };
   }
 
   if (data.status === 'suspended') {
@@ -485,4 +490,132 @@ export async function canAccessSystem(userId) {
   }
 
   return { canAccess: false, reason: 'Estado de cuenta inválido' };
+}
+
+// ========================================
+// DESACTIVACIÓN Y ACCESO TEMPORAL
+// ========================================
+
+/**
+ * Desactiva un usuario (cambia status a inactive)
+ * @param {string} userId - UUID del usuario a desactivar
+ * @param {string} reason - Razón de la desactivación (opcional)
+ * @returns {Promise<boolean>} True si se desactivó exitosamente
+ */
+export async function adminDeactivateUser(userId, reason = 'Desactivado por administrador') {
+  const { data, error } = await supabase
+    .rpc('admin_deactivate_user', {
+      p_user_id: userId,
+      p_reason: reason
+    });
+
+  if (error) {
+    console.error('Error deactivating user:', error);
+    throw error;
+  }
+
+  return data;
+}
+
+/**
+ * Da acceso temporal a un usuario (10, 15 o 30 días)
+ * @param {string} userId - UUID del usuario
+ * @param {number} days - Días de acceso (10, 15 o 30)
+ * @param {string} reason - Razón del acceso temporal (opcional)
+ * @returns {Promise<string>} Fecha de expiración (ISO string)
+ */
+export async function adminGrantTemporaryAccess(userId, days, reason = 'Acceso temporal') {
+  if (![10, 15, 30].includes(days)) {
+    throw new Error('Los días deben ser 10, 15 o 30');
+  }
+
+  const { data, error } = await supabase
+    .rpc('admin_grant_temporary_access', {
+      p_user_id: userId,
+      p_days: days,
+      p_reason: reason
+    });
+
+  if (error) {
+    console.error('Error granting temporary access:', error);
+    throw error;
+  }
+
+  return data;
+}
+
+/**
+ * Reactiva un usuario desactivado
+ * @param {string} userId - UUID del usuario a reactivar
+ * @param {string} reason - Razón de la reactivación (opcional)
+ * @returns {Promise<boolean>} True si se reactivó exitosamente
+ */
+export async function adminReactivateUser(userId, reason = 'Reactivado por administrador') {
+  const { data, error } = await supabase
+    .rpc('admin_reactivate_user', {
+      p_user_id: userId,
+      p_reason: reason
+    });
+
+  if (error) {
+    console.error('Error reactivating user:', error);
+    throw error;
+  }
+
+  return data;
+}
+
+/**
+ * Elimina permanentemente un usuario (¡IRREVERSIBLE!)
+ * @param {string} userId - UUID del usuario a eliminar
+ * @param {string} reason - Razón de la eliminación (opcional)
+ * @returns {Promise<boolean>} True si se eliminó exitosamente
+ */
+export async function adminDeleteUser(userId, reason = 'Eliminado por administrador') {
+  const { data, error } = await supabase
+    .rpc('admin_delete_user', {
+      p_user_id: userId,
+      p_reason: reason
+    });
+
+  if (error) {
+    console.error('Error deleting user:', error);
+    throw error;
+  }
+
+  return data;
+}
+
+/**
+ * Obtiene usuarios que expiran pronto (con acceso temporal)
+ * @returns {Promise<Array>} Lista de usuarios con acceso temporal
+ */
+export async function getUsersExpiringSoon() {
+  const { data, error } = await supabase
+    .from('users_expiring_soon')
+    .select('*')
+    .order('expires_at', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching expiring users:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+/**
+ * Ejecuta la función automática de desactivar usuarios expirados
+ * @returns {Promise<number>} Número de usuarios desactivados
+ */
+export async function autoDeactivateExpiredUsers() {
+  const { data, error } = await supabase
+    .rpc('auto_deactivate_expired_users');
+
+  if (error) {
+    console.error('Error auto-deactivating expired users:', error);
+    throw error;
+  }
+
+  return data || 0;
 }

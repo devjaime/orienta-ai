@@ -44,7 +44,7 @@ const SolutionSection = () => {
             Nuestra Solución
           </h2>
           <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-            Brújula utiliza inteligencia artificial para guiar vocacionalmente a jóvenes de 16 a 24 años, 
+            Vocari utiliza inteligencia artificial para guiar vocacionalmente a jóvenes de 16 a 24 años,
             combinando tecnología avanzada con un enfoque humano que respeta la individualidad de cada persona.
           </p>
         </motion.div>
@@ -108,7 +108,7 @@ const SolutionSection = () => {
         >
           <div className="bg-white rounded-2xl p-8 md:p-12 max-w-4xl mx-auto">
             <h3 className="text-2xl md:text-3xl font-poppins font-semibold text-orienta-dark mb-6">
-              ¿Cómo funciona Brújula?
+              ¿Cómo funciona Vocari?
             </h3>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
               Nuestra plataforma combina evaluaciones psicológicas tradicionales con análisis de IA 

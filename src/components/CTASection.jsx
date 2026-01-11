@@ -42,7 +42,7 @@ const CTASection = ({ onOpenChat }) => {
             Toma decisiones conscientes, felices y alineadas contigo mismo
           </h2>
           <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-            No dejes tu futuro al azar. Con Brújula, cada decisión que tomes estará respaldada 
+            No dejes tu futuro al azar. Con Vocari, cada decisión que tomes estará respaldada
             por inteligencia artificial y psicología vocacional.
           </p>
         </motion.div>

@@ -46,7 +46,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <motion.div 
+            <motion.div
               className="flex items-center space-x-2 mb-4"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -54,9 +54,9 @@ const Footer = () => {
               viewport={{ once: true }}
             >
               <div className="w-8 h-8 bg-orienta-blue rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">B</span>
+                <span className="text-white font-bold text-lg">V</span>
               </div>
-              <span className="text-white font-poppins font-semibold text-xl">Brújula</span>
+              <span className="text-white font-poppins font-semibold text-xl">Vocari</span>
             </motion.div>
             <motion.p 
               className="text-white/70 mb-6 leading-relaxed"
@@ -80,7 +80,7 @@ const Footer = () => {
             >
               <div className="flex items-center gap-3 text-white/70">
                 <Mail size={16} />
-                <span>hola@brujula-ai.com</span>
+                <span>hola@vocari.com</span>
               </div>
               <div className="flex items-center gap-3 text-white/70">
                 <Phone size={16} />
@@ -183,7 +183,7 @@ const Footer = () => {
           className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center"
         >
           <p className="text-white/60 text-sm mb-4 md:mb-0">
-            © {currentYear} Brújula AI. Todos los derechos reservados.
+            © {currentYear} Vocari. Todos los derechos reservados.
           </p>
           <div className="flex items-center gap-6 text-sm text-white/60">
             <span>Hecho con ❤️ en Chile</span>

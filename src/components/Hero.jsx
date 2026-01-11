@@ -34,7 +34,7 @@ const Hero = ({ onOpenChat }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Brújula:
+              Vocari:
               <span className="block text-orienta-blue">Orientación Vocacional</span>
               <span className="block text-2xl md:text-3xl lg:text-4xl mt-4">con IA</span>
             </motion.h1>

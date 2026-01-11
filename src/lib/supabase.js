@@ -226,3 +226,65 @@ export const createScheduledSession = async (sessionData) => {
 
   return data
 }
+
+/**
+ * Crea una nueva sesión agendada CON asignación automática de orientador
+ */
+export const createScheduledSessionWithAssignment = async (sessionData) => {
+  const user = await getCurrentUser()
+  if (!user) throw new Error('Usuario no autenticado')
+
+  // Importar función de orientadorService
+  const { autoAssignOrientador } = await import('./orientadorService')
+
+  try {
+    // Asignar orientador automáticamente
+    const orientadorId = await autoAssignOrientador(user.id, sessionData.scheduled_date)
+
+    // Crear sesión con orientador asignado
+    const { data, error } = await supabase
+      .from('scheduled_sessions')
+      .insert({
+        user_id: user.id,
+        orientador_id: orientadorId,
+        ...sessionData
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error creating scheduled session:', error)
+      throw error
+    }
+
+    return data
+  } catch (err) {
+    console.error('Error in createScheduledSessionWithAssignment:', err)
+    throw err
+  }
+}
+
+/**
+ * Actualiza el estado de una sesión
+ */
+export const updateSessionStatus = async (sessionId, status, notes = null) => {
+  const updateData = { status }
+
+  if (status === 'completed' && notes) {
+    updateData.orientador_notes = notes
+  }
+
+  const { data, error } = await supabase
+    .from('scheduled_sessions')
+    .update(updateData)
+    .eq('id', sessionId)
+    .select()
+    .single()
+
+  if (error) {
+    console.error('Error updating session status:', error)
+    throw error
+  }
+
+  return data
+}

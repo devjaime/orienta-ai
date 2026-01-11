@@ -9,8 +9,8 @@ const AIChat = ({ isOpen, onClose }) => {
       id: 1,
       type: 'ai',
       content: isAIEnabled()
-        ? '¡Hola! Soy Brújula, tu asistente de orientación vocacional con IA. 🤖✨\n\nEstoy aquí para ayudarte a descubrir tu camino profesional. ¿Te gustaría que empecemos con algunas preguntas para conocerte mejor?'
-        : '👋 ¡Hola! Soy Brújula.\n\n🔒 Las funcionalidades de IA están actualmente desactivadas en esta demo.\n\nPara acceso completo con análisis personalizados ilimitados, contáctanos en ' + LIMITS.CONTACT_EMAIL,
+        ? '¡Hola! Soy Vocari, tu asistente de orientación vocacional con IA. 🤖✨\n\nEstoy aquí para ayudarte a descubrir tu camino profesional. ¿Te gustaría que empecemos con algunas preguntas para conocerte mejor?'
+        : '👋 ¡Hola! Soy Vocari.\n\n🔒 Las funcionalidades de IA están actualmente desactivadas en esta demo.\n\nPara acceso completo con análisis personalizados ilimitados, contáctanos en ' + LIMITS.CONTACT_EMAIL,
       timestamp: new Date(),
       avatar: '🧭'
     }
@@ -180,7 +180,7 @@ const AIChat = ({ isOpen, onClose }) => {
               <Bot size={20} />
             </div>
             <div>
-              <h3 className="font-semibold">Brújula AI</h3>
+              <h3 className="font-semibold">Vocari</h3>
               <p className="text-sm text-white/80">Orientación Vocacional</p>
             </div>
           </div>
@@ -260,7 +260,7 @@ const AIChat = ({ isOpen, onClose }) => {
               <div className="bg-white shadow-sm border p-3 rounded-2xl">
                 <div className="flex items-center gap-2">
                   <Loader2 size={16} className="animate-spin text-orienta-blue" />
-                  <span className="text-sm text-gray-600">Brújula está pensando...</span>
+                  <span className="text-sm text-gray-600">Vocari está pensando...</span>
                 </div>
               </div>
             </motion.div>

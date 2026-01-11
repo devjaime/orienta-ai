@@ -4,7 +4,7 @@ import { Check, X, Star } from 'lucide-react';
 const ComparisonSection = () => {
   const platforms = [
     {
-      name: "Brújula",
+      name: "Vocari",
       logo: "🧭",
       isHighlighted: true,
       features: {
@@ -77,10 +77,10 @@ const ComparisonSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-bold text-orienta-dark mb-6">
-            ¿Por qué elegir Brújula?
+            ¿Por qué elegir Vocari?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Compara Brújula con otras plataformas de orientación vocacional y descubre 
+            Compara Vocari con otras plataformas de orientación vocacional y descubre
             por qué somos la mejor opción para jóvenes latinoamericanos.
           </p>
         </motion.div>
@@ -148,7 +148,7 @@ const ComparisonSection = () => {
           className="mt-16"
         >
           <h3 className="text-2xl md:text-3xl font-poppins font-semibold text-orienta-dark text-center mb-12">
-            Ventajas Clave de Brújula
+            Ventajas Clave de Vocari
           </h3>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -206,7 +206,7 @@ const ComparisonSection = () => {
               ¿Listo para descubrir tu camino?
             </h3>
             <p className="text-lg text-white/90 mb-6 max-w-2xl mx-auto">
-              Únete a miles de jóvenes que ya han encontrado su vocación con Brújula
+              Únete a miles de jóvenes que ya han encontrado su vocación con Vocari
             </p>
             <button className="bg-white text-orienta-dark px-8 py-3 rounded-2xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
               Comenzar Ahora

@@ -130,7 +130,7 @@ function ProfileSelector() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            ¿Cómo quieres usar <span className="text-orienta-blue">Brújula</span>?
+            ¿Cómo quieres usar <span className="text-orienta-blue">Vocari</span>?
           </h2>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
             Selecciona tu perfil para acceder a las funcionalidades diseñadas para ti

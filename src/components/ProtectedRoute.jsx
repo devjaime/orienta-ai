@@ -65,7 +65,8 @@ function ProtectedRoute({
       }
 
       // 4. Verificar rol si se especificaron roles permitidos
-      if (allowedRoles.length > 0) {
+      // EXCEPCIÓN: Admin tiene acceso a TODAS las rutas para demos y pruebas
+      if (allowedRoles.length > 0 && profile.role !== 'admin') {
         if (!allowedRoles.includes(profile.role)) {
           const roleNames = {
             estudiante: 'estudiantes',
