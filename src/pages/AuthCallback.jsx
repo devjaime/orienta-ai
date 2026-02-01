@@ -37,7 +37,46 @@ function AuthCallback() {
             console.error('Error checking profile:', profileError);
           }
 
-          // PASO 2: Si no tiene perfil vinculado, buscar perfil pendiente por email
+          // PASO 2: Verificar si hay código de activación pendiente (flujo B2B)
+          const pendingActivationCode = localStorage.getItem('pendingActivationCode');
+          if (pendingActivationCode && !profile) {
+            console.log('🔑 Procesando código de activación:', pendingActivationCode);
+
+            // Buscar perfil con el código de activación
+            const { data: activationProfile } = await supabase
+              .from('user_profiles')
+              .select('*')
+              .eq('activation_code', pendingActivationCode)
+              .eq('is_activated', false)
+              .single();
+
+            if (activationProfile) {
+              console.log('🔗 Activando cuenta con código...');
+
+              const { error: activateError } = await supabase
+                .from('user_profiles')
+                .update({
+                  user_id: session.user.id,
+                  is_activated: true,
+                  status: 'active',
+                  activation_code: null // Limpiar código usado
+                })
+                .eq('id', activationProfile.id);
+
+              if (!activateError) {
+                console.log('✅ Cuenta activada exitosamente');
+                profile = { ...activationProfile, user_id: session.user.id, is_activated: true };
+                localStorage.removeItem('pendingActivationCode');
+              } else {
+                console.error('❌ Error activando cuenta:', activateError);
+              }
+            } else {
+              console.warn('⚠️ Código de activación inválido o ya usado');
+              localStorage.removeItem('pendingActivationCode');
+            }
+          }
+
+          // PASO 3: Si no tiene perfil vinculado ni activación, buscar perfil pendiente por email
           if (!profile) {
             console.log('🔍 Buscando perfil pendiente por email:', session.user.email);
 
@@ -66,11 +105,13 @@ function AuthCallback() {
             }
           }
 
-          // PASO 3: Redirigir según el perfil
+          // PASO 4: Redirigir según el perfil
           if (profile) {
             // Ya tiene perfil, redirigir según el rol
             const roleRedirects = {
+              super_admin: '/admin',
               admin: '/admin',
+              admin_colegio: '/admin',
               orientador: '/orientador/dashboard',
               apoderado: '/parent',
               estudiante: '/dashboard'

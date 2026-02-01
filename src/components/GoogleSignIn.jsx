@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase, signInWithGoogle, signOut, getCurrentUser } from '../lib/supabase';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, User, KeyRound } from 'lucide-react';
 
 /**
  * Componente de autenticación con Google Sign-In
  * Muestra botón de login si no está autenticado
  * Muestra info del usuario + botón logout si está autenticado
  */
-function GoogleSignIn({ onAuthChange, onSuccess, showUserInfo = true, buttonText = 'Continuar con Google' }) {
+function GoogleSignIn({ onAuthChange, onSuccess, showUserInfo = true, buttonText = 'Continuar con Google', showActivationLink = true }) {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -182,6 +184,20 @@ function GoogleSignIn({ onAuthChange, onSuccess, showUserInfo = true, buttonText
         >
           {error}
         </motion.p>
+      )}
+
+      {/* Enlace de activación para estudiantes con código del colegio */}
+      {showActivationLink && (
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          onClick={() => navigate('/activate')}
+          className="w-full flex items-center justify-center gap-2 text-sm text-white/60 hover:text-white transition-colors py-2"
+        >
+          <KeyRound size={14} />
+          ¿Tienes un código de activación?
+        </motion.button>
       )}
     </div>
   );

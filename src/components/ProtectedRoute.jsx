@@ -65,14 +65,27 @@ function ProtectedRoute({
       }
 
       // 4. Verificar rol si se especificaron roles permitidos
-      // EXCEPCIÓN: Admin tiene acceso a TODAS las rutas para demos y pruebas
-      if (allowedRoles.length > 0 && profile.role !== 'admin') {
-        if (!allowedRoles.includes(profile.role)) {
+      // EXCEPCIÓN: Admin, admin_colegio y super_admin tienen acceso especial
+      const adminRoles = ['admin', 'admin_colegio', 'super_admin'];
+      const isAnyAdmin = adminRoles.includes(profile.role);
+
+      if (allowedRoles.length > 0) {
+        // super_admin tiene acceso a TODAS las rutas
+        if (profile.role === 'super_admin') {
+          // Acceso total
+        }
+        // admin y admin_colegio tienen acceso a rutas de su ámbito
+        else if (isAnyAdmin && !allowedRoles.includes('super_admin')) {
+          // Acceso permitido para admins en rutas que no son exclusivas de super_admin
+        }
+        else if (!allowedRoles.includes(profile.role)) {
           const roleNames = {
             estudiante: 'estudiantes',
             apoderado: 'apoderados',
             orientador: 'orientadores',
-            admin: 'administradores'
+            admin: 'administradores',
+            admin_colegio: 'administradores de colegio',
+            super_admin: 'super administradores'
           };
 
           const allowedRolesText = allowedRoles

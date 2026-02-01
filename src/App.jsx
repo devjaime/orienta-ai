@@ -12,6 +12,8 @@ const CompleteProfile = lazy(() => import('./pages/CompleteProfile'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const ParentDashboard = lazy(() => import('./pages/ParentDashboard'));
+const ActivateAccount = lazy(() => import('./pages/ActivateAccount'));
+const InstitutionStudentsPage = lazy(() => import('./pages/InstitutionStudentsPage'));
 
 // Páginas del sistema orientador - lazy loading
 const OrientadorDashboardPage = lazy(() => import('./pages/OrientadorDashboardPage'));
@@ -41,6 +43,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
+          <Route path="/activate" element={<ActivateAccount />} />
 
         {/* Ruta del test - SOLO para estudiantes */}
         <Route
@@ -127,12 +130,22 @@ function App() {
           }
         />
 
-        {/* Admin dashboard - Solo administradores */}
+        {/* Admin dashboard - Administradores (admin, admin_colegio, super_admin) */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute allowedRoles={['admin']}>
+            <ProtectedRoute allowedRoles={['admin', 'admin_colegio', 'super_admin']}>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Gestión de estudiantes por institución */}
+        <Route
+          path="/admin/institutions/:institutionId/students"
+          element={
+            <ProtectedRoute allowedRoles={['admin', 'admin_colegio', 'super_admin']}>
+              <InstitutionStudentsPage />
             </ProtectedRoute>
           }
         />

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Users, ClipboardList, Calendar, Shield, Search, LogOut, UserCog, UserPlus, X } from 'lucide-react';
-import { hasRole, getAllUsers, getAllTestResults, getAllScheduledSessions, signOut, supabase } from '../lib/supabase';
+import { Users, ClipboardList, Calendar, Shield, Search, LogOut, UserCog, UserPlus, X, Building2 } from 'lucide-react';
+import { hasRole, getAllUsers, getAllTestResults, getAllScheduledSessions, signOut, supabase, getUserProfile } from '../lib/supabase';
 import { createUserProfile } from '../lib/adminService';
+import InstitutionManager from '../components/admin/InstitutionManager';
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ function AdminDashboard() {
   // Estado para crear nuevo usuario
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [creatingUser, setCreatingUser] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [userRole, setUserRole] = useState(null);
   const [newUser, setNewUser] = useState({
     email: '',
     nombre: '',
@@ -31,12 +34,17 @@ function AdminDashboard() {
   }, []);
 
   const checkAccess = async () => {
-    const hasAdminRole = await hasRole('admin');
-    if (!hasAdminRole) {
+    const profile = await getUserProfile();
+    const adminRoles = ['admin', 'admin_colegio', 'super_admin'];
+
+    if (!profile || !adminRoles.includes(profile.role)) {
       alert('No tienes permisos de administrador para acceder a este panel');
       navigate('/');
       return;
     }
+
+    setUserRole(profile.role);
+    setIsSuperAdmin(profile.role === 'super_admin');
 
     await loadData();
   };
@@ -272,7 +280,65 @@ function AdminDashboard() {
           </motion.div>
         </div>
 
-        {/* Users Management */}
+        {/* Tabs */}
+        <div className="flex gap-2 mb-6 border-b border-white/10 pb-4">
+          <button
+            onClick={() => setActiveTab('overview')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === 'overview'
+                ? 'bg-indigo-600 text-white'
+                : 'text-white/60 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            <Users size={18} className="inline mr-2" />
+            Usuarios
+          </button>
+          {isSuperAdmin && (
+            <button
+              onClick={() => setActiveTab('institutions')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                activeTab === 'institutions'
+                  ? 'bg-indigo-600 text-white'
+                  : 'text-white/60 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              <Building2 size={18} className="inline mr-2" />
+              Instituciones
+            </button>
+          )}
+          <button
+            onClick={() => setActiveTab('tests')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === 'tests'
+                ? 'bg-indigo-600 text-white'
+                : 'text-white/60 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            <ClipboardList size={18} className="inline mr-2" />
+            Tests
+          </button>
+          <button
+            onClick={() => setActiveTab('sessions')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === 'sessions'
+                ? 'bg-indigo-600 text-white'
+                : 'text-white/60 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            <Calendar size={18} className="inline mr-2" />
+            Sesiones
+          </button>
+        </div>
+
+        {/* Tab: Instituciones (solo super_admin) */}
+        {activeTab === 'institutions' && isSuperAdmin && (
+          <div className="bg-white/5 border border-white/20 rounded-xl p-6">
+            <InstitutionManager />
+          </div>
+        )}
+
+        {/* Tab: Users Management */}
+        {activeTab === 'overview' && (
         <div className="bg-white/5 border border-white/20 rounded-xl p-6">
           <h3 className="text-2xl font-bold text-white mb-6">Gestión de Usuarios</h3>
 
@@ -347,6 +413,71 @@ function AdminDashboard() {
               ))}
           </div>
         </div>
+        )}
+
+        {/* Tab: Tests */}
+        {activeTab === 'tests' && (
+          <div className="bg-white/5 border border-white/20 rounded-xl p-6">
+            <h3 className="text-2xl font-bold text-white mb-6">Tests Realizados</h3>
+            <div className="space-y-4">
+              {testResults.length === 0 ? (
+                <p className="text-white/60 text-center py-8">No hay tests realizados aún</p>
+              ) : (
+                testResults.slice(0, 20).map(test => (
+                  <div key={test.id} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-white font-medium">{test.user_email}</p>
+                        <p className="text-white/60 text-sm">
+                          Código: <span className="font-mono text-indigo-400">{test.codigo_holland}</span>
+                          {' '} - Certeza: {Math.round(test.certeza * 100)}%
+                        </p>
+                      </div>
+                      <p className="text-white/40 text-sm">
+                        {new Date(test.completed_at).toLocaleDateString('es-CL')}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Tab: Sesiones */}
+        {activeTab === 'sessions' && (
+          <div className="bg-white/5 border border-white/20 rounded-xl p-6">
+            <h3 className="text-2xl font-bold text-white mb-6">Sesiones Agendadas</h3>
+            <div className="space-y-4">
+              {sessions.length === 0 ? (
+                <p className="text-white/60 text-center py-8">No hay sesiones agendadas</p>
+              ) : (
+                sessions.slice(0, 20).map(session => (
+                  <div key={session.id} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-white font-medium">
+                          {session.user_profile?.nombre || 'Usuario'}
+                        </p>
+                        <p className="text-white/60 text-sm">
+                          {new Date(session.scheduled_date).toLocaleString('es-CL')}
+                        </p>
+                      </div>
+                      <span className={`px-2 py-1 text-xs rounded ${
+                        session.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                        session.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
+                        session.status === 'cancelled' ? 'bg-red-500/20 text-red-400' :
+                        'bg-gray-500/20 text-gray-400'
+                      }`}>
+                        {session.status}
+                      </span>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Modal: Crear Nuevo Usuario */}
