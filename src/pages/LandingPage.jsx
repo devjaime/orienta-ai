@@ -6,6 +6,7 @@ import ProfileSelector from '../components/ProfileSelector';
 import ProblemSection from '../components/ProblemSection';
 import SolutionSection from '../components/SolutionSection';
 import ComparisonSection from '../components/ComparisonSection';
+import PricingSection from '../components/landing/PricingSection';
 import CTASection from '../components/CTASection';
 import Footer from '../components/Footer';
 import AIChat from '../components/AIChat';
@@ -36,6 +37,7 @@ function LandingPage() {
         <ProblemSection />
         <SolutionSection />
         <ComparisonSection />
+        <PricingSection />
         <RiasecEmbed />
         <CTASection onOpenChat={openChat} onStartTest={goToTest} />
       </main>

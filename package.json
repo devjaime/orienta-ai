@@ -20,6 +20,7 @@
     "analytics-full": "npm run analyze-trends && npm run project-future && npm run analyze-riasec"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.3.2",
     "@supabase/supabase-js": "^2.89.0",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.536.0",

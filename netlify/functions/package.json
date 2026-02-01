@@ -1,0 +1,7 @@
+{
+  "name": "vocari-netlify-functions",
+  "private": true,
+  "dependencies": {
+    "@supabase/supabase-js": "^2.89.0"
+  }
+}

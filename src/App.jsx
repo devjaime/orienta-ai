@@ -15,6 +15,11 @@ const ParentDashboard = lazy(() => import('./pages/ParentDashboard'));
 const ActivateAccount = lazy(() => import('./pages/ActivateAccount'));
 const InstitutionStudentsPage = lazy(() => import('./pages/InstitutionStudentsPage'));
 
+// Páginas de informes pagados - lazy loading
+const InformesPage = lazy(() => import('./pages/InformesPage'));
+const MisInformesPage = lazy(() => import('./pages/MisInformesPage'));
+const FlowReturnPage = lazy(() => import('./pages/FlowReturnPage'));
+
 // Páginas del sistema orientador - lazy loading
 const OrientadorDashboardPage = lazy(() => import('./pages/OrientadorDashboardPage'));
 const OrientadorStudentProfilePage = lazy(() => import('./pages/OrientadorStudentProfilePage'));
@@ -44,6 +49,18 @@ function App() {
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/activate" element={<ActivateAccount />} />
+
+        {/* Rutas de informes pagados */}
+        <Route path="/informes" element={<InformesPage />} />
+        <Route
+          path="/mis-informes"
+          element={
+            <ProtectedRoute allowedRoles={['estudiante', 'apoderado', 'orientador', 'admin', 'admin_colegio', 'super_admin']}>
+              <MisInformesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/flow-return" element={<FlowReturnPage />} />
 
         {/* Ruta del test - SOLO para estudiantes */}
         <Route

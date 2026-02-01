@@ -68,6 +68,9 @@ const Header = ({ onOpenChat, onStartTest }) => {
             <a href="#test" className="text-white/80 hover:text-orienta-blue transition-colors duration-300">
               Test Vocacional
             </a>
+            <a href="#informes" className="text-white/80 hover:text-orienta-blue transition-colors duration-300">
+              Informes
+            </a>
           </nav>
 
           {/* CTA Buttons */}
@@ -85,6 +88,12 @@ const Header = ({ onOpenChat, onStartTest }) => {
             >
               Hacer Test Vocacional
             </button>
+            <a
+              href="/informes"
+              className="flex items-center gap-2 bg-green-500/20 text-green-400 px-4 py-2 rounded-xl hover:bg-green-500/30 transition-all duration-300 font-medium text-sm"
+            >
+              Obtener Informe
+            </a>
 
             {/* User Menu */}
             {user && (
@@ -152,6 +161,9 @@ const Header = ({ onOpenChat, onStartTest }) => {
               </a>
               <a href="#test" className="text-white/80 hover:text-orienta-blue transition-colors duration-300">
                 Test Vocacional
+              </a>
+              <a href="#informes" className="text-white/80 hover:text-orienta-blue transition-colors duration-300">
+                Informes
               </a>
               <button
                 onClick={onOpenChat}

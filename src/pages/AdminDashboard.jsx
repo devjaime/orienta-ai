@@ -5,6 +5,7 @@ import { Users, ClipboardList, Calendar, Shield, Search, LogOut, UserCog, UserPl
 import { hasRole, getAllUsers, getAllTestResults, getAllScheduledSessions, signOut, supabase, getUserProfile } from '../lib/supabase';
 import { createUserProfile } from '../lib/adminService';
 import InstitutionManager from '../components/admin/InstitutionManager';
+import ReportReviewPanel from '../components/admin/ReportReviewPanel';
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -328,6 +329,17 @@ function AdminDashboard() {
             <Calendar size={18} className="inline mr-2" />
             Sesiones
           </button>
+          <button
+            onClick={() => setActiveTab('reports')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === 'reports'
+                ? 'bg-indigo-600 text-white'
+                : 'text-white/60 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            <ClipboardList size={18} className="inline mr-2" />
+            Informes
+          </button>
         </div>
 
         {/* Tab: Instituciones (solo super_admin) */}
@@ -476,6 +488,13 @@ function AdminDashboard() {
                 ))
               )}
             </div>
+          </div>
+        )}
+
+        {/* Tab: Informes Pagados */}
+        {activeTab === 'reports' && (
+          <div className="bg-white/5 border border-white/20 rounded-xl p-6">
+            <ReportReviewPanel />
           </div>
         )}
       </div>
