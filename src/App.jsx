@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 
-// Rutas públicas - carga inmediata
+// Rutas publicas - carga inmediata
 import LandingPage from './pages/LandingPage';
 import AuthCallback from './pages/AuthCallback';
 
@@ -15,26 +15,29 @@ const ParentDashboard = lazy(() => import('./pages/ParentDashboard'));
 const ActivateAccount = lazy(() => import('./pages/ActivateAccount'));
 const InstitutionStudentsPage = lazy(() => import('./pages/InstitutionStudentsPage'));
 
-// Páginas de informes pagados - lazy loading
+// Paginas de informes pagados - lazy loading
 const InformesPage = lazy(() => import('./pages/InformesPage'));
 const MisInformesPage = lazy(() => import('./pages/MisInformesPage'));
 const FlowReturnPage = lazy(() => import('./pages/FlowReturnPage'));
 
-// Páginas del sistema orientador - lazy loading
+// Paginas del sistema orientador - lazy loading
 const OrientadorDashboardPage = lazy(() => import('./pages/OrientadorDashboardPage'));
 const OrientadorStudentProfilePage = lazy(() => import('./pages/OrientadorStudentProfilePage'));
 const AvailabilityPage = lazy(() => import('./pages/AvailabilityPage'));
 const SessionNotesPage = lazy(() => import('./pages/SessionNotesPage'));
 
-// Componente de protección de rutas
+// Landing B2B - lazy loading
+const B2BLandingPage = lazy(() => import('./pages/B2BLandingPage'));
+
+// Componente de proteccion de rutas
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Loading fallback para lazy loaded components
 const LoadingFallback = () => (
-  <div className="min-h-screen bg-orienta-dark flex items-center justify-center">
+  <div className="min-h-screen bg-vocari-bg flex items-center justify-center">
     <div className="text-center">
-      <div className="w-16 h-16 border-4 border-orienta-blue border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-      <p className="text-white/60">Cargando...</p>
+      <div className="w-16 h-16 border-4 border-vocari-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+      <p className="text-gray-500">Cargando...</p>
     </div>
   </div>
 );
@@ -44,8 +47,9 @@ function App() {
     <Router>
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
-          {/* Rutas públicas */}
+          {/* Rutas publicas */}
           <Route path="/" element={<LandingPage />} />
+          <Route path="/colegios" element={<B2BLandingPage />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/activate" element={<ActivateAccount />} />
@@ -68,7 +72,7 @@ function App() {
           element={
             <ProtectedRoute
               allowedRoles={['estudiante']}
-              customMessage="El test vocacional está disponible solo para estudiantes. Orientadores y apoderados pueden ver los resultados de sus estudiantes."
+              customMessage="El test vocacional esta disponible solo para estudiantes. Orientadores y apoderados pueden ver los resultados de sus estudiantes."
             >
               <TestRIASEC />
             </ProtectedRoute>
@@ -157,7 +161,7 @@ function App() {
           }
         />
 
-        {/* Gestión de estudiantes por institución */}
+        {/* Gestion de estudiantes por institucion */}
         <Route
           path="/admin/institutions/:institutionId/students"
           element={

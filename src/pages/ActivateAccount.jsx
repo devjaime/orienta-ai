@@ -122,7 +122,7 @@ function ActivateAccount() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-950 to-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-vocari-bg flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -130,12 +130,12 @@ function ActivateAccount() {
       >
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Vocari</h1>
-          <p className="text-white/60">Orientación Vocacional</p>
+          <h1 className="text-3xl font-bold text-vocari-dark mb-2">Vocari</h1>
+          <p className="text-gray-500">Orientación Vocacional</p>
         </div>
 
         {/* Card principal */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-lg">
           {activated ? (
             // Estado: Cuenta activada
             <motion.div
@@ -146,11 +146,11 @@ function ActivateAccount() {
               <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="text-green-400" size={40} />
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2">¡Cuenta Activada!</h2>
-              <p className="text-white/70 mb-4">
+              <h2 className="text-2xl font-bold text-vocari-dark mb-2">¡Cuenta Activada!</h2>
+              <p className="text-gray-600 mb-4">
                 Tu cuenta ha sido vinculada exitosamente a tu colegio.
               </p>
-              <p className="text-white/50 text-sm">
+              <p className="text-gray-400 text-sm">
                 Redirigiendo al dashboard...
               </p>
             </motion.div>
@@ -158,43 +158,43 @@ function ActivateAccount() {
             // Estado: Código válido, mostrar confirmación
             <div className="space-y-6">
               <div className="text-center">
-                <div className="w-16 h-16 bg-indigo-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="text-indigo-400" size={32} />
+                <div className="w-16 h-16 bg-vocari-b2b/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="text-vocari-b2b" size={32} />
                 </div>
-                <h2 className="text-xl font-bold text-white mb-1">¡Código Válido!</h2>
-                <p className="text-white/60 text-sm">Confirma tus datos para activar</p>
+                <h2 className="text-xl font-bold text-vocari-dark mb-1">¡Código Válido!</h2>
+                <p className="text-gray-500 text-sm">Confirma tus datos para activar</p>
               </div>
 
               {/* Datos del perfil pendiente */}
-              <div className="bg-white/5 rounded-xl p-4 space-y-3">
+              <div className="bg-gray-50 rounded-xl p-4 space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-                    <User className="text-indigo-400" size={20} />
+                  <div className="w-10 h-10 bg-vocari-b2b/10 rounded-lg flex items-center justify-center">
+                    <User className="text-vocari-b2b" size={20} />
                   </div>
                   <div>
-                    <p className="text-white/50 text-xs">Nombre</p>
-                    <p className="text-white font-medium">{pendingProfile.nombre}</p>
+                    <p className="text-gray-400 text-xs">Nombre</p>
+                    <p className="text-gray-900 font-medium">{pendingProfile.nombre}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-                    <Mail className="text-indigo-400" size={20} />
+                  <div className="w-10 h-10 bg-vocari-b2b/10 rounded-lg flex items-center justify-center">
+                    <Mail className="text-vocari-b2b" size={20} />
                   </div>
                   <div>
-                    <p className="text-white/50 text-xs">Email</p>
-                    <p className="text-white font-medium">{pendingProfile.user_email}</p>
+                    <p className="text-gray-400 text-xs">Email</p>
+                    <p className="text-gray-900 font-medium">{pendingProfile.user_email}</p>
                   </div>
                 </div>
 
                 {pendingProfile.curso && (
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
-                      <BookOpen className="text-indigo-400" size={20} />
+                    <div className="w-10 h-10 bg-vocari-b2b/10 rounded-lg flex items-center justify-center">
+                      <BookOpen className="text-vocari-b2b" size={20} />
                     </div>
                     <div>
-                      <p className="text-white/50 text-xs">Curso</p>
-                      <p className="text-white font-medium">{pendingProfile.curso}</p>
+                      <p className="text-gray-400 text-xs">Curso</p>
+                      <p className="text-gray-900 font-medium">{pendingProfile.curso}</p>
                     </div>
                   </div>
                 )}
@@ -213,7 +213,7 @@ function ActivateAccount() {
                 <button
                   onClick={handleActivate}
                   disabled={loading}
-                  className="w-full py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3 bg-vocari-b2b text-white rounded-xl hover:bg-teal-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {loading ? (
                     <>
@@ -229,7 +229,7 @@ function ActivateAccount() {
                 </button>
               ) : (
                 <div className="space-y-3">
-                  <p className="text-white/60 text-sm text-center">
+                  <p className="text-gray-500 text-sm text-center">
                     Inicia sesión con tu cuenta de Google para activar
                   </p>
                   <button
@@ -262,11 +262,11 @@ function ActivateAccount() {
             // Estado: Ingresar código
             <div className="space-y-6">
               <div className="text-center">
-                <div className="w-16 h-16 bg-indigo-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <KeyRound className="text-indigo-400" size={32} />
+                <div className="w-16 h-16 bg-vocari-b2b/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <KeyRound className="text-vocari-b2b" size={32} />
                 </div>
-                <h2 className="text-xl font-bold text-white mb-1">Activar Cuenta</h2>
-                <p className="text-white/60 text-sm">
+                <h2 className="text-xl font-bold text-vocari-dark mb-1">Activar Cuenta</h2>
+                <p className="text-gray-500 text-sm">
                   Ingresa el código que te entregó tu colegio
                 </p>
               </div>
@@ -279,7 +279,7 @@ function ActivateAccount() {
                   onChange={handleCodeChange}
                   placeholder="XXXXXXXX"
                   maxLength={8}
-                  className="w-full px-4 py-4 bg-white/5 border border-white/20 rounded-xl text-white text-center text-2xl font-mono tracking-[0.5em] placeholder-white/30 focus:outline-none focus:border-indigo-500 uppercase"
+                  className="w-full px-4 py-4 bg-white/5 border border-gray-300 rounded-xl text-gray-900 text-center text-2xl font-mono tracking-[0.5em] placeholder-gray-400 focus:outline-none focus:border-vocari-b2b uppercase"
                   autoFocus
                 />
               </div>
@@ -296,7 +296,7 @@ function ActivateAccount() {
               <button
                 onClick={handleCheckCode}
                 disabled={checking || code.length < 6}
-                className="w-full py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3 bg-vocari-b2b text-white rounded-xl hover:bg-teal-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {checking ? (
                   <>
@@ -325,7 +325,7 @@ function ActivateAccount() {
         <div className="text-center mt-6">
           <button
             onClick={() => navigate('/')}
-            className="text-white/50 hover:text-white text-sm transition-colors"
+            className="text-gray-500 hover:text-gray-800 text-sm transition-colors"
           >
             Volver al inicio
           </button>

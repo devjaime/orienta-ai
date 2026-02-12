@@ -174,7 +174,7 @@ const AIChat = ({ isOpen, onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-orienta-blue to-orienta-dark text-white p-4 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-vocari-primary to-vocari-dark text-white p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
               <Bot size={20} />
@@ -218,14 +218,14 @@ const AIChat = ({ isOpen, onClose }) => {
                 className={`flex gap-3 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {message.type === 'ai' && (
-                  <div className="w-8 h-8 bg-orienta-blue rounded-full flex items-center justify-center text-white text-sm font-bold">
+                  <div className="w-8 h-8 bg-vocari-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
                     {message.avatar}
                   </div>
                 )}
                 <div
                   className={`max-w-[80%] p-3 rounded-2xl ${
                     message.type === 'user'
-                      ? 'bg-orienta-blue text-white'
+                      ? 'bg-vocari-primary text-white'
                       : 'bg-white shadow-sm border'
                   }`}
                 >
@@ -254,12 +254,12 @@ const AIChat = ({ isOpen, onClose }) => {
               animate={{ opacity: 1, y: 0 }}
               className="flex gap-3 justify-start"
             >
-              <div className="w-8 h-8 bg-orienta-blue rounded-full flex items-center justify-center text-white text-sm font-bold">
+              <div className="w-8 h-8 bg-vocari-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
                 🧭
               </div>
               <div className="bg-white shadow-sm border p-3 rounded-2xl">
                 <div className="flex items-center gap-2">
-                  <Loader2 size={16} className="animate-spin text-orienta-blue" />
+                  <Loader2 size={16} className="animate-spin text-vocari-primary" />
                   <span className="text-sm text-gray-600">Vocari está pensando...</span>
                 </div>
               </div>
@@ -287,7 +287,7 @@ const AIChat = ({ isOpen, onClose }) => {
                     setInputValue(response);
                     setTimeout(() => handleSendMessage(), 100);
                   }}
-                  className="px-3 py-2 bg-orienta-blue/10 text-orienta-blue rounded-full text-sm hover:bg-orienta-blue/20 transition-colors"
+                  className="px-3 py-2 bg-vocari-primary/10 text-vocari-primary rounded-full text-sm hover:bg-vocari-primary/20 transition-colors"
                 >
                   {response}
                 </motion.button>
@@ -317,14 +317,14 @@ const AIChat = ({ isOpen, onClose }) => {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder={chatLimitReached ? 'Límite alcanzado...' : 'Escribe tu respuesta...'}
-                className="w-full p-3 pr-12 border border-gray-300 rounded-2xl resize-none focus:outline-none focus:border-orienta-blue focus:ring-2 focus:ring-orienta-blue/20 disabled:bg-gray-50 disabled:cursor-not-allowed"
+                className="w-full p-3 pr-12 border border-gray-300 rounded-2xl resize-none focus:outline-none focus:border-vocari-primary focus:ring-2 focus:ring-vocari-primary/20 disabled:bg-gray-50 disabled:cursor-not-allowed"
                 rows="1"
                 disabled={isTyping || chatLimitReached || !isAIEnabled()}
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || isTyping || chatLimitReached || !isAIEnabled()}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-orienta-blue text-white rounded-full flex items-center justify-center hover:bg-orienta-blue/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-vocari-primary text-white rounded-full flex items-center justify-center hover:bg-vocari-primary/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <Send size={16} />
               </button>

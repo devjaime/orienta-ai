@@ -2,23 +2,15 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
-import ProfileSelector from '../components/ProfileSelector';
 import ProblemSection from '../components/ProblemSection';
-import SolutionSection from '../components/SolutionSection';
-import ComparisonSection from '../components/ComparisonSection';
+import HowItWorks from '../components/landing/HowItWorks';
 import PricingSection from '../components/landing/PricingSection';
-import CTASection from '../components/CTASection';
 import Footer from '../components/Footer';
 import AIChat from '../components/AIChat';
-import RiasecEmbed from '../components/RiasecEmbed';
 
 function LandingPage() {
   const navigate = useNavigate();
   const [isChatOpen, setIsChatOpen] = useState(false);
-
-  const openChat = () => {
-    setIsChatOpen(true);
-  };
 
   const closeChat = () => {
     setIsChatOpen(false);
@@ -29,17 +21,13 @@ function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-orienta-dark">
-      <Header onOpenChat={openChat} onStartTest={goToTest} />
+    <div className="min-h-screen bg-white">
+      <Header onStartTest={goToTest} />
       <main>
-        <Hero onOpenChat={openChat} onStartTest={goToTest} />
-        <ProfileSelector />
+        <Hero onStartTest={goToTest} />
         <ProblemSection />
-        <SolutionSection />
-        <ComparisonSection />
+        <HowItWorks />
         <PricingSection />
-        <RiasecEmbed />
-        <CTASection onOpenChat={openChat} onStartTest={goToTest} />
       </main>
       <Footer />
       <AIChat isOpen={isChatOpen} onClose={closeChat} />

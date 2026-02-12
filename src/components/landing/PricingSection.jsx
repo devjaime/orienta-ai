@@ -10,12 +10,12 @@ const plans = [
     highlighted: false,
     features: [
       { icon: FileText, text: 'Informe PDF completo' },
-      { icon: BarChart3, text: 'Análisis RIASEC detallado' },
+      { icon: BarChart3, text: 'Analisis RIASEC detallado' },
       { icon: GraduationCap, text: 'Carreras recomendadas con datos reales MINEDUC' },
       { icon: UserCheck, text: 'Revisado por orientadores calificados' }
     ],
     cta: 'Obtener Informe',
-    ctaStyle: 'bg-white/10 border border-orienta-blue text-orienta-blue hover:bg-orienta-blue hover:text-white'
+    ctaStyle: 'bg-vocari-primary/10 border border-vocari-primary text-vocari-primary hover:bg-vocari-primary hover:text-white'
   },
   {
     name: 'premium',
@@ -24,14 +24,14 @@ const plans = [
     highlighted: true,
     features: [
       { icon: FileText, text: 'Informe PDF completo' },
-      { icon: BarChart3, text: 'Análisis RIASEC detallado' },
+      { icon: BarChart3, text: 'Analisis RIASEC detallado' },
       { icon: GraduationCap, text: 'Carreras recomendadas con datos reales MINEDUC' },
       { icon: UserCheck, text: 'Revisado por orientadores calificados' },
-      { icon: Presentation, text: 'Explicación visual personalizada' },
+      { icon: Presentation, text: 'Explicacion visual personalizada' },
       { icon: Sparkles, text: 'Resumen ejecutivo animado' }
     ],
     cta: 'Obtener Informe Premium',
-    ctaStyle: 'bg-orienta-blue text-white hover:bg-blue-400'
+    ctaStyle: 'bg-vocari-primary text-white hover:bg-indigo-700'
   }
 ];
 
@@ -39,22 +39,22 @@ const PricingSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section id="informes" className="section-padding bg-orienta-dark">
+    <section id="informes" className="section-padding bg-vocari-bg">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ type: 'spring', stiffness: 100, damping: 20 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-bold text-white mb-6">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-bold text-vocari-dark mb-6">
             Informes Vocacionales Profesionales
           </h2>
-          <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-            Basados en datos oficiales del MINEDUC, método científico RIASEC y revisados
-            por orientadores calificados. La guía vocacional más completa de Chile.
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Basados en datos oficiales del MINEDUC, metodo cientifico RIASEC y revisados
+            por orientadores calificados. La guia vocacional mas completa de Chile.
           </p>
         </motion.div>
 
@@ -63,50 +63,46 @@ const PricingSection = () => {
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: index * 0.15 }}
               viewport={{ once: true }}
-              className={`relative rounded-2xl p-8 ${
+              whileHover={{ y: -4 }}
+              className={`relative rounded-2xl p-8 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 ${
                 plan.highlighted
-                  ? 'bg-white/10 backdrop-blur-sm border-2 border-orienta-blue'
-                  : 'bg-white/5 backdrop-blur-sm border border-white/20'
+                  ? 'border-2 border-vocari-primary'
+                  : 'border border-gray-200'
               }`}
             >
-              {/* Badge Recomendado */}
               {plan.highlighted && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="flex items-center gap-1 bg-orienta-blue text-white text-sm font-semibold px-4 py-1 rounded-full">
+                  <span className="flex items-center gap-1 bg-vocari-primary text-white text-sm font-semibold px-4 py-1 rounded-full">
                     <Star size={14} className="fill-current" />
                     Recomendado
                   </span>
                 </div>
               )}
 
-              {/* Plan Name */}
-              <h3 className="text-2xl font-poppins font-bold text-white mb-2">
+              <h3 className="text-2xl font-poppins font-bold text-vocari-dark mb-2">
                 {plan.displayName}
               </h3>
 
-              {/* Price */}
               <div className="flex items-baseline gap-1 mb-8">
-                <span className="text-4xl font-bold text-orienta-blue">${plan.price}</span>
-                <span className="text-white/60 text-sm">CLP</span>
+                <span className="text-4xl font-bold text-vocari-primary">${plan.price}</span>
+                <span className="text-gray-500 text-sm">CLP</span>
               </div>
 
-              {/* Features */}
               <ul className="space-y-4 mb-8">
                 {plan.features.map((feature, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-orienta-blue/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check size={14} className="text-orienta-blue" />
+                    <div className="w-6 h-6 rounded-full bg-vocari-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check size={14} className="text-vocari-primary" />
                     </div>
-                    <span className="text-white/80">{feature.text}</span>
+                    <span className="text-gray-700">{feature.text}</span>
                   </li>
                 ))}
               </ul>
 
-              {/* CTA Button */}
               <button
                 onClick={() => navigate('/informes')}
                 className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${plan.ctaStyle}`}
@@ -117,13 +113,12 @@ const PricingSection = () => {
           ))}
         </div>
 
-        {/* Footer note */}
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
-          className="text-center text-white/40 text-sm mt-8"
+          className="text-center text-gray-400 text-sm mt-8"
         >
           Primero completa el Test RIASEC gratuito para obtener tu informe personalizado.
         </motion.p>

@@ -127,14 +127,14 @@ function TestRIASEC() {
   // Modal de autenticación
   if (showAuthModal && !user) {
     return (
-      <div className="min-h-screen bg-orienta-dark flex items-center justify-center p-4">
+      <div className="min-h-screen bg-vocari-bg flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-2xl p-8 max-w-md w-full"
+          className="bg-white border border-gray-200 rounded-2xl p-8 max-w-md w-full shadow-lg"
         >
-          <h2 className="text-2xl font-bold text-white mb-4">Antes de comenzar...</h2>
-          <p className="text-white/80 mb-6">
+          <h2 className="text-2xl font-bold text-vocari-dark mb-4">Antes de comenzar...</h2>
+          <p className="text-gray-600 mb-6">
             Inicia sesión con Google para guardar tu resultado y poder consultarlo después.
           </p>
 
@@ -149,7 +149,7 @@ function TestRIASEC() {
 
           <button
             onClick={() => navigate('/')}
-            className="mt-4 w-full text-sm text-white/60 hover:text-white transition-colors"
+            className="mt-4 w-full text-sm text-gray-500 hover:text-vocari-dark transition-colors"
           >
             Volver al inicio
           </button>
@@ -159,14 +159,14 @@ function TestRIASEC() {
   }
 
   return (
-    <div className="min-h-screen bg-orienta-dark">
+    <div className="min-h-screen bg-vocari-bg">
       {/* Header */}
-      <div className="bg-gradient-to-r from-orienta-dark to-orienta-blue/20 border-b border-white/10">
+      <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold text-white">Test Vocacional RIASEC</h1>
-              <p className="text-sm text-white/60">
+              <h1 className="text-xl font-bold text-vocari-dark">Test Vocacional RIASEC</h1>
+              <p className="text-sm text-gray-500">
                 Pregunta {currentQuestion + 1} de {riasecQuestions.length}
               </p>
             </div>
@@ -176,7 +176,7 @@ function TestRIASEC() {
                 <img
                   src={user.user_metadata?.avatar_url}
                   alt={user.user_metadata?.full_name}
-                  className="w-8 h-8 rounded-full border-2 border-white/30"
+                  className="w-8 h-8 rounded-full border-2 border-gray-300"
                 />
               </div>
             )}
@@ -184,16 +184,16 @@ function TestRIASEC() {
 
           {/* Progress bar */}
           <div className="mt-4">
-            <div className="flex items-center justify-between text-sm text-white/60 mb-2">
+            <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
               <span>{answeredCount} respondidas</span>
               <span>{Math.round(progress)}%</span>
             </div>
-            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.3 }}
-                className="h-full bg-gradient-to-r from-orienta-blue to-green-400"
+                className="h-full bg-vocari-primary"
               />
             </div>
           </div>
@@ -212,8 +212,8 @@ function TestRIASEC() {
               onDismiss={() => setAlertDismissed(true)}
             />
             {saturationAlert.message && (
-              <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-                <p className="text-sm text-blue-200 leading-relaxed">
+              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-700 leading-relaxed">
                   <strong className="font-semibold">{saturationAlert.title}</strong>
                   <br />
                   {saturationAlert.message}
@@ -228,17 +228,17 @@ function TestRIASEC() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
-          className="bg-white/5 border border-white/20 rounded-2xl p-8"
+          className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm"
         >
           {/* Dimension badge */}
           <div className="mb-4">
-            <span className="inline-block px-3 py-1 bg-orienta-blue/20 text-orienta-blue text-xs font-semibold rounded-full">
+            <span className="inline-block px-3 py-1 bg-vocari-primary/10 text-vocari-primary text-xs font-semibold rounded-full">
               Dimensión {question.dimension}
             </span>
           </div>
 
           {/* Question text */}
-          <h2 className="text-2xl font-bold text-white mb-8">
+          <h2 className="text-2xl font-bold text-vocari-dark mb-8">
             {question.text}
           </h2>
 
@@ -252,8 +252,8 @@ function TestRIASEC() {
                 onClick={() => handleResponse(question.id, value)}
                 className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
                   responses[question.id] === value
-                    ? 'border-orienta-blue bg-orienta-blue/20 text-white'
-                    : 'border-white/20 bg-white/5 text-white/80 hover:border-white/40'
+                    ? 'border-vocari-primary bg-vocari-primary/10 text-vocari-dark'
+                    : 'border-gray-200 bg-white text-gray-600 hover:border-gray-400'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -261,8 +261,8 @@ function TestRIASEC() {
                     <div
                       className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                         responses[question.id] === value
-                          ? 'border-orienta-blue bg-orienta-blue'
-                          : 'border-white/40'
+                          ? 'border-vocari-primary bg-vocari-primary'
+                          : 'border-gray-400'
                       }`}
                     >
                       {responses[question.id] === value && (
@@ -283,7 +283,7 @@ function TestRIASEC() {
           <button
             onClick={handlePrevious}
             disabled={currentQuestion === 0}
-            className="flex items-center gap-2 px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             <ChevronLeft size={20} />
             Anterior
@@ -293,7 +293,7 @@ function TestRIASEC() {
             <button
               onClick={handleSubmit}
               disabled={answeredCount < riasecQuestions.length}
-              className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-orienta-blue to-green-400 text-white font-bold rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex items-center gap-2 px-8 py-3 bg-vocari-primary text-white font-bold rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               Ver Resultados
               <Check size={20} />
@@ -301,7 +301,7 @@ function TestRIASEC() {
           ) : (
             <button
               onClick={handleNext}
-              className="flex items-center gap-2 px-6 py-3 bg-orienta-blue text-white rounded-lg hover:bg-orienta-blue/80 transition-all"
+              className="flex items-center gap-2 px-6 py-3 bg-vocari-primary text-white rounded-lg hover:bg-vocari-primary/80 transition-all"
             >
               Siguiente
               <ChevronRight size={20} />

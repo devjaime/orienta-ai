@@ -105,15 +105,15 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-vocari-bg">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <div className="bg-vocari-primary text-white">
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center gap-3 mb-2">
             <BarChart3 className="w-8 h-8" />
             <h1 className="text-3xl font-bold">Dashboard de Análisis Vocacional</h1>
           </div>
-          <p className="text-blue-100">
+          <p className="text-indigo-100">
             Proyecciones y tendencias del mercado laboral chileno 2025-2030
           </p>
         </div>
@@ -199,7 +199,7 @@ export default function Dashboard() {
                   placeholder="Buscar carrera..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vocari-primary focus:border-transparent"
                 />
               </div>
 
@@ -209,7 +209,7 @@ export default function Dashboard() {
                   onClick={() => setFilterMode('all')}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     filterMode === 'all'
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-vocari-primary text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
@@ -246,8 +246,8 @@ export default function Dashboard() {
                   onClick={() => setSelectedCarrera(carrera)}
                   className={`p-3 rounded-lg border-2 text-left transition-all ${
                     selectedCarrera?.nombre === carrera.nombre
-                      ? 'border-blue-600 bg-blue-50'
-                      : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                      ? 'border-vocari-primary bg-indigo-50'
+                      : 'border-gray-200 hover:border-indigo-300 hover:bg-gray-50'
                   }`}
                 >
                   <p className="text-sm font-semibold text-gray-900 truncate">
@@ -274,7 +274,7 @@ export default function Dashboard() {
               <SalaryProjectionChart carreraData={selectedCarrera} height={300} />
 
               {/* Recomendaciones */}
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
+              <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-6 border border-indigo-200">
                 <div className="flex items-start gap-4">
                   <div className="text-4xl">{selectedCarrera.recomendacion?.emoji}</div>
                   <div className="flex-1">
@@ -290,7 +290,7 @@ export default function Dashboard() {
                         <ul className="space-y-1">
                           {selectedCarrera.recomendacion.acciones.map((accion, index) => (
                             <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
-                              <span className="text-blue-600 font-bold">•</span>
+                              <span className="text-vocari-primary font-bold">•</span>
                               <span>{accion}</span>
                             </li>
                           ))}
@@ -335,7 +335,7 @@ export default function Dashboard() {
             {/* Mayor Crecimiento Salarial */}
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-blue-600" />
+                <TrendingUp className="w-5 h-5 text-vocari-primary" />
                 Top 10: Mayor Crecimiento Salarial
               </h3>
               <div className="space-y-2">
@@ -353,7 +353,7 @@ export default function Dashboard() {
                         </p>
                       </div>
                     </div>
-                    <span className="text-blue-600 font-bold">{item.crecimiento_real}</span>
+                    <span className="text-vocari-primary font-bold">{item.crecimiento_real}</span>
                   </div>
                 ))}
               </div>

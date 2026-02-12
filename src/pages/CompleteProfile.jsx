@@ -107,14 +107,14 @@ function CompleteProfile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-orienta-dark flex items-center justify-center">
-        <div className="text-white/60">Cargando...</div>
+      <div className="min-h-screen bg-vocari-bg flex items-center justify-center">
+        <div className="text-gray-500">Cargando...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-orienta-dark flex items-center justify-center p-4">
+    <div className="min-h-screen bg-vocari-bg flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -122,23 +122,23 @@ function CompleteProfile() {
       >
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-block p-4 bg-orienta-blue/20 rounded-full mb-4">
-            <User size={48} className="text-orienta-blue" />
+          <div className="inline-block p-4 bg-vocari-primary/10 rounded-full mb-4">
+            <User size={48} className="text-vocari-primary" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-vocari-dark mb-2">
             ¡Bienvenido/a, {user?.user_metadata?.full_name?.split(' ')[0] || 'estudiante'}!
           </h1>
-          <p className="text-white/70">
+          <p className="text-gray-600">
             Cuéntanos un poco más sobre ti para personalizar tu experiencia
           </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white/5 border border-white/20 rounded-2xl p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-2xl p-8 space-y-6 shadow-sm">
           {/* Edad */}
           <div>
-            <label className="flex items-center gap-2 text-white font-medium mb-3">
-              <Calendar size={20} className="text-orienta-blue" />
+            <label className="flex items-center gap-2 text-vocari-dark font-medium mb-3">
+              <Calendar size={20} className="text-vocari-primary" />
               ¿Cuántos años tienes?
             </label>
             <input
@@ -149,16 +149,16 @@ function CompleteProfile() {
               min="13"
               max="120"
               placeholder="Ej: 25, 45, 50..."
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-orienta-blue"
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-vocari-primary"
               required
             />
-            <p className="text-xs text-white/40 mt-2">Cualquier edad es válida para reinventarte</p>
+            <p className="text-xs text-gray-400 mt-2">Cualquier edad es válida para reinventarte</p>
           </div>
 
           {/* Género */}
           <div>
-            <label className="flex items-center gap-2 text-white font-medium mb-3">
-              <User size={20} className="text-orienta-blue" />
+            <label className="flex items-center gap-2 text-vocari-dark font-medium mb-3">
+              <User size={20} className="text-vocari-primary" />
               ¿Con qué género te identificas?
             </label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -169,8 +169,8 @@ function CompleteProfile() {
                   onClick={() => setFormData(prev => ({ ...prev, genero: option }))}
                   className={`p-3 rounded-xl border-2 transition-all ${
                     formData.genero === option
-                      ? 'border-orienta-blue bg-orienta-blue/20 text-white'
-                      : 'border-white/20 bg-white/5 text-white/70 hover:border-white/40'
+                      ? 'border-vocari-primary bg-vocari-primary/10 text-vocari-dark'
+                      : 'border-gray-200 bg-white text-gray-600 hover:border-gray-400'
                   }`}
                 >
                   {option}
@@ -181,8 +181,8 @@ function CompleteProfile() {
 
           {/* Motivaciones */}
           <div>
-            <label className="flex items-center gap-2 text-white font-medium mb-3">
-              <Heart size={20} className="text-orienta-blue" />
+            <label className="flex items-center gap-2 text-vocari-dark font-medium mb-3">
+              <Heart size={20} className="text-vocari-primary" />
               ¿Qué te motiva en la vida?
             </label>
             <textarea
@@ -191,17 +191,17 @@ function CompleteProfile() {
               onChange={handleChange}
               placeholder="Ej: Me apasiona ayudar a los demás, quiero hacer un impacto positivo en mi comunidad, me encanta aprender cosas nuevas..."
               rows="4"
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-orienta-blue resize-none"
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-vocari-primary resize-none"
               required
             />
-            <p className="text-xs text-white/40 mt-2">
+            <p className="text-xs text-gray-400 mt-2">
               Comparte tus sueños, pasiones o lo que te inspira (mínimo 10 caracteres)
             </p>
           </div>
 
           {/* Privacy note */}
-          <div className="bg-orienta-blue/10 border border-orienta-blue/30 rounded-xl p-4">
-            <p className="text-sm text-white/70">
+          <div className="bg-vocari-primary/5 border border-vocari-primary/20 rounded-xl p-4">
+            <p className="text-sm text-gray-600">
               🔒 Tus datos son privados y solo se usan para mejorar tus recomendaciones vocacionales.
               Puedes actualizarlos en cualquier momento.
             </p>
@@ -211,7 +211,7 @@ function CompleteProfile() {
           <button
             type="submit"
             disabled={saving}
-            className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-orienta-blue to-green-400 text-white font-bold rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-vocari-primary text-white font-bold rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             {saving ? (
               <>
@@ -228,7 +228,7 @@ function CompleteProfile() {
         </form>
 
         {/* Footer */}
-        <p className="text-center text-white/40 text-sm mt-6">
+        <p className="text-center text-gray-400 text-sm mt-6">
           Esto tomará solo 1 minuto • Paso 1 de 2
         </p>
       </motion.div>

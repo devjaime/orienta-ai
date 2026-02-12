@@ -149,10 +149,10 @@ function Resultados() {
 
   if (!resultado || !interpretacion) {
     return (
-      <div className="min-h-screen bg-orienta-dark flex items-center justify-center">
+      <div className="min-h-screen bg-vocari-bg flex items-center justify-center">
         <div className="text-center">
-          <Loader2 size={48} className="animate-spin text-orienta-blue mx-auto mb-4" />
-          <p className="text-white/60">Calculando tu perfil vocacional...</p>
+          <Loader2 size={48} className="animate-spin text-vocari-primary mx-auto mb-4" />
+          <p className="text-gray-500">Calculando tu perfil vocacional...</p>
         </div>
       </div>
     );
@@ -167,9 +167,9 @@ function Resultados() {
   const top3Dimensions = resultado.ranking_completo.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-orienta-dark">
+    <div className="min-h-screen bg-vocari-bg">
       {/* Hero Section - Resultados Principales */}
-      <div className="bg-gradient-to-br from-orienta-dark via-orienta-blue/20 to-orienta-dark border-b border-white/10">
+      <div className="bg-gradient-to-br from-vocari-dark via-vocari-primary/20 to-vocari-dark border-b border-white/10">
         <div className="container mx-auto px-4 py-16 max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -185,7 +185,7 @@ function Resultados() {
 
             <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
               Tu Código Holland es{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orienta-blue to-green-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-vocari-primary to-vocari-accent">
                 {resultado.codigo_holland}
               </span>
             </h1>
@@ -217,8 +217,8 @@ function Resultados() {
                   className="bg-white/5 border border-white/20 rounded-xl p-6"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <div className="w-12 h-12 bg-orienta-blue/20 rounded-full flex items-center justify-center">
-                      <span className="text-2xl font-bold text-orienta-blue">
+                    <div className="w-12 h-12 bg-vocari-primary/20 rounded-full flex items-center justify-center">
+                      <span className="text-2xl font-bold text-vocari-primary">
                         {dim.dimension}
                       </span>
                     </div>
@@ -228,7 +228,7 @@ function Resultados() {
                   <p className="text-sm text-white/70 mb-3">{desc.descripcion}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-white/60">Puntaje</span>
-                    <span className="text-lg font-bold text-orienta-blue">
+                    <span className="text-lg font-bold text-vocari-primary">
                       {dim.puntaje}/30
                     </span>
                   </div>
@@ -245,11 +245,11 @@ function Resultados() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-2xl p-8 mb-12"
+          className="bg-gradient-to-r from-vocari-primary/5 to-purple-500/5 border border-vocari-primary/20 rounded-2xl p-8 mb-12"
         >
           <div className="flex items-center gap-3 mb-4">
-            <Sparkles size={24} className="text-purple-400" />
-            <h2 className="text-2xl font-bold text-white">
+            <Sparkles size={24} className="text-vocari-primary" />
+            <h2 className="text-2xl font-bold text-vocari-dark">
               Análisis Personalizado con IA
             </h2>
           </div>
@@ -260,8 +260,8 @@ function Resultados() {
               <span>Generando análisis personalizado...</span>
             </div>
           ) : (
-            <div className="prose prose-invert max-w-none">
-              <p className="text-white/90 leading-relaxed whitespace-pre-line">
+            <div className="prose max-w-none">
+              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
                 {explicacionIA}
               </p>
             </div>
@@ -289,14 +289,14 @@ function Resultados() {
             className="mt-12"
           >
             <div className="flex items-center gap-3 mb-6">
-              <BarChart3 className="w-6 h-6 text-orienta-blue" />
-              <h2 className="text-2xl font-bold text-white">
+              <BarChart3 className="w-6 h-6 text-vocari-primary" />
+              <h2 className="text-2xl font-bold text-vocari-dark">
                 Proyecciones del Mercado Laboral
               </h2>
             </div>
 
-            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-2xl p-6 mb-6">
-              <p className="text-white/90 leading-relaxed">
+            <div className="bg-gradient-to-r from-vocari-primary/5 to-purple-500/5 border border-vocari-primary/10 rounded-2xl p-6 mb-6">
+              <p className="text-gray-700 leading-relaxed">
                 Basado en datos reales de MINEDUC 2025 y proyecciones a 5 años, aquí están las
                 tendencias del mercado laboral para las carreras recomendadas según tu perfil vocacional.
               </p>
@@ -355,7 +355,7 @@ function Resultados() {
         >
           <button
             onClick={() => window.print()}
-            className="flex items-center gap-2 px-6 py-3 bg-white/10 border border-white/20 text-white rounded-lg hover:bg-white/20 transition-all"
+            className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-all shadow-sm"
           >
             <Download size={20} />
             Descargar PDF
@@ -371,7 +371,7 @@ function Resultados() {
                 });
               }
             }}
-            className="flex items-center gap-2 px-6 py-3 bg-white/10 border border-white/20 text-white rounded-lg hover:bg-white/20 transition-all"
+            className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-all shadow-sm"
           >
             <Share2 size={20} />
             Compartir
@@ -379,14 +379,14 @@ function Resultados() {
 
           <button
             onClick={() => navigate('/')}
-            className="px-6 py-3 bg-gradient-to-r from-orienta-blue to-green-400 text-white font-bold rounded-lg hover:shadow-lg transition-all"
+            className="px-6 py-3 bg-vocari-primary text-white font-bold rounded-lg hover:bg-indigo-700 transition-all"
           >
             Volver al inicio
           </button>
         </motion.div>
 
         {saving && (
-          <p className="text-center text-white/40 text-sm mt-4">
+          <p className="text-center text-gray-400 text-sm mt-4">
             Guardando resultado...
           </p>
         )}

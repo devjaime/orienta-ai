@@ -85,7 +85,7 @@ function ScheduleButton({ className = '', variant = 'default' }) {
           onClick={() => setShowModal(true)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg transition-all ${className}`}
+          className={`flex items-center gap-2 px-4 py-2 bg-vocari-primary text-white rounded-lg hover:bg-indigo-700 hover:shadow-lg transition-all ${className}`}
         >
           <Calendar size={18} />
           <span className="font-medium">Agendar Sesión</span>
@@ -114,7 +114,7 @@ function ScheduleButton({ className = '', variant = 'default' }) {
         onClick={() => setShowModal(true)}
         whileHover={{ scale: 1.02, y: -2 }}
         whileTap={{ scale: 0.98 }}
-        className={`group relative overflow-hidden bg-gradient-to-br from-purple-600 via-pink-500 to-orange-500 rounded-2xl p-6 shadow-2xl hover:shadow-purple-500/50 transition-all ${className}`}
+        className={`group relative overflow-hidden bg-gradient-to-br from-vocari-primary via-indigo-500 to-vocari-accent rounded-2xl p-6 shadow-2xl hover:shadow-vocari-primary/50 transition-all ${className}`}
       >
         {/* Efecto de brillo animado */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -152,7 +152,7 @@ function ScheduleButton({ className = '', variant = 'default' }) {
             <span className="text-white/80 text-sm">
               Gratis por tiempo limitado
             </span>
-            <div className="px-4 py-2 bg-white text-purple-600 font-bold rounded-lg group-hover:bg-white/90 transition-colors">
+            <div className="px-4 py-2 bg-white text-vocari-primary font-bold rounded-lg group-hover:bg-white/90 transition-colors">
               Agendar Ahora →
             </div>
           </div>
