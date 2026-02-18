@@ -5,6 +5,7 @@ import Hero from '../components/Hero';
 import ProblemSection from '../components/ProblemSection';
 import HowItWorks from '../components/landing/HowItWorks';
 import PricingSection from '../components/landing/PricingSection';
+import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
 import AIChat from '../components/AIChat';
 
@@ -28,6 +29,7 @@ function LandingPage() {
         <ProblemSection />
         <HowItWorks />
         <PricingSection />
+        <FAQ />
       </main>
       <Footer />
       <AIChat isOpen={isChatOpen} onClose={closeChat} />
