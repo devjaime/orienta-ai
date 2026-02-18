@@ -170,7 +170,7 @@ function StudentImporter({ institutionId, institutionName, onImportComplete }) {
           <button
             onClick={() => setMode('upload')}
             className={`px-4 py-2 rounded-t-lg transition-colors ${mode === 'upload'
-              ? 'bg-indigo-600 text-white'
+              ? 'bg-vocari-primary text-white'
               : 'text-white/60 hover:text-white'
               }`}
           >
@@ -180,7 +180,7 @@ function StudentImporter({ institutionId, institutionName, onImportComplete }) {
           <button
             onClick={() => setMode('manual')}
             className={`px-4 py-2 rounded-t-lg transition-colors ${mode === 'manual'
-              ? 'bg-indigo-600 text-white'
+              ? 'bg-vocari-primary text-white'
               : 'text-white/60 hover:text-white'
               }`}
           >
@@ -196,7 +196,7 @@ function StudentImporter({ institutionId, institutionName, onImportComplete }) {
           {/* Zona de drop */}
           <div
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center cursor-pointer hover:border-indigo-500/50 transition-colors"
+            className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center cursor-pointer hover:border-vocari-primary/50 transition-colors"
           >
             <FileSpreadsheet size={48} className="mx-auto mb-4 text-white/40" />
             <p className="text-white/70 mb-2">
@@ -233,7 +233,7 @@ pedro.silva@colegio.cl,Pedro Silva,4 Medio,2024003`}
                 a.download = 'plantilla_estudiantes.csv';
                 a.click();
               }}
-              className="mt-3 text-sm text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
+              className="mt-3 text-sm text-vocari-light hover:text-vocari-light flex items-center gap-1"
             >
               <Download size={14} />
               Descargar plantilla
@@ -303,7 +303,7 @@ pedro.silva@colegio.cl,Pedro Silva,4 Medio,2024003`}
               <button
                 onClick={handleImport}
                 disabled={loading}
-                className="w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full py-3 bg-vocari-primary text-white rounded-lg hover:bg-vocari-light transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
@@ -333,7 +333,7 @@ pedro.silva@colegio.cl,Pedro Silva,4 Medio,2024003`}
                 required
                 value={manualForm.nombre}
                 onChange={(e) => setManualForm({ ...manualForm, nombre: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 placeholder="Ej: Juan Pérez González"
               />
             </div>
@@ -344,7 +344,7 @@ pedro.silva@colegio.cl,Pedro Silva,4 Medio,2024003`}
                 required
                 value={manualForm.email}
                 onChange={(e) => setManualForm({ ...manualForm, email: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 placeholder="estudiante@colegio.cl"
               />
             </div>
@@ -356,7 +356,7 @@ pedro.silva@colegio.cl,Pedro Silva,4 Medio,2024003`}
               <select
                 value={manualForm.curso}
                 onChange={(e) => setManualForm({ ...manualForm, curso: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
               >
                 <option value="3 Medio">3° Medio</option>
                 <option value="4 Medio">4° Medio</option>
@@ -368,7 +368,7 @@ pedro.silva@colegio.cl,Pedro Silva,4 Medio,2024003`}
                 type="text"
                 value={manualForm.student_code}
                 onChange={(e) => setManualForm({ ...manualForm, student_code: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 placeholder="Ej: 2024001"
               />
             </div>
@@ -377,7 +377,7 @@ pedro.silva@colegio.cl,Pedro Silva,4 Medio,2024003`}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50"
+            className="w-full py-3 bg-vocari-primary text-white rounded-lg hover:bg-vocari-light transition-colors disabled:opacity-50"
           >
             {loading ? 'Creando...' : 'Crear Estudiante'}
           </button>
@@ -416,7 +416,7 @@ pedro.silva@colegio.cl,Pedro Silva,4 Medio,2024003`}
                     <p className="text-white/50 text-sm">{result.email}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-mono text-lg font-bold text-indigo-400 tracking-wider">
+                    <p className="font-mono text-lg font-bold text-vocari-light tracking-wider">
                       {result.activation_code}
                     </p>
                   </div>
@@ -462,7 +462,7 @@ pedro.silva@colegio.cl,Pedro Silva,4 Medio,2024003`}
             </button>
             <button
               onClick={handleReset}
-              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-vocari-primary hover:bg-vocari-light rounded-lg text-white transition-colors"
             >
               <RefreshCw size={16} />
               Nueva Importación
@@ -470,9 +470,9 @@ pedro.silva@colegio.cl,Pedro Silva,4 Medio,2024003`}
           </div>
 
           {/* Instrucciones */}
-          <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-lg p-4">
-            <h4 className="text-indigo-300 font-medium mb-2">Próximos pasos:</h4>
-            <ol className="text-indigo-200 text-sm space-y-1 list-decimal list-inside">
+          <div className="bg-vocari-primary/10 border border-vocari-primary/30 rounded-lg p-4">
+            <h4 className="text-vocari-light font-medium mb-2">Próximos pasos:</h4>
+            <ol className="text-vocari-primary/60 text-sm space-y-1 list-decimal list-inside">
               <li>Entrega el código de activación a cada estudiante (impreso o por email)</li>
               <li>El estudiante ingresa a vocari.cl y hace clic en "Activar con código"</li>
               <li>Ingresa el código y se vincula automáticamente a tu colegio</li>

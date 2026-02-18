@@ -56,7 +56,7 @@ const Hero = ({ onStartTest }) => {
 
               <a
                 href="/colegios"
-                className="text-vocari-b2b hover:text-teal-700 text-base px-6 py-4 flex items-center justify-center gap-2 font-medium transition-colors"
+                className="text-vocari-primary hover:text-vocari-light text-base px-6 py-4 flex items-center justify-center gap-2 font-medium transition-colors"
               >
                 Para colegios
                 <ArrowRight size={18} />
@@ -98,35 +98,35 @@ const Hero = ({ onStartTest }) => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <circle cx="200" cy="200" r="180" fill="url(#gradient1)" opacity="0.08" />
-                <circle cx="200" cy="200" r="120" fill="#4F46E5" opacity="0.12" />
-                <circle cx="200" cy="200" r="100" fill="#4F46E5" opacity="0.18" />
+                <circle cx="200" cy="200" r="120" fill="#0B1A33" opacity="0.12" />
+                <circle cx="200" cy="200" r="100" fill="#0B1A33" opacity="0.18" />
 
                 <g transform="rotate(45 200 200)">
-                  <path d="M200 120 L220 200 L200 280 L180 200 Z" fill="#4F46E5" />
-                  <path d="M200 120 L180 200 L200 280 L220 200 Z" fill="#1E1B4B" />
+                  <path d="M200 120 L220 200 L200 280 L180 200 Z" fill="#0B1A33" />
+                  <path d="M200 120 L180 200 L200 280 L220 200 Z" fill="#0B1A33" />
                 </g>
 
                 <circle cx="200" cy="200" r="8" fill="#FFFFFF" />
 
-                <text x="200" y="80" textAnchor="middle" fill="#4F46E5" fontSize="16" fontWeight="bold">N</text>
-                <text x="200" y="330" textAnchor="middle" fill="#4F46E5" fontSize="16" fontWeight="bold">S</text>
-                <text x="75" y="205" textAnchor="middle" fill="#4F46E5" fontSize="16" fontWeight="bold">O</text>
-                <text x="325" y="205" textAnchor="middle" fill="#4F46E5" fontSize="16" fontWeight="bold">E</text>
+                <text x="200" y="80" textAnchor="middle" fill="#0B1A33" fontSize="16" fontWeight="bold">N</text>
+                <text x="200" y="330" textAnchor="middle" fill="#0B1A33" fontSize="16" fontWeight="bold">S</text>
+                <text x="75" y="205" textAnchor="middle" fill="#0B1A33" fontSize="16" fontWeight="bold">O</text>
+                <text x="325" y="205" textAnchor="middle" fill="#0B1A33" fontSize="16" fontWeight="bold">E</text>
 
-                <circle cx="150" cy="150" r="4" fill="#F59E0B" opacity="0.6">
+                <circle cx="150" cy="150" r="4" fill="#D4AF37" opacity="0.6">
                   <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" />
                 </circle>
-                <circle cx="250" cy="250" r="3" fill="#4F46E5" opacity="0.8">
+                <circle cx="250" cy="250" r="3" fill="#0B1A33" opacity="0.8">
                   <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.5s" repeatCount="indefinite" />
                 </circle>
-                <circle cx="280" cy="140" r="5" fill="#F59E0B" opacity="0.5">
+                <circle cx="280" cy="140" r="5" fill="#D4AF37" opacity="0.5">
                   <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite" />
                 </circle>
 
                 <defs>
                   <radialGradient id="gradient1" cx="0.5" cy="0.5" r="0.5">
-                    <stop offset="0%" stopColor="#4F46E5" />
-                    <stop offset="100%" stopColor="#F59E0B" />
+                    <stop offset="0%" stopColor="#0B1A33" />
+                    <stop offset="100%" stopColor="#D4AF37" />
                   </radialGradient>
                 </defs>
               </svg>

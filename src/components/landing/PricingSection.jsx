@@ -31,7 +31,7 @@ const plans = [
       { icon: Sparkles, text: 'Resumen ejecutivo animado' }
     ],
     cta: 'Obtener Informe Premium',
-    ctaStyle: 'bg-vocari-primary text-white hover:bg-indigo-700'
+    ctaStyle: 'bg-vocari-primary text-white hover:bg-vocari-light'
   }
 ];
 

@@ -8,11 +8,14 @@ module.exports = {
     extend: {
       colors: {
         'vocari': {
-          'primary': '#4F46E5',    // Indigo - educativo, confiable
-          'accent': '#F59E0B',     // Amber - energetico, juvenil
-          'bg': '#FAFAF9',         // Stone-50 - fondo calido
-          'b2b': '#0D9488',        // Teal - flujo institucional
-          'dark': '#1E1B4B',       // Indigo-950 - textos/acentos oscuros
+          'primary': '#0B1A33',   // Navy - confiable e institucional
+          'light': '#12264F',     // Navy claro - apoyo
+          'accent': '#D4AF37',    // Dorado - premium, acciones importantes
+          'bg': '#FFFFFF',        // Blanco
+          'bg-warm': '#F4F1E8',   // Blanco cálido para secciones
+          'dark': '#0B1A33',       // Navy para textos
+          'light-text': '#FFFFFF', // Texto blanco para botones navy
+          'dark-text': '#0B1A33',  // Texto navy para botones dorados
         },
         'riasec': {
           'R': '#EF4444',          // Rojo - Realista

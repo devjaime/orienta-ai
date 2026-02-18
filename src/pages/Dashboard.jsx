@@ -113,7 +113,7 @@ export default function Dashboard() {
             <BarChart3 className="w-8 h-8" />
             <h1 className="text-3xl font-bold">Dashboard de Análisis Vocacional</h1>
           </div>
-          <p className="text-indigo-100">
+          <p className="text-vocari-primary/60">
             Proyecciones y tendencias del mercado laboral chileno 2025-2030
           </p>
         </div>
@@ -246,7 +246,7 @@ export default function Dashboard() {
                   onClick={() => setSelectedCarrera(carrera)}
                   className={`p-3 rounded-lg border-2 text-left transition-all ${
                     selectedCarrera?.nombre === carrera.nombre
-                      ? 'border-vocari-primary bg-indigo-50'
+                      ? 'border-vocari-primary bg-vocari-primary/5'
                       : 'border-gray-200 hover:border-indigo-300 hover:bg-gray-50'
                   }`}
                 >
@@ -274,7 +274,7 @@ export default function Dashboard() {
               <SalaryProjectionChart carreraData={selectedCarrera} height={300} />
 
               {/* Recomendaciones */}
-              <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-6 border border-indigo-200">
+              <div className="bg-gradient-to-r from-vocari-primary/5 to-vocari-accent/5 rounded-lg p-6 border border-vocari-primary/20">
                 <div className="flex items-start gap-4">
                   <div className="text-4xl">{selectedCarrera.recomendacion?.emoji}</div>
                   <div className="flex-1">

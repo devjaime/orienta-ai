@@ -64,8 +64,8 @@ const B2BFeatures = () => {
               whileHover={{ y: -4 }}
               className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300"
             >
-              <div className="w-12 h-12 bg-vocari-b2b/10 rounded-xl flex items-center justify-center mb-5">
-                <feature.icon size={24} className="text-vocari-b2b" />
+              <div className="w-12 h-12 bg-vocari-primary/10 rounded-xl flex items-center justify-center mb-5">
+                <feature.icon size={24} className="text-vocari-primary" />
               </div>
               <h3 className="text-lg font-poppins font-semibold text-vocari-dark mb-2">
                 {feature.title}
