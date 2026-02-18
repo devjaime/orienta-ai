@@ -41,18 +41,30 @@ async function initializeLLM() {
   try {
     const webllmModule = await loadWebLLM()
     
-    // Use a lighter model for browser compatibility
+    // Use Phi-3.5 - a smaller, well-supported model for browsers
     const initProgressCallback = (report) => {
       console.log('LLM Init:', report.text)
     }
     
-    engine = await webllmModule.CreateMLCEngine(
-      'Llama-3.1-8B-Instruct-q4f32_1', // Smaller model for browser
-      {
-        initProgressCallback,
-        logLevel: 'ERROR',
-      }
-    )
+    // Try Phi-3.5-mini first (smaller, faster)
+    try {
+      engine = await webllmModule.CreateMLCEngine(
+        'Phi-3.5-mini-instruct-q4f32_1-MLC',
+        {
+          initProgressCallback,
+          logLevel: 'ERROR',
+        }
+      )
+    } catch {
+      // Fallback to Qwen if Phi not available
+      engine = await webllmModule.CreateMLCEngine(
+        'Qwen2-0.5B-Instruct-q4f32_1-MLC',
+        {
+          initProgressCallback,
+          logLevel: 'ERROR',
+        }
+      )
+    }
     
     isInitialized = true
     return engine
