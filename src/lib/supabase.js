@@ -11,12 +11,22 @@ export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '')
 
 // Helper: Get current user
 export const getCurrentUser = async () => {
-  const { data: { user }, error } = await supabase.auth.getUser()
-  if (error) {
-    console.error('Error getting user:', error)
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser()
+    if (error) {
+      // Handle auth session missing - user not logged in
+      if (error.message?.includes('Auth session missing') || error.name === 'AuthSessionMissingError') {
+        return null
+      }
+      console.error('Error getting user:', error)
+      return null
+    }
+    return user
+  } catch (err) {
+    // Handle any other auth errors gracefully
+    console.warn('Auth error (expected if not logged in):', err.message)
     return null
   }
-  return user
 }
 
 // Helper: Sign in with Google

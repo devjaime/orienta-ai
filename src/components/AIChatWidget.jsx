@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Send, Bot, User, Loader2, Settings, X, Sparkles } from 'lucide-react'
+import { Send, Bot, User, Loader2, X, Sparkles } from 'lucide-react'
+
+// Dynamic import for webllm to avoid SSR issues
+let webllm = null
 
 // Initialize WebLLM engine
 let engine = null
@@ -21,16 +24,29 @@ Nunca debes:
 
 Respondé siempre en español de manera clara y amigable.`
 
+async function loadWebLLM() {
+  if (webllm) return webllm
+  try {
+    webllm = await import('@mlc-ai/web-llm')
+    return webllm
+  } catch (error) {
+    console.error('Failed to load WebLLM:', error)
+    throw error
+  }
+}
+
 async function initializeLLM() {
   if (isInitialized) return engine
   
   try {
+    const webllmModule = await loadWebLLM()
+    
     // Use a lighter model for browser compatibility
     const initProgressCallback = (report) => {
       console.log('LLM Init:', report.text)
     }
     
-    engine = await webllm.CreateMLCEngine(
+    engine = await webllmModule.CreateMLCEngine(
       'Llama-3.1-8B-Instruct-q4f32_1', // Smaller model for browser
       {
         initProgressCallback,
