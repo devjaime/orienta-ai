@@ -34,6 +34,18 @@ function LandingPage() {
         <Testimonials />
         <PricingSection />
         <FAQ />
+        
+        {/* Disclaimer honesto */}
+        <div className="bg-amber-50 border-t border-amber-200 py-8">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <p className="text-amber-800 text-sm">
+              <strong>📋 Estado del producto:</strong> Vocari es un MVP en desarrollo. 
+              El test vocacional funciona. Los informes son generados automáticamente con base en tus respuestas 
+              y datos públicos del MINEDUC. Estamos trabajando en integrar revisión por orientadores reales. 
+              ¿Ayudas a mejorar? <a href="mailto:hola@vocari.cl" className="underline">Escríbenos</a>
+            </p>
+          </div>
+        </div>
       </main>
       <Footer />
       <AIChat isOpen={isChatOpen} onClose={closeChat} />
