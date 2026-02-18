@@ -34,6 +34,7 @@ import WhatsAppFloat from './components/WhatsAppFloat';
 import UrgencyBanner from './components/UrgencyBanner';
 import SocialProof from './components/SocialProof';
 import ExitIntentPopup from './components/ExitIntentPopup';
+import DiscountPopup from './components/DiscountPopup';
 
 // Legal - lazy loading
 const TermsPage = lazy(() => import('./pages/TermsPage'));
@@ -58,6 +59,7 @@ function App() {
       <WhatsAppFloat />
       <SocialProof />
       <ExitIntentPopup />
+      <DiscountPopup />
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
           {/* Rutas publicas */}
