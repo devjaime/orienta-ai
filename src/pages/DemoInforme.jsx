@@ -1,5 +1,6 @@
+import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Download, Eye, FileText, BarChart3, GraduationCap, TrendingUp, Award, CheckCircle, MapPin, DollarSign, Users } from 'lucide-react'
+import { Download, Eye, FileText, BarChart3, GraduationCap, TrendingUp, Award, CheckCircle, MapPin, DollarSign, Users, Play, Pause, Volume2 } from 'lucide-react'
 
 // Ejemplo de datos de un perfil RIASEC
 const perfilEjemplo = {
@@ -70,6 +71,69 @@ const proyecciones = [
 ]
 
 export default function DemoInforme() {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false)
+  const synthesisRef = useRef(null)
+
+  // Audio explanation text
+  const audioText = `Tu perfil vocacional es SIA, que significa Social, Investigativo y Artístico. 
+  Esto quiere decir que te interesan las actividades que te permitan ayudar a otros, investigar temas profundos y expresar tu creatividad.
+  Las principales carreras recomendadas para ti son Psicología, Diseño Gráfico y Pedagogía en Inglés.
+  Todas estas carreras tienen alta demanda en el mercado laboral chileno y buenas perspectivas de remuneración.
+  Para más detalles, descarga el informe completo.`
+
+  const toggleAudio = () => {
+    if (isPlaying) {
+      window.speechSynthesis.cancel()
+      setIsPlaying(false)
+    } else {
+      const utterance = new SpeechSynthesisUtterance(audioText)
+      utterance.lang = 'es-CL'
+      utterance.rate = 0.9
+      utterance.onend = () => setIsPlaying(false)
+      synthesisRef.current = utterance
+      window.speechSynthesis.speak(utterance)
+      setIsPlaying(true)
+    }
+  }
+
+  const downloadPdf = async () => {
+    setIsGeneratingPdf(true)
+    // Simple PDF generation - in production use @react-pdf/renderer
+    const content = `
+INFORME VOCACIONAL - VOCARI
+============================
+
+PERFIL RIASEC: SIA
+${perfilEjemplo.nombre}
+
+${perfilEjemplo.descripcion}
+
+PUNTAJES POR DIMENSIÓN:
+- Social: ${perfilEjemplo.dimensiones.S}%
+- Investigativo: ${perfilEjemplo.dimensiones.I}%
+- Artístico: ${perfilEjemplo.dimensiones.A}%
+- Empresarial: ${perfilEjemplo.dimensiones.E}%
+- Convencional: ${perfilEjemplo.dimensiones.C}%
+- Realista: ${perfilEjemplo.dimensiones.R}%
+
+CARRERAS RECOMENDADAS:
+${carrerasEjemplo.map((c, i) => `${i + 1}. ${c.nombre} (${c.match}% match) - ${c.salary.min}-${c.salary.max} CLP`).join('\n')}
+
+---
+Generado por Vocari.cl - Guía Vocacional con IA
+    `.trim()
+
+    const blob = new Blob([content], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'informe-vocacional-vocari.txt'
+    a.click()
+    URL.revokeObjectURL(url)
+    setIsGeneratingPdf(false)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -82,9 +146,51 @@ export default function DemoInforme() {
             <h1 className="text-3xl md:text-4xl font-bold mb-4">
               Ejemplo de Informe Vocacional
             </h1>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-white/80 mb-6">
               Así se ve tu informe personalizado de 15+ páginas
             </p>
+            
+            {/* Action Buttons */}
+            <div className="flex flex-wrap justify-center gap-4 mt-8">
+              <motion.button
+                onClick={toggleAudio}
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl font-medium transition-colors"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {isPlaying ? <Pause size={20} /> : <Volume2 size={20} />}
+                {isPlaying ? 'Detener Audio' : 'Escuchar Explicación'}
+              </motion.button>
+              
+              <motion.button
+                onClick={downloadPdf}
+                disabled={isGeneratingPdf}
+                className="inline-flex items-center gap-2 bg-vocari-primary hover:bg-vocari-light px-6 py-3 rounded-xl font-semibold transition-colors disabled:opacity-50"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Download size={20} />
+                {isGeneratingPdf ? 'Generando...' : 'Descargar Informe'}
+              </motion.button>
+            </div>
+            
+            {/* Audio visualizer when playing */}
+            {isPlaying && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-4 flex justify-center gap-1"
+              >
+                {[...Array(5)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="w-1 bg-vocari-accent rounded-full"
+                    animate={{ height: [10, 20, 10] }}
+                    transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.1 }}
+                  />
+                ))}
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>
@@ -94,6 +200,40 @@ export default function DemoInforme() {
         <div className="max-w-4xl mx-auto px-4 flex items-center justify-center gap-3 text-white">
           <Eye size={20} />
           <span>Este es un ejemplo para que veas exactamente qué recibirás</span>
+        </div>
+      </div>
+
+      {/* Video Section */}
+      <div className="bg-gradient-to-r from-purple-600 to-indigo-600 py-8">
+        <div className="max-w-4xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+          >
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-white mb-2">
+                  📹 Video Explicativo Personalizado
+                </h3>
+                <p className="text-white/80 mb-4">
+                  Tu informe incluye un video de 2-3 minutos donde un orientador virtual te explica 
+                  tus resultados, las carreras recomendadas y por qué son ideales para ti.
+                </p>
+                <div className="flex items-center gap-2 text-white/60 text-sm">
+                  <span>🎬 Próximamente</span>
+                  <span>•</span>
+                  <span>Incluido en Plan Premium</span>
+                </div>
+              </div>
+              <div className="w-full md:w-64 h-36 bg-white/10 rounded-xl flex items-center justify-center border-2 border-dashed border-white/30">
+                <div className="text-center">
+                  <Play size={40} className="text-white/50 mx-auto mb-2" />
+                  <span className="text-white/50 text-sm">Video Demo</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
 

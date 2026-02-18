@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Compass, Sparkles } from 'lucide-react';
+import { ArrowRight, Compass, Sparkles, FileText, Play } from 'lucide-react';
 import { fadeUp, scaleIn } from '../lib/animations';
 
 const Hero = ({ onStartTest }) => {
@@ -60,6 +60,14 @@ const Hero = ({ onStartTest }) => {
               >
                 Para colegios
                 <ArrowRight size={18} />
+              </a>
+
+              <a
+                href="/demo-informe"
+                className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium px-4 py-2"
+              >
+                <Play size={18} />
+                Ver ejemplo de informe
               </a>
             </motion.div>
 
