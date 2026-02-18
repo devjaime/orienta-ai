@@ -287,7 +287,7 @@ function AdminDashboard() {
             onClick={() => setActiveTab('overview')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === 'overview'
-                ? 'bg-indigo-600 text-white'
+                ? 'bg-vocari-primary text-white'
                 : 'text-gray-500 hover:text-white hover:bg-gray-100'
             }`}
           >
@@ -299,7 +299,7 @@ function AdminDashboard() {
               onClick={() => setActiveTab('institutions')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 activeTab === 'institutions'
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-vocari-primary text-white'
                   : 'text-gray-500 hover:text-white hover:bg-gray-100'
               }`}
             >
@@ -311,7 +311,7 @@ function AdminDashboard() {
             onClick={() => setActiveTab('tests')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === 'tests'
-                ? 'bg-indigo-600 text-white'
+                ? 'bg-vocari-primary text-white'
                 : 'text-gray-500 hover:text-white hover:bg-gray-100'
             }`}
           >
@@ -322,7 +322,7 @@ function AdminDashboard() {
             onClick={() => setActiveTab('sessions')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === 'sessions'
-                ? 'bg-indigo-600 text-white'
+                ? 'bg-vocari-primary text-white'
                 : 'text-gray-500 hover:text-white hover:bg-gray-100'
             }`}
           >
@@ -333,7 +333,7 @@ function AdminDashboard() {
             onClick={() => setActiveTab('reports')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               activeTab === 'reports'
-                ? 'bg-indigo-600 text-white'
+                ? 'bg-vocari-primary text-white'
                 : 'text-gray-500 hover:text-white hover:bg-gray-100'
             }`}
           >
@@ -441,7 +441,7 @@ function AdminDashboard() {
                       <div>
                         <p className="text-white font-medium">{test.user_email}</p>
                         <p className="text-gray-500 text-sm">
-                          Código: <span className="font-mono text-indigo-400">{test.codigo_holland}</span>
+                          Código: <span className="font-mono text-vocari-light">{test.codigo_holland}</span>
                           {' '} - Certeza: {Math.round(test.certeza * 100)}%
                         </p>
                       </div>

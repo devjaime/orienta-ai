@@ -99,7 +99,7 @@ function InstitutionStudentsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-vocari-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -112,7 +112,7 @@ function InstitutionStudentsPage() {
           <p className="text-white">Institución no encontrada</p>
           <button
             onClick={() => navigate('/admin')}
-            className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg"
+            className="mt-4 px-4 py-2 bg-vocari-primary text-white rounded-lg"
           >
             Volver
           </button>
@@ -149,7 +149,7 @@ function InstitutionStudentsPage() {
               </button>
               <button
                 onClick={() => setShowImporter(true)}
-                className="flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white text-sm transition-colors"
+                className="flex items-center gap-2 px-3 py-2 bg-vocari-primary hover:bg-vocari-light rounded-lg text-white text-sm transition-colors"
               >
                 <Plus size={16} />
                 Agregar Estudiantes
@@ -198,14 +198,14 @@ function InstitutionStudentsPage() {
                 placeholder="Buscar por nombre, email o código..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-indigo-500"
+                className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-vocari-primary"
               />
             </div>
 
             <select
               value={filterCurso}
               onChange={(e) => setFilterCurso(e.target.value)}
-              className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+              className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
             >
               <option value="all">Todos los cursos</option>
               <option value="3 Medio">3° Medio</option>
@@ -215,7 +215,7 @@ function InstitutionStudentsPage() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+              className="px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
             >
               <option value="all">Todos los estados</option>
               <option value="activated">Activados</option>
@@ -242,7 +242,7 @@ function InstitutionStudentsPage() {
               <p className="text-white/60">No se encontraron estudiantes</p>
               <button
                 onClick={() => setShowImporter(true)}
-                className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm"
+                className="mt-4 px-4 py-2 bg-vocari-primary text-white rounded-lg text-sm"
               >
                 Agregar estudiantes
               </button>
@@ -319,7 +319,7 @@ function InstitutionStudentsPage() {
 // Componente StatCard
 function StatCard({ label, value, icon: Icon, color }) {
   const colorClasses = {
-    indigo: 'bg-indigo-500/20 text-indigo-400',
+    indigo: 'bg-vocari-primary/20 text-vocari-light',
     green: 'bg-green-500/20 text-green-400',
     yellow: 'bg-yellow-500/20 text-yellow-400',
     blue: 'bg-blue-500/20 text-blue-400',
@@ -347,8 +347,8 @@ function StudentRow({ student }) {
     <tr className="border-t border-white/5 hover:bg-white/5 transition-colors">
       <td className="p-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-indigo-500/20 rounded-full flex items-center justify-center">
-            <span className="text-indigo-400 font-medium">
+          <div className="w-10 h-10 bg-vocari-primary/20 rounded-full flex items-center justify-center">
+            <span className="text-vocari-light font-medium">
               {student.nombre?.charAt(0).toUpperCase()}
             </span>
           </div>
@@ -382,7 +382,7 @@ function StudentRow({ student }) {
       <td className="p-4">
         {hasTest ? (
           <div>
-            <span className="text-indigo-400 font-mono font-bold">
+            <span className="text-vocari-light font-mono font-bold">
               {latestTest.codigo_holland}
             </span>
             <p className="text-white/40 text-xs">

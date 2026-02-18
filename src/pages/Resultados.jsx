@@ -379,7 +379,7 @@ function Resultados() {
 
           <button
             onClick={() => navigate('/')}
-            className="px-6 py-3 bg-vocari-primary text-white font-bold rounded-lg hover:bg-indigo-700 transition-all"
+            className="px-6 py-3 bg-vocari-primary text-white font-bold rounded-lg hover:bg-vocari-light transition-all"
           >
             Volver al inicio
           </button>

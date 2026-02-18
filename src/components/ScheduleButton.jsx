@@ -85,7 +85,7 @@ function ScheduleButton({ className = '', variant = 'default' }) {
           onClick={() => setShowModal(true)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className={`flex items-center gap-2 px-4 py-2 bg-vocari-primary text-white rounded-lg hover:bg-indigo-700 hover:shadow-lg transition-all ${className}`}
+          className={`flex items-center gap-2 px-4 py-2 bg-vocari-primary text-white rounded-lg hover:bg-vocari-light hover:shadow-lg transition-all ${className}`}
         >
           <Calendar size={18} />
           <span className="font-medium">Agendar Sesión</span>
@@ -114,7 +114,7 @@ function ScheduleButton({ className = '', variant = 'default' }) {
         onClick={() => setShowModal(true)}
         whileHover={{ scale: 1.02, y: -2 }}
         whileTap={{ scale: 0.98 }}
-        className={`group relative overflow-hidden bg-gradient-to-br from-vocari-primary via-indigo-500 to-vocari-accent rounded-2xl p-6 shadow-2xl hover:shadow-vocari-primary/50 transition-all ${className}`}
+        className={`group relative overflow-hidden bg-gradient-to-br from-vocari-primary via-vocari-light to-vocari-accent rounded-2xl p-6 shadow-2xl hover:shadow-vocari-primary/50 transition-all ${className}`}
       >
         {/* Efecto de brillo animado */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -219,7 +219,7 @@ function ScheduleModal({
 
             {loading ? (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-vocari-primary mx-auto mb-4"></div>
                 <p className="text-gray-600">Cargando horarios disponibles...</p>
               </div>
             ) : (
@@ -248,7 +248,7 @@ function ScheduleModal({
                                 onClick={() => setSelectedDate(slot.slot_datetime)}
                                 className={`p-3 rounded-lg border-2 transition-all text-sm ${
                                   selectedDate === slot.slot_datetime
-                                    ? 'border-purple-600 bg-purple-50'
+                                    ? 'border-vocari-primary bg-purple-50'
                                     : 'border-gray-200 hover:border-purple-300 hover:bg-gray-50'
                                 }`}
                               >
@@ -277,7 +277,7 @@ function ScheduleModal({
                     value={userNotes}
                     onChange={(e) => setUserNotes(e.target.value)}
                     placeholder="Ej: Quiero explorar opciones de ingeniería, tengo dudas sobre mis resultados del test..."
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vocari-primary focus:border-transparent resize-none"
                     rows={3}
                   />
                 </div>
@@ -293,7 +293,7 @@ function ScheduleModal({
                   <button
                     onClick={handleSchedule}
                     disabled={!selectedDate || scheduling}
-                    className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 px-4 py-3 bg-gradient-to-r from-vocari-primary to-vocari-accent text-white rounded-lg hover:shadow-lg transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {scheduling ? 'Agendando...' : 'Confirmar Agendamiento'}
                   </button>

@@ -114,7 +114,7 @@ function InstitutionManager() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-vocari-primary border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -125,7 +125,7 @@ function InstitutionManager() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-            <Building2 className="text-indigo-400" />
+            <Building2 className="text-vocari-light" />
             Instituciones
           </h2>
           <p className="text-white/60 text-sm mt-1">
@@ -135,7 +135,7 @@ function InstitutionManager() {
 
         <button
           onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-vocari-primary text-white rounded-lg hover:bg-vocari-light transition-colors"
         >
           <Plus size={18} />
           Nueva Institución
@@ -151,14 +151,14 @@ function InstitutionManager() {
             placeholder="Buscar por nombre, código o comuna..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-indigo-500"
+            className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-vocari-primary"
           />
         </div>
 
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+          className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
         >
           <option value="all">Todos los estados</option>
           {Object.entries(STATUS_CONFIG).map(([value, config]) => (
@@ -241,11 +241,11 @@ function InstitutionCard({ institution, stats, isExpanded, onToggleExpand, onSta
         <div className="flex items-start justify-between">
           <div className="flex items-start gap-4">
             {/* Logo/Avatar */}
-            <div className="w-12 h-12 rounded-lg bg-indigo-500/20 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-lg bg-vocari-primary/20 flex items-center justify-center">
               {institution.logo_url ? (
                 <img src={institution.logo_url} alt="" className="w-full h-full object-cover rounded-lg" />
               ) : (
-                <Building2 className="text-indigo-400" size={24} />
+                <Building2 className="text-vocari-light" size={24} />
               )}
             </div>
 
@@ -452,7 +452,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
       >
         <div className="p-6 border-b border-white/10">
           <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-            <Building2 className="text-indigo-400" />
+            <Building2 className="text-vocari-light" />
             Nueva Institución
           </h2>
         </div>
@@ -472,7 +472,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 placeholder="Ej: Colegio San José"
               />
             </div>
@@ -484,7 +484,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
                 required
                 value={formData.code}
                 onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-mono focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white font-mono focus:outline-none focus:border-vocari-primary"
                 placeholder="Ej: CSJ001"
                 maxLength={10}
               />
@@ -497,7 +497,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
               <select
                 value={formData.type}
                 onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
               >
                 {INSTITUTION_TYPES.map(t => (
                   <option key={t.value} value={t.value}>{t.label}</option>
@@ -511,7 +511,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
                 type="number"
                 value={formData.max_students}
                 onChange={(e) => setFormData({ ...formData, max_students: parseInt(e.target.value) || 100 })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 min={1}
                 max={1000}
               />
@@ -524,7 +524,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
               <select
                 value={formData.region}
                 onChange={(e) => setFormData({ ...formData, region: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
               >
                 {REGIONES_CHILE.map(r => (
                   <option key={r} value={r}>{r}</option>
@@ -538,7 +538,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
                 type="text"
                 value={formData.comuna}
                 onChange={(e) => setFormData({ ...formData, comuna: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 placeholder="Ej: Providencia"
               />
             </div>
@@ -551,21 +551,21 @@ function CreateInstitutionModal({ onClose, onCreated }) {
                 type="text"
                 value={formData.contact_name}
                 onChange={(e) => setFormData({ ...formData, contact_name: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 placeholder="Nombre contacto"
               />
               <input
                 type="email"
                 value={formData.contact_email}
                 onChange={(e) => setFormData({ ...formData, contact_email: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 placeholder="Email"
               />
               <input
                 type="tel"
                 value={formData.contact_phone}
                 onChange={(e) => setFormData({ ...formData, contact_phone: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 placeholder="Teléfono"
               />
             </div>
@@ -580,7 +580,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
                   type="date"
                   value={formData.pilot_start_date}
                   onChange={(e) => setFormData({ ...formData, pilot_start_date: e.target.value })}
-                  className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 />
               </div>
               <div>
@@ -589,7 +589,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
                   type="date"
                   value={formData.pilot_end_date}
                   onChange={(e) => setFormData({ ...formData, pilot_end_date: e.target.value })}
-                  className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
                 />
               </div>
             </div>
@@ -600,7 +600,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500 resize-none"
+              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary resize-none"
               rows={3}
               placeholder="Notas internas sobre el piloto..."
             />
@@ -617,7 +617,7 @@ function CreateInstitutionModal({ onClose, onCreated }) {
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-vocari-primary text-white rounded-lg hover:bg-vocari-light transition-colors disabled:opacity-50"
             >
               {loading ? 'Creando...' : 'Crear Institución'}
             </button>
@@ -677,7 +677,7 @@ function EditInstitutionModal({ institution, onClose, onUpdated }) {
       >
         <div className="p-6 border-b border-white/10">
           <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-            <Edit className="text-indigo-400" />
+            <Edit className="text-vocari-light" />
             Editar: {institution.name}
           </h2>
           <p className="text-sm text-white/50 mt-1">Código: {institution.code}</p>
@@ -698,7 +698,7 @@ function EditInstitutionModal({ institution, onClose, onUpdated }) {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
               />
             </div>
 
@@ -708,7 +708,7 @@ function EditInstitutionModal({ institution, onClose, onUpdated }) {
                 type="number"
                 value={formData.max_students}
                 onChange={(e) => setFormData({ ...formData, max_students: parseInt(e.target.value) || 100 })}
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
               />
             </div>
           </div>
@@ -718,21 +718,21 @@ function EditInstitutionModal({ institution, onClose, onUpdated }) {
               type="text"
               value={formData.contact_name}
               onChange={(e) => setFormData({ ...formData, contact_name: e.target.value })}
-              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
               placeholder="Nombre contacto"
             />
             <input
               type="email"
               value={formData.contact_email}
               onChange={(e) => setFormData({ ...formData, contact_email: e.target.value })}
-              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
               placeholder="Email"
             />
             <input
               type="tel"
               value={formData.contact_phone}
               onChange={(e) => setFormData({ ...formData, contact_phone: e.target.value })}
-              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
               placeholder="Teléfono"
             />
           </div>
@@ -743,7 +743,7 @@ function EditInstitutionModal({ institution, onClose, onUpdated }) {
               type="date"
               value={formData.pilot_end_date}
               onChange={(e) => setFormData({ ...formData, pilot_end_date: e.target.value })}
-              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary"
             />
           </div>
 
@@ -752,7 +752,7 @@ function EditInstitutionModal({ institution, onClose, onUpdated }) {
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-indigo-500 resize-none"
+              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-vocari-primary resize-none"
               rows={3}
             />
           </div>
@@ -768,7 +768,7 @@ function EditInstitutionModal({ institution, onClose, onUpdated }) {
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-vocari-primary text-white rounded-lg hover:bg-vocari-light transition-colors disabled:opacity-50"
             >
               {loading ? 'Guardando...' : 'Guardar Cambios'}
             </button>

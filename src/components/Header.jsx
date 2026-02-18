@@ -52,7 +52,7 @@ const Header = ({ onStartTest }) => {
             className="flex items-center space-x-2"
             whileHover={{ scale: 1.05 }}
           >
-            <div className={`w-8 h-8 ${isB2B ? 'bg-vocari-b2b' : 'bg-vocari-primary'} rounded-lg flex items-center justify-center`}>
+            <div className={`w-8 h-8 ${isB2B ? 'bg-vocari-light' : 'bg-vocari-primary'} rounded-lg flex items-center justify-center`}>
               <span className="text-white font-bold text-lg">V</span>
             </div>
             <span className="text-vocari-dark font-poppins font-semibold text-xl">Vocari</span>
@@ -69,7 +69,7 @@ const Header = ({ onStartTest }) => {
             <a href="#informes" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
               Informes
             </a>
-            <a href="/colegios" className="text-vocari-b2b hover:text-teal-700 transition-colors duration-300 text-sm font-medium">
+            <a href="/colegios" className="text-vocari-primary hover:text-vocari-light transition-colors duration-300 text-sm font-medium">
               Para Colegios
             </a>
           </nav>
@@ -96,7 +96,7 @@ const Header = ({ onStartTest }) => {
                 {userRole === 'admin' && (
                   <a
                     href="/admin"
-                    className="text-vocari-primary hover:text-indigo-700 transition-colors text-sm font-medium"
+                    className="text-vocari-primary hover:text-vocari-light transition-colors text-sm font-medium"
                   >
                     Admin
                   </a>
@@ -104,7 +104,7 @@ const Header = ({ onStartTest }) => {
                 {(userRole === 'orientador' || userRole === 'admin') && (
                   <a
                     href="/orientador"
-                    className="text-vocari-primary hover:text-indigo-700 transition-colors text-sm font-medium"
+                    className="text-vocari-primary hover:text-vocari-light transition-colors text-sm font-medium"
                   >
                     Dashboard
                   </a>
@@ -112,7 +112,7 @@ const Header = ({ onStartTest }) => {
                 {userRole === 'estudiante' && (
                   <a
                     href="/dashboard"
-                    className="text-vocari-primary hover:text-indigo-700 transition-colors text-sm font-medium"
+                    className="text-vocari-primary hover:text-vocari-light transition-colors text-sm font-medium"
                   >
                     Mi Dashboard
                   </a>
