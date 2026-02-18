@@ -1,4 +1,5 @@
 import { Mail, MapPin } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -51,10 +52,14 @@ const Footer = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-center gap-3 text-white/70">
+              <motion.a 
+                href="mailto:hola@vocari.com" 
+                className="flex items-center gap-3 text-white/70 hover:text-vocari-primary transition-colors"
+                whileHover={{ x: 4 }}
+              >
                 <Mail size={16} />
-                <a href="mailto:hola@vocari.com" className="hover:text-vocari-primary transition-colors">hola@vocari.com</a>
-              </div>
+                hola@vocari.com
+              </motion.a>
               <div className="flex items-center gap-3 text-white/70">
                 <MapPin size={16} />
                 <span>Santiago, Chile</span>
@@ -77,12 +82,13 @@ const Footer = () => {
               <ul className="space-y-2">
                 {links.map((link, linkIndex) => (
                   <li key={linkIndex}>
-                    <a
+                    <motion.a
                       href={link.href}
-                      className="text-white/70 hover:text-vocari-primary transition-colors duration-300 text-sm"
+                      className="text-white/70 hover:text-vocari-primary transition-colors duration-300 text-sm block"
+                      whileHover={{ x: 4 }}
                     >
                       {link.name}
-                    </a>
+                    </motion.a>
                   </li>
                 ))}
               </ul>

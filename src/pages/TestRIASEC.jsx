@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { riasecQuestions, scaleLabels, validateResponses } from '../data/riasecQuestions';
 import GoogleSignIn from '../components/GoogleSignIn';
 import { getCurrentUser, supabase } from '../lib/supabase';
