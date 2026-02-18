@@ -29,6 +29,9 @@ const SessionNotesPage = lazy(() => import('./pages/SessionNotesPage'));
 // Landing B2B - lazy loading
 const B2BLandingPage = lazy(() => import('./pages/B2BLandingPage'));
 
+// Demo informe - lazy loading
+const DemoInforme = lazy(() => import('./pages/DemoInforme'));
+
 // Componentes
 import WhatsAppFloat from './components/WhatsAppFloat';
 import UrgencyBanner from './components/UrgencyBanner';
@@ -67,6 +70,7 @@ function App() {
           {/* Rutas publicas */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/colegios" element={<B2BLandingPage />} />
+          <Route path="/demo-informe" element={<DemoInforme />} />
           <Route path="/terminos" element={<TermsPage />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />

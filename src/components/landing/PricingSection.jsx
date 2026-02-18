@@ -1,4 +1,4 @@
-import { Check, Star, FileText, BarChart3, GraduationCap, UserCheck, Presentation, Sparkles } from 'lucide-react';
+import { Check, Star, FileText, BarChart3, GraduationCap, UserCheck, Presentation, Sparkles, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -62,6 +62,22 @@ const PricingSection = () => {
             Basados en datos oficiales del MINEDUC, metodo cientifico RIASEC y revisados
             por orientadores calificados. La guia vocacional mas completa de Chile.
           </p>
+          
+          {/* Ver ejemplo de informe */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-6"
+          >
+            <a
+              href="/demo-informe"
+              className="inline-flex items-center gap-2 text-vocari-primary hover:text-vocari-light font-medium transition-colors"
+            >
+              <Eye size={18} />
+              Ver ejemplo de informe
+            </a>
+          </motion.div>
         </motion.div>
 
         {/* Cards */}
