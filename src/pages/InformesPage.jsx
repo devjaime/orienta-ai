@@ -5,6 +5,8 @@ import { FileText, BarChart3, GraduationCap, UserCheck, Presentation, Sparkles, 
 import { getCurrentUser, getLatestTestResult } from '../lib/supabase';
 import { getReportPlans, createCheckoutSession, formatPriceCLP } from '../lib/reportService';
 import ReferralProgram from '../components/ReferralProgram';
+import SimpleCheckout from '../components/SimpleCheckout';
+import { X } from 'lucide-react';
 
 const PLAN_ICONS = {
   esencial: [
@@ -32,6 +34,8 @@ function InformesPage() {
   const [purchasing, setPurchasing] = useState(null);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState('esencial');
 
   useEffect(() => {
     loadData();
@@ -73,16 +77,9 @@ function InformesPage() {
       return;
     }
 
-    setPurchasing(planId);
-    try {
-      const checkoutUrl = await createCheckoutSession(planId);
-      window.location.href = checkoutUrl;
-    } catch (error) {
-      console.error('Error creating checkout:', error);
-      alert('Error al iniciar el pago. Intenta nuevamente.');
-    } finally {
-      setPurchasing(null);
-    }
+    // Abrir modal de checkout
+    setSelectedPlan(planId);
+    setShowCheckout(true);
   };
 
   if (loading) {
@@ -327,6 +324,25 @@ function InformesPage() {
           <ReferralProgram />
         </div>
       </div>
+
+      {/* Checkout Modal */}
+      {showCheckout && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="relative w-full max-w-lg">
+            <button
+              onClick={() => setShowCheckout(false)}
+              className="absolute -top-4 -right-4 z-10 w-10 h-10 bg-gray-800 hover:bg-gray-700 text-white rounded-full flex items-center justify-center"
+            >
+              <X size={20} />
+            </button>
+            <SimpleCheckout 
+              plan={selectedPlan} 
+              onClose={() => setShowCheckout(false)}
+              onSuccess={() => setShowCheckout(false)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
