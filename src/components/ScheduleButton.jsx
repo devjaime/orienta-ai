@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Calendar, X, Clock, Video } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { getAvailableTimeSlots } from '../lib/orientadorService';
 import { createScheduledSessionWithAssignment } from '../lib/supabase';
 

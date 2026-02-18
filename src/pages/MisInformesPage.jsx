@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { FileText, ArrowLeft, Eye, Download, Clock, Plus } from 'lucide-react';
 import { getMyReports, formatPriceCLP } from '../lib/reportService';
 import ReportStatusBadge from '../components/informes/ReportStatusBadge';

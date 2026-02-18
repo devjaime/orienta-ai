@@ -1,5 +1,4 @@
 import { AlertTriangle, TrendingDown, Info } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * Componente de alerta de saturación para mostrar durante el test

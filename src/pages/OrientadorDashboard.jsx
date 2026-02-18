@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Users, ClipboardList, Calendar, TrendingUp, Search, Filter, Eye, LogOut } from 'lucide-react';
 import { hasRole, getAllUsers, getAllTestResults, getAllScheduledSessions, signOut } from '../lib/supabase';
 

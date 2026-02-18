@@ -58,11 +58,6 @@ exports.handler = async function handler(event) {
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join('&');
 
-    const flowResponse = await fetch(`${flowApiUrl}/payment/getStatus`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    });
-
     // Flow getStatus usa GET con query params
     const statusUrl = `${flowApiUrl}/payment/getStatus?${formBody}`;
     const statusResponse = await fetch(statusUrl);
@@ -77,8 +72,6 @@ exports.handler = async function handler(event) {
 
     // Estados de Flow: 1=pendiente, 2=pagada, 3=rechazada, 4=anulada
     const flowStatus = paymentData.status;
-    const commerceOrder = paymentData.commerceOrder;
-    const flowOrderNumber = paymentData.flowOrder;
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 

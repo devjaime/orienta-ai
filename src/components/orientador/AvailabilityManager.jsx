@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Clock, Plus, Trash2, Save, Calendar } from 'lucide-react';
 import { getOrientadorAvailability, saveOrientadorAvailability } from '../../lib/orientadorService';
 import { getCurrentUser } from '../../lib/supabase';

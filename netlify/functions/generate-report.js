@@ -39,7 +39,7 @@ exports.handler = async function handler(event) {
   let payload;
   try {
     payload = JSON.parse(event.body || '{}');
-  } catch (err) {
+  } catch {
     return {
       statusCode: 400,
       headers: CORS_HEADERS,
@@ -116,7 +116,7 @@ exports.handler = async function handler(event) {
       body: JSON.stringify({ ok: true, reportId })
     };
 
-  } catch (err) {
+  } catch {
     console.error('Error generando informe:', err);
 
     // Intentar marcar el error en la base de datos

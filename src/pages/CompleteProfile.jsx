@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { User, Calendar, Heart, CheckCircle } from 'lucide-react';
 import { getCurrentUser, supabase } from '../lib/supabase';
 

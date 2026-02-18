@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Mail, MapPin } from 'lucide-react';
 
 const Footer = () => {

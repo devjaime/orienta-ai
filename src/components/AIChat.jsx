@@ -1,4 +1,3 @@
-import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, Sparkles, Brain, Target, Heart, Loader2, AlertCircle } from 'lucide-react';
 import { canUseChatAI, recordChatAIUsage, getLimitMessages, isAIEnabled, LIMITS } from '../lib/usageLimits';

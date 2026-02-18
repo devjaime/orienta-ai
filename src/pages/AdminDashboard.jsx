@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Users, ClipboardList, Calendar, Shield, Search, LogOut, UserCog, UserPlus, X, Building2 } from 'lucide-react';
 import { hasRole, getAllUsers, getAllTestResults, getAllScheduledSessions, signOut, supabase, getUserProfile } from '../lib/supabase';
 import { createUserProfile } from '../lib/adminService';

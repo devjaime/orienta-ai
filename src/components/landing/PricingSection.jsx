@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Check, Star, FileText, BarChart3, GraduationCap, UserCheck, Presentation, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

@@ -104,7 +104,7 @@ exports.handler = async function handler(event) {
   let payload;
   try {
     payload = JSON.parse(event.body || '{}');
-  } catch (err) {
+  } catch {
     return {
       statusCode: 400,
       headers: CORS_HEADERS,
@@ -192,7 +192,7 @@ exports.handler = async function handler(event) {
       })
     };
 
-  } catch (err) {
+  } catch {
     console.error('Function error:', err);
     return {
       statusCode: 500,

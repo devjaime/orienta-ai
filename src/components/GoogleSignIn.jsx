@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { supabase, signInWithGoogle, signOut, getCurrentUser } from '../lib/supabase';
 import { LogOut, User, KeyRound } from 'lucide-react';
 

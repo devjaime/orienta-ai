@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { useParams, Link } from 'react-router-dom';
 import {
   ArrowLeft,

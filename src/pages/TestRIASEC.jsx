@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { riasecQuestions, scaleLabels, validateResponses } from '../data/riasecQuestions';
 import GoogleSignIn from '../components/GoogleSignIn';

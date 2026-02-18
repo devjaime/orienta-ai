@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import {
   Users, Bell, Activity, Clock, TrendingUp, Calendar, FileText,
   AlertCircle, CheckCircle, XCircle, Eye, Plus, Mail

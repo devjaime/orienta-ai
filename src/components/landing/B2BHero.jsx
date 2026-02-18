@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { School, ArrowRight } from 'lucide-react';
 
 const B2BHero = () => {

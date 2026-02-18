@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play, Pause, BarChart3, Star, GraduationCap, Target, Rocket } from 'lucide-react';
 
 const DIMENSION_NAMES = {

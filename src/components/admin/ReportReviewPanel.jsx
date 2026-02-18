@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { FileText, Check, X, Eye, Filter, Clock, Search } from 'lucide-react';
 import { getAllReports, approveReport, rejectReport } from '../../lib/reportService';
 import ReportStatusBadge from '../informes/ReportStatusBadge';

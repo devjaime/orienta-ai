@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Download, Share2, Sparkles, TrendingUp, Award, Loader2, BarChart3 } from 'lucide-react';
 import { calcularCodigoRIASEC, generarInterpretacion } from '../lib/riasecScoring';
 import { recomendarCarreras } from '../lib/recomendacionCarreras';
