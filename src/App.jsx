@@ -32,6 +32,7 @@ const B2BLandingPage = lazy(() => import('./pages/B2BLandingPage'));
 // Componentes
 import WhatsAppFloat from './components/WhatsAppFloat';
 import UrgencyBanner from './components/UrgencyBanner';
+import SocialProof from './components/SocialProof';
 
 // Legal - lazy loading
 const TermsPage = lazy(() => import('./pages/TermsPage'));
@@ -54,6 +55,7 @@ function App() {
     <Router>
       <UrgencyBanner />
       <WhatsAppFloat />
+      <SocialProof />
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
           {/* Rutas publicas */}
