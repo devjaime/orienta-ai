@@ -1,6 +1,7 @@
 import { Menu, X, LogOut, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { getCurrentUser, signOut } from '../lib/supabase';
 
 const Header = ({ onStartTest }) => {

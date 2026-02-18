@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { TrendingDown, Users, AlertTriangle } from 'lucide-react';
 
 const ProblemSection = () => {

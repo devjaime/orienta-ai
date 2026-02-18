@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Users, GraduationCap, Shield, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import GoogleSignIn from './GoogleSignIn';

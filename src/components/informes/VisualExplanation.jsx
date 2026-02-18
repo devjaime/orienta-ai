@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Play, Pause, BarChart3, Star, GraduationCap, Target, Rocket } from 'lucide-react';
 

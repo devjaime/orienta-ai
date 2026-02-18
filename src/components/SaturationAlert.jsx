@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { AlertTriangle, TrendingDown, Info } from 'lucide-react';
 
 /**

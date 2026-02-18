@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Upload, LayoutDashboard, Key, Users, BarChart3, Shield } from 'lucide-react';
 
 const features = [

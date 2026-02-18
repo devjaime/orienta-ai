@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { CheckCircle, Download, FileCheck, Sparkles } from 'lucide-react';
 
 const steps = [

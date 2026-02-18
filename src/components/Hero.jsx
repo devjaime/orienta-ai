@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { ArrowRight, Compass, Sparkles } from 'lucide-react';
 import { fadeUp, scaleIn } from '../lib/animations';
 

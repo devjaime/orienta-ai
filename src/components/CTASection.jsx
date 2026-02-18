@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Target, Heart, MessageCircle } from 'lucide-react';
 import ScheduleButton from './ScheduleButton';
 

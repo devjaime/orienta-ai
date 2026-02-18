@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Check, X, Star } from 'lucide-react';
 
 const ComparisonSection = () => {

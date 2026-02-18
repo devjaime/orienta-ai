@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * InstitutionManager - Gestión de Instituciones (Colegios)
  * Solo visible para super_admin

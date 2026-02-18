@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { FileText, Check, X, Eye, Filter, Clock, Search } from 'lucide-react';
 import { getAllReports, approveReport, rejectReport } from '../../lib/reportService';

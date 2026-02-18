@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Play, Brain, Heart, Target, Zap } from 'lucide-react';
 
 const SolutionSection = () => {
