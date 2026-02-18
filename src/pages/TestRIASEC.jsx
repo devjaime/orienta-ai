@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { riasecQuestions, scaleLabels, validateResponses } from '../data/riasecQuestions';
 import GoogleSignIn from '../components/GoogleSignIn';
 import { getCurrentUser, supabase } from '../lib/supabase';
@@ -279,32 +280,38 @@ function TestRIASEC() {
 
         {/* Navigation */}
         <div className="flex items-center justify-between mt-8">
-          <button
+          <motion.button
             onClick={handlePrevious}
             disabled={currentQuestion === 0}
             className="flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            whileHover={currentQuestion > 0 ? { scale: 1.02 } : {}}
+            whileTap={currentQuestion > 0 ? { scale: 0.98 } : {}}
           >
             <ChevronLeft size={20} />
             Anterior
-          </button>
+          </motion.button>
 
           {currentQuestion === riasecQuestions.length - 1 ? (
-            <button
+            <motion.button
               onClick={handleSubmit}
               disabled={answeredCount < riasecQuestions.length}
               className="flex items-center gap-2 px-8 py-3 bg-vocari-primary text-white font-bold rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               Ver Resultados
               <Check size={20} />
-            </button>
+            </motion.button>
           ) : (
-            <button
+            <motion.button
               onClick={handleNext}
               className="flex items-center gap-2 px-6 py-3 bg-vocari-primary text-white rounded-lg hover:bg-vocari-primary/80 transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               Siguiente
               <ChevronRight size={20} />
-            </button>
+            </motion.button>
           )}
         </div>
       </div>

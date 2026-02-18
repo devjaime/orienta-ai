@@ -1,5 +1,6 @@
 import { Check, Star, FileText, BarChart3, GraduationCap, UserCheck, Presentation, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const plans = [
   {
@@ -116,12 +117,14 @@ const PricingSection = () => {
                 </p>
               </div>
 
-              <button
+              <motion.button
                 onClick={() => window.open(plan.name === 'premium' ? 'https://www.paypal.com/ncp/payment/4CB6YZZS7G5VQ' : 'https://www.paypal.com/ncp/payment/DCEGNNL4FVNHA', '_blank')}
                 className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${plan.ctaStyle}`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {plan.cta}
-              </button>
+              </motion.button>
             </motion.div>
           ))}
         </div>
