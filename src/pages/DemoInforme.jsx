@@ -78,28 +78,114 @@ export default function DemoInforme() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false)
   const [showPdf, setShowPdf] = useState(false)
+  const [isLoadingAudio, setIsLoadingAudio] = useState(false)
+  const audioRef = useRef(null)
   const synthesisRef = useRef(null)
 
-  // Audio explanation text
-  const audioText = `Tu perfil vocacional es SIA, que significa Social, Investigativo y Artístico. 
-  Esto quiere decir que te interesan las actividades que te permitan ayudar a otros, investigar temas profundos y expresar tu creatividad.
-  Las principales carreras recomendadas para ti son Psicología, Diseño Gráfico y Pedagogía en Inglés.
-  Todas estas carreras tienen alta demanda en el mercado laboral chileno y buenas perspectivas de remuneración.
-  Para más detalles, descarga el informe completo.`
+  // ElevenLabs configuration
+  const ELEVENLABS_API_KEY = import.meta.env.VITE_ELEVENLABS_API_KEY
+  const VOICE_ID = 'gMMfKhtL4AxCyQXtcJni' // Spanish (Mexico) - more natural voice
 
-  const toggleAudio = () => {
+  // Audio explanation text - dynamic based on profile
+  const getAudioText = () => `
+    Hola! Bienvenido a tu informe vocacional de Vocari. 
+    Tu perfil es SIA, que significa Social, Investigativo y Artístico.
+    
+    Esto quiere decir que te interesan las actividades que te permitan ayudar a otros, 
+    investigar temas profundos y expresar tu creatividad. 
+    Valoras la autonomía en el trabajo y te desempeñas bien en entornos colaborativos.
+    
+    Las principales carreras recomendadas para ti son: 
+    
+    Primero: Psicología, con un noventa y cinco por ciento de compatibilidad. 
+    Esta carrera te permite ayudar a las personas y tiene una buena remuneración.
+    
+    Segundo: Diseño Gráfico, con noventa y dos por ciento de compatibilidad. 
+    Ideal para expresar tu creatividad en el mundo digital.
+    
+    Tercero: Pedagogía en Inglés, con ochenta y nueve por ciento de compatibilidad. 
+    Una carrera con alta demanda en el mercado laboral chileno.
+    
+    Para más detalles sobre estas carreras, incluyendo proyección salarial 
+    y demanda del mercado, descarga el informe completo en vocari.cl
+    
+    Gracias por confiar en Vocari, tu guía vocacional con inteligencia artificial.
+  `
+
+  const playWithElevenLabs = async () => {
     if (isPlaying) {
-      window.speechSynthesis.cancel()
+      // Stop audio
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
       setIsPlaying(false)
-    } else {
-      const utterance = new SpeechSynthesisUtterance(audioText)
-      utterance.lang = 'es-CL'
+      return
+    }
+
+    setIsLoadingAudio(true)
+
+    try {
+      // Use ElevenLabs API
+      if (ELEVENLABS_API_KEY) {
+        const response = await fetch(
+          `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
+          {
+            method: 'POST',
+            headers: {
+              'Accept': 'audio/mpeg',
+              'Content-Type': 'application/json',
+              'xi-api-key': ELEVENLABS_API_KEY
+            },
+            body: JSON.stringify({
+              text: getAudioText(),
+              model_id: 'eleven_multilingual_v2',
+              voice_settings: {
+                stability: 0.5,
+                similarity_boost: 0.8,
+                style: 0.5,
+                use_speaker_boost: true
+              }
+            })
+          }
+        )
+
+        if (!response.ok) {
+          throw new Error('ElevenLabs API error')
+        }
+
+        const audioBlob = await response.blob()
+        const audioUrl = URL.createObjectURL(audioBlob)
+        
+        audioRef.current = new Audio(audioUrl)
+        audioRef.current.onended = () => {
+          setIsPlaying(false)
+          URL.revokeObjectURL(audioUrl)
+        }
+        await audioRef.current.play()
+        setIsPlaying(true)
+      } else {
+        // Fallback to browser TTS
+        throw new Error('No API key')
+      }
+    } catch (error) {
+      console.log('Using browser TTS fallback:', error.message)
+      // Fallback to browser Speech Synthesis
+      const utterance = new SpeechSynthesisUtterance(getAudioText())
+      utterance.lang = 'es-MX' // Mexican Spanish
       utterance.rate = 0.9
+      utterance.pitch = 1
       utterance.onend = () => setIsPlaying(false)
       synthesisRef.current = utterance
       window.speechSynthesis.speak(utterance)
       setIsPlaying(true)
+    } finally {
+      setIsLoadingAudio(false)
     }
+  }
+
+  const toggleAudio = () => {
+    playWithElevenLabs()
   }
 
   const downloadPdf = async () => {
@@ -135,12 +221,19 @@ export default function DemoInforme() {
             <div className="flex flex-wrap justify-center gap-4 mt-8">
               <motion.button
                 onClick={toggleAudio}
-                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl font-medium transition-colors"
+                disabled={isLoadingAudio}
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl font-medium transition-colors disabled:opacity-50"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {isPlaying ? <Pause size={20} /> : <Volume2 size={20} />}
-                {isPlaying ? 'Detener Audio' : 'Escuchar Explicación'}
+                {isLoadingAudio ? (
+                  <Loader2 size={20} className="animate-spin" />
+                ) : isPlaying ? (
+                  <Pause size={20} />
+                ) : (
+                  <Volume2 size={20} />
+                )}
+                {isLoadingAudio ? 'Cargando...' : isPlaying ? 'Detener Audio' : 'Escuchar Explicación'}
               </motion.button>
               
               <motion.button
