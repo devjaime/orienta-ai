@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { FileText, BarChart3, GraduationCap, UserCheck, Presentation, Sparkles, Check, Star, ArrowLeft, AlertCircle } from 'lucide-react';
 import { getCurrentUser, getLatestTestResult } from '../lib/supabase';
 import { getReportPlans, createCheckoutSession, formatPriceCLP } from '../lib/reportService';
+import ReferralProgram from '../components/ReferralProgram';
 
 const PLAN_ICONS = {
   esencial: [
@@ -320,6 +321,11 @@ function InformesPage() {
             </button>
           </div>
         )}
+
+        {/* Programa de referidos */}
+        <div className="mt-16 max-w-2xl mx-auto">
+          <ReferralProgram />
+        </div>
       </div>
     </div>
   );
