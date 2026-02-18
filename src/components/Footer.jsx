@@ -1,5 +1,6 @@
 import { Mail, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -82,13 +83,16 @@ const Footer = () => {
               <ul className="space-y-2">
                 {links.map((link, linkIndex) => (
                   <li key={linkIndex}>
-                    <motion.a
-                      href={link.href}
-                      className="text-white/70 hover:text-vocari-primary transition-colors duration-300 text-sm block"
+                    <motion.div
                       whileHover={{ x: 4 }}
                     >
-                      {link.name}
-                    </motion.a>
+                      <Link
+                        to={link.href}
+                        className="text-white/70 hover:text-vocari-primary transition-colors duration-300 text-sm block"
+                      >
+                        {link.name}
+                      </Link>
+                    </motion.div>
                   </li>
                 ))}
               </ul>

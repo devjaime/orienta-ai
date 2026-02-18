@@ -1,6 +1,6 @@
 import { Menu, X, LogOut, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { getCurrentUser, signOut } from '../lib/supabase';
 
@@ -47,16 +47,15 @@ const Header = ({ onStartTest }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <motion.a
-            href="/"
+          <Link
+            to="/"
             className="flex items-center space-x-2"
-            whileHover={{ scale: 1.05 }}
           >
             <div className={`w-8 h-8 ${isB2B ? 'bg-vocari-light' : 'bg-vocari-primary'} rounded-lg flex items-center justify-center`}>
               <span className="text-white font-bold text-lg">V</span>
             </div>
             <span className="text-vocari-dark font-poppins font-semibold text-xl">Vocari</span>
-          </motion.a>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
@@ -69,21 +68,21 @@ const Header = ({ onStartTest }) => {
             <a href="#informes" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
               Informes
             </a>
-            <a href="/colegios" className="text-vocari-primary hover:text-vocari-light transition-colors duration-300 text-sm font-medium">
+            <Link to="/colegios" className="text-vocari-primary hover:text-vocari-light transition-colors duration-300 text-sm font-medium">
               Para Colegios
-            </a>
+            </Link>
           </nav>
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
             {!user ? (
               <>
-                <a
-                  href="/complete-profile"
+                <Link
+                  to="/complete-profile"
                   className="text-gray-600 hover:text-vocari-primary px-4 py-2 rounded-xl transition-all duration-300 font-medium text-sm"
                 >
                   Iniciar Sesion
-                </a>
+                </Link>
                 <button
                   onClick={onStartTest}
                   className="btn-primary text-sm px-6 py-2.5"
@@ -94,28 +93,28 @@ const Header = ({ onStartTest }) => {
             ) : (
               <div className="flex items-center gap-3">
                 {userRole === 'admin' && (
-                  <a
-                    href="/admin"
+                  <Link
+                    to="/admin"
                     className="text-vocari-primary hover:text-vocari-light transition-colors text-sm font-medium"
                   >
                     Admin
-                  </a>
+                  </Link>
                 )}
                 {(userRole === 'orientador' || userRole === 'admin') && (
-                  <a
-                    href="/orientador"
+                  <Link
+                    to="/orientador"
                     className="text-vocari-primary hover:text-vocari-light transition-colors text-sm font-medium"
                   >
                     Dashboard
-                  </a>
+                  </Link>
                 )}
                 {userRole === 'estudiante' && (
-                  <a
-                    href="/dashboard"
+                  <Link
+                    to="/dashboard"
                     className="text-vocari-primary hover:text-vocari-light transition-colors text-sm font-medium"
                   >
                     Mi Dashboard
-                  </a>
+                  </Link>
                 )}
 
                 <img
@@ -174,22 +173,22 @@ const Header = ({ onStartTest }) => {
               {user && (
                 <div className="pt-4 border-t border-gray-200 space-y-3">
                   {userRole === 'admin' && (
-                    <a
-                      href="/admin"
+                    <Link
+                      to="/admin"
                       className="flex items-center gap-2 bg-vocari-primary/10 text-vocari-primary px-4 py-3 rounded-xl w-full"
                     >
                       <User size={18} />
                       <span>Panel de Administracion</span>
-                    </a>
+                    </Link>
                   )}
                   {(userRole === 'orientador' || userRole === 'admin') && (
-                    <a
-                      href="/orientador"
+                    <Link
+                      to="/orientador"
                       className="flex items-center gap-2 bg-vocari-primary/10 text-vocari-primary px-4 py-3 rounded-xl w-full"
                     >
                       <User size={18} />
                       <span>Dashboard Orientador</span>
-                    </a>
+                    </Link>
                   )}
 
                   <div className="flex items-center justify-between bg-gray-50 rounded-xl p-3">

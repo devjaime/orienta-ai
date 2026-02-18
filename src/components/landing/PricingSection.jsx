@@ -1,5 +1,5 @@
 import { Check, Star, FileText, BarChart3, GraduationCap, UserCheck, Presentation, Sparkles, Eye } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const plans = [
@@ -70,13 +70,13 @@ const PricingSection = () => {
             viewport={{ once: true }}
             className="mt-6"
           >
-            <a
-              href="/demo-informe"
+            <Link
+              to="/demo-informe"
               className="inline-flex items-center gap-2 text-vocari-primary hover:text-vocari-light font-medium transition-colors"
             >
               <Eye size={18} />
               Ver ejemplo de informe
-            </a>
+            </Link>
           </motion.div>
         </motion.div>
 

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Compass, Sparkles, FileText, Play } from 'lucide-react';
 import { fadeUp, scaleIn } from '../lib/animations';
 
@@ -54,21 +55,21 @@ const Hero = ({ onStartTest }) => {
                 Descubre tu Vocacion
               </button>
 
-              <a
-                href="/colegios"
+              <Link
+                to="/colegios"
                 className="text-vocari-primary hover:text-vocari-light text-base px-6 py-4 flex items-center justify-center gap-2 font-medium transition-colors"
               >
                 Para colegios
                 <ArrowRight size={18} />
-              </a>
+              </Link>
 
-              <a
-                href="/demo-informe"
+              <Link
+                to="/demo-informe"
                 className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium px-4 py-2"
               >
                 <Play size={18} />
                 Ver ejemplo de informe
-              </a>
+              </Link>
             </motion.div>
 
             {/* Trust badges */}
