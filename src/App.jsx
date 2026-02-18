@@ -32,6 +32,9 @@ const B2BLandingPage = lazy(() => import('./pages/B2BLandingPage'));
 // Demo informe - lazy loading
 const DemoInforme = lazy(() => import('./pages/DemoInforme'));
 
+// Demo B2B dashboard - lazy loading
+const B2BDashboardDemo = lazy(() => import('./pages/B2BDashboardDemo'));
+
 // Componentes
 import WhatsAppFloat from './components/WhatsAppFloat';
 import UrgencyBanner from './components/UrgencyBanner';
@@ -71,6 +74,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/colegios" element={<B2BLandingPage />} />
           <Route path="/demo-informe" element={<DemoInforme />} />
+          <Route path="/demo-colegio" element={<B2BDashboardDemo />} />
           <Route path="/terminos" element={<TermsPage />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />

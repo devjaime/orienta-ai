@@ -54,10 +54,10 @@ const B2BHero = () => {
               <ArrowRight size={20} />
             </a>
             <a
-              href="/"
-              className="text-gray-600 hover:text-vocari-dark px-6 py-4 font-medium transition-colors text-center"
+              href="/demo-colegio"
+              className="border-2 border-vocari-primary text-vocari-primary px-8 py-4 rounded-2xl font-semibold hover:bg-vocari-primary hover:text-white transition-all duration-300 inline-flex items-center justify-center gap-2"
             >
-              Volver al inicio
+              Ver Demo Dashboard
             </a>
           </motion.div>
         </div>
