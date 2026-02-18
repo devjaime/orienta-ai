@@ -7,6 +7,7 @@ import HowItWorks from '../components/landing/HowItWorks';
 import PricingSection from '../components/landing/PricingSection';
 import FAQ from '../components/FAQ';
 import Benefits from '../components/Benefits';
+import Testimonials from '../components/Testimonials';
 import Footer from '../components/Footer';
 import AIChat from '../components/AIChat';
 
@@ -30,6 +31,7 @@ function LandingPage() {
         <ProblemSection />
         <HowItWorks />
         <Benefits />
+        <Testimonials />
         <PricingSection />
         <FAQ />
       </main>
