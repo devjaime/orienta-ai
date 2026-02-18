@@ -29,6 +29,9 @@ const SessionNotesPage = lazy(() => import('./pages/SessionNotesPage'));
 // Landing B2B - lazy loading
 const B2BLandingPage = lazy(() => import('./pages/B2BLandingPage'));
 
+// Componentes
+import WhatsAppFloat from './components/WhatsAppFloat';
+
 // Legal - lazy loading
 const TermsPage = lazy(() => import('./pages/TermsPage'));
 
@@ -48,6 +51,7 @@ const LoadingFallback = () => (
 function App() {
   return (
     <Router>
+      <WhatsAppFloat />
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
           {/* Rutas publicas */}
