@@ -205,6 +205,103 @@ export async function approveReport(reportId, notes = '') {
   return data;
 }
 
+// ========================================
+// GENERACIÓN DE REPORTES CON IA
+// ========================================
+
+const SUPABASE_URL = 'https://cbtdgaptdpfhaufyijnd.supabase.co';
+
+/**
+ * Genera un reporte vocacional usando Edge Function
+ * @param {Object} testResult - Resultado del test RIASEC
+ * @param {string} plan - Plan ('esencial' o 'premium')
+ * @param {string} userEmail - Email del usuario
+ * @returns {Promise<Object>} Reporte generado
+ */
+export async function generateReport(testResult, plan, userEmail) {
+  try {
+    // Llamar a la Edge Function
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/generate-report`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        testResult,
+        plan,
+        userEmail
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error generating report: ${response.status}`);
+    }
+
+    const result = await response.json();
+    
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to generate report');
+    }
+
+    // Guardar en la base de datos
+    const { data: reportData, error: dbError } = await supabase
+      .from('reports')
+      .insert({
+        user_id: (await getCurrentUser())?.id,
+        email: userEmail,
+        plan: plan,
+        riasec_profile: { dominant: result.perfil?.nombre, scores: testResult?.riasec },
+        recommendations: result.carreras,
+        html_content: result.html,
+        status: 'ready',
+        completed_at: new Date().toISOString()
+      })
+      .select()
+      .single();
+
+    if (dbError) {
+      console.error('Error saving report:', dbError);
+    }
+
+    return {
+      success: true,
+      html: result.html,
+      perfil: result.perfil,
+      carreras: result.carreras
+    };
+
+  } catch (error) {
+    console.error('Error in generateReport:', error);
+    throw error;
+  }
+}
+
+/**
+ * Obtiene la posición en la waitlist
+ * @param {string} email - Email del usuario
+ * @returns {Promise<number>} Posición en la waitlist
+ */
+export async function getWaitlistPosition(email) {
+  try {
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/waitlist`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        action: 'position',
+        email
+      })
+    });
+
+    const result = await response.json();
+    return result.position || 0;
+  } catch (error) {
+    console.error('Error getting waitlist position:', error);
+    return 0;
+  }
+}
+
 /**
  * Rechaza un informe con notas (admin/orientador)
  * @param {string} reportId - UUID del informe
