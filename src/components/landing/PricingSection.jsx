@@ -104,7 +104,7 @@ const PricingSection = () => {
               </ul>
 
               <button
-                onClick={() => navigate('/informes')}
+                onClick={() => window.open(plan.name === 'premium' ? 'https://www.paypal.com/ncp/payment/4CB6YZZS7G5VQ' : 'https://www.paypal.com/ncp/payment/DCEGNNL4FVNHA', '_blank')}
                 className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${plan.ctaStyle}`}
               >
                 {plan.cta}

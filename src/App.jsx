@@ -29,6 +29,9 @@ const SessionNotesPage = lazy(() => import('./pages/SessionNotesPage'));
 // Landing B2B - lazy loading
 const B2BLandingPage = lazy(() => import('./pages/B2BLandingPage'));
 
+// Legal - lazy loading
+const TermsPage = lazy(() => import('./pages/TermsPage'));
+
 // Componente de proteccion de rutas
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -50,6 +53,7 @@ function App() {
           {/* Rutas publicas */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/colegios" element={<B2BLandingPage />} />
+          <Route path="/terminos" element={<TermsPage />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/activate" element={<ActivateAccount />} />

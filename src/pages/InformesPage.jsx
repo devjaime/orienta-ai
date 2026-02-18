@@ -29,6 +29,8 @@ function InformesPage() {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState(null);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [showTermsError, setShowTermsError] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -53,6 +55,12 @@ function InformesPage() {
   };
 
   const handlePurchase = async (planId) => {
+    // Validar que aceptó los términos y condiciones
+    if (!acceptedTerms) {
+      setShowTermsError(true);
+      return;
+    }
+
     if (!user) {
       const { signInWithGoogle } = await import('../lib/supabase');
       await signInWithGoogle();
@@ -202,6 +210,45 @@ function InformesPage() {
                     </li>
                   ))}
                 </ul>
+
+                {/* Términos y Condiciones */}
+                <div className="mb-6 p-4 bg-gray-50 rounded-xl">
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={acceptedTerms}
+                      onChange={(e) => {
+                        setAcceptedTerms(e.target.checked);
+                        setShowTermsError(false);
+                      }}
+                      className="w-5 h-5 mt-0.5 text-vocari-primary rounded border-gray-300 focus:ring-vocari-primary"
+                    />
+                    <span className="text-sm text-gray-600">
+                      Acepto los{' '}
+                      <button
+                        type="button"
+                        onClick={() => window.open('/terminos', '_blank')}
+                        className="text-vocari-primary hover:underline font-medium"
+                      >
+                        Términos y Condiciones
+                      </button>
+                      {' '}y{' '}
+                      <button
+                        type="button"
+                        onClick={() => window.open('/privacidad', '_blank')}
+                        className="text-vocari-primary hover:underline font-medium"
+                      >
+                        Política de Privacidad
+                      </button>
+                      . Entiendo que el informe es un producto personalizado y no hay reembolsos.
+                    </span>
+                  </label>
+                  {showTermsError && (
+                    <p className="text-red-500 text-sm mt-2">
+                      Debes aceptar los Términos y Condiciones para continuar
+                    </p>
+                  )}
+                </div>
 
                 <button
                   onClick={() => handlePurchase(plan.id)}

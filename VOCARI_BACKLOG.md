@@ -113,8 +113,8 @@ B2B (Colegios)
 - [x] Landing page funcional
 - [x] Test RIASEC completo
 - [x] Resultados con carreras
-- [x] Sistema de pagos Flow
-- [ ] Términos y condiciones
+- [x] Sistema de pagos PayPal ($12 / $20 USD)
+- [x] Términos y condiciones
 - [ ] Política de privacidad
 - [ ] Email de confirmación
 - [ ] PDF del reporte
