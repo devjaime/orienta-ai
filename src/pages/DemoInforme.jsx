@@ -1,6 +1,10 @@
-import { useState, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { Download, Eye, FileText, BarChart3, GraduationCap, TrendingUp, Award, CheckCircle, MapPin, DollarSign, Users, Play, Pause, Volume2 } from 'lucide-react'
+import { useState, useRef, lazy, Suspense } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Download, Eye, FileText, BarChart3, GraduationCap, TrendingUp, Award, CheckCircle, MapPin, DollarSign, Users, Play, Pause, Volume2, Loader2 } from 'lucide-react'
+
+// Lazy load PDF viewer for performance
+const PDFViewer = lazy(() => import('@react-pdf/renderer').then(mod => ({ default: mod.PDFViewer })))
+const InformePDFComponent = lazy(() => import('../components/InformePDF'))
 
 // Ejemplo de datos de un perfil RIASEC
 const perfilEjemplo = {
@@ -73,6 +77,7 @@ const proyecciones = [
 export default function DemoInforme() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false)
+  const [showPdf, setShowPdf] = useState(false)
   const synthesisRef = useRef(null)
 
   // Audio explanation text
@@ -99,39 +104,15 @@ export default function DemoInforme() {
 
   const downloadPdf = async () => {
     setIsGeneratingPdf(true)
-    // Simple PDF generation - in production use @react-pdf/renderer
-    const content = `
-INFORME VOCACIONAL - VOCARI
-============================
+    // Show PDF viewer after a brief delay
+    setTimeout(() => {
+      setIsGeneratingPdf(false)
+      setShowPdf(true)
+    }, 500)
+  }
 
-PERFIL RIASEC: SIA
-${perfilEjemplo.nombre}
-
-${perfilEjemplo.descripcion}
-
-PUNTAJES POR DIMENSIÓN:
-- Social: ${perfilEjemplo.dimensiones.S}%
-- Investigativo: ${perfilEjemplo.dimensiones.I}%
-- Artístico: ${perfilEjemplo.dimensiones.A}%
-- Empresarial: ${perfilEjemplo.dimensiones.E}%
-- Convencional: ${perfilEjemplo.dimensiones.C}%
-- Realista: ${perfilEjemplo.dimensiones.R}%
-
-CARRERAS RECOMENDADAS:
-${carrerasEjemplo.map((c, i) => `${i + 1}. ${c.nombre} (${c.match}% match) - ${c.salary.min}-${c.salary.max} CLP`).join('\n')}
-
----
-Generado por Vocari.cl - Guía Vocacional con IA
-    `.trim()
-
-    const blob = new Blob([content], { type: 'text/plain' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'informe-vocacional-vocari.txt'
-    a.click()
-    URL.revokeObjectURL(url)
-    setIsGeneratingPdf(false)
+  const closePdf = () => {
+    setShowPdf(false)
   }
 
   return (
@@ -451,6 +432,62 @@ Generado por Vocari.cl - Guía Vocacional con IA
             </div>
           </div>
         </motion.section>
+
+        {/* PDF Viewer Modal */}
+        <AnimatePresence>
+          {showPdf && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+            >
+              <motion.div
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.9 }}
+                className="bg-white rounded-2xl w-full max-w-4xl h-[80vh] flex flex-col overflow-hidden"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between p-4 border-b">
+                  <h3 className="font-bold text-lg">Vista Previa del Informe</h3>
+                  <button
+                    onClick={closePdf}
+                    className="p-2 hover:bg-gray-100 rounded-lg"
+                  >
+                    ✕
+                  </button>
+                </div>
+                
+                {/* PDF Viewer */}
+                <div className="flex-1 bg-gray-100">
+                  <Suspense fallback={
+                    <div className="flex items-center justify-center h-full">
+                      <Loader2 className="animate-spin text-vocari-primary" size={40} />
+                    </div>
+                  }>
+                    <PDFViewer className="w-full h-full" showToolbar>
+                      <InformePDFComponent perfil={perfilEjemplo} carreras={carrerasEjemplo} />
+                    </PDFViewer>
+                  </Suspense>
+                </div>
+                
+                {/* Footer */}
+                <div className="p-4 border-t flex justify-between items-center">
+                  <p className="text-sm text-gray-500">
+                    Este es un ejemplo - Tu informe será personalizado
+                  </p>
+                  <a
+                    href="#informes"
+                    className="bg-vocari-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-vocari-light"
+                  >
+                    Obtener Mi Informe
+                  </a>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* CTA Final */}
         <motion.div
