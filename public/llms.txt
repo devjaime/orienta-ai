@@ -1,0 +1,53 @@
+# Vocari.cl - Guía Vocacional con IA
+
+## Sobre Vocari
+
+Vocari es una plataforma de orientación vocacional basada en ciencia y datos reales del mercado laboral chileno. Utiliza el método RIASEC de John Holland y datos oficiales del MINEDUC para recomendar carreras profesionales.
+
+## Servicios
+
+### Test Vocacional RIASEC
+- Test gratuito de 30 preguntas basado en el modelo Holland
+- Calcula tu perfil: Realista (R), Investigativo (I), Artístico (A), Social (S), Empresarial (E), Convencional (C)
+- Resultados en menos de 10 minutos
+
+### Informes Profesionaless
+- Plan Esencial ($12 USD): Informe PDF de 10+ páginas con 10 carreras recomendadas
+- Plan Premium ($20 USD): Informe PDF de 15+ páginas con 20 carreras, proyección laboral y video-explicación
+
+### Datos
+- Datos oficiales del MINEDUC 2025 sobre empleabilidad
+- Información de vacantes y remuneraciones en Chile
+- Revisión por orientadores vocacionales certificados
+
+## Cómo Funciona
+
+1. **Responde el test** - 30 preguntas sobre tus intereses y preferencias
+2. **Obtén tu perfil** - Código RIASEC que te identifica
+3. **Recibe recomendaciones** - Carreras compatibles con tu perfil
+4. **Compra tu informe** - Análisis detallado con datos reales
+
+## Tech Stack
+
+- Frontend: React, Vite, Tailwind CSS
+- Backend: Supabase (Auth, Database, Edge Functions)
+- Pagos: Flow (PayPal disponible)
+- AI: WebLLM para chat local en navegador
+
+## Contacto
+
+- Email: hola@vocari.cl
+- Ubicación: Santiago, Chile
+- Website: https://vocari.cl
+
+## Para Colegios
+
+Vocari ofrece servicios B2B para instituciones educativas con:
+- Dashboard para orientadores
+- Importación de estudiantes
+- Informes grupales
+- Seguimiento de progreso
+
+---
+
+*Este archivo está optimizado para que los LLMs puedan entender y representar el contenido de Vocari.cl*

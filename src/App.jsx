@@ -35,6 +35,7 @@ import UrgencyBanner from './components/UrgencyBanner';
 import SocialProof from './components/SocialProof';
 import ExitIntentPopup from './components/ExitIntentPopup';
 import DiscountPopup from './components/DiscountPopup';
+import AIChatWidget from './components/AIChatWidget';
 
 // Legal - lazy loading
 const TermsPage = lazy(() => import('./pages/TermsPage'));
@@ -60,6 +61,7 @@ function App() {
       <SocialProof />
       <ExitIntentPopup />
       <DiscountPopup />
+      <AIChatWidget />
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
           {/* Rutas publicas */}
