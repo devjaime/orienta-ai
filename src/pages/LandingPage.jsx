@@ -6,6 +6,7 @@ import ProblemSection from '../components/ProblemSection';
 import HowItWorks from '../components/landing/HowItWorks';
 import PricingSection from '../components/landing/PricingSection';
 import FAQ from '../components/FAQ';
+import Benefits from '../components/Benefits';
 import Footer from '../components/Footer';
 import AIChat from '../components/AIChat';
 
@@ -28,6 +29,7 @@ function LandingPage() {
         <Hero onStartTest={goToTest} />
         <ProblemSection />
         <HowItWorks />
+        <Benefits />
         <PricingSection />
         <FAQ />
       </main>
