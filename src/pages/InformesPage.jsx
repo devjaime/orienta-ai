@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { FileText, BarChart3, GraduationCap, UserCheck, Presentation, Sparkles, Check, Star, ArrowLeft, AlertCircle } from 'lucide-react';
 import { getCurrentUser, getLatestTestResult } from '../lib/supabase';
 import { getReportPlans, createCheckoutSession, formatPriceCLP } from '../lib/reportService';
