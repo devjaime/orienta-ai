@@ -1,59 +1,100 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FileText, BarChart3, GraduationCap, UserCheck, Presentation, Sparkles, Check, Star, ArrowRight, Shield, Clock, Target, Brain, Users, ChevronRight, X, CheckCircle, AlertCircle } from 'lucide-react';
-import { getCurrentUser, getLatestTestResult } from '../lib/supabase';
-import { getReportPlans, createCheckoutSession, formatPriceCLP } from '../lib/reportService';
-import SimpleCheckout from '../components/SimpleCheckout';
+import { Building2, Users, GraduationCap, CheckCircle, ArrowRight, Shield, BarChart3, FileText, Star, Calculator, School, ChevronRight, AlertCircle } from 'lucide-react';
+import { getCurrentUser } from '../lib/supabase';
 
-const BENEFITS = [
+const FEATURES = [
   {
-    icon: Target,
-    title: 'Basado en Método RIASEC',
-    description: 'Método científico validado internacionalmente para orientación vocacional'
+    icon: BarChart3,
+    title: 'Dashboard en Tiempo Real',
+    description: 'Visualiza el progreso de todos tus estudiantes y genera reportes instantáneos'
   },
   {
-    icon: Brain,
-    title: 'Datos Reales MINEDUC',
-    description: 'Información actualizada de carreras, mallas y ponderaciones de universidades chilenas'
+    icon: FileText,
+    title: 'Informes Individuales',
+    description: 'Cada estudiante recibe su informe vocacional personalizado basado en RIASEC'
   },
   {
-    icon: Users,
-    title: 'Revisado por Orientadores',
-    description: 'Profesionales certificados supervisan cada informe antes de entregártelo'
+    icon: GraduationCap,
+    title: 'Datos MINEDUC Oficiales',
+    description: 'Información actualizada de carreras, universidades y ponderaciones válidas'
   },
   {
     icon: Shield,
-    title: '100% Seguro y Confidencial',
-    description: 'Tus datos están protegidos con los más altos estándares de seguridad'
+    title: 'Apoyo de Orientadores',
+    description: 'Equipo de orientadores certificados disponibles para consultas y soporte'
   }
 ];
 
 const PLAN_FEATURES = {
-  esencial: [
-    { icon: FileText, text: 'Informe PDF completo (20+ páginas)' },
-    { icon: BarChart3, text: 'Análisis detallado de tu perfil RIASEC' },
-    { icon: GraduationCap, text: '10 carreras recomendadas con datos MINEDUC' },
-    { icon: UserCheck, text: 'Revisión por orientador certificado' }
+  basico: [
+    '30 estudiantes',
+    'Test RIASEC completo',
+    'Informe individual por estudiante',
+    'Dashboard del colegio',
+    'Soporte por email'
   ],
-  premium: [
-    { icon: FileText, text: 'Informe PDF completo (30+ páginas)' },
-    { icon: BarChart3, text: 'Análisis profundo de tu perfil RIASEC' },
-    { icon: GraduationCap, text: '20 carreras recomendadas con datos MINEDUC' },
-    { icon: UserCheck, text: 'Revisión prioritaria por orientador' },
-    { icon: Presentation, text: 'Explicación visual personalizada' },
-    { icon: Sparkles, text: 'Resumen ejecutivo animado' }
+  profesional: [
+    '100 estudiantes',
+    'Test RIASEC completo',
+    'Informe individual premium',
+    'Dashboard avanzado',
+    'Soporte prioritario',
+    'Capacitación para orientadores',
+    'Análisis de cohortes'
+  ],
+  institucional: [
+    'Estudiantes ilimitados',
+    'Test RIASEC completo',
+    'Informe individual premium',
+    'Dashboard enterprise',
+    'Soporte dedicado 24/7',
+    'Capacitación completa',
+    'Análisis personalizado',
+    'API integration'
   ]
 };
+
+const PLANS = [
+  {
+    id: 'basico',
+    name: 'Básico',
+    price: 150000,
+    description: 'Ideal para colegios pequeños',
+    features: PLAN_FEATURES.basico,
+    popular: false
+  },
+  {
+    id: 'profesional',
+    name: 'Profesional',
+    price: 350000,
+    description: 'Para colegios medianos',
+    features: PLAN_FEATURES.profesional,
+    popular: true
+  },
+  {
+    id: 'institucional',
+    name: 'Institucional',
+    price: null,
+    description: 'Para grandes instituciones',
+    features: PLAN_FEATURES.institucional,
+    popular: false
+  }
+];
 
 export default function InformePage() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [testResult, setTestResult] = useState(null);
-  const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showCheckout, setShowCheckout] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [formData, setFormData] = useState({
+    nombre: '',
+    email: '',
+    colegio: '',
+    estudiantes: '',
+    mensaje: ''
+  });
 
   useEffect(() => {
     loadData();
@@ -61,45 +102,40 @@ export default function InformePage() {
 
   const loadData = async () => {
     try {
-      const [currentUser, latestTest, reportPlans] = await Promise.all([
-        getCurrentUser(),
-        getLatestTestResult(),
-        getReportPlans()
-      ]);
-      
+      const currentUser = await getCurrentUser();
       setUser(currentUser);
-      setTestResult(latestTest);
-      setPlans(reportPlans);
     } catch (error) {
-      console.error('Error loading informe page:', error);
+      console.error('Error loading page:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleSubmitQuote = (e) => {
+    e.preventDefault();
+    // Aquí enviarías los datos a tu backend o email
+    alert('¡Gracias! Nos contactaremos pronto contigo.');
+    setShowContactForm(false);
+  };
+
   const handleSelectPlan = (plan) => {
+    if (plan.id === 'institucional') {
+      setShowContactForm(true);
+      return;
+    }
     if (!user) {
       navigate('/auth/callback?redirect=/informe');
       return;
     }
-    if (!testResult) {
-      navigate('/test');
-      return;
-    }
-    setSelectedPlan(plan);
-    setShowCheckout(true);
-  };
-
-  const handleCloseCheckout = () => {
-    setShowCheckout(false);
-    setSelectedPlan(null);
+    // Aquí navegarías al checkout de Stripe para el plan
+    navigate('/demo-colegio');
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-white/70">Cargando...</p>
         </div>
       </div>
@@ -107,17 +143,23 @@ export default function InformePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       {/* Header */}
       <header className="border-b border-white/10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <button 
             onClick={() => navigate('/')} 
-            className="text-white font-bold text-xl hover:text-purple-400 transition-colors"
+            className="text-white font-bold text-xl hover:text-blue-400 transition-colors"
           >
-            Vocari<span className="text-purple-400">.cl</span>
+            Vocari<span className="text-blue-400">.cl</span>
           </button>
           <div className="flex items-center gap-4">
+            <button 
+              onClick={() => navigate('/')}
+              className="text-white/70 hover:text-white transition-colors text-sm"
+            >
+              Inicio
+            </button>
             {user ? (
               <button 
                 onClick={() => navigate('/dashboard')}
@@ -128,7 +170,7 @@ export default function InformePage() {
             ) : (
               <button 
                 onClick={() => navigate('/auth/callback?redirect=/informe')}
-                className="text-white/70 hover:text-white transition-colors text-sm"
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-600 transition-colors"
               >
                 Iniciar Sesión
               </button>
@@ -145,74 +187,65 @@ export default function InformePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-purple-500/20 text-purple-300 text-sm font-medium mb-6">
-              📊 Tu futuro académico en un documento
+            <span className="inline-block px-4 py-1.5 rounded-full bg-blue-500/20 text-blue-300 text-sm font-medium mb-6">
+              🏫 Para Colegios y Establecimientos Educacionales
             </span>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-              Obtén tu{' '}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Informe Vocacional
-              </span>{' '}
-              Profesional
+              Orientación Vocacional{' '}
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                para tu Colegio
+              </span>
             </h1>
             <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
-              Un análisis completo basado en el método científico RIASEC, 
-              datos reales del MINEDUC y revisado por orientadores certificados.
+              Implementa el test vocacional RIASEC con datos reales del MINEDUC. 
+              Tus estudiantes merecen una orientación profesional basada en evidencia.
             </p>
 
-            {/* Test Status */}
-            {user && testResult && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-3 bg-green-500/20 border border-green-500/30 rounded-full px-6 py-2 mb-8"
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button
+                onClick={() => document.getElementById('planes').scrollIntoView({ behavior: 'smooth' })}
+                className="bg-blue-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2"
               >
-                <CheckCircle className="text-green-400" size={20} />
-                <span className="text-white">
-                  Perfil <span className="font-bold text-green-400">{testResult.codigo_holland}</span> detectado
-                </span>
-              </motion.div>
-            )}
-
-            {user && !testResult && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-3 bg-yellow-500/20 border border-yellow-500/30 rounded-full px-6 py-2 mb-8"
+                Ver Planes
+                <ArrowRight size={18} />
+              </button>
+              <button
+                onClick={() => navigate('/demo-colegio')}
+                className="bg-white/10 text-white px-8 py-3 rounded-xl font-semibold hover:bg-white/20 transition-colors border border-white/20"
               >
-                <AlertCircle className="text-yellow-400" size={20} />
-                <span className="text-white">
-                  ¡Completa el test primero!
-                </span>
-                <button 
-                  onClick={() => navigate('/test')}
-                  className="ml-2 bg-yellow-500 text-black px-4 py-1 rounded-full text-sm font-semibold hover:bg-yellow-400 transition-colors"
-                >
-                  Hacer Test
-                </button>
-              </motion.div>
-            )}
+                Ver Demo
+              </button>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Benefits */}
+      {/* Features */}
       <section className="py-16 px-4 bg-white/5">
         <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              ¿Por qué elegir Vocari?
+            </h2>
+            <p className="text-white/60">
+              La herramienta de orientación vocacional más completa para colegios chilenos
+            </p>
+          </div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {BENEFITS.map((benefit, index) => (
+            {FEATURES.map((feature, index) => (
               <motion.div
-                key={benefit.title}
+                key={feature.title}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors"
               >
-                <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4">
-                  <benefit.icon className="text-purple-400" size={24} />
+                <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4">
+                  <feature.icon className="text-blue-400" size={24} />
                 </div>
-                <h3 className="text-white font-semibold mb-2">{benefit.title}</h3>
-                <p className="text-white/50 text-sm">{benefit.description}</p>
+                <h3 className="text-white font-semibold mb-2">{feature.title}</h3>
+                <p className="text-white/50 text-sm">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -220,98 +253,122 @@ export default function InformePage() {
       </section>
 
       {/* Planes */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto">
+      <section id="planes" className="py-20 px-4">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">
-              Elige tu Plan
+              Planes para Colegios
             </h2>
             <p className="text-white/60">
-              Ambos planes incluyen revisión por orientador certificado
+              Elige el plan que mejor se adapte a tus necesidades
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {plans.map((plan, index) => {
-              const isPremium = plan.name === 'premium';
-              const features = PLAN_FEATURES[plan.name] || [];
+          <div className="grid md:grid-cols-3 gap-8">
+            {PLANS.map((plan, index) => (
+              <motion.div
+                key={plan.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+                className={`relative rounded-2xl p-8 ${
+                  plan.popular 
+                    ? 'bg-gradient-to-br from-blue-600 to-cyan-600 border-2 border-blue-400' 
+                    : 'bg-white/10 border border-white/20'
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                    <span className="flex items-center gap-1 bg-white text-blue-900 text-sm font-bold px-4 py-1.5 rounded-full">
+                      <Star size={14} className="fill-current" />
+                      Más Popular
+                    </span>
+                  </div>
+                )}
 
-              return (
-                <motion.div
-                  key={plan.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.15 }}
-                  className={`relative rounded-2xl p-8 ${
-                    isPremium 
-                      ? 'bg-gradient-to-br from-purple-600 to-pink-600 border-2 border-purple-400' 
-                      : 'bg-white/10 border border-white/20'
-                  }`}
-                >
-                  {isPremium && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                      <span className="flex items-center gap-1 bg-white text-purple-900 text-sm font-bold px-4 py-1.5 rounded-full">
-                        <Star size={14} className="fill-current" />
-                        Más Popular
-                      </span>
-                    </div>
-                  )}
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  {plan.name}
+                </h3>
+                <p className="text-white/60 text-sm mb-4">
+                  {plan.description}
+                </p>
 
-                  <h3 className="text-2xl font-bold text-white mb-2">
-                    {plan.display_name}
-                  </h3>
-
+                {plan.price ? (
                   <div className="flex items-baseline gap-1 mb-6">
                     <span className="text-4xl font-bold text-white">
-                      {formatPriceCLP(plan.price_clp)}
+                      ${plan.price.toLocaleString('es-CL')}
                     </span>
-                    <span className="text-white/60 text-sm">CLP</span>
+                    <span className="text-white/60 text-sm">/mes</span>
                   </div>
+                ) : (
+                  <div className="mb-6">
+                    <span className="text-3xl font-bold text-white">
+                      Custom
+                    </span>
+                  </div>
+                )}
 
-                  <ul className="space-y-3 mb-8">
-                    {features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <Check className="text-white mt-0.5 flex-shrink-0" size={18} />
-                        <span className="text-white/90 text-sm">{feature.text}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircle className="text-white mt-0.5 flex-shrink-0" size={18} />
+                      <span className="text-white/90 text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
 
-                  <button
-                    onClick={() => handleSelectPlan(plan)}
-                    className={`w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all ${
-                      isPremium
-                        ? 'bg-white text-purple-900 hover:bg-white/90'
-                        : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
-                    }`}
-                  >
-                    {isPremium ? 'Obtener Premium' : 'Obtener Esencial'}
-                    <ArrowRight size={18} />
-                  </button>
-                </motion.div>
-              );
-            })}
+                <button
+                  onClick={() => handleSelectPlan(plan)}
+                  className={`w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-2 transition-all ${
+                    plan.popular
+                     -center gap ? 'bg-white text-blue-900 hover:bg-white/90'
+                      : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                  }`}
+                >
+                  {plan.id === 'institucional' ? 'Solicitar Cotización' : 'Comenzar'}
+                  <ChevronRight size={18} />
+                </button>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ / Trust */}
+      {/* Stats / Trust */}
       <section className="py-16 px-4 border-t border-white/10">
         <div className="max-w-3xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
-              <div className="text-3xl font-bold text-white mb-1">5000+</div>
-              <div className="text-white/50 text-sm">Informes entregados</div>
+              <div className="text-3xl font-bold text-white mb-1">50+</div>
+              <div className="text-white/50 text-sm">Colegios aliados</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-white mb-1">4.9/5</div>
+              <div className="text-3xl font-bold text-white mb-1">10000+</div>
+              <div className="text-white/50 text-sm">Estudiantes evaluados</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-white mb-1">4.8/5</div>
               <div className="text-white/50 text-sm">Satisfacción</div>
             </div>
-            <div>
-              <div className="text-3xl font-bold text-white mb-1">48h</div>
-              <div className="text-white/50 text-sm">Tiempo de entrega</div>
-            </div>
           </div>
+        </div>
+      </section>
+
+      {/* CTA Final */}
+      <section className="py-16 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl font-bold text-white mb-4">
+            ¿Listo para transformar la orientación vocacional de tu colegio?
+          </h2>
+          <p className="text-white/60 mb-8">
+            Agenda una demostración sin costo y conoce cómo Vocari puede ayudar a tus estudiantes.
+          </p>
+          <button
+            onClick={() => setShowContactForm(true)}
+            className="bg-blue-500 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors"
+          >
+            Solicitar Cotización
+          </button>
         </div>
       </section>
 
@@ -328,14 +385,87 @@ export default function InformePage() {
         </div>
       </footer>
 
-      {/* Checkout Modal */}
-      {showCheckout && selectedPlan && (
-        <SimpleCheckout
-          plan={selectedPlan}
-          user={user}
-          testResult={testResult}
-          onClose={handleCloseCheckout}
-        />
+      {/* Contact Form Modal */}
+      {showContactForm && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-slate-800 rounded-2xl p-8 max-w-md w-full border border-white/10"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-white">Solicitar Cotización</h3>
+              <button 
+                onClick={() => setShowContactForm(false)}
+                className="text-white/40 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmitQuote} className="space-y-4">
+              <div>
+                <label className="block text-white/70 text-sm mb-1">Nombre</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.nombre}
+                  onChange={(e) => setFormData({...formData, nombre: e.target.value})}
+                  className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-blue-500"
+                  placeholder="Juan Pérez"
+                />
+              </div>
+              <div>
+                <label className="block text-white/70 text-sm mb-1">Email</label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-blue-500"
+                  placeholder="juan@colegio.cl"
+                />
+              </div>
+              <div>
+                <label className="block text-white/70 text-sm mb-1">Colegio</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.colegio}
+                  onChange={(e) => setFormData({...formData, colegio: e.target.value})}
+                  className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-blue-500"
+                  placeholder="Colegio Nacional"
+                />
+              </div>
+              <div>
+                <label className="block text-white/70 text-sm mb-1">Número de estudiantes</label>
+                <input
+                  type="number"
+                  value={formData.estudiantes}
+                  onChange={(e) => setFormData({...formData, estudiantes: e.target.value})}
+                  className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-blue-500"
+                  placeholder="500"
+                />
+              </div>
+              <div>
+                <label className="block text-white/70 text-sm mb-1">Mensaje (opcional)</label>
+                <textarea
+                  value={formData.mensaje}
+                  onChange={(e) => setFormData({...formData, mensaje: e.target.value})}
+                  className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-blue-500"
+                  rows={3}
+                  placeholder="¿Tienes alguna pregunta específica?"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+              >
+                Enviar Solicitud
+              </button>
+            </form>
+          </motion.div>
+        </div>
       )}
     </div>
   );
