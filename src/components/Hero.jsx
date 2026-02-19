@@ -57,7 +57,7 @@ const Hero = ({ onStartTest }) => {
 
               <Link
                 to="/colegios"
-                className="bg-vocari-b2b text-white hover:bg-teal-700 text-lg px-10 py-4 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md"
+                className="bg-vocari-primary text-white hover:bg-vocari-light text-lg px-10 py-4 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md border-2 border-vocari-accent"
               >
                 🏫 Para Colegios
               </Link>
