@@ -47,33 +47,30 @@ const Hero = ({ onStartTest }) => {
               transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <button
-                onClick={onStartTest}
+              <Link
+                to="/informes"
                 className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center gap-2"
               >
-                <Sparkles size={20} />
-                Descubre tu Vocacion
-              </button>
+                <FileText size={20} />
+                Comprar Informe
+              </Link>
 
               <Link
                 to="/colegios"
-                className="bg-vocari-b2b text-white hover:bg-teal-700 text-base px-6 py-4 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md"
+                className="bg-vocari-b2b text-white hover:bg-teal-700 text-lg px-10 py-4 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md"
               >
                 🏫 Para Colegios
-                <ArrowRight size={18} />
-              </Link>
-              <span className="text-xs text-gray-400 mt-1">
-                Licencias para instituciones educativas
-              </span>
-
-              <Link
-                to="/demo-informe"
-                className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium px-4 py-2"
-              >
-                <Play size={18} />
-                Ver ejemplo de informe
               </Link>
             </motion.div>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.7 }}
+              className="text-sm text-gray-500 mt-4"
+            >
+              ¿Primero hacer el test? <button onClick={onStartTest} className="text-vocari-primary underline hover:no-underline">Comenzar gratis</button>
+            </motion.p>
 
             {/* Trust badges */}
             <motion.div
