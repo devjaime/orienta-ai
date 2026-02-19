@@ -68,7 +68,7 @@ const Header = ({ onStartTest }) => {
             <a href="#informes" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
               Informes
             </a>
-            <Link to="/colegios" className="text-vocari-primary hover:text-vocari-light transition-colors duration-300 text-sm font-medium">
+            <Link to="/informe" className="text-vocari-primary hover:text-vocari-light transition-colors duration-300 text-sm font-medium">
               Para Colegios
             </Link>
           </nav>
@@ -160,7 +160,7 @@ const Header = ({ onStartTest }) => {
               <a href="#informes" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300">
                 Informes
               </a>
-              <a href="/colegios" className="text-vocari-b2b hover:text-teal-700 transition-colors duration-300 font-medium">
+              <a href="/informe" className="text-vocari-b2b hover:text-teal-700 transition-colors duration-300 font-medium">
                 Para Colegios
               </a>
               <button
