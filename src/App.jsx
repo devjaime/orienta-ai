@@ -65,11 +65,11 @@ const LoadingFallback = () => (
 function App() {
   return (
     <Router>
-      <UrgencyBanner />
+      {/* UrgencyBanner - disabled */}
       <WhatsAppFloat />
       <SocialProof />
-      <ExitIntentPopup />
-      <DiscountPopup />
+      {/* ExitIntentPopup - disabled */}
+      {/* DiscountPopup - disabled */}
       <AIChatWidget />
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
