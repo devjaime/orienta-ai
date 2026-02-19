@@ -57,20 +57,18 @@ const Hero = ({ onStartTest }) => {
 
               <Link
                 to="/colegios"
-                className="bg-vocari-primary text-white hover:bg-vocari-light text-lg px-10 py-4 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md border-2 border-vocari-accent"
+                className="bg-vocari-primary text-white hover:bg-vocari-light text-lg px-10 py-4 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md border-2 border-vocari-accent cursor-pointer"
               >
                 🏫 Para Colegios
               </Link>
+              
+              <Link
+                to="/test"
+                className="text-vocari-primary underline hover:no-underline text-sm"
+              >
+                ¿Primero hacer el test? Comenzar gratis
+              </Link>
             </motion.div>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.7 }}
-              className="text-sm text-gray-500 mt-4"
-            >
-              ¿Primero hacer el test? <button onClick={onStartTest} className="text-vocari-primary underline hover:no-underline">Comenzar gratis</button>
-            </motion.p>
 
             {/* Trust badges */}
             <motion.div
