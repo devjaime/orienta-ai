@@ -97,9 +97,9 @@ export default function InformePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-vocari-primary flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-vocari-accent border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-white/70">Cargando...</p>
         </div>
       </div>
@@ -107,15 +107,15 @@ export default function InformePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-vocari-primary">
       {/* Header */}
       <header className="border-b border-white/10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <button 
             onClick={() => navigate('/')} 
-            className="text-white font-bold text-xl hover:text-purple-400 transition-colors"
+            className="text-white font-bold text-xl hover:text-vocari-accent transition-colors"
           >
-            Vocari<span className="text-purple-400">.cl</span>
+            Vocari<span className="text-vocari-accent">.cl</span>
           </button>
           <div className="flex items-center gap-4">
             <button 
@@ -157,12 +157,12 @@ export default function InformePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-purple-500/20 text-purple-300 text-sm font-medium mb-6">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-vocari-accent/20 text-vocari-accent text-sm font-medium mb-6">
               📊 Tu futuro académico en un documento
             </span>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
               Obtén tu{' '}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="text-vocari-accent">
                 Informe Vocacional
               </span>{' '}
               Profesional
@@ -209,7 +209,7 @@ export default function InformePage() {
       </section>
 
       {/* Benefits */}
-      <section className="py-16 px-4 bg-white/5">
+      <section className="py-16 px-4 bg-vocari-light/5">
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {BENEFITS.map((benefit, index) => (
@@ -218,10 +218,10 @@ export default function InformePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors"
+                className="bg-vocari-light/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-vocari-light/20 transition-colors"
               >
-                <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4">
-                  <benefit.icon className="text-purple-400" size={24} />
+                <div className="w-12 h-12 bg-vocari-accent/20 rounded-xl flex items-center justify-center mb-4">
+                  <benefit.icon className="text-vocari-accent" size={24} />
                 </div>
                 <h3 className="text-white font-semibold mb-2">{benefit.title}</h3>
                 <p className="text-white/50 text-sm">{benefit.description}</p>
@@ -256,13 +256,13 @@ export default function InformePage() {
                   transition={{ duration: 0.5, delay: index * 0.15 }}
                   className={`relative rounded-2xl p-8 ${
                     isPremium 
-                      ? 'bg-gradient-to-br from-purple-600 to-pink-600 border-2 border-purple-400' 
-                      : 'bg-white/10 border border-white/20'
+                      ? 'bg-vocari-accent border-2 border-vocari-accent' 
+                      : 'bg-vocari-light/10 border border-white/20'
                   }`}
                 >
                   {isPremium && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                      <span className="flex items-center gap-1 bg-white text-purple-900 text-sm font-bold px-4 py-1.5 rounded-full">
+                      <span className="flex items-center gap-1 bg-vocari-primary text-white text-sm font-bold px-4 py-1.5 rounded-full">
                         <Star size={14} className="fill-current" />
                         Más Popular
                       </span>
@@ -293,8 +293,8 @@ export default function InformePage() {
                     onClick={() => handleSelectPlan(plan)}
                     className={`w-full py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all ${
                       isPremium
-                        ? 'bg-white text-purple-900 hover:bg-white/90'
-                        : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                        ? 'bg-vocari-primary text-white hover:bg-vocari-light'
+                        : 'bg-vocari-accent text-vocari-dark-text hover:bg-vocari-accent/90'
                     }`}
                   >
                     {isPremium ? 'Obtener Premium' : 'Obtener Esencial'}
