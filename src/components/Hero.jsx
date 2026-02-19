@@ -57,11 +57,14 @@ const Hero = ({ onStartTest }) => {
 
               <Link
                 to="/colegios"
-                className="text-vocari-primary hover:text-vocari-light text-base px-6 py-4 flex items-center justify-center gap-2 font-medium transition-colors"
+                className="bg-vocari-b2b text-white hover:bg-teal-700 text-base px-6 py-4 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md"
               >
-                Para colegios
+                🏫 Para Colegios
                 <ArrowRight size={18} />
               </Link>
+              <span className="text-xs text-gray-400 mt-1">
+                Licencias para instituciones educativas
+              </span>
 
               <Link
                 to="/demo-informe"
