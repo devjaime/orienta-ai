@@ -20,6 +20,9 @@ const InformesPage = lazy(() => import('./pages/InformesPage'));
 const MisInformesPage = lazy(() => import('./pages/MisInformesPage'));
 const FlowReturnPage = lazy(() => import('./pages/FlowReturnPage'));
 
+// Landing page para compra de informes B2C
+const InformePage = lazy(() => import('./pages/InformePage'));
+
 // Paginas del sistema orientador - lazy loading
 const OrientadorDashboardPage = lazy(() => import('./pages/OrientadorDashboardPage'));
 const OrientadorStudentProfilePage = lazy(() => import('./pages/OrientadorStudentProfilePage'));
@@ -72,6 +75,7 @@ function App() {
         <Routes>
           {/* Rutas publicas */}
           <Route path="/" element={<LandingPage />} />
+          <Route path="/informe" element={<InformePage />} />
           <Route path="/colegios" element={<B2BLandingPage />} />
           <Route path="/demo-informe" element={<DemoInforme />} />
           <Route path="/demo-colegio" element={<B2BDashboardDemo />} />
