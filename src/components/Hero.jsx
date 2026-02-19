@@ -45,11 +45,11 @@ const Hero = ({ onStartTest }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center z-10 relative"
             >
               <Link
                 to="/informes"
-                className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center gap-2"
+                className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center gap-2 z-20 relative"
               >
                 <FileText size={20} />
                 Comprar Informe
@@ -57,14 +57,14 @@ const Hero = ({ onStartTest }) => {
 
               <Link
                 to="/colegios"
-                className="bg-vocari-primary text-white hover:bg-vocari-light text-lg px-10 py-4 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md border-2 border-vocari-accent cursor-pointer"
+                className="bg-vocari-primary text-white hover:bg-vocari-light text-lg px-10 py-4 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md border-2 border-vocari-accent z-20 relative"
               >
                 🏫 Para Colegios
               </Link>
               
               <Link
                 to="/test"
-                className="text-vocari-primary underline hover:no-underline text-sm"
+                className="text-vocari-primary underline hover:no-underline text-sm z-20 relative"
               >
                 ¿Primero hacer el test? Comenzar gratis
               </Link>
