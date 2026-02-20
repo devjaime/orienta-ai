@@ -48,6 +48,7 @@ import AIChatWidget from './components/AIChatWidget';
 
 // Legal - lazy loading
 const TermsPage = lazy(() => import('./pages/TermsPage'));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 
 // Componente de proteccion de rutas
 import ProtectedRoute from './components/ProtectedRoute';
@@ -80,6 +81,7 @@ function App() {
           <Route path="/demo-informe" element={<DemoInforme />} />
           <Route path="/demo-colegio" element={<B2BDashboardDemo />} />
           <Route path="/terminos" element={<TermsPage />} />
+          <Route path="/privacidad" element={<PrivacyPage />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/activate" element={<ActivateAccount />} />

@@ -82,12 +82,12 @@ export default function TermsPage() {
                     <tbody className="text-gray-600">
                       <tr className="border-b border-gray-100">
                         <td className="py-2">Esencial</td>
-                        <td className="py-2">$12 USD</td>
+                        <td className="py-2">$10.990 CLP</td>
                         <td className="py-2">Informe PDF + Análisis RIASEC + Carreras MINEDUC + Revisión orientador</td>
                       </tr>
                       <tr>
                         <td className="py-2">Premium</td>
-                        <td className="py-2">$20 USD</td>
+                        <td className="py-2">$14.990 CLP</td>
                         <td className="py-2">Todo lo anterior + Explicación visual personalizada + Resumen animado</td>
                       </tr>
                     </tbody>
@@ -96,8 +96,9 @@ export default function TermsPage() {
 
                 <h3 className="font-semibold text-vocari-dark">3.2 Proceso de Pago</h3>
                 <p>
-                  Los pagos se procesan de forma segura a través de <strong>PayPal</strong>. 
-                  Al realizar el pago, aceptas las políticas de PayPal. Vocari no almacena tus datos de pago.
+                  Los pagos se procesan de forma segura a través de <strong>Flow.cl</strong> 
+                  (plataforma de pagos chilena). Al realizar el pago, aceptas las políticas de Flow.cl. 
+                  Vocari no almacena tus datos de pago.
                 </p>
 
                 <h3 className="font-semibold text-vocari-dark">3.3 Entrega del Informe</h3>
