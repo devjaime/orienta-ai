@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { riasecQuestions, scaleLabels, validateResponses } from '../data/riasecQuestions';
-import GoogleSignIn from '../components/GoogleSignIn';
 import { getCurrentUser, supabase } from '../lib/supabase';
 import SaturationAlert from '../components/SaturationAlert';
 import { checkPartialTestSaturation } from '../lib/saturationChecker';
@@ -11,7 +10,6 @@ import { checkPartialTestSaturation } from '../lib/saturationChecker';
 function TestRIASEC() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState({});
   const [startTime] = useState(Date.now());
@@ -25,10 +23,9 @@ function TestRIASEC() {
 
   // Verificar saturación en el punto medio del test
   useEffect(() => {
-    const MIDPOINT = 15; // Mitad del test (30 preguntas)
+    const MIDPOINT = 15;
     const answeredCount = Object.keys(responses).length;
 
-    // Solo verificar una vez cuando llegamos al punto medio
     if (answeredCount >= MIDPOINT && !alertCheckpoint && !alertDismissed) {
       checkSaturation();
       setAlertCheckpoint(true);
@@ -36,7 +33,6 @@ function TestRIASEC() {
   }, [responses, alertCheckpoint, alertDismissed]);
 
   const checkSaturation = () => {
-    // Calcular puntajes parciales
     const partialScores = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
 
     Object.entries(responses).forEach(([questionId, value]) => {
@@ -46,7 +42,6 @@ function TestRIASEC() {
       }
     });
 
-    // Verificar si hay alertas de saturación
     const result = checkPartialTestSaturation(partialScores);
 
     if (result.show && result.message) {
@@ -55,29 +50,9 @@ function TestRIASEC() {
   };
 
   const checkAuth = async () => {
+    // TEST PÚBLICO: No requerimos login
     const currentUser = await getCurrentUser();
     setUser(currentUser);
-
-    if (!currentUser) {
-      setShowAuthModal(true);
-      return;
-    }
-
-    // Verificar si el usuario completó su perfil
-    const { data: profile, error } = await supabase
-      .from('user_profiles')
-      .select('*')
-      .eq('user_id', currentUser.id)
-      .single();
-
-    if (error && error.code !== 'PGRST116') {
-      console.error('Error checking profile:', error);
-    }
-
-    if (!profile) {
-      // No tiene perfil completo, redirigir a completar perfil
-      navigate('/complete-profile');
-    }
   };
 
   const handleResponse = (questionId, value) => {
@@ -109,54 +84,17 @@ function TestRIASEC() {
       return;
     }
 
-    // Calcular duración
-    const duracion = Math.round((Date.now() - startTime) / 60000); // minutos
-
-    // Guardar respuestas y navegar a resultados
+    const duracion = Math.round((Date.now() - startTime) / 60000);
     sessionStorage.setItem('test_responses', JSON.stringify(responses));
     sessionStorage.setItem('test_duration', duracion.toString());
+    sessionStorage.setItem('test_user_id', user?.id || 'anonymous');
 
     navigate('/resultados');
   };
 
   const question = riasecQuestions[currentQuestion];
-  const isAnswered = responses[question.id] !== undefined;
   const progress = ((currentQuestion + 1) / riasecQuestions.length) * 100;
   const answeredCount = Object.keys(responses).length;
-
-  // Modal de autenticación
-  if (showAuthModal && !user) {
-    return (
-      <div className="min-h-screen bg-vocari-bg flex items-center justify-center p-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-white border border-gray-200 rounded-2xl p-8 max-w-md w-full shadow-lg"
-        >
-          <h2 className="text-2xl font-bold text-vocari-dark mb-4">Antes de comenzar...</h2>
-          <p className="text-gray-600 mb-6">
-            Inicia sesión con Google para guardar tu resultado y poder consultarlo después.
-          </p>
-
-          <GoogleSignIn
-            onAuthChange={(user) => {
-              if (user) {
-                setUser(user);
-                setShowAuthModal(false);
-              }
-            }}
-          />
-
-          <button
-            onClick={() => navigate('/')}
-            className="mt-4 w-full text-sm text-gray-500 hover:text-vocari-dark transition-colors"
-          >
-            Volver al inicio
-          </button>
-        </motion.div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-vocari-bg">
@@ -170,19 +108,8 @@ function TestRIASEC() {
                 Pregunta {currentQuestion + 1} de {riasecQuestions.length}
               </p>
             </div>
-
-            {user && (
-              <div className="flex items-center gap-2">
-                <img
-                  src={user.user_metadata?.avatar_url}
-                  alt={user.user_metadata?.full_name}
-                  className="w-8 h-8 rounded-full border-2 border-gray-300"
-                />
-              </div>
-            )}
           </div>
 
-          {/* Progress bar */}
           <div className="mt-4">
             <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
               <span>{answeredCount} respondidas</span>
@@ -202,7 +129,6 @@ function TestRIASEC() {
 
       {/* Question */}
       <div className="container mx-auto px-4 py-12 max-w-3xl">
-        {/* Alerta de Saturación */}
         {saturationAlert && !alertDismissed && (
           <div className="mb-6">
             <SaturationAlert
@@ -230,19 +156,16 @@ function TestRIASEC() {
           exit={{ opacity: 0, x: -20 }}
           className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm"
         >
-          {/* Dimension badge */}
           <div className="mb-4">
             <span className="inline-block px-3 py-1 bg-vocari-primary/10 text-vocari-primary text-xs font-semibold rounded-full">
               Dimensión {question.dimension}
             </span>
           </div>
 
-          {/* Question text */}
           <h2 className="text-2xl font-bold text-vocari-dark mb-8">
             {question.text}
           </h2>
 
-          {/* Scale */}
           <div className="space-y-3">
             {[1, 2, 3, 4, 5].map(value => (
               <motion.button
