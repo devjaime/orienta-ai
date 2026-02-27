@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Share2, Sparkles, TrendingUp, Award, Loader2, BarChart3 } from 'lucide-react';
 import { calcularCodigoRIASEC, generarInterpretacion } from '../lib/riasecScoring';
 import { recomendarCarreras } from '../lib/recomendacionCarreras';
 import { generarExplicacionIA } from '../lib/claudeAPI';
-import { saveTestResult } from '../lib/supabase';
+import { saveTestResult, getCurrentUser } from '../lib/supabase';
 import { dimensionDescriptions } from '../data/riasecQuestions';
 import { canUseTestAI, recordTestAIUsage, getLimitMessages, isAIEnabled, LIMITS } from '../lib/usageLimits';
 import CarrerasRecomendadas from '../components/CarrerasRecomendadas';
@@ -121,18 +121,23 @@ function Resultados() {
         }
       }
 
-      // 5. Guardar en Supabase
+      // 5. Guardar en Supabase (solo si hay usuario autenticado)
       setSaving(true);
       try {
-        await saveTestResult({
-          codigo_holland: resultadoTest.codigo_holland,
-          certeza: resultadoTest.certeza,
-          puntajes: resultadoTest.puntajes,
-          respuestas: responses,
-          duracion_minutos: parseInt(duration) || 10,
-          explicacion_ia: explicacionIA || null,
-          carreras_recomendadas: carreras.map(c => c.id)
-        });
+        const user = await getCurrentUser();
+        if (user) {
+          await saveTestResult({
+            codigo_holland: resultadoTest.codigo_holland,
+            certeza: resultadoTest.certeza,
+            puntajes: resultadoTest.puntajes,
+            respuestas: responses,
+            duracion_minutos: parseInt(duration) || 10,
+            explicacion_ia: explicacionIA || null,
+            carreras_recomendadas: carreras.map(c => c.id)
+          });
+        } else {
+          console.log('Usuario no autenticado - guardando solo en sessionStorage');
+        }
       } catch (err) {
         console.error('Error guardando resultado:', err);
         // No bloqueamos si falla el guardado
