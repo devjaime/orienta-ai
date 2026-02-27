@@ -1,122 +1,97 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Send, Bot, User, Loader2, X, Sparkles } from 'lucide-react'
+import { Send, Bot, User, Loader2, X, Sparkles, Mail } from 'lucide-react'
 
-// Dynamic import for webllm to avoid SSR issues
-let webllm = null
+// Constantes de configuración
+const MAX_FREE_MESSAGES = 3
+const OPENROUTER_MODEL = 'google/gemini-2.0-flash-lite-001'
+const STORAGE_KEY = 'vocari_chat_usage'
 
-// Initialize WebLLM engine
-let engine = null
-let isInitialized = false
-
-const CHAT_SYSTEM_PROMPT = `Eres un asistente vocacional especializado en orientar a estudiantes chilenos sobre carreras profesionales. 
+// Prompt del sistema para Vocari
+const CHAT_SYSTEM_PROMPT = `Eres un asistente vocacional de Vocari.cl especializado en orientar a estudiantes chilenos sobre carreras profesionales.
 
 Tu rol es:
 - Ayudar a entender el test RIASEC y sus resultados
-- Explicar las diferentes áreas profesionales (Realista, Investigativo, Artístico, Social, Empresarial, Convencional)
-- Dar información sobre carreras basadas en datos del mercado laboral chileno
-- Ser empático y motivador
+- Explicar las 6 áreas: Realista, Investigativo, Artístico, Social, Empresarial, Convencional
+- Dar información sobre carreras con datos del mercado laboral chileno
+- Ser empático, corto y directo (máximo 2-3 oraciones por respuesta)
 
-Nunca debes:
-- Dar advice financiero específico
-- Sustituir la orientación de un profesional certificado
-- Hacer promesas sobre empleabilidad específica
+Nunca des advice financiero ni sustituyas orientación profesional certificada.
+Responde en español, de forma breve y amigable.`
 
-Respondé siempre en español de manera clara y amigable.`
-
-async function loadWebLLM() {
-  if (webllm) return webllm
+// Función para verificar y actualizar uso de chat
+function getChatUsage() {
   try {
-    webllm = await import('@mlc-ai/web-llm')
-    return webllm
-  } catch (error) {
-    console.error('Failed to load WebLLM:', error)
-    throw error
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored) {
+      return JSON.parse(stored)
+    }
+    return { count: 0, blocked: false, firstUse: null }
+  } catch {
+    return { count: 0, blocked: false, firstUse: null }
   }
 }
 
-async function initializeLLM() {
-  if (isInitialized) return engine
-  
+function updateChatUsage(usage) {
   try {
-    const webllmModule = await loadWebLLM()
-    
-    // Use Phi-3.5 - a smaller, well-supported model for browsers
-    const initProgressCallback = (report) => {
-      console.log('LLM Init:', report.text)
-    }
-    
-    // Try Phi-3.5-mini first (smaller, faster)
-    try {
-      engine = await webllmModule.CreateMLCEngine(
-        'Phi-3.5-mini-instruct-q4f32_1-MLC',
-        {
-          initProgressCallback,
-          logLevel: 'ERROR',
-        }
-      )
-    } catch {
-      // Fallback to Qwen if Phi not available
-      engine = await webllmModule.CreateMLCEngine(
-        'Qwen2-0.5B-Instruct-q4f32_1-MLC',
-        {
-          initProgressCallback,
-          logLevel: 'ERROR',
-        }
-      )
-    }
-    
-    isInitialized = true
-    return engine
-  } catch (error) {
-    console.error('Failed to initialize WebLLM:', error)
-    throw error
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(usage))
+  } catch (e) {
+    console.error('Error saving chat usage:', e)
   }
 }
 
-async function generateResponse(messages, signal) {
-  const llm = await initializeLLM()
+// Función para llamar a OpenRouter (modelo reducido)
+async function callOpenRouter(messages) {
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
   
-  const messagesForLLM = messages.map(m => ({
-    role: m.role,
-    content: m.content
-  }))
-
-  const chunks = []
-  
-  const completion = await llm.chat.completions.create({
-    messages: [
-      { role: 'system', content: CHAT_SYSTEM_PROMPT },
-      ...messagesForLLM
-    ],
-    temperature: 0.7,
-    max_tokens: 512,
-    stream: true,
-  }, { signal })
-
-  for await (const chunk of completion) {
-    const content = chunk.choices[0]?.delta?.content || ''
-    if (content) chunks.push(content)
+  if (!apiKey) {
+    throw new Error('API no disponible')
   }
 
-  return chunks.join('')
+  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'HTTP-Referer': 'https://vocari.cl',
+      'X-Title': 'Vocari.cl',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: OPENROUTER_MODEL,
+      messages: [
+        { role: 'system', content: CHAT_SYSTEM_PROMPT },
+        ...messages
+      ],
+      max_tokens: 150,
+      temperature: 0.7
+    })
+  })
+
+  if (!response.ok) {
+    throw new Error('Error en API')
+  }
+
+  const data = await response.json()
+  return data.choices[0].message.content
 }
 
 export default function AIChatWidget() {
+  // Estado inicial con verificación de uso
+  const [chatUsage, setChatUsage] = useState(getChatUsage)
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: '¡Hola! 👋 Soy el asistente de Vocari. Puedo ayudarte a entender mejor tu perfil vocacional, explicarte qué significan los resultados del test RIASEC, o darte información sobre carreras. ¿En qué puedo ayudarte?'
+      content: '¡Hola! 👋 Soy Vocari IA. Puedo responder 3 preguntas gratis sobre tu perfil vocacional, carreras y el test RIASEC. ¿En qué te ayudo?'
     }
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [isModelLoading, setIsModelLoading] = useState(false)
-  const [modelLoaded, setModelLoaded] = useState(false)
   const abortRef = useRef(null)
   const messagesEndRef = useRef(null)
+
+  const isBlocked = chatUsage.count >= MAX_FREE_MESSAGES
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -127,50 +102,50 @@ export default function AIChatWidget() {
   }, [messages])
 
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return
+    if (!input.trim() || isLoading || isBlocked) return
 
     const userMessage = input.trim()
     setInput('')
     setError(null)
 
-    // Add user message
+    // Agregar mensaje del usuario
     setMessages(prev => [...prev, { role: 'user', content: userMessage }])
     setIsLoading(true)
 
     try {
-      // Initialize on first message if needed
-      if (!modelLoaded) {
-        setIsModelLoading(true)
-        await initializeLLM()
-        setModelLoaded(true)
-        setIsModelLoading(false)
-      }
-
       abortRef.current = new AbortController()
 
-      const response = await generateResponse(
-        [...messages, { role: 'user', content: userMessage }],
+      // Llamar a OpenRouter con modelo reducido
+      const response = await callOpenRouter(
+        [...messages.filter(m => m.role !== 'system'), { role: 'user', content: userMessage }],
         abortRef.current.signal
       )
+
+      // Actualizar contador
+      const newUsage = {
+        count: chatUsage.count + 1,
+        blocked: chatUsage.count + 1 >= MAX_FREE_MESSAGES,
+        firstUse: chatUsage.firstUse || new Date().toISOString()
+      }
+      updateChatUsage(newUsage)
+      setChatUsage(newUsage)
 
       setMessages(prev => [...prev, { role: 'assistant', content: response }])
     } catch (err) {
       if (err.name === 'AbortError') {
         setMessages(prev => [...prev, { 
           role: 'assistant', 
-          content: 'La respuesta fue cancelada.' 
+          content: 'Respuesta cancelada.' 
         }])
       } else {
         setError(err.message)
-        // Fallback message
         setMessages(prev => [...prev, { 
           role: 'assistant', 
-          content: 'Lo siento, tuve un problema al procesar tu mensaje. Por favor intenta de nuevo. Si el problema persiste, puedes contactar a hola@vocari.cl' 
+          content: 'Tuve un problema técnico. Escríbenos a hola@vocari.cl para resolver tus dudas sobre tu futuro vocacional.' 
         }])
       }
     } finally {
       setIsLoading(false)
-      setIsModelLoading(false)
       abortRef.current = null
     }
   }
@@ -181,6 +156,20 @@ export default function AIChatWidget() {
       handleSend()
     }
   }
+
+  const resetChat = () => {
+    const newUsage = { count: 0, blocked: false, firstUse: null }
+    updateChatUsage(newUsage)
+    setChatUsage(newUsage)
+    setMessages([
+      {
+        role: 'assistant',
+        content: '¡Hola! 👋 Soy Vocari IA. Puedo responder 3 preguntas gratis sobre tu perfil vocacional. ¿En qué te ayudo?'
+      }
+    ])
+  }
+
+  const remainingMessages = MAX_FREE_MESSAGES - chatUsage.count
 
   return (
     <>
@@ -220,9 +209,9 @@ export default function AIChatWidget() {
                   <Bot size={20} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">Asistente Vocacional</h3>
+                  <h3 className="font-semibold text-white">Vocari IA</h3>
                   <p className="text-xs text-white/80">
-                    {modelLoaded ? '🟢 Listo' : isModelLoading ? '🔄 Cargando modelo...' : '⚪离线'}
+                    {isBlocked ? '🔒 Límite alcanzado' : `💬 ${remainingMessages} preguntas gratis`}
                   </p>
                 </div>
               </div>
@@ -286,31 +275,59 @@ export default function AIChatWidget() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input */}
+            {/* Input or Blocked Message */}
             <div className="p-4 border-t border-gray-200 bg-white">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyPress}
-                  placeholder="Escribe tu pregunta..."
-                  disabled={isLoading}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-vocari-primary focus:ring-1 focus:ring-vocari-primary text-sm"
-                />
-                <motion.button
-                  onClick={handleSend}
-                  disabled={isLoading || !input.trim()}
-                  className="bg-vocari-primary text-white p-2 rounded-full disabled:opacity-50"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Send size={20} />
-                </motion.button>
-              </div>
-              <p className="text-xs text-gray-400 mt-2 text-center">
-                🤖 AI correr localmente en tu navegador • Sin costo
-              </p>
+              {isBlocked ? (
+                <div className="text-center space-y-3">
+                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                    <p className="text-amber-800 text-sm font-medium">
+                      ⚠️ Has alcanzado el límite de 3 preguntas gratis
+                    </p>
+                    <p className="text-amber-700 text-xs mt-1">
+                      Para继续 con orientación personalizada:
+                    </p>
+                  </div>
+                  <a 
+                    href="mailto:hola@vocari.cl?subject=Consulta%20Vocacional&body=Hola,%20quiero%20más%20información%20sobre..."
+                    className="flex items-center justify-center gap-2 w-full py-2 bg-vocari-primary text-white rounded-lg hover:bg-vocari-light transition-colors text-sm"
+                  >
+                    <Mail size={16} />
+                    Contactar a Vocari
+                  </a>
+                  <button 
+                    onClick={resetChat}
+                    className="text-xs text-gray-500 hover:text-gray-700 underline"
+                  >
+                    Reiniciar chat (para prueba)
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={handleKeyPress}
+                      placeholder="Escribe tu pregunta..."
+                      disabled={isLoading}
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-vocari-primary focus:ring-1 focus:ring-vocari-primary text-sm"
+                    />
+                    <motion.button
+                      onClick={handleSend}
+                      disabled={isLoading || !input.trim()}
+                      className="bg-vocari-primary text-white p-2 rounded-full disabled:opacity-50"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Send size={20} />
+                    </motion.button>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-2 text-center">
+                    🤖 IA • {remainingMessages} preguntas restantes
+                  </p>
+                </>
+              )}
             </div>
           </motion.div>
         )}

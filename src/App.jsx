@@ -86,6 +86,10 @@ function App() {
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/activate" element={<ActivateAccount />} />
 
+          {/* Rutas publicas de Test y Resultados (Sin Auth para conversion) */}
+          <Route path="/test" element={<TestRIASEC />} />
+          <Route path="/resultados" element={<Resultados />} />
+
         {/* Rutas de informes pagados */}
         <Route path="/informes" element={<InformesPage />} />
         <Route
@@ -97,29 +101,6 @@ function App() {
           }
         />
         <Route path="/flow-return" element={<FlowReturnPage />} />
-
-        {/* Ruta del test - SOLO para estudiantes */}
-        <Route
-          path="/test"
-          element={
-            <ProtectedRoute
-              allowedRoles={['estudiante']}
-              customMessage="El test vocacional esta disponible solo para estudiantes. Orientadores y apoderados pueden ver los resultados de sus estudiantes."
-            >
-              <TestRIASEC />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Resultados - Solo estudiantes */}
-        <Route
-          path="/resultados"
-          element={
-            <ProtectedRoute allowedRoles={['estudiante']}>
-              <Resultados />
-            </ProtectedRoute>
-          }
-        />
 
         {/* Dashboard estudiante */}
         <Route
