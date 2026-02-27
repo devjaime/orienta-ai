@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Compass, Sparkles, FileText, Play } from 'lucide-react';
+import { ArrowRight, Compass, Sparkles, FileText, Play, AlertTriangle } from 'lucide-react';
 import { fadeUp, scaleIn } from '../lib/animations';
 
 const Hero = ({ onStartTest }) => {
@@ -21,6 +21,28 @@ const Hero = ({ onStartTest }) => {
             transition={{ type: 'spring', stiffness: 100, damping: 20 }}
             className="text-center lg:text-left"
           >
+            {/* Pain message + Loss monetary */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
+              className="mb-6"
+            >
+              <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 rounded-full px-4 py-2 mb-4">
+                <AlertTriangle size={16} className="text-red-500" />
+                <span className="text-red-700 text-sm font-medium">No pongas en riesgo tu futuro</span>
+              </div>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                Decide con ciencia y datos reales
+              </p>
+              {/* Loss monetary highlight */}
+              <div className="mt-4 p-4 bg-amber-50 border-l-4 border-vocari-accent rounded-r-lg">
+                <p className="text-sm text-gray-600">Una decisión vocacional mala puede costar</p>
+                <p className="text-2xl font-bold text-vocari-dark">+10 Millones CLP</p>
+                <p className="text-xs text-gray-500">en formación y oportunidades perdidas</p>
+              </div>
+            </motion.div>
+
             <motion.h1
               className="text-4xl md:text-5xl lg:text-6xl font-poppins font-bold text-vocari-dark mb-6 leading-tight"
               initial={{ opacity: 0, y: 30 }}
@@ -41,6 +63,23 @@ const Hero = ({ onStartTest }) => {
               profesional. Gratuito y en menos de 10 minutos.
             </motion.p>
 
+            {/* Primary CTA - Dorado y arriba */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.5 }}
+              className="mb-6"
+            >
+              <Link
+                to="/informes"
+                className="inline-flex items-center justify-center gap-2 text-lg px-10 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 bg-vocari-accent text-vocari-dark z-20 relative"
+              >
+                <FileText size={20} />
+                Obtener mi informe
+              </Link>
+            </motion.div>
+
+            {/* Secondary CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -48,25 +87,19 @@ const Hero = ({ onStartTest }) => {
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center z-10 relative"
             >
               <Link
-                to="/informes"
-                className="btn-primary text-lg px-10 py-4 inline-flex items-center justify-center gap-2 z-20 relative"
-              >
-                <FileText size={20} />
-                Comprar Informe
-              </Link>
-
-              <Link
-                to="/colegios"
-                className="bg-vocari-primary text-white hover:bg-vocari-light text-lg px-10 py-4 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md border-2 border-vocari-accent z-20 relative"
-              >
-                🏫 Para Colegios
-              </Link>
-              
-              <Link
                 to="/test"
                 className="text-vocari-primary underline hover:no-underline text-sm z-20 relative"
               >
                 ¿Primero hacer el test? Comenzar gratis
+              </Link>
+              
+              <span className="text-gray-300 hidden sm:inline">|</span>
+              
+              <Link
+                to="/colegios"
+                className="bg-vocari-primary text-white hover:bg-vocari-light text-lg px-6 py-3 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md z-20 relative"
+              >
+                🏫 Para Colegios
               </Link>
             </motion.div>
 
