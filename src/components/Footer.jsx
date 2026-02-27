@@ -54,12 +54,12 @@ const Footer = () => {
               viewport={{ once: true }}
             >
               <motion.a 
-                href="mailto:hola@vocari.com" 
+                href="mailto:hola@vocari.cl" 
                 className="flex items-center gap-3 text-white/70 hover:text-vocari-primary transition-colors"
                 whileHover={{ x: 4 }}
               >
                 <Mail size={16} />
-                hola@vocari.com
+                hola@vocari.cl
               </motion.a>
               <div className="flex items-center gap-3 text-white/70">
                 <MapPin size={16} />
