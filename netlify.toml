@@ -1,9 +1,10 @@
 [build]
   functions = "netlify/functions"
+  publish = "dist"
 
 [[redirects]]
-  from = "/.netlify/functions/riasec"
-  to = "/riasec"
+  from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
   status = 200
 
 # SPA fallback - Redirige todas las rutas al index.html para React Router
@@ -12,4 +13,21 @@
   to = "/index.html"
   status = 200
 
+# Headers para assets estáticos
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Content-Type = "application/javascript"
+    Cache-Control = "public, max-age=31536000, immutable"
 
+[[headers]]
+  for = "/*.wasm"
+  [headers.values]
+    Content-Type = "application/wasm"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Content-Type = "text/css"
+    Cache-Control = "public, max-age=31536000, immutable"
