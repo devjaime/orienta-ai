@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Calendar, X, Clock, Video } from 'lucide-react';
 import { getAvailableTimeSlots } from '../lib/orientadorService';
