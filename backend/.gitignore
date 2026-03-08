@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Entorno virtual
+.venv/
+venv/
+env/
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Tests
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+.pytest_cache/
+test.db
+
+# Alembic
+migrations/alembic/versions/*.pyc
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

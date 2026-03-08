@@ -1,0 +1,25 @@
+# Backend Docker build exclusions
+node_modules
+.git
+.gitignore
+*.md
+.env
+.env.*
+!.env.example
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.coverage
+coverage.xml
+htmlcov/
+dist/
+*.egg-info/
+.venv
+venv
+tests/
+docker-compose.yml
+fly.toml
+alembic.ini

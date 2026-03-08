@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* ===== Vocari Design Tokens ===== */
+:root {
+  /* Colores principales */
+  --vocari-primary: #1a365d;
+  --vocari-accent: #38b2ac;
+  --vocari-bg: #f7fafc;
+  --vocari-bg-warm: #fffaf0;
+  --vocari-text: #2d3748;
+  --vocari-text-muted: #718096;
+
+  /* Colores RIASEC */
+  --riasec-R: #e53e3e;
+  --riasec-I: #3182ce;
+  --riasec-A: #805ad5;
+  --riasec-S: #38a169;
+  --riasec-E: #d69e2e;
+  --riasec-C: #4a5568;
+
+  /* Colores de estado */
+  --color-success: #48bb78;
+  --color-warning: #ed8936;
+  --color-error: #f56565;
+  --color-info: #4299e1;
+
+  /* Backgrounds */
+  --background: var(--vocari-bg);
+  --foreground: var(--vocari-text);
+}
+
+@theme inline {
+  /* Map Vocari tokens to Tailwind theme */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-vocari-primary: var(--vocari-primary);
+  --color-vocari-accent: var(--vocari-accent);
+  --color-vocari-bg: var(--vocari-bg);
+  --color-vocari-bg-warm: var(--vocari-bg-warm);
+  --color-vocari-text: var(--vocari-text);
+  --color-vocari-text-muted: var(--vocari-text-muted);
+
+  --color-riasec-R: var(--riasec-R);
+  --color-riasec-I: var(--riasec-I);
+  --color-riasec-A: var(--riasec-A);
+  --color-riasec-S: var(--riasec-S);
+  --color-riasec-E: var(--riasec-E);
+  --color-riasec-C: var(--riasec-C);
+
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+  --color-info: var(--color-info);
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}
+
+/* ===== Base Styles ===== */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Focus ring for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--vocari-accent);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vocari-text-muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vocari-text);
+}

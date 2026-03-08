@@ -1,0 +1,93 @@
+# ===================================
+# Vocari Backend - Docker Compose
+# ===================================
+# Desarrollo local: docker-compose up
+
+services:
+  # --- Backend API ---
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://vocari:vocari_dev@postgres:5432/vocari
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - .:/app
+    command: >
+      uvicorn app.main:create_app --factory
+      --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - vocari-network
+
+  # --- Worker de tareas asincronas ---
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://vocari:vocari_dev@postgres:5432/vocari
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - .:/app
+    command: python -m workers.worker
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - vocari-network
+
+  # --- PostgreSQL ---
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: vocari
+      POSTGRES_PASSWORD: vocari_dev
+      POSTGRES_DB: vocari
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vocari -d vocari"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vocari-network
+
+  # --- Redis ---
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vocari-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  vocari-network:
+    driver: bridge
