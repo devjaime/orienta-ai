@@ -136,7 +136,7 @@ async def get_latest_riasec_result(
     query = (
         select(TestResult)
         .where(TestResult.user_id == user_id, TestResult.test_type == "riasec")
-        .order_by(TestResult.created_at.desc())
+        .order_by(TestResult.created_at.desc(), TestResult.id.desc())
         .limit(1)
     )
     query = apply_tenant_filter(query, TestResult.institution_id, tenant_institution_id)

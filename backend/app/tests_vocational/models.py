@@ -4,7 +4,7 @@ Vocari Backend - Modelos de Tests Vocacionales: TestResult, AdaptiveQuestionnair
 
 import enum
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy import DateTime, Enum, Float, ForeignKey, String, func
 from sqlalchemy.dialects.postgresql import JSON, UUID
@@ -46,7 +46,10 @@ class TestResult(UUIDPrimaryKeyMixin, Base):
     certainty: Mapped[float | None] = mapped_column(Float, nullable=True)
     test_metadata: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
     created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        server_default=func.now(),
+        nullable=False,
     )
 
     def __repr__(self) -> str:

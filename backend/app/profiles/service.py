@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 import structlog
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm.attributes import flag_modified
 
 from app.common.exceptions import NotFoundError
 from app.common.tenant import apply_tenant_filter
@@ -106,19 +107,21 @@ async def append_riasec_to_history(
     """Agrega un resultado RIASEC al historial del perfil."""
     profile = await get_or_create_profile(db, student_id, institution_id)
 
-    history = profile.riasec_history if isinstance(profile.riasec_history, list) else []
+    history = list(profile.riasec_history) if isinstance(profile.riasec_history, list) else []
     history.append({
         **riasec_data,
         "fecha": datetime.now(timezone.utc).isoformat(),
     })
     profile.riasec_history = history
+    flag_modified(profile, "riasec_history")
     profile.last_updated = datetime.now(timezone.utc)
 
     # Actualizar data_sources
-    sources = profile.data_sources if isinstance(profile.data_sources, list) else []
+    sources = list(profile.data_sources) if isinstance(profile.data_sources, list) else []
     if "riasec_test" not in sources:
         sources.append("riasec_test")
         profile.data_sources = sources
+        flag_modified(profile, "data_sources")
 
     await db.flush()
     logger.info("RIASEC agregado al historial", student_id=str(student_id))

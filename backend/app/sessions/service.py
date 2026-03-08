@@ -103,7 +103,6 @@ async def get_orientador_stats(
         func.date(Session.scheduled_at) == today,
         Session.status.in_([
             SessionStatus.SCHEDULED,
-            SessionStatus.CONFIRMED,
             SessionStatus.IN_PROGRESS,
             SessionStatus.COMPLETED,
         ]),
@@ -132,7 +131,6 @@ async def get_orientador_stats(
             Session.orientador_id == user.id,
             Session.status.in_([
                 SessionStatus.SCHEDULED,
-                SessionStatus.CONFIRMED,
                 SessionStatus.IN_PROGRESS,
                 SessionStatus.COMPLETED,
             ]),
