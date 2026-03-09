@@ -7,7 +7,7 @@ import uuid
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.auth.dependencies import get_current_user
+from app.auth.middleware import get_current_user
 from app.auth.models import User
 from app.common.database import get_async_session
 from app.reports import schemas as report_schemas

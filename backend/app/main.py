@@ -15,6 +15,7 @@ from app.common.error_handlers import register_error_handlers
 from app.common.logging import setup_logging
 from app.common.redis import close_redis, init_redis
 from app.config import get_settings
+from app.monitoring import router as monitoring_router, setup_sentry
 
 logger = structlog.get_logger()
 
@@ -28,6 +29,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Startup
     await init_db()
     await init_redis()
+    setup_sentry()
     logger.info("Servicios inicializados correctamente")
 
     yield
@@ -67,6 +69,8 @@ def create_app() -> FastAPI:
     @app.get("/health", tags=["health"])
     async def health_check() -> dict[str, str]:
         return {"status": "ok", "service": "vocari-backend"}
+
+    app.include_router(monitoring_router, tags=["monitoring"])
 
     return app
 

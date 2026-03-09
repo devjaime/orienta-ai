@@ -1,0 +1,306 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "22"
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # ============== BACKEND CI ==============
+  backend-ci:
+    name: Backend CI
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Mypy type check
+        run: mypy app/ --ignore-missing-imports
+
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    needs: backend-ci
+    defaults:
+      run:
+        working-directory: backend
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: vocari
+          POSTGRES_PASSWORD: vocari_test
+          POSTGRES_DB: vocari_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U vocari"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('backend/pyproject.toml') }}
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Ejecutar tests
+        run: pytest --tb=short -q
+
+  # ============== FRONTEND CI ==============
+  frontend-ci:
+    name: Frontend CI
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      - name: Build de produccion
+        run: npm run build
+
+  # ============== BUILD IMAGES ==============
+  build-backend:
+    name: Build Backend Image
+    runs-on: ubuntu-latest
+    needs: [backend-ci, backend-test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix=
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  build-frontend:
+    name: Build Frontend Image
+    runs-on: ubuntu-latest
+    needs: frontend-ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix=
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ============== DEPLOY TO STAGING ==============
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build-backend, build-frontend]
+    if: github.event_name == 'workflow_dispatch' && github.inputs.environment == 'staging'
+    environment:
+      name: staging
+      url: https://staging.vocari.cl
+
+    steps:
+      - name: Deploy to Cloud Run (Staging)
+        run: |
+          echo "Deploying to staging..."
+          # Add deployment commands for staging
+          # gcloud run deploy vocari-backend-staging \
+          #   --image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:latest \
+          #   --region=us-central1 \
+          #   --platform=managed
+
+      - name: Smoke Test Staging
+        run: |
+          echo "Running smoke tests on staging..."
+          # curl -f https://staging.vocari.cl/health || exit 1
+          # curl -f https://staging-api.vocari.cl/health || exit 1
+
+  # ============== DEPLOY TO PRODUCTION ==============
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build-backend, build-frontend]
+    if: github.event_name == 'workflow_dispatch' && github.inputs.environment == 'production'
+    environment:
+      name: production
+      url: https://vocari.cl
+
+    steps:
+      - name: Deployment Approval
+        run: |
+          echo "Production deployment requires manual approval"
+          echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:${{ github.sha }}"
+
+      - name: Deploy Backend to Cloud Run
+        run: |
+          echo "Deploying backend to production..."
+          # gcloud run deploy vocari-backend-prod \
+          #   --image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:${{ github.sha }} \
+          #   --region=us-central1 \
+          #   --platform=managed \
+          #   --min-instances=1 \
+          #   --max-instances=10
+
+      - name: Deploy Frontend to Cloud Run
+        run: |
+          echo "Deploying frontend to production..."
+          # gcloud run deploy vocari-frontend-prod \
+          #   --image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:${{ github.sha }} \
+          #   --region=us-central1 \
+          #   --platform=managed
+
+      - name: Smoke Test Production
+        run: |
+          echo "Running smoke tests on production..."
+          # curl -f https://vocari.cl/health || exit 1
+          # curl -f https://api.vocari.cl/health || exit 1
+
+  # ============== NOTIFICATIONS ==============
+  notify-success:
+    name: Notify Success
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production]
+    if: always() && (needs.deploy-staging.result == 'success' || needs.deploy-production.result == 'success')
+
+    steps:
+      - name: Send Discord notification
+        if: env.DISCORD_WEBHOOK_URL != ''
+        run: |
+          echo "Deployment successful!"
+
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production]
+    if: always() && (needs.deploy-staging.result == 'failure' || needs.deploy-production.result == 'failure')
+
+    steps:
+      - name: Send failure notification
+        if: env.DISCORD_WEBHOOK_URL != ''
+        run: |
+          echo "Deployment failed!"

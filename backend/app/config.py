@@ -81,6 +81,11 @@ class Settings(BaseSettings):
     log_level: str = "DEBUG"
     log_format: str = "json"  # json | console
 
+    # --- Sentry (Monitoring) ---
+    sentry_dsn: str = ""  # Sentry DSN for error tracking
+    sentry_environment: str = "development"
+    sentry_sample_rate: float = 1.0
+
     @field_validator("openrouter_fallback_models", mode="before")
     @classmethod
     def parse_fallback_models(cls, v: str | list[str]) -> list[str]:
