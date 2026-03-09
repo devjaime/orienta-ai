@@ -93,14 +93,15 @@ async def get_orientador_stats(
     - Estudiantes unicos asignados
     - Alertas activas (sesiones no_show recientes)
     """
-    from datetime import date
+    from datetime import datetime as dt
+    from datetime import timezone as tz
 
-    today = date.today()
+    today_utc = dt.now(tz.utc).date()
 
     # Sesiones de hoy
     today_query = select(func.count()).select_from(Session).where(
         Session.orientador_id == user.id,
-        func.date(Session.scheduled_at) == today,
+        func.date(Session.scheduled_at) == today_utc,
         Session.status.in_([
             SessionStatus.SCHEDULED,
             SessionStatus.IN_PROGRESS,

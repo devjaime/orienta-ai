@@ -97,12 +97,17 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     settings = get_settings()
     prefix = settings.api_v1_prefix
 
+    from app.audit.router import router as audit_router
     from app.auth.router import router as auth_router
     from app.careers.router import router as careers_router
     from app.consent.router import router as consent_router
+    from app.dashboards.router import router as dashboards_router
     from app.institutions.router import router as institutions_router
+    from app.notifications.router import router as notifications_router
+    from app.parent_linking.router import router as parent_linking_router
     from app.profiles.router import router as profiles_router
     from app.sessions.router import router as sessions_router
+    from app.student_import.router import router as student_import_router
     from app.tests_vocational.router import router as tests_router
 
     app.include_router(auth_router, prefix=f"{prefix}/auth", tags=["auth"])
@@ -114,8 +119,19 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     app.include_router(tests_router, prefix=f"{prefix}/tests", tags=["tests"])
     app.include_router(profiles_router, prefix=f"{prefix}/profiles", tags=["profiles"])
     app.include_router(careers_router, prefix=f"{prefix}/careers", tags=["careers"])
+    app.include_router(
+        dashboards_router, prefix=f"{prefix}/dashboards", tags=["dashboards"]
+    )
+    app.include_router(
+        notifications_router, prefix=f"{prefix}/notifications", tags=["notifications"]
+    )
+    app.include_router(audit_router, prefix=f"{prefix}/audit", tags=["audit"])
+    app.include_router(
+        parent_linking_router, prefix=f"{prefix}/parent-links", tags=["parent-linking"]
+    )
+    app.include_router(
+        student_import_router, prefix=f"{prefix}/students/csv", tags=["student-import"]
+    )
 
     # Los siguientes routers se habilitaran en milestones posteriores:
     # from app.games.router import router as games_router
-    # from app.dashboards.router import router as dashboards_router
-    # from app.audit.router import router as audit_router
