@@ -102,6 +102,7 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     from app.careers.router import router as careers_router
     from app.consent.router import router as consent_router
     from app.dashboards.router import router as dashboards_router
+    from app.games.router import router as games_router
     from app.institutions.router import router as institutions_router
     from app.notifications.router import router as notifications_router
     from app.parent_linking.router import router as parent_linking_router
@@ -132,6 +133,4 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     app.include_router(
         student_import_router, prefix=f"{prefix}/students/csv", tags=["student-import"]
     )
-
-    # Los siguientes routers se habilitaran en milestones posteriores:
-    # from app.games.router import router as games_router
+    app.include_router(games_router, prefix=f"{prefix}/games", tags=["games"])
