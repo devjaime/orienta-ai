@@ -20,7 +20,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { api } from "@/lib/api";
-import type { ChildDashboardInfo, SessionSummary, TestResultSummary } from "@/lib/types";
+import type { ChildDashboardInfo, ParentDashboardResponse, SessionSummary, TestResultSummary } from "@/lib/types";
 import { formatSessionDate } from "@/lib/utils/dates";
 
 const RIASEC_LABELS: Record<string, string> = {

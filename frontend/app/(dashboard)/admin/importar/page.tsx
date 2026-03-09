@@ -149,10 +149,10 @@ function CsvImport() {
               className="hidden"
               id="csv-file"
             />
-            <label htmlFor="csv-file">
-              <Button as="span" variant="outline" className="cursor-pointer">
+            <label htmlFor="csv-file" className="inline-block cursor-pointer">
+              <span className="inline-flex items-center justify-center gap-2 font-medium rounded-md transition-all duration-200 px-4 py-2 text-base bg-white text-vocari-primary border border-vocari-primary hover:bg-vocari-primary hover:text-white">
                 Seleccionar archivo
-              </Button>
+              </span>
             </label>
           </div>
 
@@ -252,7 +252,7 @@ function CsvImport() {
               )}
 
               <div className="flex justify-end gap-3">
-                <Button variant="outline" onClick={handleReset}>
+                <Button variant="secondary" onClick={handleReset}>
                   Cancelar
                 </Button>
                 <Button
@@ -290,7 +290,7 @@ function CsvImport() {
                 </div>
               )}
 
-              <Button variant="outline" onClick={handleReset}>
+              <Button variant="secondary" onClick={handleReset}>
                 Importar mas estudiantes
               </Button>
             </div>
@@ -315,7 +315,7 @@ function CsvImport() {
               estudiante2@colegio.cl,Maria Garcia,3,B,2024
             </p>
           </div>
-          <Button variant="outline" className="mt-4">
+          <Button variant="secondary" className="mt-4">
             <Download className="h-4 w-4 mr-2" />
             Descargar plantilla
           </Button>
