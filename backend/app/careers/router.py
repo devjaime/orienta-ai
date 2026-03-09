@@ -16,14 +16,19 @@ from app.common.pagination import PaginationParams
 from app.careers.schemas import (
     CareerCreate,
     CareerListResponse,
+    CareerRecommendation,
     CareerRecommendationsResponse,
     CareerResponse,
+    CareerSimulationCreate,
+    CareerSimulationResponse,
     CareerUpdate,
 )
 from app.careers.service import (
     create_career,
+    create_career_simulation,
     get_career_by_id,
     get_recommendations,
+    get_student_simulations,
     list_careers,
     update_career,
 )
@@ -114,3 +119,32 @@ async def update_existing_career(
     """Actualiza una carrera. Solo super admin."""
     career = await update_career(db, career_id, data)
     return CareerResponse.model_validate(career)
+
+
+@router.post("/simulate", response_model=CareerSimulationResponse)
+async def simulate_career(
+    data: CareerSimulationCreate,
+    user: User = Depends(get_current_user),
+    db=Depends(get_async_session),
+) -> CareerSimulationResponse:
+    """Genera una simulacion de carrera para el usuario autenticado."""
+    if not user.institution_id:
+        raise ValueError("Usuario sin institucion asignada")
+
+    simulation = await create_career_simulation(
+        db=db,
+        student_id=user.id,
+        career_id=data.career_id,
+        student_profile=data.student_profile,
+    )
+    return simulation
+
+
+@router.get("/simulations/my", response_model=list[CareerSimulationResponse])
+async def get_my_simulations(
+    user: User = Depends(get_current_user),
+    db=Depends(get_async_session),
+) -> list[CareerSimulationResponse]:
+    """Obtiene las simulaciones de carrera del usuario."""
+    simulations = await get_student_simulations(db, user.id)
+    return simulations

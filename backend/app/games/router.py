@@ -79,8 +79,10 @@ async def submit_game_result(
     if not current_user.institution_id:
         raise ValueError("Usuario sin institucion asignada")
 
+    game = await service.get_game_by_id(db, result_data.game_id)
+
     skills_scores = service.calculate_skills_scores(
-        result_data.game_id, result_data.metrics.model_dump()
+        game.slug, result_data.metrics.model_dump()
     )
 
     result = await service.create_game_result(
@@ -92,6 +94,17 @@ async def submit_game_result(
         skills_scores=skills_scores,
         duration_seconds=result_data.duration_seconds,
     )
+
+    if skills_scores:
+        from app.profiles import service as profiles_service
+        await profiles_service.update_skills_from_game(
+            db=db,
+            student_id=current_user.id,
+            institution_id=current_user.institution_id,
+            game_slug=game.slug,
+            skills_scores=skills_scores,
+        )
+
     return result
 
 

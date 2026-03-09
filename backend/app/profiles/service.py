@@ -126,3 +126,46 @@ async def append_riasec_to_history(
     await db.flush()
     logger.info("RIASEC agregado al historial", student_id=str(student_id))
     return profile
+
+
+async def update_skills_from_game(
+    db: AsyncSession,
+    student_id: uuid.UUID,
+    institution_id: uuid.UUID,
+    game_slug: str,
+    skills_scores: dict[str, float],
+) -> StudentLongitudinalProfile:
+    """Actualiza las habilidades del perfil con los resultados de un juego."""
+    profile = await get_or_create_profile(db, student_id, institution_id)
+
+    current_skills = dict(profile.skills) if isinstance(profile.skills, dict) else {}
+
+    for skill_name, score in skills_scores.items():
+        game_skill_key = f"game_{game_slug}_{skill_name}"
+
+        if skill_name not in current_skills:
+            current_skills[skill_name] = {}
+
+        if isinstance(current_skills.get(skill_name), dict):
+            current_skills[skill_name]["score"] = score
+            current_skills[skill_name]["last_game"] = game_slug
+            current_skills[skill_name]["updated_at"] = datetime.now(timezone.utc).isoformat()
+
+            if "games" not in current_skills[skill_name]:
+                current_skills[skill_name]["games"] = []
+            if game_slug not in current_skills[skill_name]["games"]:
+                current_skills[skill_name]["games"].append(game_slug)
+
+    profile.skills = current_skills
+    flag_modified(profile, "skills")
+    profile.last_updated = datetime.now(timezone.utc)
+
+    sources = list(profile.data_sources) if isinstance(profile.data_sources, list) else []
+    if "games" not in sources:
+        sources.append("games")
+        profile.data_sources = sources
+        flag_modified(profile, "data_sources")
+
+    await db.flush()
+    logger.info("Habilidades actualizadas desde juego", student_id=str(student_id), game=game_slug)
+    return profile

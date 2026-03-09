@@ -5,12 +5,13 @@ Logica de negocio para catalogo de carreras y recomendaciones.
 """
 
 import uuid
+from datetime import datetime, timezone
 
 import structlog
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.careers.models import Career
+from app.careers.models import Career, CareerSimulation
 from app.careers.recommendation import calcular_compatibilidad, generar_razones_match
 from app.careers.schemas import (
     CareerCreate,
@@ -138,3 +139,90 @@ async def get_recommendations(
         recommendations=recommendations,
         total_careers_analyzed=len(all_careers),
     )
+
+
+async def create_career_simulation(
+    db: AsyncSession,
+    student_id: uuid.UUID,
+    career_id: uuid.UUID,
+    student_profile: dict | None = None,
+) -> CareerSimulation:
+    """Genera una simulacion de carrera basada en el perfil del estudiante."""
+    career = await get_career_by_id(db, career_id)
+
+    base_salary = career.salary_range.get("median", 500000) if career.salary_range else 500000
+
+    years = list(range(2025, 2045))
+    salary_projection = []
+    for i, year in enumerate(years):
+        growth = 1 + (0.03 * i)
+        salary = int(base_salary * growth)
+        salary_projection.append({"year": year, "salary": salary})
+
+    milestones = [
+        {"year": 2025, "title": "Inicio de estudios", "description": "Comienzo de la carrera"},
+        {"year": 2027, "title": "Primer ano completado", "description": "Basicos completados"},
+        {"year": 2029, "title": "Practica profesional", "description": "Experiencia laboral inicial"},
+        {"year": 2031, "title": "Titulacion", "description": "Egreso y titulacion"},
+        {"year": 2033, "title": "Primer empleo formal", "description": "Entrada al mercado laboral"},
+        {"year": 2038, "title": "Posicion senior", "description": "Experto en el area"},
+    ]
+
+    simulation_data = {
+        "career_name": career.name,
+        "career_area": career.area,
+        "salary_projection": salary_projection,
+        "milestones": milestones,
+        "employability": career.employability,
+        "saturation_index": career.saturation_index,
+        "skills_needed": career.holland_codes if isinstance(career.holland_codes, dict) else {},
+    }
+
+    ai_narrative = f"""Simulacion de carrera: {career.name}
+
+Esta simulacion presenta un escenario proyectado para un estudiante con el perfil descrito.
+
+Proyeccion salarial:
+El salario inicial promedio para {career.name} es de ${base_salary:,.0f} CLP mensuales.
+Se proyecta un crecimiento salarial del 3% anual en terminos reales.
+
+Trayectoria profesional:
+- 2025-2027: Estudios basicos y formacion fundamental
+- 2027-2029: Practicas y experiencia inicial
+- 2029-2031: Conclusion de estudios y titulacion
+- 2031-2033: Integracion al mercado laboral
+- 2033-2038: Crecimiento profesional continuo
+
+Consideraciones:
+- Indice de empleabilidad actual: {int(career.employability * 100)}%
+- Nivel de saturacion del mercado: {int(career.saturation_index * 100)}%
+
+Esta simulacion es una projection basada en datos actuales del mercado laboral chileno.
+Los resultados reales pueden variar segun condiciones economicas y desarrollo personal."""
+
+    simulation = CareerSimulation(
+        student_id=student_id,
+        career_id=career_id,
+        simulation_data=simulation_data,
+        ai_narrative=ai_narrative,
+        model_used="rule-based-projection",
+    )
+
+    db.add(simulation)
+    await db.flush()
+
+    logger.info("Simulacion de carrera creada", student_id=str(student_id), career_id=str(career_id))
+    return simulation
+
+
+async def get_student_simulations(
+    db: AsyncSession,
+    student_id: uuid.UUID,
+) -> list[CareerSimulation]:
+    """Obtiene las simulaciones de carrera de un estudiante."""
+    result = await db.execute(
+        select(CareerSimulation)
+        .where(CareerSimulation.student_id == student_id)
+        .order_by(CareerSimulation.created_at.desc())
+    )
+    return list(result.scalars().all())

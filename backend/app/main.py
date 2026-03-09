@@ -107,6 +107,7 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     from app.notifications.router import router as notifications_router
     from app.parent_linking.router import router as parent_linking_router
     from app.profiles.router import router as profiles_router
+    from app.reports.router import router as reports_router
     from app.sessions.router import router as sessions_router
     from app.student_import.router import router as student_import_router
     from app.tests_vocational.router import router as tests_router
@@ -134,3 +135,4 @@ def _include_routers(app: FastAPI, settings: object) -> None:
         student_import_router, prefix=f"{prefix}/students/csv", tags=["student-import"]
     )
     app.include_router(games_router, prefix=f"{prefix}/games", tags=["games"])
+    app.include_router(reports_router, prefix=f"{prefix}/reports", tags=["reports"])
