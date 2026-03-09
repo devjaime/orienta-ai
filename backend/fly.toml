@@ -1,71 +1,62 @@
-# ===================================
-# Vocari Backend - Fly.io Configuration
-# ===================================
-# Deploy: fly deploy -a vocari-api
+# fly.toml app configuration file generated for vocari-api on 2026-03-09T12:34:46-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "vocari-api"
-primary_region = "gru"  # Sao Paulo (mas cercano a Chile)
+app = 'vocari-api'
+primary_region = 'gru'
+kill_signal = 'SIGTERM'
+kill_timeout = '30s'
 
-kill_signal = "SIGTERM"
-kill_timeout = 30
-
-# Build desde Dockerfile existente
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
-# Variables de entorno NO sensibles
-# Las sensibles van en: fly secrets set KEY=VALUE
+[deploy]
+  strategy = 'rolling'
+
 [env]
-  APP_ENV = "production"
-  APP_NAME = "vocari-backend"
-  DEBUG = "false"
-  LOG_LEVEL = "INFO"
-  LOG_FORMAT = "json"
-  PORT = "8000"
-  HOST = "0.0.0.0"
-  WORKERS = "2"
-  RELOAD = "false"
-  API_V1_PREFIX = "/api/v1"
-  DATABASE_POOL_SIZE = "5"
-  DATABASE_MAX_OVERFLOW = "10"
-  RATE_LIMIT_PER_MINUTE = "60"
-  RATE_LIMIT_PER_HOUR = "1000"
-  JWT_ALGORITHM = "HS256"
-  JWT_ACCESS_TOKEN_EXPIRE_MINUTES = "30"
-  JWT_REFRESH_TOKEN_EXPIRE_DAYS = "7"
-  OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
-  OPENROUTER_DEFAULT_MODEL = "anthropic/claude-3.5-sonnet"
-  OPENROUTER_MAX_CONCURRENT = "5"
-  OPENROUTER_TIMEOUT_SECONDS = "30"
-  OPENROUTER_MAX_RETRIES = "3"
+  API_V1_PREFIX = '/api/v1'
+  APP_ENV = 'production'
+  APP_NAME = 'vocari-backend'
+  DATABASE_MAX_OVERFLOW = '10'
+  DATABASE_POOL_SIZE = '5'
+  DEBUG = 'false'
+  HOST = '0.0.0.0'
+  JWT_ACCESS_TOKEN_EXPIRE_MINUTES = '30'
+  JWT_ALGORITHM = 'HS256'
+  JWT_REFRESH_TOKEN_EXPIRE_DAYS = '7'
+  LOG_FORMAT = 'json'
+  LOG_LEVEL = 'INFO'
+  OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1'
+  OPENROUTER_DEFAULT_MODEL = 'anthropic/claude-3.5-sonnet'
+  OPENROUTER_MAX_CONCURRENT = '5'
+  OPENROUTER_MAX_RETRIES = '3'
+  OPENROUTER_TIMEOUT_SECONDS = '30'
+  PORT = '8000'
+  RATE_LIMIT_PER_HOUR = '1000'
+  RATE_LIMIT_PER_MINUTE = '60'
+  RELOAD = 'false'
+  WORKERS = '2'
 
-# Servicio HTTP
 [http_service]
   internal_port = 8000
   force_https = true
-  auto_stop_machines = "stop"
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
 
   [http_service.concurrency]
-    type = "requests"
-    soft_limit = 100
+    type = 'requests'
     hard_limit = 150
+    soft_limit = 100
 
-  # Health check
   [[http_service.checks]]
-    grace_period = "15s"
-    interval = "30s"
-    method = "GET"
-    timeout = "5s"
-    path = "/health"
+    interval = '30s'
+    timeout = '5s'
+    grace_period = '15s'
+    method = 'GET'
+    path = '/health'
 
-# VM resources (free tier: shared-cpu-1x, 256MB)
 [[vm]]
-  size = "shared-cpu-1x"
-  memory = "256mb"
-
-# Deploy config
-[deploy]
-  release_command = "alembic upgrade head"
-  strategy = "rolling"
+  size = 'shared-cpu-1x'
+  memory = '256mb'
