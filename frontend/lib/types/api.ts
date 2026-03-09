@@ -22,8 +22,25 @@ export interface AuthTokens {
   expires_in: number;
 }
 
-/* Respuesta de /auth/me */
-export interface AuthMeResponse {
-  user: import("./user").User;
-  profile: import("./user").UserProfile | null;
+export * from "./dashboard";
+
+export type NotificationType = "general" | "session_scheduled" | "session_cancelled" | "test_completed" | "analysis_ready" | "consent_required";
+
+export interface NotificationResponse {
+  id: string;
+  user_id: string;
+  notification_type: NotificationType;
+  title: string;
+  message: string;
+  is_read: boolean;
+  extra_data: Record<string, unknown>;
+  created_at: string;
+}
+
+export interface NotificationListResponse {
+  items: NotificationResponse[];
+  total: number;
+  unread_count: number;
+  page: number;
+  per_page: number;
 }
