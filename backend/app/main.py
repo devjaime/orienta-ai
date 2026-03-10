@@ -51,53 +51,48 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         from sqlalchemy import text
 
         # ---------------------------------------------------------------
-        # FASE 1: Migraciones de schema drift (tablas del schema viejo de Supabase)
+        # FASE 1: Migraciones de schema drift — cada una en su propia TX
         # ---------------------------------------------------------------
-        async with engine.begin() as conn:
-            schema_migrations = [
-                # institutions: añadir columnas del modelo nuevo que no existen
-                "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS slug VARCHAR(100)",
-                "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS domain VARCHAR(255)",
-                "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS google_workspace_config JSONB",
-                "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT true",
-                # institutions.plan como VARCHAR si no existe el enum aún
-                "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS max_students INTEGER NOT NULL DEFAULT 50",
-                # Rellenar slug donde falte
-                "UPDATE institutions SET slug = regexp_replace(lower(name), '[^a-z0-9]+', '-', 'g') WHERE slug IS NULL",
-                # Asegurar unicidad de slug con constraint si no existe
-                """
-                DO $$ BEGIN
-                  IF NOT EXISTS (
-                    SELECT 1 FROM pg_constraint WHERE conname = 'institutions_slug_key'
-                  ) THEN
-                    ALTER TABLE institutions ADD CONSTRAINT institutions_slug_key UNIQUE (slug);
-                  END IF;
-                END $$
-                """,
-                # test_results: el schema viejo usa español, el nuevo usa inglés
-                # Renombrar columnas viejas y añadir nuevas
-                "ALTER TABLE test_results RENAME COLUMN codigo_holland TO result_code",
-                "ALTER TABLE test_results RENAME COLUMN certeza TO certainty",
-                "ALTER TABLE test_results RENAME COLUMN puntajes TO scores",
-                "ALTER TABLE test_results RENAME COLUMN respuestas TO answers",
-                "ALTER TABLE test_results RENAME COLUMN duracion_minutos TO duration_minutes_old",
-                "ALTER TABLE test_results ADD COLUMN IF NOT EXISTS test_type VARCHAR(100)",
-                "ALTER TABLE test_results ADD COLUMN IF NOT EXISTS test_metadata JSONB NOT NULL DEFAULT '{}'",
-                # Rellenar test_type por defecto a 'riasec' donde sea null
-                "UPDATE test_results SET test_type = 'riasec' WHERE test_type IS NULL",
-                # Añadir NOT NULL después de rellenar
-                "ALTER TABLE test_results ALTER COLUMN test_type SET NOT NULL",
-                # Asegurar institution_id (puede ya existir)
-                "ALTER TABLE test_results ADD COLUMN IF NOT EXISTS institution_id UUID REFERENCES institutions(id) ON DELETE SET NULL",
-            ]
-            for sql in schema_migrations:
-                try:
-                    await conn.execute(text(sql))
-                except Exception as migration_err:
-                    # Ignorar errores de columnas que ya existen / constraints duplicadas
-                    err_msg = str(migration_err)
-                    if "already exists" not in err_msg and "does not exist" not in err_msg:
-                        logger.warning("Migration warning", sql=sql[:60], error=err_msg[:120])
+        schema_migrations = [
+            # institutions: columnas del modelo nuevo
+            "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS slug VARCHAR(100)",
+            "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS domain VARCHAR(255)",
+            "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS google_workspace_config JSONB",
+            "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT true",
+            "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS max_students INTEGER NOT NULL DEFAULT 50",
+            "UPDATE institutions SET slug = regexp_replace(lower(name), '[^a-z0-9]+', '-', 'g') WHERE slug IS NULL",
+            """DO $$ BEGIN
+              IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='institutions_slug_key')
+              THEN ALTER TABLE institutions ADD CONSTRAINT institutions_slug_key UNIQUE (slug);
+              END IF; END $$""",
+            # test_results: renombrar columnas español → inglés
+            "ALTER TABLE test_results RENAME COLUMN codigo_holland TO result_code",
+            "ALTER TABLE test_results RENAME COLUMN certeza TO certainty",
+            "ALTER TABLE test_results RENAME COLUMN puntajes TO scores",
+            "ALTER TABLE test_results RENAME COLUMN respuestas TO answers",
+            "ALTER TABLE test_results RENAME COLUMN duracion_minutos TO duration_minutes_old",
+            # test_results: añadir columnas nuevas
+            "ALTER TABLE test_results ADD COLUMN IF NOT EXISTS test_type VARCHAR(100)",
+            "ALTER TABLE test_results ADD COLUMN IF NOT EXISTS test_metadata JSONB NOT NULL DEFAULT '{}'",
+            "UPDATE test_results SET test_type = 'riasec' WHERE test_type IS NULL",
+            "ALTER TABLE test_results ALTER COLUMN test_type SET NOT NULL",
+            "ALTER TABLE test_results ADD COLUMN IF NOT EXISTS institution_id UUID REFERENCES institutions(id) ON DELETE SET NULL",
+            # test_results: arreglar tipos
+            "ALTER TABLE test_results ALTER COLUMN user_email DROP NOT NULL",
+            "UPDATE test_results SET certainty = '0.9' WHERE certainty = 'Alta'",
+            "UPDATE test_results SET certainty = '0.6' WHERE certainty = 'Media'",
+            "UPDATE test_results SET certainty = '0.4' WHERE certainty = 'Exploratoria'",
+            "UPDATE test_results SET certainty = '0.5' WHERE certainty IS NOT NULL AND certainty ~ '^[A-Za-z]'",
+            "ALTER TABLE test_results ALTER COLUMN certainty TYPE FLOAT USING certainty::FLOAT",
+        ]
+        for sql in schema_migrations:
+            try:
+                async with engine.begin() as _conn:
+                    await _conn.execute(text(sql))
+            except Exception as migration_err:
+                err_msg = str(migration_err)
+                if "already exists" not in err_msg and "does not exist" not in err_msg:
+                    logger.warning("Migration warning", sql=sql[:60], error=err_msg[:120])
 
         # ---------------------------------------------------------------
         # FASE 2: Crear tablas nuevas que no existen
