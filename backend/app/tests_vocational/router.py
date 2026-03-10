@@ -36,9 +36,6 @@ async def submit_riasec_test(
     db=Depends(get_async_session),
 ) -> TestResultResponse:
     """Guarda el resultado de un test RIASEC del estudiante."""
-    if user.institution_id is None:
-        raise ValidationError("El usuario debe pertenecer a una institucion para guardar resultados")
-
     test_result = await save_riasec_result(db, user.id, user.institution_id, data)
     return TestResultResponse.model_validate(test_result)
 

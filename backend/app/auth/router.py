@@ -225,8 +225,8 @@ async def setup_test_users(
 
     # Definicion de usuarios de prueba
     test_users_def = [
-        {"email": "test.estudiante@vocari.cl", "name": "Ana García (Estudiante)", "role": _UserRole.ESTUDIANTE, "institution_id": None, "google_id": "test-google-estudiante-001"},
-        {"email": "test.apoderado@vocari.cl", "name": "Carlos García (Apoderado)", "role": _UserRole.APODERADO, "institution_id": None, "google_id": "test-google-apoderado-001"},
+        {"email": "test.estudiante@vocari.cl", "name": "Ana García (Estudiante)", "role": _UserRole.ESTUDIANTE, "institution_id": institution_id, "google_id": "test-google-estudiante-001"},
+        {"email": "test.apoderado@vocari.cl", "name": "Carlos García (Apoderado)", "role": _UserRole.APODERADO, "institution_id": institution_id, "google_id": "test-google-apoderado-001"},
         {"email": "test.orientador@vocari.cl", "name": "María López (Orientadora)", "role": _UserRole.ORIENTADOR, "institution_id": institution_id, "google_id": "test-google-orientador-001"},
         {"email": "test.admin.colegio@vocari.cl", "name": "Pedro Rojas (Admin Colegio)", "role": _UserRole.ADMIN_COLEGIO, "institution_id": institution_id, "google_id": "test-google-admincolegio-001"},
         {"email": "test.superadmin@vocari.cl", "name": "Super Admin Test", "role": _UserRole.SUPER_ADMIN, "institution_id": None, "google_id": "test-google-superadmin-001"},

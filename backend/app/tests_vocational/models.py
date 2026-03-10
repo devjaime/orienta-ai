@@ -33,10 +33,10 @@ class TestResult(UUIDPrimaryKeyMixin, Base):
         nullable=False,
         index=True,
     )
-    institution_id: Mapped[uuid.UUID] = mapped_column(
+    institution_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True),
-        ForeignKey("institutions.id", ondelete="CASCADE"),
-        nullable=False,
+        ForeignKey("institutions.id", ondelete="SET NULL"),
+        nullable=True,
         index=True,
     )
     test_type: Mapped[str] = mapped_column(String(100), nullable=False)

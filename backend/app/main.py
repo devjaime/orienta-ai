@@ -47,27 +47,67 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         import app.notifications.models
         
         engine = get_engine()
-        
-        # Primero, verificar si las tablas existen
+
         from sqlalchemy import text
+
+        # Crear tablas nuevas que no existan
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+
+        # Migraciones manuales: añadir columnas que puedan faltar por schema drift
+        async with engine.begin() as conn:
+            migrations = [
+                # test_results.institution_id fue añadida después de crear la tabla
+                """
+                ALTER TABLE test_results
+                    ADD COLUMN IF NOT EXISTS institution_id UUID
+                    REFERENCES institutions(id) ON DELETE SET NULL
+                """,
+                # game_results.institution_id igual
+                """
+                ALTER TABLE game_results
+                    ADD COLUMN IF NOT EXISTS institution_id UUID
+                    REFERENCES institutions(id) ON DELETE SET NULL
+                """,
+            ]
+            for sql in migrations:
+                try:
+                    await conn.execute(text(sql))
+                except Exception as migration_err:
+                    logger.warning("Migration skipped", error=str(migration_err))
+
+        # Seed de juegos si la tabla está vacía
+        async with engine.connect() as conn:
+            count = (await conn.execute(text("SELECT COUNT(*) FROM games"))).scalar()
+            if count == 0:
+                await conn.execute(text("""
+                    INSERT INTO games (id, name, slug, description, skills_evaluated,
+                        duration_minutes, difficulty, config, is_active)
+                    VALUES
+                    (gen_random_uuid(), 'Torre de Decisiones', 'torre-decisiones',
+                     'Construye una torre tomando decisiones bajo presión. Evalúa lógica y perseverancia.',
+                     '["logica","perseverancia","toma_decisiones"]'::json, 7, 'medium',
+                     '{}'::json, true),
+                    (gen_random_uuid(), 'Mapa de Intereses', 'mapa-intereses',
+                     'Explora un mapa visual y selecciona actividades que más te motivan. Detecta tus intereses vocacionales.',
+                     '["autoconocimiento","intereses_vocacionales","creatividad"]'::json, 5, 'easy',
+                     '{}'::json, true),
+                    (gen_random_uuid(), 'Simulador de Carrera', 'simulador-carrera',
+                     'Gestiona recursos y toma decisiones en un escenario profesional simulado. Evalúa planificación y liderazgo.',
+                     '["planificacion","liderazgo","resolucion_problemas"]'::json, 10, 'hard',
+                     '{}'::json, true)
+                """))
+                await conn.commit()
+                logger.info("Juegos de seed insertados")
+
         async with engine.connect() as conn:
             result = await conn.execute(text("""
-                SELECT table_name FROM information_schema.tables 
+                SELECT table_name FROM information_schema.tables
                 WHERE table_schema = 'public' AND table_name IN ('users', 'user_profiles')
             """))
             tables = [row[0] for row in result.fetchall()]
             logger.info("Tablas encontradas en DB", tables=tables)
-            
-            if 'users' not in tables:
-                # Crear todas las tablas
-                async with engine.begin() as conn:
-                    await conn.run_sync(Base.metadata.create_all)
-                logger.info("Tablas creadas")
-            else:
-                # Solo asegurar que existen
-                async with engine.begin() as conn:
-                    await conn.run_sync(Base.metadata.create_all)
-        
+
         logger.info("Setup de tablas completado")
     except Exception as e:
         logger.warning("Error en setup de tablas", error=str(e))
