@@ -1,7 +1,7 @@
 "use client";
 
 import { type ReactNode } from "react";
-import { useAuthStore } from "@/lib/stores/auth-store";
+import { useAuthStore, type AuthState } from "@/lib/stores/auth-store";
 import type { UserRole } from "@/lib/types/user";
 
 interface RoleGuardProps {
@@ -15,7 +15,7 @@ interface RoleGuardProps {
  * super_admin y admin siempre tienen acceso.
  */
 export function RoleGuard({ allowedRoles, children, fallback }: RoleGuardProps) {
-  const user = useAuthStore((s) => s.user);
+  const user = useAuthStore((s: AuthState) => s.user);
 
   if (!user) return null;
 

@@ -5,7 +5,7 @@ import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 import { Footer } from "./Footer";
 import { ToastContainer } from "@/components/ui/Toast";
-import { useAuthStore } from "@/lib/stores/auth-store";
+import { useAuthStore, type AuthState } from "@/lib/stores/auth-store";
 import { Spinner } from "@/components/ui/Spinner";
 
 interface DashboardShellProps {
@@ -13,9 +13,9 @@ interface DashboardShellProps {
 }
 
 export function DashboardShell({ children }: DashboardShellProps) {
-  const isLoading = useAuthStore((s) => s.isLoading);
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const initialize = useAuthStore((s) => s.initialize);
+  const isLoading = useAuthStore((s: AuthState) => s.isLoading);
+  const isAuthenticated = useAuthStore((s: AuthState) => s.isAuthenticated);
+  const initialize = useAuthStore((s: AuthState) => s.initialize);
 
   useEffect(() => {
     initialize();

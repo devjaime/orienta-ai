@@ -3,12 +3,12 @@
 import { Menu, LogOut } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
-import { useAuthStore } from "@/lib/stores/auth-store";
+import { useAuthStore, type AuthState } from "@/lib/stores/auth-store";
 import { useUIStore } from "@/lib/stores/ui-store";
 
 export function Header() {
-  const user = useAuthStore((s) => s.user);
-  const logout = useAuthStore((s) => s.logout);
+  const user = useAuthStore((s: AuthState) => s.user);
+  const logout = useAuthStore((s: AuthState) => s.logout);
   const toggleSidebar = useUIStore((s) => s.toggleSidebar);
 
   return (

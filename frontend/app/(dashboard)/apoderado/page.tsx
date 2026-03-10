@@ -79,7 +79,7 @@ function ChildrenList() {
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard", "parent"],
     queryFn: () =>
-      api.get<ParentDashboardResponse>("/api/v1/dashboards/apoderado"),
+      api.get<ParentDashboardResponse>("/api/v1/dashboards/parent"),
   });
 
   if (isLoading) {

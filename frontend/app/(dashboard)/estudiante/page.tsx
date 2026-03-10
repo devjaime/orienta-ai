@@ -26,7 +26,7 @@ function UpcomingSessions() {
     queryKey: ["sessions", "upcoming"],
     queryFn: () =>
       api.get<PaginatedResponse<Session>>(
-        "/api/v1/sessions?status=scheduled&status=confirmed&page_size=3",
+        "/api/v1/sessions?status=scheduled&status=confirmed&per_page=3",
       ),
   });
 

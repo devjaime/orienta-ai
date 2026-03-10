@@ -21,7 +21,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils/validation";
-import { useAuthStore } from "@/lib/stores/auth-store";
+import { useAuthStore, type AuthState } from "@/lib/stores/auth-store";
 import { useUIStore } from "@/lib/stores/ui-store";
 import type { UserRole } from "@/lib/types/user";
 
@@ -77,7 +77,7 @@ function getNavItems(role: UserRole | undefined): NavItem[] {
 
 export function Sidebar() {
   const pathname = usePathname();
-  const user = useAuthStore((s) => s.user);
+  const user = useAuthStore((s: AuthState) => s.user);
   const sidebarOpen = useUIStore((s) => s.sidebarOpen);
   const setSidebarOpen = useUIStore((s) => s.setSidebarOpen);
 

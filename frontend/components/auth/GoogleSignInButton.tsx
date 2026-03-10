@@ -1,20 +1,36 @@
 "use client";
 
-import { getGoogleAuthUrl } from "@/lib/auth";
+import { useState } from "react";
 
 interface GoogleSignInButtonProps {
   className?: string;
 }
 
 export function GoogleSignInButton({ className }: GoogleSignInButtonProps) {
-  const handleLogin = () => {
-    window.location.href = getGoogleAuthUrl();
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    setLoading(true);
+    try {
+      // Use proxy rewrite - /api/* redirects to backend
+      const res = await fetch("/api/auth/google", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (data.redirect_url) {
+        window.location.href = data.redirect_url;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setLoading(false);
+    }
   };
 
   return (
     <button
       onClick={handleLogin}
-      className={`flex items-center justify-center gap-3 w-full px-6 py-3 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 transition-colors ${className || ""}`}
+      disabled={loading}
+      className={`flex items-center justify-center gap-3 w-full px-6 py-3 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-50 ${className || ""}`}
     >
       <svg className="h-5 w-5" viewBox="0 0 24 24">
         <path
@@ -35,7 +51,7 @@ export function GoogleSignInButton({ className }: GoogleSignInButtonProps) {
         />
       </svg>
       <span className="text-sm font-medium text-gray-700">
-        Iniciar sesion con Google
+        {loading ? "Cargando..." : "Iniciar sesion con Google"}
       </span>
     </button>
   );

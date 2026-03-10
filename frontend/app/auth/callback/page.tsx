@@ -2,15 +2,15 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuthStore } from "@/lib/stores/auth-store";
+import { useAuthStore, type AuthState } from "@/lib/stores/auth-store";
 import { ROLE_HOME_ROUTES } from "@/lib/utils/constants";
 import { Spinner } from "@/components/ui/Spinner";
 
 function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const handleAuthCallback = useAuthStore((s) => s.handleAuthCallback);
-  const user = useAuthStore((s) => s.user);
+  const handleAuthCallback = useAuthStore((s: AuthState) => s.handleAuthCallback);
+  const user = useAuthStore((s: AuthState) => s.user);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

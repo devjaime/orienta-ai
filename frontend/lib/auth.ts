@@ -12,14 +12,23 @@ export function isTokenExpired(token: string): boolean {
 }
 
 /** Parse user from JWT payload (for quick access without API call) */
-export function parseUserFromToken(token: string): Partial<User> | null {
+export function parseUserFromToken(token: string | null | undefined): User | null {
+  if (!token || typeof token !== "string") return null;
+  
   try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    
+    const payload = JSON.parse(atob(parts[1]));
     return {
       id: payload.sub,
       email: payload.email,
+      full_name: payload.name ?? payload.full_name ?? "",
       role: payload.role as UserRole,
-      institution_id: payload.institution_id,
+      institution_id: payload.institution_id ?? null,
+      avatar_url: null,
+      is_active: true,
+      created_at: "",
     };
   } catch {
     return null;
@@ -28,8 +37,8 @@ export function parseUserFromToken(token: string): Partial<User> | null {
 
 /** Build the Google OAuth redirect URL */
 export function getGoogleAuthUrl(): string {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-  return `${apiUrl}/api/v1/auth/google`;
+  // Usar el proxy de Next.js
+  return "/api/auth/google";
 }
 
 /** Type guard for AuthTokens */
