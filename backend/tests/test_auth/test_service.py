@@ -37,6 +37,45 @@ class TestCreateAccessToken:
         assert "exp" in payload
         assert "iat" in payload
 
+    def test_create_access_token_con_campos_completos(self) -> None:
+        """Crea un access token con email, name e institution_id y verifica el payload."""
+        user_id = uuid.uuid4()
+        institution_id = uuid.uuid4()
+
+        token = create_access_token(
+            user_id=user_id,
+            role="orientador",
+            email="orientador@test.cl",
+            name="Maria Lopez",
+            institution_id=institution_id,
+        )
+
+        settings = get_settings()
+        payload = jwt.decode(token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm])
+
+        assert payload["sub"] == str(user_id)
+        assert payload["role"] == "orientador"
+        assert payload["email"] == "orientador@test.cl"
+        assert payload["name"] == "Maria Lopez"
+        assert payload["institution_id"] == str(institution_id)
+        assert payload["type"] == "access"
+
+    def test_create_access_token_sin_institution(self) -> None:
+        """Un token sin institution_id tiene el campo como None."""
+        user_id = uuid.uuid4()
+
+        token = create_access_token(
+            user_id=user_id,
+            role="estudiante",
+            email="est@test.cl",
+            name="Juan Test",
+        )
+
+        settings = get_settings()
+        payload = jwt.decode(token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm])
+
+        assert payload["institution_id"] is None
+
 
 class TestCreateRefreshToken:
     """Tests para create_refresh_token."""
@@ -64,7 +103,7 @@ class TestVerifyToken:
         user_id = uuid.uuid4()
         role = "orientador"
 
-        token = create_access_token(user_id, role)
+        token = create_access_token(user_id, role, email="o@test.cl", name="Orientador")
         payload = verify_token(token, expected_type="access")
 
         assert payload["sub"] == str(user_id)

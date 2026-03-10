@@ -103,6 +103,7 @@ async def get_or_create_user(
         return user
 
     # Crear nuevo usuario
+    logger.info("Intentando crear usuario", google_id=google_id, email=email)
     user = User(
         google_id=google_id,
         email=email,
@@ -110,19 +111,23 @@ async def get_or_create_user(
         avatar_url=avatar_url,
         role=UserRole.ESTUDIANTE,  # Rol por defecto
         last_login=datetime.now(UTC),
+        is_active=True,
     )
     db.add(user)
+    await db.commit()
+    await db.refresh(user)
 
-    # Crear perfil vacio
-    profile = UserProfile(user_id=user.id)
-    db.add(profile)
-
-    await db.flush()
-    logger.info("Nuevo usuario creado", user_id=str(user.id), email=email)
+    logger.info("Usuario creado exitosamente", google_id=google_id, email=email, user_id=str(user.id))
     return user
 
 
-def create_access_token(user_id: uuid.UUID, role: str) -> str:
+def create_access_token(
+    user_id: uuid.UUID,
+    role: str,
+    email: str = "",
+    name: str = "",
+    institution_id: uuid.UUID | None = None,
+) -> str:
     """Crea un JWT access token."""
     settings = get_settings()
     expire = datetime.now(UTC) + timedelta(minutes=settings.jwt_access_token_expire_minutes)
@@ -130,6 +135,9 @@ def create_access_token(user_id: uuid.UUID, role: str) -> str:
     payload = {
         "sub": str(user_id),
         "role": role,
+        "email": email,
+        "name": name,
+        "institution_id": str(institution_id) if institution_id else None,
         "exp": expire,
         "iat": datetime.now(UTC),
         "type": "access",

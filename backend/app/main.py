@@ -28,6 +28,50 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     # Startup
     await init_db()
+    
+    # Crear tablas si no existen (añadir columnas faltantes)
+    try:
+        from app.common.database import get_engine
+        from app.common.base_model import Base
+        
+        # Forzar importación de TODOS los modelos
+        import app.auth.models
+        import app.institutions.models
+        import app.sessions.models
+        import app.tests_vocational.models
+        import app.games.models
+        import app.careers.models
+        import app.profiles.models
+        import app.consent.models
+        import app.audit.models
+        import app.notifications.models
+        
+        engine = get_engine()
+        
+        # Primero, verificar si las tablas existen
+        from sqlalchemy import text
+        async with engine.connect() as conn:
+            result = await conn.execute(text("""
+                SELECT table_name FROM information_schema.tables 
+                WHERE table_schema = 'public' AND table_name IN ('users', 'user_profiles')
+            """))
+            tables = [row[0] for row in result.fetchall()]
+            logger.info("Tablas encontradas en DB", tables=tables)
+            
+            if 'users' not in tables:
+                # Crear todas las tablas
+                async with engine.begin() as conn:
+                    await conn.run_sync(Base.metadata.create_all)
+                logger.info("Tablas creadas")
+            else:
+                # Solo asegurar que existen
+                async with engine.begin() as conn:
+                    await conn.run_sync(Base.metadata.create_all)
+        
+        logger.info("Setup de tablas completado")
+    except Exception as e:
+        logger.warning("Error en setup de tablas", error=str(e))
+    
     await init_redis()
     setup_sentry()
     logger.info("Servicios inicializados correctamente")
@@ -92,7 +136,7 @@ def _configure_middleware(app: FastAPI, settings: object) -> None:
     if settings.is_production:
         app.add_middleware(
             TrustedHostMiddleware,
-            allowed_hosts=["api.vocari.cl", "*.vocari.cl"],
+            allowed_hosts=["api.vocari.cl", "*.vocari.cl", "*.fly.dev", "vocari-api.fly.dev"],
         )
 
 

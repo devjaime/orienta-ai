@@ -86,18 +86,27 @@ const Hero = ({ onStartTest }) => {
               transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center z-10 relative"
             >
+              <a
+                href="https://app.vocari.cl"
+                className="bg-vocari-primary text-white hover:bg-vocari-light text-lg px-6 py-3 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md z-20 relative"
+              >
+                Acceder a la plataforma →
+              </a>
+
+              <span className="text-gray-300 hidden sm:inline">|</span>
+
               <Link
                 to="/test"
                 className="text-vocari-primary underline hover:no-underline text-sm z-20 relative"
               >
                 ¿Primero hacer el test? Comenzar gratis
               </Link>
-              
+
               <span className="text-gray-300 hidden sm:inline">|</span>
-              
+
               <Link
                 to="/colegios"
-                className="bg-vocari-primary text-white hover:bg-vocari-light text-lg px-6 py-3 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md z-20 relative"
+                className="text-vocari-primary hover:text-vocari-light text-sm font-medium z-20 relative transition-colors"
               >
                 🏫 Para Colegios
               </Link>

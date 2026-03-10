@@ -4,6 +4,8 @@ Vocari Backend - Auth Router.
 Endpoints de autenticacion: Google OAuth, JWT refresh, perfil.
 """
 
+import os
+
 from fastapi import APIRouter, Body, Depends, Query, Request, Response
 from fastapi.responses import RedirectResponse
 from sqlalchemy import select
@@ -38,12 +40,11 @@ async def initiate_google_auth() -> dict[str, str]:
 async def google_callback(
     code: str = Query(...),
     state: str | None = Query(default=None),
-    response: Response = Response(),
     db: AsyncSession = Depends(get_async_session),
-) -> AuthTokenResponse:
+) -> RedirectResponse:
     """
     Callback de Google OAuth.
-    Intercambia el code por tokens y crea/actualiza el usuario.
+    Intercambia el code por tokens y redirige al frontend con los tokens.
     """
     # Intercambiar code por tokens de Google
     google_tokens = await exchange_google_code(code)
@@ -64,26 +65,32 @@ async def google_callback(
         avatar_url=user_info.get("picture"),
     )
 
-    # Generar JWT
-    access_token = create_access_token(user.id, user.role.value)
+    # Generar JWT con datos completos del usuario
+    access_token = create_access_token(
+        user_id=user.id,
+        role=user.role.value,
+        email=user.email,
+        name=user.name,
+        institution_id=user.institution_id,
+    )
     refresh_token = create_refresh_token(user.id)
 
-    # Setear refresh token en httpOnly cookie
-    response.set_cookie(
+    # Redirigir al frontend con los tokens en la URL
+    frontend_url = os.getenv("FRONTEND_URL", "https://app.vocari.cl")
+    callback_url = f"{frontend_url}/auth/callback?access_token={access_token}&refresh_token={refresh_token}"
+
+    # Setear refresh token en httpOnly cookie sobre el RedirectResponse
+    redirect = RedirectResponse(url=callback_url)
+    redirect.set_cookie(
         key="refresh_token",
         value=refresh_token,
         httponly=True,
         secure=True,
         samesite="lax",
         max_age=7 * 24 * 60 * 60,  # 7 dias
-        path="/api/v1/auth",
+        path="/",
     )
-
-    return AuthTokenResponse(
-        access_token=access_token,
-        refresh_token=refresh_token,
-        user=UserResponse.model_validate(user),
-    )
+    return redirect
 
 
 @router.post("/refresh", response_model=TokenRefreshResponse)
@@ -170,6 +177,148 @@ async def get_current_user_info(
         permissions=permissions,
         consent_status=None,  # Se implementara en consent module
     )
+
+
+@router.post("/dev/setup", include_in_schema=True)
+async def setup_test_users(
+    secret: str = Body(..., embed=True),
+    db: AsyncSession = Depends(get_async_session),
+) -> dict:
+    """
+    Crea usuarios de prueba y devuelve URLs de acceso directo al frontend.
+    SOLO para testing — requiere DEV_TOKEN_SECRET.
+    """
+    import uuid as _uuid
+    from app.auth.models import UserRole as _UserRole
+    from app.institutions.models import Institution as _Institution, InstitutionPlan as _InstitutionPlan
+    from sqlalchemy import select as _select
+
+    dev_secret = os.getenv("DEV_TOKEN_SECRET", "")
+    if not dev_secret or secret != dev_secret:
+        raise AuthenticationError("Secret invalido o endpoint deshabilitado")
+
+    frontend_url = os.getenv("FRONTEND_URL", "https://app.vocari.cl")
+
+    # Buscar o crear institucion de prueba usando savepoint para aislar errores
+    institution_id = None
+    try:
+        async with db.begin_nested():
+            result = await db.execute(
+                _select(_Institution).where(_Institution.name == "Colegio Demo Vocari")
+            )
+            institution = result.scalar_one_or_none()
+            if not institution:
+                institution = _Institution(
+                    id=_uuid.uuid4(),
+                    name="Colegio Demo Vocari",
+                    slug="colegio-demo-vocari",
+                    plan=_InstitutionPlan.BASIC,
+                    max_students=200,
+                    is_active=True,
+                )
+                db.add(institution)
+                await db.flush()
+            institution_id = institution.id
+    except Exception:
+        # Si el schema de institutions no esta actualizado, continuar sin institucion
+        institution_id = None
+
+    # Definicion de usuarios de prueba
+    test_users_def = [
+        {"email": "test.estudiante@vocari.cl", "name": "Ana García (Estudiante)", "role": _UserRole.ESTUDIANTE, "institution_id": None, "google_id": "test-google-estudiante-001"},
+        {"email": "test.apoderado@vocari.cl", "name": "Carlos García (Apoderado)", "role": _UserRole.APODERADO, "institution_id": None, "google_id": "test-google-apoderado-001"},
+        {"email": "test.orientador@vocari.cl", "name": "María López (Orientadora)", "role": _UserRole.ORIENTADOR, "institution_id": institution_id, "google_id": "test-google-orientador-001"},
+        {"email": "test.admin.colegio@vocari.cl", "name": "Pedro Rojas (Admin Colegio)", "role": _UserRole.ADMIN_COLEGIO, "institution_id": institution_id, "google_id": "test-google-admincolegio-001"},
+        {"email": "test.superadmin@vocari.cl", "name": "Super Admin Test", "role": _UserRole.SUPER_ADMIN, "institution_id": None, "google_id": "test-google-superadmin-001"},
+    ]
+
+    users_result = []
+    for u in test_users_def:
+        result = await db.execute(select(User).where(User.email == u["email"]))
+        user = result.scalar_one_or_none()
+        if not user:
+            user = User(
+                id=_uuid.uuid4(),
+                email=u["email"],
+                google_id=u["google_id"],
+                name=u["name"],
+                role=u["role"],
+                institution_id=u["institution_id"],
+                is_active=True,
+            )
+            db.add(user)
+            await db.flush()
+        else:
+            user.name = u["name"]
+            user.role = u["role"]
+            user.institution_id = u["institution_id"]
+            user.is_active = True
+
+        at = create_access_token(
+            user_id=user.id, role=user.role.value,
+            email=user.email, name=user.name,
+            institution_id=user.institution_id,
+        )
+        rt = create_refresh_token(user.id)
+
+        users_result.append({
+            "role": user.role.value,
+            "email": user.email,
+            "name": user.name,
+            "access_token": at,
+            "refresh_token": rt,
+            "login_url": f"{frontend_url}/auth/callback?access_token={at}&refresh_token={rt}",
+        })
+
+    await db.commit()
+    return {"status": "ok", "users": users_result}
+
+
+@router.post("/dev-token", include_in_schema=True)
+async def get_dev_token(
+    email: str = Body(..., embed=True),
+    secret: str = Body(..., embed=True),
+    db: AsyncSession = Depends(get_async_session),
+) -> dict:
+    """
+    Genera un JWT para un usuario existente sin pasar por Google OAuth.
+
+    SOLO para testing — requiere DEV_TOKEN_SECRET en el entorno.
+    Retorna 403 si el secret no coincide o si el usuario no existe.
+    """
+    dev_secret = os.getenv("DEV_TOKEN_SECRET", "")
+    if not dev_secret or secret != dev_secret:
+        raise AuthenticationError("Secret invalido o endpoint deshabilitado")
+
+    result = await db.execute(
+        select(User).where(User.email == email, User.is_active.is_(True))
+    )
+    user = result.scalar_one_or_none()
+
+    if not user:
+        raise UserNotFoundError(f"Usuario no encontrado: {email}")
+
+    access_token = create_access_token(
+        user_id=user.id,
+        role=user.role.value,
+        email=user.email,
+        name=user.name,
+        institution_id=user.institution_id,
+    )
+    refresh_token = create_refresh_token(user.id)
+
+    return {
+        "access_token": access_token,
+        "refresh_token": refresh_token,
+        "token_type": "bearer",
+        "user": {
+            "id": str(user.id),
+            "email": user.email,
+            "name": user.name,
+            "role": user.role.value,
+            "institution_id": str(user.institution_id) if user.institution_id else None,
+        },
+    }
 
 
 @router.post("/logout")

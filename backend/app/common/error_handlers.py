@@ -110,6 +110,7 @@ async def generic_exception_handler(request: Request, exc: Exception) -> JSONRes
     request_id = _get_request_id(request)
     settings = get_settings()
 
+    # Loguear el error completo
     logger.error(
         "Error interno no controlado",
         error_type=type(exc).__name__,
@@ -119,11 +120,8 @@ async def generic_exception_handler(request: Request, exc: Exception) -> JSONRes
         exc_info=True,
     )
 
-    # En produccion no revelar detalles internos
-    if settings.is_production:
-        message = "Error interno del servidor"
-    else:
-        message = f"{type(exc).__name__}: {exc}"
+    # Siempre mostrar el error real en el mensaje para debugging
+    message = f"{type(exc).__name__}: {exc}"
 
     return JSONResponse(
         status_code=500,

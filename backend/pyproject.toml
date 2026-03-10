@@ -76,3 +76,6 @@ testpaths = ["tests"]
 filterwarnings = [
     "ignore::DeprecationWarning",
 ]
+markers = [
+    "e2e: Tests contra el API desplegado (requieren VOCARI_E2E_API_URL y VOCARI_E2E_DEV_SECRET)",
+]

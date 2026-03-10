@@ -98,7 +98,6 @@ async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
 
     app = create_app()
 
-    # Override de la dependencia de BD para usar la sesion de test
     async def _override_session() -> AsyncGenerator[AsyncSession, None]:
         yield db_session
 
@@ -112,40 +111,8 @@ async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient, None]:
 
 
 # ---------------------------------------------------------------------------
-# Usuarios de ejemplo
+# Institucion de ejemplo
 # ---------------------------------------------------------------------------
-
-
-@pytest_asyncio.fixture
-async def sample_user(db_session: AsyncSession) -> User:
-    """Crea un usuario estudiante de prueba."""
-    user = User(
-        id=uuid.uuid4(),
-        email="estudiante@test.vocari.cl",
-        google_id=f"google-{uuid.uuid4().hex[:12]}",
-        name="Estudiante Test",
-        role=UserRole.ESTUDIANTE,
-        is_active=True,
-    )
-    db_session.add(user)
-    await db_session.flush()
-    return user
-
-
-@pytest_asyncio.fixture
-async def sample_admin(db_session: AsyncSession) -> User:
-    """Crea un usuario super_admin de prueba."""
-    user = User(
-        id=uuid.uuid4(),
-        email="admin@test.vocari.cl",
-        google_id=f"google-{uuid.uuid4().hex[:12]}",
-        name="Admin Test",
-        role=UserRole.SUPER_ADMIN,
-        is_active=True,
-    )
-    db_session.add(user)
-    await db_session.flush()
-    return user
 
 
 @pytest_asyncio.fixture
@@ -165,6 +132,95 @@ async def sample_institution(db_session: AsyncSession) -> Institution:
 
 
 # ---------------------------------------------------------------------------
+# Usuarios de ejemplo por rol
+# ---------------------------------------------------------------------------
+
+
+@pytest_asyncio.fixture
+async def sample_user(db_session: AsyncSession) -> User:
+    """Crea un usuario estudiante de prueba."""
+    user = User(
+        id=uuid.uuid4(),
+        email="estudiante@test.vocari.cl",
+        google_id=f"google-{uuid.uuid4().hex[:12]}",
+        name="Ana Garcia Estudiante",
+        role=UserRole.ESTUDIANTE,
+        is_active=True,
+    )
+    db_session.add(user)
+    await db_session.flush()
+    return user
+
+
+@pytest_asyncio.fixture
+async def sample_apoderado(db_session: AsyncSession) -> User:
+    """Crea un usuario apoderado de prueba."""
+    user = User(
+        id=uuid.uuid4(),
+        email="apoderado@test.vocari.cl",
+        google_id=f"google-{uuid.uuid4().hex[:12]}",
+        name="Carlos Garcia Apoderado",
+        role=UserRole.APODERADO,
+        is_active=True,
+    )
+    db_session.add(user)
+    await db_session.flush()
+    return user
+
+
+@pytest_asyncio.fixture
+async def sample_orientador(db_session: AsyncSession, sample_institution: Institution) -> User:
+    """Crea un usuario orientador de prueba (vinculado a institucion)."""
+    user = User(
+        id=uuid.uuid4(),
+        email="orientador@test.vocari.cl",
+        google_id=f"google-{uuid.uuid4().hex[:12]}",
+        name="Maria Lopez Orientadora",
+        role=UserRole.ORIENTADOR,
+        institution_id=sample_institution.id,
+        is_active=True,
+    )
+    db_session.add(user)
+    await db_session.flush()
+    return user
+
+
+@pytest_asyncio.fixture
+async def sample_admin_colegio(
+    db_session: AsyncSession, sample_institution: Institution
+) -> User:
+    """Crea un usuario admin_colegio de prueba (vinculado a institucion)."""
+    user = User(
+        id=uuid.uuid4(),
+        email="admin.colegio@test.vocari.cl",
+        google_id=f"google-{uuid.uuid4().hex[:12]}",
+        name="Pedro Rojas Admin Colegio",
+        role=UserRole.ADMIN_COLEGIO,
+        institution_id=sample_institution.id,
+        is_active=True,
+    )
+    db_session.add(user)
+    await db_session.flush()
+    return user
+
+
+@pytest_asyncio.fixture
+async def sample_admin(db_session: AsyncSession) -> User:
+    """Crea un usuario super_admin de prueba."""
+    user = User(
+        id=uuid.uuid4(),
+        email="admin@test.vocari.cl",
+        google_id=f"google-{uuid.uuid4().hex[:12]}",
+        name="Super Admin Vocari",
+        role=UserRole.SUPER_ADMIN,
+        is_active=True,
+    )
+    db_session.add(user)
+    await db_session.flush()
+    return user
+
+
+# ---------------------------------------------------------------------------
 # Autenticacion
 # ---------------------------------------------------------------------------
 
@@ -181,7 +237,35 @@ def auth_headers() -> Any:
     from app.auth.service import create_access_token
 
     def _make_headers(user: User) -> dict[str, str]:
-        token = create_access_token(user.id, user.role.value)
+        token = create_access_token(
+            user_id=user.id,
+            role=user.role.value,
+            email=user.email,
+            name=user.name,
+            institution_id=user.institution_id,
+        )
         return {"Authorization": f"Bearer {token}"}
 
     return _make_headers
+
+
+@pytest.fixture
+def make_token() -> Any:
+    """
+    Fixture-funcion que genera solo el JWT string para un usuario.
+
+    Uso:
+        token = make_token(user)
+    """
+    from app.auth.service import create_access_token
+
+    def _make_token(user: User) -> str:
+        return create_access_token(
+            user_id=user.id,
+            role=user.role.value,
+            email=user.email,
+            name=user.name,
+            institution_id=user.institution_id,
+        )
+
+    return _make_token

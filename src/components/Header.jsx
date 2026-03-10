@@ -77,18 +77,18 @@ const Header = ({ onStartTest }) => {
           <div className="hidden md:flex items-center gap-3">
             {!user ? (
               <>
-                <Link
-                  to="/complete-profile"
+                <a
+                  href="https://app.vocari.cl"
                   className="text-gray-600 hover:text-vocari-primary px-4 py-2 rounded-xl transition-all duration-300 font-medium text-sm"
                 >
                   Iniciar Sesion
-                </Link>
-                <button
-                  onClick={onStartTest}
-                  className="btn-primary text-sm px-6 py-2.5"
+                </a>
+                <a
+                  href="https://app.vocari.cl"
+                  className="btn-primary text-sm px-6 py-2.5 inline-flex items-center gap-1.5"
                 >
-                  Hacer Test Gratis
-                </button>
+                  Acceder a la plataforma
+                </a>
               </>
             ) : (
               <div className="flex items-center gap-3">
@@ -163,9 +163,15 @@ const Header = ({ onStartTest }) => {
               <a href="/colegios" className="text-vocari-b2b hover:text-teal-700 transition-colors duration-300 font-medium">
                 Para Colegios
               </a>
+              <a
+                href="https://app.vocari.cl"
+                className="btn-primary w-full text-center block"
+              >
+                Acceder a la plataforma
+              </a>
               <button
                 onClick={onStartTest}
-                className="btn-primary w-full"
+                className="w-full border border-vocari-primary text-vocari-primary py-2.5 rounded-xl font-medium text-sm hover:bg-vocari-primary/5 transition-colors"
               >
                 Hacer Test Gratis
               </button>
