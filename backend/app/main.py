@@ -132,15 +132,15 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
                     VALUES
                     (gen_random_uuid(), 'Torre de Decisiones', 'torre-decisiones',
                      'Construye una torre tomando decisiones bajo presión. Evalúa lógica y perseverancia.',
-                     '["logica","perseverancia","toma_decisiones"]'::jsonb, 7, 'medium',
+                     '["logica","perseverancia","toma_decisiones"]'::jsonb, 7, 'MEDIUM',
                      '{}'::jsonb, true),
                     (gen_random_uuid(), 'Mapa de Intereses', 'mapa-intereses',
                      'Explora un mapa visual y selecciona actividades que te motivan. Detecta tus intereses vocacionales.',
-                     '["autoconocimiento","intereses_vocacionales","creatividad"]'::jsonb, 5, 'easy',
+                     '["autoconocimiento","intereses_vocacionales","creatividad"]'::jsonb, 5, 'EASY',
                      '{}'::jsonb, true),
                     (gen_random_uuid(), 'Simulador de Carrera', 'simulador-carrera',
                      'Gestiona recursos y toma decisiones en un escenario profesional. Evalúa planificación y liderazgo.',
-                     '["planificacion","liderazgo","resolucion_problemas"]'::jsonb, 10, 'hard',
+                     '["planificacion","liderazgo","resolucion_problemas"]'::jsonb, 10, 'HARD',
                      '{}'::jsonb, true)
                 """))
                 logger.info("Juegos de seed insertados")

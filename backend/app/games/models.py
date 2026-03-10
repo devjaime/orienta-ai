@@ -16,9 +16,9 @@ from app.common.base_model import Base, UUIDPrimaryKeyMixin
 class GameDifficulty(str, enum.Enum):
     """Niveles de dificultad de un juego."""
 
-    EASY = "easy"
-    MEDIUM = "medium"
-    HARD = "hard"
+    EASY = "EASY"
+    MEDIUM = "MEDIUM"
+    HARD = "HARD"
 
 
 class Game(UUIDPrimaryKeyMixin, Base):
