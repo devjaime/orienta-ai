@@ -30,7 +30,7 @@ CERTEZA_MAP: dict[str, float] = {
 async def save_riasec_result(
     db: AsyncSession,
     user_id: uuid.UUID,
-    institution_id: uuid.UUID,
+    institution_id: uuid.UUID | None,
     data: TestResultCreate,
 ) -> TestResult:
     """Guarda el resultado de un test RIASEC."""

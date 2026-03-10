@@ -38,7 +38,7 @@ class TestResultResponse(BaseModel):
 
     id: uuid.UUID
     user_id: uuid.UUID
-    institution_id: uuid.UUID
+    institution_id: uuid.UUID | None = None
     test_type: str
     scores: dict
     result_code: str | None

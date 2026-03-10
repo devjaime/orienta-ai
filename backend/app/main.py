@@ -50,63 +50,100 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
         from sqlalchemy import text
 
-        # Crear tablas nuevas que no existan
+        # ---------------------------------------------------------------
+        # FASE 1: Migraciones de schema drift (tablas del schema viejo de Supabase)
+        # ---------------------------------------------------------------
         async with engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
-
-        # Migraciones manuales: añadir columnas que puedan faltar por schema drift
-        async with engine.begin() as conn:
-            migrations = [
-                # test_results.institution_id fue añadida después de crear la tabla
+            schema_migrations = [
+                # institutions: añadir columnas del modelo nuevo que no existen
+                "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS slug VARCHAR(100)",
+                "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS domain VARCHAR(255)",
+                "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS google_workspace_config JSONB",
+                "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT true",
+                # institutions.plan como VARCHAR si no existe el enum aún
+                "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS max_students INTEGER NOT NULL DEFAULT 50",
+                # Rellenar slug donde falte
+                "UPDATE institutions SET slug = regexp_replace(lower(name), '[^a-z0-9]+', '-', 'g') WHERE slug IS NULL",
+                # Asegurar unicidad de slug con constraint si no existe
                 """
-                ALTER TABLE test_results
-                    ADD COLUMN IF NOT EXISTS institution_id UUID
-                    REFERENCES institutions(id) ON DELETE SET NULL
+                DO $$ BEGIN
+                  IF NOT EXISTS (
+                    SELECT 1 FROM pg_constraint WHERE conname = 'institutions_slug_key'
+                  ) THEN
+                    ALTER TABLE institutions ADD CONSTRAINT institutions_slug_key UNIQUE (slug);
+                  END IF;
+                END $$
                 """,
-                # game_results.institution_id igual
-                """
-                ALTER TABLE game_results
-                    ADD COLUMN IF NOT EXISTS institution_id UUID
-                    REFERENCES institutions(id) ON DELETE SET NULL
-                """,
+                # test_results: el schema viejo usa español, el nuevo usa inglés
+                # Renombrar columnas viejas y añadir nuevas
+                "ALTER TABLE test_results RENAME COLUMN codigo_holland TO result_code",
+                "ALTER TABLE test_results RENAME COLUMN certeza TO certainty",
+                "ALTER TABLE test_results RENAME COLUMN puntajes TO scores",
+                "ALTER TABLE test_results RENAME COLUMN respuestas TO answers",
+                "ALTER TABLE test_results RENAME COLUMN duracion_minutos TO duration_minutes_old",
+                "ALTER TABLE test_results ADD COLUMN IF NOT EXISTS test_type VARCHAR(100)",
+                "ALTER TABLE test_results ADD COLUMN IF NOT EXISTS test_metadata JSONB NOT NULL DEFAULT '{}'",
+                # Rellenar test_type por defecto a 'riasec' donde sea null
+                "UPDATE test_results SET test_type = 'riasec' WHERE test_type IS NULL",
+                # Añadir NOT NULL después de rellenar
+                "ALTER TABLE test_results ALTER COLUMN test_type SET NOT NULL",
+                # Asegurar institution_id (puede ya existir)
+                "ALTER TABLE test_results ADD COLUMN IF NOT EXISTS institution_id UUID REFERENCES institutions(id) ON DELETE SET NULL",
             ]
-            for sql in migrations:
+            for sql in schema_migrations:
                 try:
                     await conn.execute(text(sql))
                 except Exception as migration_err:
-                    logger.warning("Migration skipped", error=str(migration_err))
+                    # Ignorar errores de columnas que ya existen / constraints duplicadas
+                    err_msg = str(migration_err)
+                    if "already exists" not in err_msg and "does not exist" not in err_msg:
+                        logger.warning("Migration warning", sql=sql[:60], error=err_msg[:120])
 
-        # Seed de juegos si la tabla está vacía
-        async with engine.connect() as conn:
-            count = (await conn.execute(text("SELECT COUNT(*) FROM games"))).scalar()
-            if count == 0:
+        # ---------------------------------------------------------------
+        # FASE 2: Crear tablas nuevas que no existen
+        # ---------------------------------------------------------------
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+
+        # ---------------------------------------------------------------
+        # FASE 3: Añadir plan enum a institutions si falta
+        # ---------------------------------------------------------------
+        async with engine.begin() as conn:
+            try:
+                await conn.execute(text(
+                    "DO $$ BEGIN CREATE TYPE institution_plan AS ENUM ('free','basic','premium'); "
+                    "EXCEPTION WHEN duplicate_object THEN NULL; END $$"
+                ))
+                await conn.execute(text(
+                    "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS plan institution_plan NOT NULL DEFAULT 'free'"
+                ))
+            except Exception:
+                pass
+
+        # ---------------------------------------------------------------
+        # FASE 4: Seed de juegos si la tabla está vacía
+        # ---------------------------------------------------------------
+        async with engine.begin() as conn:
+            count_row = await conn.execute(text("SELECT COUNT(*) FROM games"))
+            if (count_row.scalar() or 0) == 0:
                 await conn.execute(text("""
                     INSERT INTO games (id, name, slug, description, skills_evaluated,
                         duration_minutes, difficulty, config, is_active)
                     VALUES
                     (gen_random_uuid(), 'Torre de Decisiones', 'torre-decisiones',
                      'Construye una torre tomando decisiones bajo presión. Evalúa lógica y perseverancia.',
-                     '["logica","perseverancia","toma_decisiones"]'::json, 7, 'medium',
-                     '{}'::json, true),
+                     '["logica","perseverancia","toma_decisiones"]'::jsonb, 7, 'medium',
+                     '{}'::jsonb, true),
                     (gen_random_uuid(), 'Mapa de Intereses', 'mapa-intereses',
-                     'Explora un mapa visual y selecciona actividades que más te motivan. Detecta tus intereses vocacionales.',
-                     '["autoconocimiento","intereses_vocacionales","creatividad"]'::json, 5, 'easy',
-                     '{}'::json, true),
+                     'Explora un mapa visual y selecciona actividades que te motivan. Detecta tus intereses vocacionales.',
+                     '["autoconocimiento","intereses_vocacionales","creatividad"]'::jsonb, 5, 'easy',
+                     '{}'::jsonb, true),
                     (gen_random_uuid(), 'Simulador de Carrera', 'simulador-carrera',
-                     'Gestiona recursos y toma decisiones en un escenario profesional simulado. Evalúa planificación y liderazgo.',
-                     '["planificacion","liderazgo","resolucion_problemas"]'::json, 10, 'hard',
-                     '{}'::json, true)
+                     'Gestiona recursos y toma decisiones en un escenario profesional. Evalúa planificación y liderazgo.',
+                     '["planificacion","liderazgo","resolucion_problemas"]'::jsonb, 10, 'hard',
+                     '{}'::jsonb, true)
                 """))
-                await conn.commit()
                 logger.info("Juegos de seed insertados")
-
-        async with engine.connect() as conn:
-            result = await conn.execute(text("""
-                SELECT table_name FROM information_schema.tables
-                WHERE table_schema = 'public' AND table_name IN ('users', 'user_profiles')
-            """))
-            tables = [row[0] for row in result.fetchall()]
-            logger.info("Tablas encontradas en DB", tables=tables)
 
         logger.info("Setup de tablas completado")
     except Exception as e:
