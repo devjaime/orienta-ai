@@ -18,6 +18,7 @@ import {
   Shield,
   Activity,
   Heart,
+  MessageSquare,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils/validation";
@@ -39,6 +40,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { label: "Tests", href: "/estudiante/tests", icon: ClipboardList },
     { label: "Juegos", href: "/estudiante/juegos", icon: Gamepad2 },
     { label: "Carreras", href: "/estudiante/carreras", icon: GraduationCap },
+    { label: "Orientador Virtual", href: "/estudiante/orientador-virtual", icon: MessageSquare },
     { label: "Mi Perfil", href: "/estudiante/perfil", icon: UserCircle },
     { label: "Reportes", href: "/estudiante/reportes", icon: FileText },
   ],

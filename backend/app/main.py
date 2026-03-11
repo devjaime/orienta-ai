@@ -182,32 +182,71 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
             import uuid as _uuid_mod
             async with engine.begin() as _conn:
                 count_row = await _conn.execute(text("SELECT COUNT(*) FROM careers"))
-                if (count_row.scalar() or 0) == 0:
+                # Re-seed if less than 10 careers (ensure we have enough)
+                # First delete existing to avoid conflicts
+                if (count_row.scalar() or 0) < 10:
+                    await _conn.execute(text("DELETE FROM careers"))
                     careers_data = [
-                        ("Psicología", "Ciencias Sociales", ["S", "A", "I"],
-                         "Estudio del comportamiento humano y los procesos mentales.",
-                         {"min": 600000, "max": 2000000, "median": 1100000, "currency": "CLP"}, 0.78, 0.45),
+                        # Perfil Realista (R)
+                        ("Ingeniería Civil Mecánica", "Ingeniería", ["R", "I", "C"],
+                         "Diseño y mantenimiento de sistemas mecánicos.",
+                         {"min": 1000000, "max": 3500000, "median": 1800000, "currency": "CLP"}, 0.90, 0.25),
+                        ("Ingeniería en Electricidad", "Ingeniería", ["R", "I", "C"],
+                         "Sistemas eléctricos y generación de energía.",
+                         {"min": 950000, "max": 3200000, "median": 1700000, "currency": "CLP"}, 0.88, 0.22),
+                        ("Técnico en Mecánica Automotriz", "Técnico", ["R", "C"],
+                         "Reparación y mantenimiento de vehículos.",
+                         {"min": 500000, "max": 1200000, "median": 750000, "currency": "CLP"}, 0.82, 0.35),
+                        # Perfil Investigador (I)
                         ("Ingeniería en Informática", "Tecnología", ["I", "R", "C"],
                          "Desarrollo de software, sistemas y soluciones tecnológicas.",
                          {"min": 900000, "max": 3500000, "median": 2000000, "currency": "CLP"}, 0.95, 0.20),
-                        ("Diseño Gráfico", "Arte y Diseño", ["A", "I", "E"],
-                         "Comunicación visual, diseño de identidades y medios digitales.",
-                         {"min": 500000, "max": 1800000, "median": 900000, "currency": "CLP"}, 0.65, 0.50),
                         ("Medicina", "Salud", ["I", "S", "R"],
                          "Diagnóstico, tratamiento y prevención de enfermedades.",
                          {"min": 1500000, "max": 5000000, "median": 2800000, "currency": "CLP"}, 0.92, 0.30),
-                        ("Derecho", "Ciencias Jurídicas", ["E", "S", "C"],
-                         "Estudio del sistema legal, defensa de derechos y justicia.",
-                         {"min": 700000, "max": 3000000, "median": 1400000, "currency": "CLP"}, 0.70, 0.55),
+                        ("Biología", "Ciencias", ["I", "R", "S"],
+                         "Estudio de organismos vivos y ecosistemas.",
+                         {"min": 600000, "max": 2000000, "median": 1100000, "currency": "CLP"}, 0.72, 0.40),
+                        # Perfil Artístico (A)
+                        ("Diseño Gráfico", "Arte y Diseño", ["A", "I", "E"],
+                         "Comunicación visual, diseño de identidades y medios digitales.",
+                         {"min": 500000, "max": 1800000, "median": 900000, "currency": "CLP"}, 0.65, 0.50),
                         ("Arquitectura", "Diseño y Construcción", ["A", "R", "I"],
                          "Diseño de espacios habitables, edificios e infraestructura.",
                          {"min": 700000, "max": 2500000, "median": 1300000, "currency": "CLP"}, 0.72, 0.40),
-                        ("Administración de Empresas", "Negocios", ["E", "C", "S"],
-                         "Gestión organizacional, finanzas y estrategia empresarial.",
-                         {"min": 600000, "max": 2500000, "median": 1200000, "currency": "CLP"}, 0.80, 0.48),
+                        ("Comunicación Audiovisual", "Comunicación", ["A", "S", "E"],
+                         "Producción de contenido audiovisual y multimedia.",
+                         {"min": 550000, "max": 2000000, "median": 950000, "currency": "CLP"}, 0.68, 0.52),
+                        # Perfil Social (S)
+                        ("Psicología", "Ciencias Sociales", ["S", "A", "I"],
+                         "Estudio del comportamiento humano y los procesos mentales.",
+                         {"min": 600000, "max": 2000000, "median": 1100000, "currency": "CLP"}, 0.78, 0.45),
+                        ("Trabajo Social", "Ciencias Sociales", ["S", "C", "A"],
+                         "Intervención social y apoyo a comunidades.",
+                         {"min": 500000, "max": 1200000, "median": 750000, "currency": "CLP"}, 0.75, 0.38),
                         ("Pedagogía en Matemáticas", "Educación", ["I", "S", "C"],
                          "Enseñanza de matemáticas en educación básica y media.",
                          {"min": 600000, "max": 1500000, "median": 900000, "currency": "CLP"}, 0.85, 0.25),
+                        # Perfil Emprendedor (E)
+                        ("Derecho", "Ciencias Jurídicas", ["E", "S", "C"],
+                         "Estudio del sistema legal, defensa de derechos y justicia.",
+                         {"min": 700000, "max": 3000000, "median": 1400000, "currency": "CLP"}, 0.70, 0.55),
+                        ("Administración de Empresas", "Negocios", ["E", "C", "S"],
+                         "Gestión organizacional, finanzas y estrategia empresarial.",
+                         {"min": 600000, "max": 2500000, "median": 1200000, "currency": "CLP"}, 0.80, 0.48),
+                        ("Ingeniería Comercial", "Negocios", ["E", "C", "I"],
+                         "Gestión empresarial con enfoque tecnológico.",
+                         {"min": 800000, "max": 2800000, "median": 1500000, "currency": "CLP"}, 0.83, 0.42),
+                        # Perfil Convencional (C)
+                        ("Contador Auditor", "Negocios", ["C", "E", "S"],
+                         "Gestión financiera y auditoría contable.",
+                         {"min": 600000, "max": 2000000, "median": 1000000, "currency": "CLP"}, 0.77, 0.45),
+                        ("Ingeniería en Administración", "Negocios", ["E", "C", "S"],
+                         "Administración y gestión de organizaciones.",
+                         {"min": 700000, "max": 2500000, "median": 1300000, "currency": "CLP"}, 0.81, 0.46),
+                        ("Técnico en Contabilidad", "Técnico", ["C", "R"],
+                         "Apoyo contable y gestión de información financiera.",
+                         {"min": 450000, "max": 900000, "median": 650000, "currency": "CLP"}, 0.79, 0.32),
                     ]
                     insert_sql = text(
                         "INSERT INTO careers (id, name, area, holland_codes, description, "
@@ -307,12 +346,14 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     prefix = settings.api_v1_prefix
 
     from app.audit.router import router as audit_router
+    from app.ai.router import router as ai_router
     from app.auth.router import router as auth_router
     from app.careers.router import router as careers_router
     from app.consent.router import router as consent_router
     from app.dashboards.router import router as dashboards_router
     from app.games.router import router as games_router
     from app.institutions.router import router as institutions_router
+    from app.leads.router import router as leads_router
     from app.notifications.router import router as notifications_router
     from app.parent_linking.router import router as parent_linking_router
     from app.profiles.router import router as profiles_router
@@ -322,6 +363,8 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     from app.tests_vocational.router import router as tests_router
 
     app.include_router(auth_router, prefix=f"{prefix}/auth", tags=["auth"])
+    app.include_router(ai_router, prefix=f"{prefix}/ai", tags=["ai"])
+    app.include_router(leads_router, prefix=f"{prefix}", tags=["leads"])
     app.include_router(
         institutions_router, prefix=f"{prefix}/institutions", tags=["institutions"]
     )
@@ -345,3 +388,6 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     )
     app.include_router(games_router, prefix=f"{prefix}/games", tags=["games"])
     app.include_router(reports_router, prefix=f"{prefix}/reports", tags=["reports"])
+
+    from app.chat.router import router as chat_router
+    app.include_router(chat_router, prefix=f"{prefix}/chat", tags=["chat"])
