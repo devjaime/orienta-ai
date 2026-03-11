@@ -116,9 +116,26 @@ async def get_recommendations(
     # Calcular compatibilidad para cada carrera
     scored: list[tuple[Career, float, list[str]]] = []
     for career in all_careers:
-        codes = career.holland_codes if isinstance(career.holland_codes, list) else []
-        match_score = calcular_compatibilidad(holland_code, codes)
-        reasons = generar_razones_match(holland_code, codes, career.name)
+        # Extraer codigos Holland - puede ser dict o list
+        codes: list[str] = []
+        if isinstance(career.holland_codes, dict):
+            # Si es dict, extraer valores (ej: {"codes": ["I", "R", "C"]})
+            codes = list(career.holland_codes.values()) if career.holland_codes else []
+            if not codes and career.holland_codes.get("codes"):
+                codes = career.holland_codes.get("codes", [])
+        elif isinstance(career.holland_codes, list):
+            codes = career.holland_codes
+        
+        # Si los codigos son strings compuestas (ej: "IRC"), splitear
+        flat_codes: list[str] = []
+        for c in codes:
+            if isinstance(c, str) and len(c) >= 3:
+                flat_codes.append(c)
+            elif isinstance(c, str):
+                flat_codes.append(c)
+        
+        match_score = calcular_compatibilidad(holland_code, flat_codes)
+        reasons = generar_razones_match(holland_code, flat_codes, career.name)
         scored.append((career, match_score, reasons))
 
     # Ordenar por score descendente

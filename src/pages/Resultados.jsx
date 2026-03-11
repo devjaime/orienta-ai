@@ -11,6 +11,7 @@ import { canUseTestAI, recordTestAIUsage, getLimitMessages, isAIEnabled, LIMITS 
 import CarrerasRecomendadas from '../components/CarrerasRecomendadas';
 import ScheduleButton from '../components/ScheduleButton';
 import CareerProjectionCard from '../components/CareerProjectionCard';
+import LeadCaptureForm from '../components/LeadCaptureForm';
 
 function Resultados() {
   const navigate = useNavigate();
@@ -395,6 +396,11 @@ function Resultados() {
             Guardando resultado...
           </p>
         )}
+
+        {/* Lead Capture Form */}
+        <div className="mt-12 max-w-xl mx-auto">
+          <LeadCaptureForm hollandCode={resultado?.codigo_holland || ''} />
+        </div>
       </div>
     </div>
   );
