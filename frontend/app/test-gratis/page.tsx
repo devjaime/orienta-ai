@@ -164,6 +164,7 @@ export default function TestGratisPage() {
   const [reportGenerated, setReportGenerated] = useState(false);
   const [reportUrl, setReportUrl] = useState("");
   const [leadId, setLeadId] = useState<string | null>(null);
+  const [publicReportUrl, setPublicReportUrl] = useState<string | null>(null);
   const [leadName, setLeadName] = useState("");
   const [leadEmail, setLeadEmail] = useState("");
   const [leadError, setLeadError] = useState("");
@@ -220,6 +221,7 @@ export default function TestGratisPage() {
     setLoadingMessage("");
     setHollandCode("");
     setLeadId(null);
+    setPublicReportUrl(null);
     setLeadError("");
     setSurveyClarity(null);
     setSurveyTrust(null);
@@ -274,7 +276,7 @@ export default function TestGratisPage() {
     setSurveyLoading(true);
 
     try {
-      const data = await api.post<{ lead_id: string }>("/api/v1/leads", {
+      const data = await api.post<{ lead_id: string; public_url: string }>("/api/v1/leads", {
         lead_id: leadId || undefined,
         nombre: leadName.trim(),
         email: leadEmail.trim(),
@@ -293,6 +295,7 @@ export default function TestGratisPage() {
         },
       });
       setLeadId(data.lead_id);
+      setPublicReportUrl(data.public_url);
       setSurveySubmitted(true);
     } catch (error) {
       console.error("Error enviando encuesta:", error);
@@ -339,7 +342,7 @@ export default function TestGratisPage() {
     answersToUse: Record<number, number>,
   ) => {
     try {
-      const data = await api.post<{ lead_id: string }>("/api/v1/leads", {
+      const data = await api.post<{ lead_id: string; public_url: string }>("/api/v1/leads", {
         lead_id: leadId || undefined,
         nombre: leadName.trim(),
         email: leadEmail.trim(),
@@ -353,6 +356,7 @@ export default function TestGratisPage() {
         },
       });
       setLeadId(data.lead_id);
+      setPublicReportUrl(data.public_url);
     } catch (error) {
       console.error("Error guardando snapshot del test:", error);
     }
@@ -608,6 +612,18 @@ export default function TestGratisPage() {
               Esta recomendacion combina tus intereses (RIASEC) con indicadores del mercado chileno
               para ayudarte a priorizar carreras con mejor ajuste y proyeccion.
             </p>
+            {publicReportUrl && (
+              <p className="mt-3 text-sm">
+                <a
+                  href={publicReportUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-vocari-primary font-medium underline"
+                >
+                  Ver URL pública del informe de datos almacenados
+                </a>
+              </p>
+            )}
           </div>
 
           <div className="grid md:grid-cols-3 gap-4 mb-8">

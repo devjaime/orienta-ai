@@ -19,6 +19,7 @@ class Lead(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     whatsapp: Mapped[str | None] = mapped_column(String(30), nullable=True)
     interes: Mapped[str] = mapped_column(String(100), nullable=False, default="carreras")
     source: Mapped[str] = mapped_column(String(100), nullable=False, default="web")
+    share_token: Mapped[str] = mapped_column(String(64), nullable=False, unique=True, index=True)
     holland_code: Mapped[str | None] = mapped_column(String(20), nullable=True, index=True)
     test_answers: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
     survey_response: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)

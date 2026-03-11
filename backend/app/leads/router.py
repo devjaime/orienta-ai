@@ -3,6 +3,7 @@ Vocari Backend - Router de Leads (captura de prospectos).
 """
 
 import uuid
+import secrets
 
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
@@ -51,6 +52,7 @@ async def create_lead(
             interes=lead.interes,
             holland_code=lead.holland_code,
             source=lead.source,
+            share_token=secrets.token_urlsafe(18),
             test_answers=lead.test_answers or {},
             survey_response=lead.survey_response or {},
             metadata=lead.metadata or {},
@@ -90,5 +92,39 @@ async def create_lead(
     return {
         "success": True,
         "lead_id": str(lead_row.id),
+        "share_token": lead_row.share_token,
+        "public_url": f"/informe-test/{lead_row.share_token}",
         "message": "Lead capturado correctamente",
+    }
+
+
+@router.get("/leads/public/{share_token}")
+async def get_public_lead_report(
+    share_token: str,
+    db: AsyncSession = Depends(get_async_session),
+) -> dict:
+    """Obtiene un resumen público de la información guardada del lead."""
+    result = await db.execute(select(Lead).where(Lead.share_token == share_token))
+    lead_row = result.scalar_one_or_none()
+
+    if lead_row is None:
+        return {
+            "success": False,
+            "message": "Informe no encontrado",
+        }
+
+    return {
+        "success": True,
+        "id": str(lead_row.id),
+        "share_token": lead_row.share_token,
+        "nombre": lead_row.nombre,
+        "email": lead_row.email,
+        "source": lead_row.source,
+        "interes": lead_row.interes,
+        "holland_code": lead_row.holland_code,
+        "test_answers": lead_row.test_answers,
+        "survey_response": lead_row.survey_response,
+        "metadata": lead_row.metadata,
+        "created_at": lead_row.created_at.isoformat() if lead_row.created_at else None,
+        "updated_at": lead_row.updated_at.isoformat() if lead_row.updated_at else None,
     }
