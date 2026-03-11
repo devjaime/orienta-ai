@@ -776,24 +776,23 @@ export default function TestGratisPage() {
             </CardContent>
           </Card>
 
-          <Card className="mb-8 bg-gradient-to-r from-vocari-primary to-vocari-accent text-white">
+          <Card className="mb-8 border border-vocari-primary/30 bg-gradient-to-r from-vocari-bg to-white">
             <CardContent className="pt-6 text-center">
               {reportGenerated ? (
                 <>
                   <h2 className="text-xl font-bold mb-2">
                     Informe IA personalizado para {reportGeneratedFor || leadName}
                   </h2>
-                  <p className="opacity-90 mb-4">
+                  <p className="text-vocari-text-muted mb-4">
                     El informe se muestra en esta misma página.
                   </p>
-                  <div className="bg-white/10 rounded-lg p-4 mb-4 text-left">
-                    <p className="text-sm whitespace-pre-line leading-relaxed">
+                  <div className="bg-white rounded-lg p-4 mb-4 text-left border border-gray-200">
+                    <p className="text-sm whitespace-pre-line leading-relaxed text-vocari-text">
                       {reportText}
                     </p>
                   </div>
                   <Button
-                    variant="secondary"
-                    className="bg-white text-vocari-primary hover:bg-gray-100"
+                    variant="primary"
                     onClick={generateReport}
                     loading={loading}
                   >
@@ -804,14 +803,13 @@ export default function TestGratisPage() {
               ) : (
                 <>
                   <h2 className="text-xl font-bold mb-2">Quieres un informe completo?</h2>
-                  <p className="opacity-90 mb-4">
+                  <p className="text-vocari-text-muted mb-4">
                     Genera un reporte extendido con interpretacion personalizada y siguientes pasos
                     para tu decision vocacional.
                   </p>
-                  {reportError && <p className="text-sm text-red-100 mb-3">{reportError}</p>}
+                  {reportError && <p className="text-sm text-red-700 mb-3">{reportError}</p>}
                   <Button
-                    variant="secondary"
-                    className="bg-white text-vocari-primary hover:bg-gray-100"
+                    variant="primary"
                     onClick={generateReport}
                     loading={loading}
                   >
