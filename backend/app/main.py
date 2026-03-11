@@ -45,6 +45,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         import app.consent.models
         import app.audit.models
         import app.notifications.models
+        import app.leads.models
         
         engine = get_engine()
 
@@ -102,6 +103,35 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
             "UPDATE test_results SET certainty = '0.4' WHERE certainty = 'Exploratoria'",
             "UPDATE test_results SET certainty = '0.5' WHERE certainty IS NOT NULL AND certainty ~ '^[A-Za-z]'",
             "ALTER TABLE test_results ALTER COLUMN certainty TYPE FLOAT USING certainty::FLOAT",
+            # leads: tabla para capturar contacto + test + encuesta final
+            """CREATE TABLE IF NOT EXISTS leads (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                nombre VARCHAR(255) NOT NULL DEFAULT 'Sin nombre',
+                email VARCHAR(255) NOT NULL,
+                whatsapp VARCHAR(30),
+                interes VARCHAR(100) NOT NULL DEFAULT 'carreras',
+                source VARCHAR(100) NOT NULL DEFAULT 'web',
+                holland_code VARCHAR(20),
+                test_answers JSONB NOT NULL DEFAULT '{}',
+                survey_response JSONB NOT NULL DEFAULT '{}',
+                metadata JSONB NOT NULL DEFAULT '{}',
+                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            )""",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS nombre VARCHAR(255) NOT NULL DEFAULT 'Sin nombre'",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS email VARCHAR(255)",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS whatsapp VARCHAR(30)",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS interes VARCHAR(100) NOT NULL DEFAULT 'carreras'",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS source VARCHAR(100) NOT NULL DEFAULT 'web'",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS holland_code VARCHAR(20)",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS test_answers JSONB NOT NULL DEFAULT '{}'",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS survey_response JSONB NOT NULL DEFAULT '{}'",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS metadata JSONB NOT NULL DEFAULT '{}'",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()",
+            "ALTER TABLE leads ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()",
+            "CREATE INDEX IF NOT EXISTS ix_leads_email ON leads (email)",
+            "CREATE INDEX IF NOT EXISTS ix_leads_holland_code ON leads (holland_code)",
+            "CREATE INDEX IF NOT EXISTS ix_leads_created_at ON leads (created_at DESC)",
         ]
         for sql in schema_migrations:
             try:

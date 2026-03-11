@@ -163,6 +163,7 @@ export default function TestGratisPage() {
   const [hollandCode, setHollandCode] = useState("");
   const [reportGenerated, setReportGenerated] = useState(false);
   const [reportUrl, setReportUrl] = useState("");
+  const [leadId, setLeadId] = useState<string | null>(null);
   const [leadName, setLeadName] = useState("");
   const [leadEmail, setLeadEmail] = useState("");
   const [leadError, setLeadError] = useState("");
@@ -218,6 +219,7 @@ export default function TestGratisPage() {
     setLoading(false);
     setLoadingMessage("");
     setHollandCode("");
+    setLeadId(null);
     setLeadError("");
     setSurveyClarity(null);
     setSurveyTrust(null);
@@ -272,19 +274,25 @@ export default function TestGratisPage() {
     setSurveyLoading(true);
 
     try {
-      await api.post("/api/v1/leads", {
+      const data = await api.post<{ lead_id: string }>("/api/v1/leads", {
+        lead_id: leadId || undefined,
         nombre: leadName.trim(),
         email: leadEmail.trim(),
         source: "test_gratis_feedback",
         interes: "encuesta_post_test",
         holland_code: hollandCode || undefined,
-        metadata: {
+        survey_response: {
           claridad_resultado: surveyClarity,
           confianza_datos_mineduc: surveyTrust,
           recomendaria_vocari: surveyRecommend,
           comentario: surveyComment.trim() || null,
         },
+        test_answers: answers,
+        metadata: {
+          step: "feedback_submitted",
+        },
       });
+      setLeadId(data.lead_id);
       setSurveySubmitted(true);
     } catch (error) {
       console.error("Error enviando encuesta:", error);
@@ -322,7 +330,32 @@ export default function TestGratisPage() {
     setHollandCode(code);
     setStep("results");
 
+    void saveTestSnapshot(code, answersToUse);
     void fetchRecommendations(code);
+  };
+
+  const saveTestSnapshot = async (
+    code: string,
+    answersToUse: Record<number, number>,
+  ) => {
+    try {
+      const data = await api.post<{ lead_id: string }>("/api/v1/leads", {
+        lead_id: leadId || undefined,
+        nombre: leadName.trim(),
+        email: leadEmail.trim(),
+        source: "test_gratis",
+        interes: "test_vocacional",
+        holland_code: code,
+        test_answers: answersToUse,
+        metadata: {
+          step: "test_completed",
+          total_respuestas: Object.keys(answersToUse).length,
+        },
+      });
+      setLeadId(data.lead_id);
+    } catch (error) {
+      console.error("Error guardando snapshot del test:", error);
+    }
   };
 
   const handleAnswer = (value: number) => {
