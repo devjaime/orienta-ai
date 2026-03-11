@@ -73,6 +73,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
             "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS google_workspace_config JSONB",
             "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT true",
             "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS max_students INTEGER NOT NULL DEFAULT 50",
+            "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()",
+            "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()",
+            # institution_plan enum y columna plan
+            "DO $$ BEGIN CREATE TYPE institution_plan AS ENUM ('free','basic','premium'); EXCEPTION WHEN duplicate_object THEN NULL; END $$",
+            "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS plan VARCHAR(50) NOT NULL DEFAULT 'free'",
             "UPDATE institutions SET slug = regexp_replace(lower(name), '[^a-z0-9]+', '-', 'g') WHERE slug IS NULL",
             """DO $$ BEGIN
               IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='institutions_slug_key')
@@ -116,17 +121,21 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         # ---------------------------------------------------------------
         # FASE 3: Añadir plan enum a institutions si falta
         # ---------------------------------------------------------------
-        async with engine.begin() as conn:
-            try:
+        try:
+            async with engine.begin() as conn:
                 await conn.execute(text(
                     "DO $$ BEGIN CREATE TYPE institution_plan AS ENUM ('free','basic','premium'); "
                     "EXCEPTION WHEN duplicate_object THEN NULL; END $$"
                 ))
+        except Exception:
+            pass
+        try:
+            async with engine.begin() as conn:
                 await conn.execute(text(
                     "ALTER TABLE institutions ADD COLUMN IF NOT EXISTS plan institution_plan NOT NULL DEFAULT 'free'"
                 ))
-            except Exception:
-                pass
+        except Exception:
+            pass
 
         # ---------------------------------------------------------------
         # FASE 4: Seed de juegos si la tabla está vacía
@@ -156,47 +165,69 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         # ---------------------------------------------------------------
         # FASE 5: Seed de carreras si la tabla está vacía
         # ---------------------------------------------------------------
-        async with engine.begin() as conn:
-            count_row = await conn.execute(text("SELECT COUNT(*) FROM careers"))
-            if (count_row.scalar() or 0) == 0:
-                await conn.execute(text("""
-                    INSERT INTO careers (id, name, area, holland_codes, description,
-                        salary_range, employability, saturation_index, is_active)
-                    VALUES
-                    (gen_random_uuid(), 'Psicología', 'Ciencias Sociales', '["S","A","I"]'::jsonb,
-                     'Estudio del comportamiento humano y los procesos mentales.',
-                     '{"min":600000,"max":2000000,"median":1100000,"currency":"CLP"}'::jsonb,
-                     0.78, 0.45, true),
-                    (gen_random_uuid(), 'Ingeniería en Informática', 'Tecnología', '["I","R","C"]'::jsonb,
-                     'Desarrollo de software, sistemas y soluciones tecnológicas.',
-                     '{"min":900000,"max":3500000,"median":2000000,"currency":"CLP"}'::jsonb,
-                     0.95, 0.20, true),
-                    (gen_random_uuid(), 'Diseño Gráfico', 'Arte y Diseño', '["A","I","E"]'::jsonb,
-                     'Comunicación visual, diseño de identidades y medios digitales.',
-                     '{"min":500000,"max":1800000,"median":900000,"currency":"CLP"}'::jsonb,
-                     0.65, 0.50, true),
-                    (gen_random_uuid(), 'Medicina', 'Salud', '["I","S","R"]'::jsonb,
-                     'Diagnóstico, tratamiento y prevención de enfermedades.',
-                     '{"min":1500000,"max":5000000,"median":2800000,"currency":"CLP"}'::jsonb,
-                     0.92, 0.30, true),
-                    (gen_random_uuid(), 'Derecho', 'Ciencias Jurídicas', '["E","S","C"]'::jsonb,
-                     'Estudio del sistema legal, defensa de derechos y justicia.',
-                     '{"min":700000,"max":3000000,"median":1400000,"currency":"CLP"}'::jsonb,
-                     0.70, 0.55, true),
-                    (gen_random_uuid(), 'Arquitectura', 'Diseño y Construcción', '["A","R","I"]'::jsonb,
-                     'Diseño de espacios habitables, edificios e infraestructura.',
-                     '{"min":700000,"max":2500000,"median":1300000,"currency":"CLP"}'::jsonb,
-                     0.72, 0.40, true),
-                    (gen_random_uuid(), 'Administración de Empresas', 'Negocios', '["E","C","S"]'::jsonb,
-                     'Gestión organizacional, finanzas y estrategia empresarial.',
-                     '{"min":600000,"max":2500000,"median":1200000,"currency":"CLP"}'::jsonb,
-                     0.80, 0.48, true),
-                    (gen_random_uuid(), 'Pedagogía en Matemáticas', 'Educación', '["I","S","C"]'::jsonb,
-                     'Enseñanza de matemáticas en educación básica y media.',
-                     '{"min":600000,"max":1500000,"median":900000,"currency":"CLP"}'::jsonb,
-                     0.85, 0.25, true)
-                """))
-                logger.info("Carreras de seed insertadas")
+        # Asegurarse que la tabla careers tiene columna updated_at (TimestampMixin)
+        for col_sql in [
+            "ALTER TABLE careers ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()",
+            "ALTER TABLE careers ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()",
+            "ALTER TABLE careers ADD COLUMN IF NOT EXISTS mineduc_data JSONB NOT NULL DEFAULT '{}'",
+        ]:
+            try:
+                async with engine.begin() as conn:
+                    await conn.execute(text(col_sql))
+            except Exception:
+                pass
+
+        try:
+            import json as _json
+            import uuid as _uuid_mod
+            async with engine.begin() as _conn:
+                count_row = await _conn.execute(text("SELECT COUNT(*) FROM careers"))
+                if (count_row.scalar() or 0) == 0:
+                    careers_data = [
+                        ("Psicología", "Ciencias Sociales", ["S", "A", "I"],
+                         "Estudio del comportamiento humano y los procesos mentales.",
+                         {"min": 600000, "max": 2000000, "median": 1100000, "currency": "CLP"}, 0.78, 0.45),
+                        ("Ingeniería en Informática", "Tecnología", ["I", "R", "C"],
+                         "Desarrollo de software, sistemas y soluciones tecnológicas.",
+                         {"min": 900000, "max": 3500000, "median": 2000000, "currency": "CLP"}, 0.95, 0.20),
+                        ("Diseño Gráfico", "Arte y Diseño", ["A", "I", "E"],
+                         "Comunicación visual, diseño de identidades y medios digitales.",
+                         {"min": 500000, "max": 1800000, "median": 900000, "currency": "CLP"}, 0.65, 0.50),
+                        ("Medicina", "Salud", ["I", "S", "R"],
+                         "Diagnóstico, tratamiento y prevención de enfermedades.",
+                         {"min": 1500000, "max": 5000000, "median": 2800000, "currency": "CLP"}, 0.92, 0.30),
+                        ("Derecho", "Ciencias Jurídicas", ["E", "S", "C"],
+                         "Estudio del sistema legal, defensa de derechos y justicia.",
+                         {"min": 700000, "max": 3000000, "median": 1400000, "currency": "CLP"}, 0.70, 0.55),
+                        ("Arquitectura", "Diseño y Construcción", ["A", "R", "I"],
+                         "Diseño de espacios habitables, edificios e infraestructura.",
+                         {"min": 700000, "max": 2500000, "median": 1300000, "currency": "CLP"}, 0.72, 0.40),
+                        ("Administración de Empresas", "Negocios", ["E", "C", "S"],
+                         "Gestión organizacional, finanzas y estrategia empresarial.",
+                         {"min": 600000, "max": 2500000, "median": 1200000, "currency": "CLP"}, 0.80, 0.48),
+                        ("Pedagogía en Matemáticas", "Educación", ["I", "S", "C"],
+                         "Enseñanza de matemáticas en educación básica y media.",
+                         {"min": 600000, "max": 1500000, "median": 900000, "currency": "CLP"}, 0.85, 0.25),
+                    ]
+                    insert_sql = text(
+                        "INSERT INTO careers (id, name, area, holland_codes, description, "
+                        "salary_range, employability, saturation_index, mineduc_data, is_active) "
+                        "VALUES (:id, :name, :area, CAST(:hc AS jsonb), :desc, "
+                        "CAST(:sr AS jsonb), :emp, :sat, CAST(:md AS jsonb), true)"
+                    )
+                    for (name, area, codes, desc, salary, emp, sat) in careers_data:
+                        await _conn.execute(insert_sql, {
+                            "id": str(_uuid_mod.uuid4()),
+                            "name": name, "area": area,
+                            "hc": _json.dumps(codes),
+                            "desc": desc,
+                            "sr": _json.dumps(salary),
+                            "emp": emp, "sat": sat,
+                            "md": "{}",
+                        })
+                    logger.info("Carreras de seed insertadas")
+        except Exception as careers_err:
+            logger.warning("Error en seed de carreras", error=str(careers_err)[:400])
 
         logger.info("Setup de tablas completado")
     except Exception as e:

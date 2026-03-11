@@ -31,7 +31,13 @@ class Institution(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     domain: Mapped[str | None] = mapped_column(String(255), nullable=True)
     google_workspace_config: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     plan: Mapped[InstitutionPlan] = mapped_column(
-        Enum(InstitutionPlan, name="institution_plan", create_constraint=True),
+        Enum(
+            InstitutionPlan,
+            name="institution_plan",
+            native_enum=False,
+            length=50,
+            values_callable=lambda x: [e.value for e in x],
+        ),
         nullable=False,
         default=InstitutionPlan.FREE,
     )

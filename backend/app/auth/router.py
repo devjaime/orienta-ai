@@ -213,8 +213,9 @@ async def setup_test_users(
                 new_id = _uuid.uuid4()
                 # Columnas mínimas seguras (las demás tienen default o son nullable)
                 await db.execute(_text("""
-                    INSERT INTO institutions (id, name)
-                    VALUES (:id, 'Colegio Demo Vocari')
+                    INSERT INTO institutions (id, name, code)
+                    VALUES (:id, 'Colegio Demo Vocari', 'demo-vocari-001')
+                    ON CONFLICT DO NOTHING
                 """), {"id": str(new_id)})
                 # Actualizar slug e is_active por separado (columnas que pueden no existir)
                 for col_sql in [
