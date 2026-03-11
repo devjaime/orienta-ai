@@ -199,26 +199,34 @@ async def setup_test_users(
 
     frontend_url = os.getenv("FRONTEND_URL", "https://app.vocari.cl")
 
-    # Buscar o crear institucion de prueba — usando SQL raw para evitar schema drift
+    # Buscar o crear institucion de prueba — en savepoint para no abortar sesión
     institution_id = None
     try:
         from sqlalchemy import text as _text
-        # Buscar existente
-        row = (await db.execute(
-            _text("SELECT id FROM institutions WHERE name = 'Colegio Demo Vocari' LIMIT 1")
-        )).fetchone()
-        if row:
-            institution_id = row[0]
-        else:
-            new_id = _uuid.uuid4()
-            await db.execute(_text("""
-                INSERT INTO institutions (id, name, slug, max_students, is_active)
-                VALUES (:id, 'Colegio Demo Vocari', 'colegio-demo-vocari', 200, true)
-                ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name
-                RETURNING id
-            """), {"id": str(new_id)})
-            institution_id = new_id
-        await db.flush()
+        async with db.begin_nested():
+            row = (await db.execute(
+                _text("SELECT id FROM institutions WHERE name = 'Colegio Demo Vocari' LIMIT 1")
+            )).fetchone()
+            if row:
+                institution_id = row[0]
+            else:
+                new_id = _uuid.uuid4()
+                # Columnas mínimas seguras (las demás tienen default o son nullable)
+                await db.execute(_text("""
+                    INSERT INTO institutions (id, name)
+                    VALUES (:id, 'Colegio Demo Vocari')
+                """), {"id": str(new_id)})
+                # Actualizar slug e is_active por separado (columnas que pueden no existir)
+                for col_sql in [
+                    "UPDATE institutions SET slug='colegio-demo-vocari' WHERE id=:id",
+                    "UPDATE institutions SET is_active=true WHERE id=:id",
+                    "UPDATE institutions SET max_students=200 WHERE id=:id",
+                ]:
+                    try:
+                        await db.execute(_text(col_sql), {"id": str(new_id)})
+                    except Exception:
+                        pass
+                institution_id = new_id
     except Exception as inst_err:
         institution_id = None
         import structlog as _sl
