@@ -51,6 +51,19 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         from sqlalchemy import text
 
         # ---------------------------------------------------------------
+        # FASE 0: Si test_results tiene el schema viejo (columna user_email),
+        #         dropearlo para que create_all lo recree limpio.
+        # ---------------------------------------------------------------
+        async with engine.begin() as _conn:
+            old_col = await _conn.execute(text(
+                "SELECT 1 FROM information_schema.columns "
+                "WHERE table_name='test_results' AND column_name='user_email'"
+            ))
+            if old_col.scalar():
+                await _conn.execute(text("DROP TABLE IF EXISTS test_results CASCADE"))
+                logger.info("Tabla test_results vieja eliminada para recrear con schema nuevo")
+
+        # ---------------------------------------------------------------
         # FASE 1: Migraciones de schema drift — cada una en su propia TX
         # ---------------------------------------------------------------
         schema_migrations = [
