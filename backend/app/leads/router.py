@@ -6,7 +6,7 @@ import uuid
 import secrets
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import structlog
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -35,6 +35,14 @@ class LeadCreate(BaseModel):
     test_answers: dict | None = None
     survey_response: dict | None = None
     metadata: dict | None = None
+
+
+class LeadAIReportRequest(BaseModel):
+    lead_id: uuid.UUID | None = None
+    nombre: str
+    holland_code: str | None = None
+    recommendations: list[dict] = Field(default_factory=list)
+    survey_response: dict | None = None
 
 
 def require_review_auth(
@@ -115,6 +123,82 @@ async def create_lead(
         "share_token": lead_row.share_token,
         "public_url": f"/informe-test/{lead_row.share_token}",
         "message": "Lead capturado correctamente",
+    }
+
+
+def _fallback_ai_report(nombre: str, holland_code: str | None, recommendations: list[dict]) -> str:
+    top_career = recommendations[0]["career"]["name"] if recommendations else "una carrera de tu perfil"
+    return (
+        f"{nombre}, tu perfil vocacional {holland_code or 'en exploración'} muestra intereses definidos.\n\n"
+        f"Tu mejor ajuste actual es {top_career}. Te recomendamos priorizar carreras con alta empleabilidad,"
+        " revisar su malla curricular y hablar con un orientador para validar tu decisión.\n\n"
+        "Próximos pasos:\n"
+        "1. Compara al menos 3 carreras por empleabilidad e ingresos.\n"
+        "2. Revisa campos laborales reales en Chile.\n"
+        "3. Define un plan de preparación académica para postulación."
+    )
+
+
+@router.post("/leads/ai-report")
+async def generate_lead_ai_report(
+    payload: LeadAIReportRequest,
+    db: AsyncSession = Depends(get_async_session),
+) -> dict:
+    """Genera informe IA para el lead y lo deja guardado en metadata."""
+    report_text = ""
+
+    try:
+        from app.ai_engine.openrouter_client import get_openrouter_client
+
+        client = get_openrouter_client()
+
+        if not client.api_key:
+            report_text = _fallback_ai_report(
+                payload.nombre,
+                payload.holland_code,
+                payload.recommendations,
+            )
+        else:
+            prompt = (
+                "Eres orientador vocacional en Chile.\n"
+                f"Nombre: {payload.nombre}\n"
+                f"Código Holland: {payload.holland_code or 'No disponible'}\n"
+                f"Recomendaciones: {payload.recommendations[:5]}\n"
+                f"Encuesta final: {payload.survey_response or {}}\n\n"
+                "Escribe un informe breve en español, personalizado por nombre, con:\n"
+                "1) interpretación del perfil,\n"
+                "2) análisis de 3 recomendaciones principales,\n"
+                "3) próximos pasos accionables."
+            )
+
+            response = await client.chat(
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.6,
+                max_tokens=1200,
+            )
+            report_text = response.content
+    except Exception as error:
+        logger.warning("Fallo generación IA de lead", error=str(error))
+        report_text = _fallback_ai_report(
+            payload.nombre,
+            payload.holland_code,
+            payload.recommendations,
+        )
+
+    if payload.lead_id:
+        result = await db.execute(select(Lead).where(Lead.id == payload.lead_id))
+        lead_row = result.scalar_one_or_none()
+        if lead_row:
+            metadata = lead_row.metadata_json or {}
+            metadata["ai_report_text"] = report_text
+            metadata["ai_report_generated_at"] = "now"
+            lead_row.metadata_json = metadata
+            await db.flush()
+
+    return {
+        "success": True,
+        "generated_for": payload.nombre,
+        "report_text": report_text,
     }
 
 

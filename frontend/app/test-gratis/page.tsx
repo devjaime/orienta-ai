@@ -162,7 +162,9 @@ export default function TestGratisPage() {
   const [loadingRecommendations, setLoadingRecommendations] = useState(false);
   const [hollandCode, setHollandCode] = useState("");
   const [reportGenerated, setReportGenerated] = useState(false);
-  const [reportUrl, setReportUrl] = useState("");
+  const [reportText, setReportText] = useState("");
+  const [reportGeneratedFor, setReportGeneratedFor] = useState("");
+  const [reportError, setReportError] = useState("");
   const [leadId, setLeadId] = useState<string | null>(null);
   const [publicReportUrl, setPublicReportUrl] = useState<string | null>(null);
   const [copiedPublicUrl, setCopiedPublicUrl] = useState(false);
@@ -217,7 +219,9 @@ export default function TestGratisPage() {
     setRecommendations([]);
     setLoadingRecommendations(false);
     setReportGenerated(false);
-    setReportUrl("");
+    setReportText("");
+    setReportGeneratedFor("");
+    setReportError("");
     setLoading(false);
     setLoadingMessage("");
     setHollandCode("");
@@ -237,15 +241,29 @@ export default function TestGratisPage() {
   const generateReport = async () => {
     setLoading(true);
     setLoadingMessage("Generando tu informe vocacional...");
+    setReportError("");
     try {
-      const data = await api.post<{ share_token: string; share_url: string }>(
-        "/api/v1/reports/generate",
-        { report_type: "comprehensive" },
+      const data = await api.post<{ generated_for: string; report_text: string }>(
+        "/api/v1/leads/ai-report",
+        {
+          lead_id: leadId || undefined,
+          nombre: leadName.trim(),
+          holland_code: hollandCode || undefined,
+          recommendations,
+          survey_response: {
+            claridad_resultado: surveyClarity,
+            confianza_datos_mineduc: surveyTrust,
+            recomendaria_vocari: surveyRecommend,
+            comentario: surveyComment.trim() || null,
+          },
+        },
       );
       setReportGenerated(true);
-      setReportUrl(data.share_url);
+      setReportGeneratedFor(data.generated_for);
+      setReportText(data.report_text);
     } catch (error) {
       console.error("Error generating report:", error);
+      setReportError("No se pudo generar el informe IA. Intenta nuevamente.");
     } finally {
       setLoading(false);
       setLoadingMessage("");
@@ -762,17 +780,24 @@ export default function TestGratisPage() {
             <CardContent className="pt-6 text-center">
               {reportGenerated ? (
                 <>
-                  <h2 className="text-xl font-bold mb-2">Informe generado correctamente</h2>
-                  <p className="opacity-90 mb-4">Comparte este enlace o guardalo para revisarlo despues.</p>
-                  <div className="bg-white/10 rounded-lg p-3 mb-4">
-                    <p className="text-sm break-all font-mono">{reportUrl}</p>
+                  <h2 className="text-xl font-bold mb-2">
+                    Informe IA personalizado para {reportGeneratedFor || leadName}
+                  </h2>
+                  <p className="opacity-90 mb-4">
+                    El informe se muestra en esta misma página.
+                  </p>
+                  <div className="bg-white/10 rounded-lg p-4 mb-4 text-left">
+                    <p className="text-sm whitespace-pre-line leading-relaxed">
+                      {reportText}
+                    </p>
                   </div>
                   <Button
                     variant="secondary"
                     className="bg-white text-vocari-primary hover:bg-gray-100"
-                    onClick={() => window.open(reportUrl, "_blank", "noopener,noreferrer")}
+                    onClick={generateReport}
+                    loading={loading}
                   >
-                    Ver informe
+                    Regenerar informe IA
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </>
@@ -783,6 +808,7 @@ export default function TestGratisPage() {
                     Genera un reporte extendido con interpretacion personalizada y siguientes pasos
                     para tu decision vocacional.
                   </p>
+                  {reportError && <p className="text-sm text-red-100 mb-3">{reportError}</p>}
                   <Button
                     variant="secondary"
                     className="bg-white text-vocari-primary hover:bg-gray-100"
