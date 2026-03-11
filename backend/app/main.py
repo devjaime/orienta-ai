@@ -153,6 +153,51 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
                 """))
                 logger.info("Juegos de seed insertados")
 
+        # ---------------------------------------------------------------
+        # FASE 5: Seed de carreras si la tabla está vacía
+        # ---------------------------------------------------------------
+        async with engine.begin() as conn:
+            count_row = await conn.execute(text("SELECT COUNT(*) FROM careers"))
+            if (count_row.scalar() or 0) == 0:
+                await conn.execute(text("""
+                    INSERT INTO careers (id, name, area, holland_codes, description,
+                        salary_range, employability, saturation_index, is_active)
+                    VALUES
+                    (gen_random_uuid(), 'Psicología', 'Ciencias Sociales', '["S","A","I"]'::jsonb,
+                     'Estudio del comportamiento humano y los procesos mentales.',
+                     '{"min":600000,"max":2000000,"median":1100000,"currency":"CLP"}'::jsonb,
+                     0.78, 0.45, true),
+                    (gen_random_uuid(), 'Ingeniería en Informática', 'Tecnología', '["I","R","C"]'::jsonb,
+                     'Desarrollo de software, sistemas y soluciones tecnológicas.',
+                     '{"min":900000,"max":3500000,"median":2000000,"currency":"CLP"}'::jsonb,
+                     0.95, 0.20, true),
+                    (gen_random_uuid(), 'Diseño Gráfico', 'Arte y Diseño', '["A","I","E"]'::jsonb,
+                     'Comunicación visual, diseño de identidades y medios digitales.',
+                     '{"min":500000,"max":1800000,"median":900000,"currency":"CLP"}'::jsonb,
+                     0.65, 0.50, true),
+                    (gen_random_uuid(), 'Medicina', 'Salud', '["I","S","R"]'::jsonb,
+                     'Diagnóstico, tratamiento y prevención de enfermedades.',
+                     '{"min":1500000,"max":5000000,"median":2800000,"currency":"CLP"}'::jsonb,
+                     0.92, 0.30, true),
+                    (gen_random_uuid(), 'Derecho', 'Ciencias Jurídicas', '["E","S","C"]'::jsonb,
+                     'Estudio del sistema legal, defensa de derechos y justicia.',
+                     '{"min":700000,"max":3000000,"median":1400000,"currency":"CLP"}'::jsonb,
+                     0.70, 0.55, true),
+                    (gen_random_uuid(), 'Arquitectura', 'Diseño y Construcción', '["A","R","I"]'::jsonb,
+                     'Diseño de espacios habitables, edificios e infraestructura.',
+                     '{"min":700000,"max":2500000,"median":1300000,"currency":"CLP"}'::jsonb,
+                     0.72, 0.40, true),
+                    (gen_random_uuid(), 'Administración de Empresas', 'Negocios', '["E","C","S"]'::jsonb,
+                     'Gestión organizacional, finanzas y estrategia empresarial.',
+                     '{"min":600000,"max":2500000,"median":1200000,"currency":"CLP"}'::jsonb,
+                     0.80, 0.48, true),
+                    (gen_random_uuid(), 'Pedagogía en Matemáticas', 'Educación', '["I","S","C"]'::jsonb,
+                     'Enseñanza de matemáticas en educación básica y media.',
+                     '{"min":600000,"max":1500000,"median":900000,"currency":"CLP"}'::jsonb,
+                     0.85, 0.25, true)
+                """))
+                logger.info("Carreras de seed insertadas")
+
         logger.info("Setup de tablas completado")
     except Exception as e:
         logger.warning("Error en setup de tablas", error=str(e))

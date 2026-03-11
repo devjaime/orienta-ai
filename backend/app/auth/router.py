@@ -199,29 +199,30 @@ async def setup_test_users(
 
     frontend_url = os.getenv("FRONTEND_URL", "https://app.vocari.cl")
 
-    # Buscar o crear institucion de prueba usando savepoint para aislar errores
+    # Buscar o crear institucion de prueba — usando SQL raw para evitar schema drift
     institution_id = None
     try:
-        async with db.begin_nested():
-            result = await db.execute(
-                _select(_Institution).where(_Institution.name == "Colegio Demo Vocari")
-            )
-            institution = result.scalar_one_or_none()
-            if not institution:
-                institution = _Institution(
-                    id=_uuid.uuid4(),
-                    name="Colegio Demo Vocari",
-                    slug="colegio-demo-vocari",
-                    plan=_InstitutionPlan.BASIC,
-                    max_students=200,
-                    is_active=True,
-                )
-                db.add(institution)
-                await db.flush()
-            institution_id = institution.id
-    except Exception:
-        # Si el schema de institutions no esta actualizado, continuar sin institucion
+        from sqlalchemy import text as _text
+        # Buscar existente
+        row = (await db.execute(
+            _text("SELECT id FROM institutions WHERE name = 'Colegio Demo Vocari' LIMIT 1")
+        )).fetchone()
+        if row:
+            institution_id = row[0]
+        else:
+            new_id = _uuid.uuid4()
+            await db.execute(_text("""
+                INSERT INTO institutions (id, name, slug, max_students, is_active)
+                VALUES (:id, 'Colegio Demo Vocari', 'colegio-demo-vocari', 200, true)
+                ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name
+                RETURNING id
+            """), {"id": str(new_id)})
+            institution_id = new_id
+        await db.flush()
+    except Exception as inst_err:
         institution_id = None
+        import structlog as _sl
+        _sl.get_logger().warning("dev/setup: no se pudo crear institución", error=str(inst_err)[:200])
 
     # Definicion de usuarios de prueba
     test_users_def = [
