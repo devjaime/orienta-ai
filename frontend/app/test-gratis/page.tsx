@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
@@ -147,11 +147,13 @@ export default function TestGratisPage() {
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
   const [recommendations, setRecommendations] = useState<CareerRecommendation[]>([]);
+  const [loadingRecommendations, setLoadingRecommendations] = useState(false);
   const [hollandCode, setHollandCode] = useState("");
   const [reportGenerated, setReportGenerated] = useState(false);
   const [reportUrl, setReportUrl] = useState("");
   const [visitorName, setVisitorName] = useState("");
   const [visitorEmail, setVisitorEmail] = useState("");
+  const recommendationsRequestRef = useRef(0);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -185,10 +187,12 @@ export default function TestGratisPage() {
   };
 
   const resetFlow = () => {
+    recommendationsRequestRef.current += 1;
     setStep("intro");
     setCurrentQuestion(0);
     setAnswers({});
     setRecommendations([]);
+    setLoadingRecommendations(false);
     setReportGenerated(false);
     setReportUrl("");
     setLoading(false);
@@ -214,27 +218,35 @@ export default function TestGratisPage() {
     }
   };
 
-  const calculateResults = async (answersToUse: Record<number, number>) => {
-    setLoading(true);
-    setLoadingMessage("Calculando tu perfil vocacional...");
-
-    const sortedDims = getTopDimensions(answersToUse);
-    const code = sortedDims.map(([dim]) => dim).join("");
-    setHollandCode(code);
-
-    setLoadingMessage("Buscando carreras con datos del mercado chileno...");
+  const fetchRecommendations = async (code: string) => {
+    const requestId = ++recommendationsRequestRef.current;
+    setLoadingRecommendations(true);
 
     try {
       const data = await api.get<{ recommendations: CareerRecommendation[] }>(
         `/api/v1/careers/recommendations?holland_code=${code}&limit=6`,
       );
-      setRecommendations(data.recommendations || []);
+      if (requestId === recommendationsRequestRef.current) {
+        setRecommendations(data.recommendations || []);
+      }
     } catch {
-      setRecommendations([]);
+      if (requestId === recommendationsRequestRef.current) {
+        setRecommendations([]);
+      }
+    } finally {
+      if (requestId === recommendationsRequestRef.current) {
+        setLoadingRecommendations(false);
+      }
     }
+  };
 
-    setLoading(false);
+  const calculateResults = (answersToUse: Record<number, number>) => {
+    const sortedDims = getTopDimensions(answersToUse);
+    const code = sortedDims.map(([dim]) => dim).join("");
+    setHollandCode(code);
     setStep("results");
+
+    void fetchRecommendations(code);
   };
 
   const handleAnswer = (value: number) => {
@@ -247,7 +259,7 @@ export default function TestGratisPage() {
       return;
     }
 
-    void calculateResults(newAnswers);
+    calculateResults(newAnswers);
   };
 
   const handlePreviousQuestion = () => {
@@ -383,23 +395,6 @@ export default function TestGratisPage() {
     const question = quickQuestions[currentQuestion];
     const progress = ((currentQuestion + 1) / quickQuestions.length) * 100;
 
-    if (loading) {
-      return (
-        <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
-          <div className="max-w-2xl mx-auto px-4 py-20">
-            <Card>
-              <CardContent className="py-12 text-center">
-                <Spinner size="lg" />
-                <p className="mt-4 text-vocari-text-muted">
-                  {loadingMessage || "Procesando tus resultados..."}
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
         <div className="max-w-3xl mx-auto px-4 py-8">
@@ -496,13 +491,27 @@ export default function TestGratisPage() {
 
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Briefcase className="w-5 h-5 text-vocari-primary" />
-                Carreras recomendadas con referencia MINEDUC
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {recommendations.length > 0 ? (
+            <CardTitle className="flex items-center gap-2">
+              <Briefcase className="w-5 h-5 text-vocari-primary" />
+              Carreras recomendadas con referencia MINEDUC
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+              {loadingRecommendations ? (
+                <div className="rounded-xl border border-vocari-primary/30 bg-vocari-primary/5 p-6">
+                  <div className="flex items-center gap-3">
+                    <Spinner size="md" />
+                    <div>
+                      <p className="font-medium text-vocari-text">
+                        Cruzando tu perfil con carreras del mercado chileno...
+                      </p>
+                      <p className="text-sm text-vocari-text-muted">
+                        Esto puede tardar unos segundos segun la disponibilidad de datos.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : recommendations.length > 0 ? (
                 recommendations.map((recommendation) => {
                   const saturation = getSaturationLabel(recommendation.career.saturation_index);
                   const sourceYear = getMineducYear(recommendation.career.mineduc_data);
