@@ -7,6 +7,7 @@ import AuthCallback from './pages/AuthCallback';
 
 // Lazy loading para rutas protegidas (mejora performance inicial)
 const TestRIASEC = lazy(() => import('./pages/TestRIASEC'));
+const TestLeadCapturePage = lazy(() => import('./pages/TestLeadCapturePage'));
 const Resultados = lazy(() => import('./pages/Resultados'));
 const CompleteProfile = lazy(() => import('./pages/CompleteProfile'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
@@ -86,8 +87,10 @@ function App() {
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/activate" element={<ActivateAccount />} />
 
-          {/* Rutas publicas de Test y Resultados (Sin Auth para conversion) */}
-          <Route path="/test" element={<TestRIASEC />} />
+          {/* Captura de leads antes de enviar al test en app.vocari.cl */}
+          <Route path="/test" element={<TestLeadCapturePage />} />
+          {/* Test interno legacy (respaldo) */}
+          <Route path="/test-riasec" element={<TestRIASEC />} />
           <Route path="/resultados" element={<Resultados />} />
 
         {/* Rutas de informes pagados */}
