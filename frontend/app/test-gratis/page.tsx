@@ -17,9 +17,13 @@ import {
   ChevronLeft,
   Clock3,
   Lightbulb,
+  Mail,
+  MessageSquare,
   ShieldCheck,
+  Star,
   Target,
   TrendingUp,
+  User,
   Users,
 } from "lucide-react";
 import type { RIASECDimension } from "@/lib/types/career";
@@ -140,6 +144,14 @@ const getSaturationLabel = (index: number) => {
   return { label: "Alta", color: "bg-red-100 text-red-800" };
 };
 
+const surveyScale = [
+  { value: 1, label: "Muy baja" },
+  { value: 2, label: "Baja" },
+  { value: 3, label: "Media" },
+  { value: 4, label: "Alta" },
+  { value: 5, label: "Muy alta" },
+];
+
 export default function TestGratisPage() {
   const [step, setStep] = useState<Step>("intro");
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -151,14 +163,22 @@ export default function TestGratisPage() {
   const [hollandCode, setHollandCode] = useState("");
   const [reportGenerated, setReportGenerated] = useState(false);
   const [reportUrl, setReportUrl] = useState("");
-  const [visitorName, setVisitorName] = useState("");
-  const [visitorEmail, setVisitorEmail] = useState("");
+  const [leadName, setLeadName] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadError, setLeadError] = useState("");
+  const [surveyClarity, setSurveyClarity] = useState<number | null>(null);
+  const [surveyTrust, setSurveyTrust] = useState<number | null>(null);
+  const [surveyRecommend, setSurveyRecommend] = useState<number | null>(null);
+  const [surveyComment, setSurveyComment] = useState("");
+  const [surveyLoading, setSurveyLoading] = useState(false);
+  const [surveySubmitted, setSurveySubmitted] = useState(false);
+  const [surveyError, setSurveyError] = useState("");
   const recommendationsRequestRef = useRef(0);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setVisitorName(params.get("nombre")?.trim() || "");
-    setVisitorEmail(params.get("email")?.trim() || "");
+    setLeadName(params.get("nombre")?.trim() || "");
+    setLeadEmail(params.get("email")?.trim() || "");
   }, []);
 
   const getScores = (answersToUse: Record<number, number>) => {
@@ -198,6 +218,14 @@ export default function TestGratisPage() {
     setLoading(false);
     setLoadingMessage("");
     setHollandCode("");
+    setLeadError("");
+    setSurveyClarity(null);
+    setSurveyTrust(null);
+    setSurveyRecommend(null);
+    setSurveyComment("");
+    setSurveyLoading(false);
+    setSurveySubmitted(false);
+    setSurveyError("");
   };
 
   const generateReport = async () => {
@@ -215,6 +243,54 @@ export default function TestGratisPage() {
     } finally {
       setLoading(false);
       setLoadingMessage("");
+    }
+  };
+
+  const startTest = () => {
+    if (!leadName.trim()) {
+      setLeadError("Ingresa tu nombre para continuar.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(leadEmail.trim())) {
+      setLeadError("Ingresa un correo valido para continuar.");
+      return;
+    }
+
+    setLeadError("");
+    setStep("test");
+  };
+
+  const submitSurvey = async () => {
+    if (!surveyClarity || !surveyTrust || !surveyRecommend) {
+      setSurveyError("Responde las 3 preguntas de la encuesta.");
+      return;
+    }
+
+    setSurveyError("");
+    setSurveyLoading(true);
+
+    try {
+      await api.post("/api/v1/leads", {
+        nombre: leadName.trim(),
+        email: leadEmail.trim(),
+        source: "test_gratis_feedback",
+        interes: "encuesta_post_test",
+        holland_code: hollandCode || undefined,
+        metadata: {
+          claridad_resultado: surveyClarity,
+          confianza_datos_mineduc: surveyTrust,
+          recomendaria_vocari: surveyRecommend,
+          comentario: surveyComment.trim() || null,
+        },
+      });
+      setSurveySubmitted(true);
+    } catch (error) {
+      console.error("Error enviando encuesta:", error);
+      setSurveyError("No pudimos enviar tu respuesta. Intenta nuevamente.");
+    } finally {
+      setSurveyLoading(false);
     }
   };
 
@@ -287,16 +363,40 @@ export default function TestGratisPage() {
             </p>
           </div>
 
-          {(visitorName || visitorEmail) && (
-            <Card className="mb-6 border-vocari-accent/40 bg-vocari-accent/5">
-              <CardContent className="pt-4">
-                <p className="text-sm text-vocari-text">
-                  Hola {visitorName || "estudiante"}, ya registramos tus datos para seguimiento.
-                  {visitorEmail ? ` Te enviaremos recomendaciones a ${visitorEmail}.` : ""}
-                </p>
-              </CardContent>
-            </Card>
-          )}
+          <Card className="mb-6 border-vocari-accent/40 bg-vocari-accent/5">
+            <CardContent className="pt-4 space-y-4">
+              <p className="text-sm text-vocari-text">
+                Confirma tus datos para personalizar recomendaciones y enviar seguimiento.
+              </p>
+              <div className="grid md:grid-cols-2 gap-3">
+                <label className="block">
+                  <span className="text-xs text-vocari-text-muted mb-1 inline-flex items-center gap-1">
+                    <User className="w-3 h-3" />
+                    Nombre
+                  </span>
+                  <input
+                    value={leadName}
+                    onChange={(event) => setLeadName(event.target.value)}
+                    placeholder="Tu nombre"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-vocari-text bg-white"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-xs text-vocari-text-muted mb-1 inline-flex items-center gap-1">
+                    <Mail className="w-3 h-3" />
+                    Correo
+                  </span>
+                  <input
+                    value={leadEmail}
+                    onChange={(event) => setLeadEmail(event.target.value)}
+                    placeholder="tu@email.com"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-vocari-text bg-white"
+                  />
+                </label>
+              </div>
+              {leadError && <p className="text-sm text-red-700">{leadError}</p>}
+            </CardContent>
+          </Card>
 
           <div className="grid md:grid-cols-3 gap-4 mb-8">
             <Card className="border-vocari-primary/20">
@@ -381,7 +481,7 @@ export default function TestGratisPage() {
           </Card>
 
           <div className="text-center">
-            <Button onClick={() => setStep("test")} size="lg" className="text-lg px-8 py-4">
+            <Button onClick={startTest} size="lg" className="text-lg px-8 py-4">
               Comenzar test gratis
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
@@ -608,6 +708,98 @@ export default function TestGratisPage() {
                   >
                     Generar informe
                     <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
+                </>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-vocari-primary" />
+                Encuesta breve (30 segundos)
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              {surveySubmitted ? (
+                <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 text-sm">
+                  Gracias. Tu feedback ya fue registrado.
+                </div>
+              ) : (
+                <>
+                  <div>
+                    <p className="text-sm font-medium text-vocari-text mb-2">
+                      1) Que tan claro te resulto el resultado del test?
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {surveyScale.map((option) => (
+                        <Button
+                          key={`clarity-${option.value}`}
+                          variant={surveyClarity === option.value ? "primary" : "secondary"}
+                          size="sm"
+                          onClick={() => setSurveyClarity(option.value)}
+                        >
+                          {option.value}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-vocari-text mb-2">
+                      2) Cuanta confianza te dieron los datos de MINEDUC/SIES?
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {surveyScale.map((option) => (
+                        <Button
+                          key={`trust-${option.value}`}
+                          variant={surveyTrust === option.value ? "primary" : "secondary"}
+                          size="sm"
+                          onClick={() => setSurveyTrust(option.value)}
+                        >
+                          {option.value}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-vocari-text mb-2">
+                      3) Que tan probable es que recomiendes Vocari?
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {surveyScale.map((option) => (
+                        <Button
+                          key={`recommend-${option.value}`}
+                          variant={surveyRecommend === option.value ? "primary" : "secondary"}
+                          size="sm"
+                          onClick={() => setSurveyRecommend(option.value)}
+                        >
+                          <Star className="w-3 h-3" />
+                          {option.value}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-vocari-text mb-2">
+                      Comentario opcional
+                    </label>
+                    <textarea
+                      value={surveyComment}
+                      onChange={(event) => setSurveyComment(event.target.value)}
+                      placeholder="Que te gustaria mejorar?"
+                      rows={3}
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-vocari-text"
+                    />
+                  </div>
+
+                  {surveyError && <p className="text-sm text-red-700">{surveyError}</p>}
+
+                  <Button onClick={submitSurvey} loading={surveyLoading}>
+                    Enviar encuesta
                   </Button>
                 </>
               )}

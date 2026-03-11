@@ -18,6 +18,7 @@ class LeadCreate(BaseModel):
     interes: str = "carreras"
     holland_code: str | None = None
     source: str = "web"
+    metadata: dict | None = None
 
 
 @router.post("/leads")
@@ -31,6 +32,7 @@ async def create_lead(lead: LeadCreate) -> dict:
         interes=lead.interes,
         holland_code=lead.holland_code,
         source=lead.source,
+        metadata=lead.metadata,
     )
     
     # En una implementación real, guardarías esto en la base de datos
