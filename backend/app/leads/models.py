@@ -23,7 +23,7 @@ class Lead(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     holland_code: Mapped[str | None] = mapped_column(String(20), nullable=True, index=True)
     test_answers: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
     survey_response: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
-    metadata: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
+    metadata_json: Mapped[dict] = mapped_column("metadata", JSON, nullable=False, default=dict)
 
     def __repr__(self) -> str:
         return f"<Lead {self.email} source={self.source}>"

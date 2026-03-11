@@ -75,7 +75,7 @@ async def create_lead(
             share_token=secrets.token_urlsafe(18),
             test_answers=lead.test_answers or {},
             survey_response=lead.survey_response or {},
-            metadata=lead.metadata or {},
+            metadata_json=lead.metadata or {},
         )
         db.add(lead_row)
     else:
@@ -91,7 +91,7 @@ async def create_lead(
         if lead.survey_response is not None:
             lead_row.survey_response = lead.survey_response
         if lead.metadata is not None:
-            lead_row.metadata = lead.metadata
+            lead_row.metadata_json = lead.metadata
 
     await db.flush()
 
@@ -140,7 +140,7 @@ async def get_all_leads_for_review(
                 "holland_code": row.holland_code,
                 "test_answers": row.test_answers,
                 "survey_response": row.survey_response,
-                "metadata": row.metadata,
+                "metadata": row.metadata_json,
                 "created_at": row.created_at.isoformat() if row.created_at else None,
                 "updated_at": row.updated_at.isoformat() if row.updated_at else None,
             }
@@ -175,7 +175,7 @@ async def get_public_lead_report(
         "holland_code": lead_row.holland_code,
         "test_answers": lead_row.test_answers,
         "survey_response": lead_row.survey_response,
-        "metadata": lead_row.metadata,
+        "metadata": lead_row.metadata_json,
         "created_at": lead_row.created_at.isoformat() if lead_row.created_at else None,
         "updated_at": lead_row.updated_at.isoformat() if lead_row.updated_at else None,
     }
