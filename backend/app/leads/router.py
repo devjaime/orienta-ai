@@ -5,11 +5,12 @@ Vocari Backend - Router de Leads (captura de prospectos).
 import uuid
 import secrets
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 import structlog
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 from app.common.database import get_async_session
 from app.leads.models import Lead
@@ -17,6 +18,10 @@ from app.leads.models import Lead
 logger = structlog.get_logger()
 
 router = APIRouter()
+security = HTTPBasic()
+
+REVIEW_USERNAME = "mvp-admin"
+REVIEW_PASSWORD = "vocari-mvp-2026"
 
 
 class LeadCreate(BaseModel):
@@ -30,6 +35,21 @@ class LeadCreate(BaseModel):
     test_answers: dict | None = None
     survey_response: dict | None = None
     metadata: dict | None = None
+
+
+def require_review_auth(
+    credentials: HTTPBasicCredentials = Depends(security),
+) -> None:
+    """Autenticación fija para revisión interna del MVP."""
+    valid_user = secrets.compare_digest(credentials.username, REVIEW_USERNAME)
+    valid_pass = secrets.compare_digest(credentials.password, REVIEW_PASSWORD)
+
+    if not (valid_user and valid_pass):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciales inválidas",
+            headers={"WWW-Authenticate": "Basic"},
+        )
 
 
 @router.post("/leads")
@@ -95,6 +115,37 @@ async def create_lead(
         "share_token": lead_row.share_token,
         "public_url": f"/informe-test/{lead_row.share_token}",
         "message": "Lead capturado correctamente",
+    }
+
+
+@router.get("/leads/review/all")
+async def get_all_leads_for_review(
+    _: None = Depends(require_review_auth),
+    db: AsyncSession = Depends(get_async_session),
+) -> dict:
+    """Lista completa de leads para revisión interna del MVP."""
+    result = await db.execute(select(Lead).order_by(Lead.created_at.desc()))
+    rows = result.scalars().all()
+
+    return {
+        "success": True,
+        "count": len(rows),
+        "items": [
+            {
+                "id": str(row.id),
+                "nombre": row.nombre,
+                "email": row.email,
+                "source": row.source,
+                "interes": row.interes,
+                "holland_code": row.holland_code,
+                "test_answers": row.test_answers,
+                "survey_response": row.survey_response,
+                "metadata": row.metadata,
+                "created_at": row.created_at.isoformat() if row.created_at else None,
+                "updated_at": row.updated_at.isoformat() if row.updated_at else None,
+            }
+            for row in rows
+        ],
     }
 
 
