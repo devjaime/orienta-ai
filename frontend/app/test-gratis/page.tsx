@@ -165,6 +165,7 @@ export default function TestGratisPage() {
   const [reportUrl, setReportUrl] = useState("");
   const [leadId, setLeadId] = useState<string | null>(null);
   const [publicReportUrl, setPublicReportUrl] = useState<string | null>(null);
+  const [copiedPublicUrl, setCopiedPublicUrl] = useState(false);
   const [leadName, setLeadName] = useState("");
   const [leadEmail, setLeadEmail] = useState("");
   const [leadError, setLeadError] = useState("");
@@ -222,6 +223,7 @@ export default function TestGratisPage() {
     setHollandCode("");
     setLeadId(null);
     setPublicReportUrl(null);
+    setCopiedPublicUrl(false);
     setLeadError("");
     setSurveyClarity(null);
     setSurveyTrust(null);
@@ -295,7 +297,10 @@ export default function TestGratisPage() {
         },
       });
       setLeadId(data.lead_id);
-      setPublicReportUrl(data.public_url);
+      const absoluteUrl = data.public_url.startsWith("http")
+        ? data.public_url
+        : `${window.location.origin}${data.public_url}`;
+      setPublicReportUrl(absoluteUrl);
       setSurveySubmitted(true);
     } catch (error) {
       console.error("Error enviando encuesta:", error);
@@ -356,9 +361,23 @@ export default function TestGratisPage() {
         },
       });
       setLeadId(data.lead_id);
-      setPublicReportUrl(data.public_url);
+      const absoluteUrl = data.public_url.startsWith("http")
+        ? data.public_url
+        : `${window.location.origin}${data.public_url}`;
+      setPublicReportUrl(absoluteUrl);
     } catch (error) {
       console.error("Error guardando snapshot del test:", error);
+    }
+  };
+
+  const copyPublicUrl = async () => {
+    if (!publicReportUrl) return;
+    try {
+      await navigator.clipboard.writeText(publicReportUrl);
+      setCopiedPublicUrl(true);
+      setTimeout(() => setCopiedPublicUrl(false), 1800);
+    } catch (error) {
+      console.error("No se pudo copiar el enlace:", error);
     }
   };
 
@@ -612,19 +631,34 @@ export default function TestGratisPage() {
               Esta recomendacion combina tus intereses (RIASEC) con indicadores del mercado chileno
               para ayudarte a priorizar carreras con mejor ajuste y proyeccion.
             </p>
-            {publicReportUrl && (
-              <p className="mt-3 text-sm">
-                <a
-                  href={publicReportUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-vocari-primary font-medium underline"
-                >
-                  Ver URL pública del informe de datos almacenados
-                </a>
-              </p>
-            )}
           </div>
+
+          {publicReportUrl && (
+            <Card className="mb-8 border-vocari-primary/30 bg-vocari-primary/5">
+              <CardHeader>
+                <CardTitle className="text-base">Enlace aparte del informe guardado</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-sm text-vocari-text-muted">
+                  Este es el link público independiente para revisar exactamente lo almacenado.
+                </p>
+                <p className="text-xs bg-white border border-gray-200 rounded p-2 break-all">
+                  {publicReportUrl}
+                </p>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    onClick={() => window.open(publicReportUrl, "_blank", "noopener,noreferrer")}
+                  >
+                    Abrir enlace aparte
+                  </Button>
+                  <Button size="sm" variant="secondary" onClick={copyPublicUrl}>
+                    {copiedPublicUrl ? "Copiado" : "Copiar enlace"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           <div className="grid md:grid-cols-3 gap-4 mb-8">
             {topDims.map(([dim, score]) => (
