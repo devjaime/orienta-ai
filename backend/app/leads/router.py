@@ -12,6 +12,7 @@ router = APIRouter()
 
 
 class LeadCreate(BaseModel):
+    nombre: str | None = None
     email: str
     whatsapp: str | None = None
     interes: str = "carreras"
@@ -24,6 +25,7 @@ async def create_lead(lead: LeadCreate) -> dict:
     """Captura un lead desde el sitio web."""
     logger.info(
         "Lead capturado",
+        nombre=lead.nombre,
         email=lead.email,
         whatsapp=lead.whatsapp,
         interes=lead.interes,

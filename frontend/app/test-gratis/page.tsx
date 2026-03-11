@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
@@ -9,15 +9,22 @@ import { Spinner } from "@/components/ui/Spinner";
 import { api } from "@/lib/api";
 import { AIAssistant } from "@/components/ai/AIAssistant";
 import {
+  ArrowRight,
+  BarChart3,
+  Briefcase,
+  Building2,
+  CheckCircle2,
+  ChevronLeft,
+  Clock3,
   Lightbulb,
+  ShieldCheck,
+  Target,
   TrendingUp,
   Users,
-  Briefcase,
-  ArrowRight,
-  CheckCircle2,
-  BarChart3,
 } from "lucide-react";
 import type { RIASECDimension } from "@/lib/types/career";
+
+type Step = "intro" | "test" | "results";
 
 interface CareerRecommendation {
   career: {
@@ -35,37 +42,45 @@ interface CareerRecommendation {
   match_reasons: string[];
 }
 
-const quickQuestions = [
-  // Realista (R) - 4 preguntas
-  { id: 1, dimension: "R", text: "Me gusta trabajar con herramientas y maquinaria" },
-  { id: 2, dimension: "R", text: "Disfruto actividades al aire libre y trabajo practico" },
-  { id: 3, dimension: "R", text: "Me interesa como funcionan las cosas (mecanica, electricidad)" },
-  { id: 4, dimension: "R", text: "Prefiero trabajos donde pueda ver resultados concretos de mi trabajo" },
-  // Investigador (I) - 4 preguntas
-  { id: 5, dimension: "I", text: "Me gusta analizar datos y encontrar patrones" },
-  { id: 6, dimension: "I", text: "Disfruto resolver problemas complejos que requieren pensamiento logico" },
-  { id: 7, dimension: "I", text: "Me interesa investigar y descubrir como funcionan las cosas a nivel profundo" },
-  { id: 8, dimension: "I", text: "Disfruto aprender sobre ciencia, matematicas o tecnologia" },
-  // Artistico (A) - 4 preguntas
-  { id: 9, dimension: "A", text: "Me gusta expresarme creativamente y crear cosas nuevas" },
-  { id: 10, dimension: "A", text: "Prefiero trabajos que me permitan usar mi imaginacion" },
-  { id: 11, dimension: "A", text: "Me siento comodo en ambientes pocos estructurados y flexibles" },
-  { id: 12, dimension: "A", text: "Me interesa la estetica y el diseno visual de las cosas" },
-  // Social (S) - 4 preguntas
-  { id: 13, dimension: "S", text: "Me gusta ayudar a otras personas y trabajar en equipo" },
-  { id: 14, dimension: "S", text: "Disfruto ensenar y compartir conocimientos con otros" },
-  { id: 15, dimension: "S", text: "Me interesa el bienestar y desarrollo de los demas" },
-  { id: 16, dimension: "S", text: "Prefiero trabajos que impliquen interaccion directa con personas" },
-  // Emprendedor (E) - 4 preguntas
-  { id: 17, dimension: "E", text: "Me gusta liderar proyectos y tomar decisiones importantes" },
-  { id: 18, dimension: "E", text: "Disfruto persuadir y convencer a otros de mis ideas" },
-  { id: 19, dimension: "E", text: "Me gusta asumir riesgos y enfrentar nuevos desafios" },
-  { id: 20, dimension: "E", text: "Me interesa el mundo de los negocios y las oportunidades comerciales" },
-  // Convencional (C) - 4 preguntas
-  { id: 21, dimension: "C", text: "Me gusta trabajar con datos, numeros y sistemas organizados" },
-  { id: 22, dimension: "C", text: "Prefiero seguir procedimientos y completar tareas con precision" },
-  { id: 23, dimension: "C", text: "Me siento comodo en ambientes estructurados y predecibles" },
-  { id: 24, dimension: "C", text: "Me interesa la administracion y organizacion de informacion" },
+interface QuickQuestion {
+  id: number;
+  dimension: RIASECDimension;
+  text: string;
+}
+
+const quickQuestions: QuickQuestion[] = [
+  { id: 1, dimension: "R", text: "Me gusta trabajar con herramientas y maquinaria." },
+  { id: 2, dimension: "R", text: "Disfruto actividades al aire libre y trabajo practico." },
+  { id: 3, dimension: "R", text: "Me interesa como funcionan las cosas (mecanica, electricidad)." },
+  { id: 4, dimension: "R", text: "Prefiero trabajos donde veo resultados concretos." },
+  { id: 5, dimension: "I", text: "Me gusta analizar datos y encontrar patrones." },
+  { id: 6, dimension: "I", text: "Disfruto resolver problemas complejos con pensamiento logico." },
+  { id: 7, dimension: "I", text: "Me interesa investigar y profundizar en temas tecnicos o cientificos." },
+  { id: 8, dimension: "I", text: "Disfruto aprender ciencia, matematicas o tecnologia." },
+  { id: 9, dimension: "A", text: "Me gusta expresarme creativamente y crear cosas nuevas." },
+  { id: 10, dimension: "A", text: "Prefiero trabajos que permitan usar imaginacion." },
+  { id: 11, dimension: "A", text: "Me siento comodo en ambientes menos estructurados." },
+  { id: 12, dimension: "A", text: "Me interesa la estetica y el diseno visual." },
+  { id: 13, dimension: "S", text: "Me gusta ayudar a otras personas y trabajar en equipo." },
+  { id: 14, dimension: "S", text: "Disfruto ensenar y compartir conocimientos." },
+  { id: 15, dimension: "S", text: "Me interesa el bienestar y desarrollo de los demas." },
+  { id: 16, dimension: "S", text: "Prefiero trabajos con interaccion directa con personas." },
+  { id: 17, dimension: "E", text: "Me gusta liderar proyectos y tomar decisiones." },
+  { id: 18, dimension: "E", text: "Disfruto persuadir y defender ideas." },
+  { id: 19, dimension: "E", text: "Me gusta asumir riesgos y enfrentar desafios nuevos." },
+  { id: 20, dimension: "E", text: "Me interesa el mundo de los negocios y la gestion." },
+  { id: 21, dimension: "C", text: "Me gusta trabajar con datos, numeros y sistemas ordenados." },
+  { id: 22, dimension: "C", text: "Prefiero procesos definidos y tareas con precision." },
+  { id: 23, dimension: "C", text: "Me siento comodo en ambientes estructurados y predecibles." },
+  { id: 24, dimension: "C", text: "Me interesa la administracion y organizacion de informacion." },
+];
+
+const scaleOptions = [
+  { value: 1, label: "Muy en desacuerdo", helper: "Casi nunca me representa" },
+  { value: 2, label: "En desacuerdo", helper: "Me representa pocas veces" },
+  { value: 3, label: "Neutral", helper: "Depende del contexto" },
+  { value: 4, label: "De acuerdo", helper: "Me representa con frecuencia" },
+  { value: 5, label: "Muy de acuerdo", helper: "Me representa totalmente" },
 ];
 
 const dimensionNames: Record<RIASECDimension, string> = {
@@ -77,17 +92,56 @@ const dimensionNames: Record<RIASECDimension, string> = {
   C: "Convencional",
 };
 
-const dimensionColors: Record<RIASECDimension, string> = {
-  R: "bg-red-500",
-  I: "bg-blue-500",
-  A: "bg-purple-500",
-  S: "bg-green-500",
-  E: "bg-yellow-500",
-  C: "bg-orange-500",
+const dimensionBadgeStyles: Record<RIASECDimension, string> = {
+  R: "bg-red-100 text-red-800",
+  I: "bg-blue-100 text-blue-800",
+  A: "bg-purple-100 text-purple-800",
+  S: "bg-green-100 text-green-800",
+  E: "bg-amber-100 text-amber-800",
+  C: "bg-slate-100 text-slate-800",
+};
+
+const dimensionAccentStyles: Record<RIASECDimension, string> = {
+  R: "border-red-300",
+  I: "border-blue-300",
+  A: "border-purple-300",
+  S: "border-green-300",
+  E: "border-amber-300",
+  C: "border-slate-300",
+};
+
+const formatCLP = (value: number) =>
+  new Intl.NumberFormat("es-CL", {
+    style: "currency",
+    currency: "CLP",
+    maximumFractionDigits: 0,
+  }).format(value);
+
+const formatSalary = (range?: { min?: number; max?: number; median?: number }) => {
+  if (!range?.median) return "No disponible";
+  const lowerBound = range.min || range.median;
+  const upperBound = range.max || range.median;
+  return `${formatCLP(lowerBound)} - ${formatCLP(upperBound)}`;
+};
+
+const getMineducYear = (data: Record<string, unknown>) => {
+  const yearKeys = ["year", "anio", "ano", "periodo"];
+  for (const key of yearKeys) {
+    const value = data[key];
+    if (typeof value === "number") return String(value);
+    if (typeof value === "string" && value.trim()) return value.trim();
+  }
+  return null;
+};
+
+const getSaturationLabel = (index: number) => {
+  if (index < 0.3) return { label: "Baja", color: "bg-green-100 text-green-800" };
+  if (index < 0.6) return { label: "Media", color: "bg-amber-100 text-amber-800" };
+  return { label: "Alta", color: "bg-red-100 text-red-800" };
 };
 
 export default function TestGratisPage() {
-  const [step, setStep] = useState<"intro" | "test" | "results">("intro");
+  const [step, setStep] = useState<Step>("intro");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [loading, setLoading] = useState(false);
@@ -96,14 +150,59 @@ export default function TestGratisPage() {
   const [hollandCode, setHollandCode] = useState("");
   const [reportGenerated, setReportGenerated] = useState(false);
   const [reportUrl, setReportUrl] = useState("");
+  const [visitorName, setVisitorName] = useState("");
+  const [visitorEmail, setVisitorEmail] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setVisitorName(params.get("nombre")?.trim() || "");
+    setVisitorEmail(params.get("email")?.trim() || "");
+  }, []);
+
+  const getScores = (answersToUse: Record<number, number>) => {
+    const scores: Record<RIASECDimension, number> = {
+      R: 0,
+      I: 0,
+      A: 0,
+      S: 0,
+      E: 0,
+      C: 0,
+    };
+
+    quickQuestions.forEach((question) => {
+      const answer = answersToUse[question.id] || 0;
+      scores[question.dimension] += answer;
+    });
+
+    return scores;
+  };
+
+  const getTopDimensions = (answersToUse: Record<number, number>) => {
+    const scores = getScores(answersToUse);
+    return (Object.entries(scores) as [RIASECDimension, number][])
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3);
+  };
+
+  const resetFlow = () => {
+    setStep("intro");
+    setCurrentQuestion(0);
+    setAnswers({});
+    setRecommendations([]);
+    setReportGenerated(false);
+    setReportUrl("");
+    setLoading(false);
+    setLoadingMessage("");
+    setHollandCode("");
+  };
 
   const generateReport = async () => {
     setLoading(true);
-    setLoadingMessage("Generando tu informe con IA...");
+    setLoadingMessage("Generando tu informe vocacional...");
     try {
       const data = await api.post<{ share_token: string; share_url: string }>(
         "/api/v1/reports/generate",
-        { report_type: "comprehensive" }
+        { report_type: "comprehensive" },
       );
       setReportGenerated(true);
       setReportUrl(data.share_url);
@@ -115,48 +214,19 @@ export default function TestGratisPage() {
     }
   };
 
-  const handleAnswer = (value: number) => {
-    const questionId = quickQuestions[currentQuestion].id;
-    const newAnswers = { ...answers, [questionId]: value };
-    setAnswers(newAnswers);
-
-    if (currentQuestion < quickQuestions.length - 1) {
-      setCurrentQuestion((prev) => prev + 1);
-    } else {
-      calculateResults(newAnswers);
-    }
-  };
-
   const calculateResults = async (answersToUse: Record<number, number>) => {
     setLoading(true);
     setLoadingMessage("Calculando tu perfil vocacional...");
 
-    const scores: Record<RIASECDimension, number> = {
-      R: 0,
-      I: 0,
-      A: 0,
-      S: 0,
-      E: 0,
-      C: 0,
-    };
-
-    quickQuestions.forEach((q) => {
-      const answer = answersToUse[q.id] || 0;
-      scores[q.dimension as RIASECDimension] += answer;
-    });
-
-    const sortedDims = (Object.entries(scores) as [RIASECDimension, number][])
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3);
-
+    const sortedDims = getTopDimensions(answersToUse);
     const code = sortedDims.map(([dim]) => dim).join("");
     setHollandCode(code);
 
-    setLoadingMessage("Buscando las mejores carreras para ti...");
+    setLoadingMessage("Buscando carreras con datos del mercado chileno...");
 
     try {
       const data = await api.get<{ recommendations: CareerRecommendation[] }>(
-        `/api/v1/careers/recommendations?holland_code=${code}&limit=6`
+        `/api/v1/careers/recommendations?holland_code=${code}&limit=6`,
       );
       setRecommendations(data.recommendations || []);
     } catch {
@@ -167,94 +237,131 @@ export default function TestGratisPage() {
     setStep("results");
   };
 
-  const getTopDimensions = () => {
-    const scores: Record<RIASECDimension, number> = {
-      R: 0,
-      I: 0,
-      A: 0,
-      S: 0,
-      E: 0,
-      C: 0,
-    };
+  const handleAnswer = (value: number) => {
+    const questionId = quickQuestions[currentQuestion].id;
+    const newAnswers = { ...answers, [questionId]: value };
+    setAnswers(newAnswers);
 
-    quickQuestions.forEach((q) => {
-      const answer = answers[q.id] || 0;
-      scores[q.dimension as RIASECDimension] += answer;
-    });
+    if (currentQuestion < quickQuestions.length - 1) {
+      setCurrentQuestion((prev) => prev + 1);
+      return;
+    }
 
-    return (Object.entries(scores) as [RIASECDimension, number][])
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3);
+    void calculateResults(newAnswers);
   };
 
-  const getSaturationLabel = (index: number) => {
-    if (index < 0.3) return { label: "Bajo", color: "bg-green-100 text-green-800" };
-    if (index < 0.6) return { label: "Medio", color: "bg-yellow-100 text-yellow-800" };
-    return { label: "Alto", color: "bg-red-100 text-red-800" };
-  };
-
-  const formatSalary = (range?: { min?: number; max?: number; median?: number }) => {
-    if (!range?.median) return "No disponible";
-    return `$${(range.median / 1000).toFixed(0)}k - $${((range.max || range.median * 1.3) / 1000).toFixed(0)}k CLP`;
+  const handlePreviousQuestion = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion((prev) => prev - 1);
+    }
   };
 
   if (step === "intro") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-vocari-bg to-vocari-bg-warm">
-        <div className="max-w-3xl mx-auto px-4 py-16">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-vocari-primary/10 rounded-full mb-6">
-              <Lightbulb className="w-8 h-8 text-vocari-primary" />
+      <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
+        <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 bg-vocari-primary/10 text-vocari-primary rounded-full px-4 py-2 text-sm font-medium mb-4">
+              <ShieldCheck className="w-4 h-4" />
+              Metodologia RIASEC + datos de MINEDUC/SIES
             </div>
-            <h1 className="text-4xl font-bold text-vocari-text mb-4">
-              Test Vocacional Gratis
+
+            <h1 className="text-3xl md:text-5xl font-bold text-vocari-text mb-4">
+              Test vocacional gratis para decidir con datos reales
             </h1>
-            <p className="text-xl text-vocari-text-muted">
-              Descubre tu perfil vocacional y las carreras ideales para ti
+            <p className="text-vocari-text-muted text-lg max-w-3xl mx-auto">
+              Responde 24 preguntas, descubre tu codigo Holland y revisa carreras
+              con empleabilidad, ingresos y nivel de saturacion del mercado chileno.
             </p>
+          </div>
+
+          {(visitorName || visitorEmail) && (
+            <Card className="mb-6 border-vocari-accent/40 bg-vocari-accent/5">
+              <CardContent className="pt-4">
+                <p className="text-sm text-vocari-text">
+                  Hola {visitorName || "estudiante"}, ya registramos tus datos para seguimiento.
+                  {visitorEmail ? ` Te enviaremos recomendaciones a ${visitorEmail}.` : ""}
+                </p>
+              </CardContent>
+            </Card>
+          )}
+
+          <div className="grid md:grid-cols-3 gap-4 mb-8">
+            <Card className="border-vocari-primary/20">
+              <CardContent className="pt-4">
+                <div className="flex items-center gap-2 mb-2 text-vocari-primary">
+                  <Clock3 className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Tiempo estimado</span>
+                </div>
+                <p className="text-2xl font-bold text-vocari-text">5-7 min</p>
+                <p className="text-sm text-vocari-text-muted">Formato rapido de 24 preguntas</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-vocari-primary/20">
+              <CardContent className="pt-4">
+                <div className="flex items-center gap-2 mb-2 text-vocari-primary">
+                  <Target className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Resultado principal</span>
+                </div>
+                <p className="text-2xl font-bold text-vocari-text">Codigo RIASEC</p>
+                <p className="text-sm text-vocari-text-muted">Tus 3 dimensiones dominantes</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-vocari-primary/20">
+              <CardContent className="pt-4">
+                <div className="flex items-center gap-2 mb-2 text-vocari-primary">
+                  <Building2 className="w-4 h-4" />
+                  <span className="text-sm font-semibold">Fuente de datos</span>
+                </div>
+                <p className="text-2xl font-bold text-vocari-text">MINEDUC/SIES</p>
+                <p className="text-sm text-vocari-text-muted">Mercado laboral chileno</p>
+              </CardContent>
+            </Card>
           </div>
 
           <Card className="mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-green-600" />
-                Que incluye este test?
+                Que incluye este test
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start gap-3">
                 <BarChart3 className="w-5 h-5 text-vocari-primary mt-0.5" />
                 <div>
-                  <p className="font-medium text-vocari-text">24 preguntas</p>
+                  <p className="font-medium text-vocari-text">Evaluacion breve y estructurada</p>
                   <p className="text-sm text-vocari-text-muted">
-                    Basadas en el modelo RIASEC, el mas utilizado en orientacion vocacional
+                    24 preguntas del modelo RIASEC para perfilar tus intereses vocacionales.
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <TrendingUp className="w-5 h-5 text-vocari-primary mt-0.5" />
                 <div>
-                  <p className="font-medium text-vocari-text">Tu codigo Holland</p>
+                  <p className="font-medium text-vocari-text">Ranking de carreras compatibles</p>
                   <p className="text-sm text-vocari-text-muted">
-                    Conoce tus 3 dimensiones principales de personalidad
+                    Compatibilidad estimada con tu perfil + razones de ajuste.
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Briefcase className="w-5 h-5 text-vocari-primary mt-0.5" />
                 <div>
-                  <p className="font-medium text-vocari-text">Carreras con datos reales</p>
+                  <p className="font-medium text-vocari-text">Indicadores de decision</p>
                   <p className="text-sm text-vocari-text-muted">
-                    Empleabilidad, salario y nivel de saturacion del mercado chileno
+                    Empleabilidad, rango salarial y saturacion para comparar opciones.
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Users className="w-5 h-5 text-vocari-primary mt-0.5" />
                 <div>
-                  <p className="font-medium text-vocari-text">100% Gratis</p>
+                  <p className="font-medium text-vocari-text">Acceso inmediato</p>
                   <p className="text-sm text-vocari-text-muted">
-                    Sin registro requerido para hacer el test
+                    Gratis, sin pago ni pasos complejos para comenzar.
                   </p>
                 </div>
               </div>
@@ -262,12 +369,8 @@ export default function TestGratisPage() {
           </Card>
 
           <div className="text-center">
-            <Button
-              onClick={() => setStep("test")}
-              size="lg"
-              className="text-lg px-8 py-4"
-            >
-              Comenzar Test Gratuito
+            <Button onClick={() => setStep("test")} size="lg" className="text-lg px-8 py-4">
+              Comenzar test gratis
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>
@@ -280,42 +383,79 @@ export default function TestGratisPage() {
     const question = quickQuestions[currentQuestion];
     const progress = ((currentQuestion + 1) / quickQuestions.length) * 100;
 
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-vocari-bg to-vocari-bg-warm">
-        <div className="max-w-2xl mx-auto px-4 py-8">
-          <div className="mb-6">
-            <div className="flex justify-between text-sm text-vocari-text-muted mb-2">
-              <span>Pregunta {currentQuestion + 1} de {quickQuestions.length}</span>
-              <span>{Math.round(progress)}%</span>
-            </div>
-            <ProgressBar value={progress} className="h-2" />
+    if (loading) {
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
+          <div className="max-w-2xl mx-auto px-4 py-20">
+            <Card>
+              <CardContent className="py-12 text-center">
+                <Spinner size="lg" />
+                <p className="mt-4 text-vocari-text-muted">
+                  {loadingMessage || "Procesando tus resultados..."}
+                </p>
+              </CardContent>
+            </Card>
           </div>
+        </div>
+      );
+    }
 
-          <Card className="mb-6">
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
+        <div className="max-w-3xl mx-auto px-4 py-8">
+          <Card className="mb-5">
+            <CardContent className="pt-4">
+              <div className="flex justify-between text-sm text-vocari-text-muted mb-2">
+                <span>Pregunta {currentQuestion + 1} de {quickQuestions.length}</span>
+                <span>{Math.round(progress)}%</span>
+              </div>
+              <ProgressBar value={progress} className="h-2 mb-3" />
+              <p className="text-xs text-vocari-text-muted">
+                Responde con honestidad. No hay respuestas correctas o incorrectas.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className={`mb-6 border-2 ${dimensionAccentStyles[question.dimension]}`}>
             <CardContent className="pt-6">
-              <Badge className={`mb-4 ${dimensionColors[question.dimension as RIASECDimension]}`}>
-                Dimension: {dimensionNames[question.dimension as RIASECDimension]}
+              <Badge className={`mb-4 ${dimensionBadgeStyles[question.dimension]}`}>
+                Dimension: {dimensionNames[question.dimension]}
               </Badge>
-              <p className="text-xl font-medium text-vocari-text">{question.text}</p>
+              <p className="text-xl md:text-2xl font-semibold text-vocari-text leading-relaxed">
+                {question.text}
+              </p>
             </CardContent>
           </Card>
 
           <div className="space-y-3">
-            {[1, 2, 3, 4, 5].map((value) => (
+            {scaleOptions.map((option) => (
               <Button
-                key={value}
+                key={option.value}
                 variant="secondary"
-                className="w-full text-left justify-start h-auto py-4 px-6"
-                onClick={() => handleAnswer(value)}
+                className="w-full text-left justify-start h-auto py-4 px-5 border-gray-300"
+                onClick={() => handleAnswer(option.value)}
               >
-                <span className="text-vocari-text-muted mr-3">{value}</span>
-                {value === 1 && "Totalmente en desacuerdo"}
-                {value === 2 && "En desacuerdo"}
-                {value === 3 && "Neutral"}
-                {value === 4 && "De acuerdo"}
-                {value === 5 && "Totalmente de acuerdo"}
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-vocari-primary text-white text-sm font-semibold mr-3">
+                  {option.value}
+                </span>
+                <span>
+                  <span className="block text-vocari-text font-medium">{option.label}</span>
+                  <span className="block text-xs text-vocari-text-muted">{option.helper}</span>
+                </span>
               </Button>
             ))}
+          </div>
+
+          <div className="mt-6">
+            <Button
+              variant="ghost"
+              className="px-0 text-vocari-text-muted"
+              onClick={handlePreviousQuestion}
+              disabled={currentQuestion === 0}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Volver a la pregunta anterior
+            </Button>
           </div>
         </div>
       </div>
@@ -323,103 +463,104 @@ export default function TestGratisPage() {
   }
 
   if (step === "results") {
-    const topDims = getTopDimensions();
+    const topDims = getTopDimensions(answers);
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-vocari-bg to-vocari-bg-warm">
-        <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
+        <div className="max-w-5xl mx-auto px-4 py-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-vocari-text mb-2">
-              Tu Perfil Vocacional
-            </h1>
-            <p className="text-vocari-text-muted">
-              Basado en tus respuestas, este es tu codigo Holland:
-            </p>
-            <div className="mt-4 inline-flex gap-2">
-              {topDims.map(([dim, score]) => (
-                <div
-                  key={dim}
-                  className={`px-4 py-2 rounded-lg ${dimensionColors[dim]} text-white font-bold`}
-                >
-                  {dim}
-                  <span className="block text-xs font-normal opacity-80">
-                    {dimensionNames[dim]} ({score} pts)
-                  </span>
-                </div>
-              ))}
+            <div className="inline-flex items-center gap-2 bg-vocari-primary/10 text-vocari-primary rounded-full px-4 py-2 text-sm font-medium mb-3">
+              <Lightbulb className="w-4 h-4" />
+              Resultado vocacional personalizado
             </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-vocari-text mb-2">
+              Tu perfil vocacional es {hollandCode}
+            </h1>
+            <p className="text-vocari-text-muted max-w-3xl mx-auto">
+              Esta recomendacion combina tus intereses (RIASEC) con indicadores del mercado chileno
+              para ayudarte a priorizar carreras con mejor ajuste y proyeccion.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-4 mb-8">
+            {topDims.map(([dim, score]) => (
+              <Card key={dim} className={`border-2 ${dimensionAccentStyles[dim]}`}>
+                <CardContent className="pt-4">
+                  <Badge className={dimensionBadgeStyles[dim]}>{dim} - {dimensionNames[dim]}</Badge>
+                  <p className="mt-3 text-2xl font-bold text-vocari-text">{score} pts</p>
+                  <p className="text-sm text-vocari-text-muted">Intensidad de interes detectada</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
 
           <Card className="mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Briefcase className="w-5 h-5" />
-                Carreras Recomendadas para Ti
+                <Briefcase className="w-5 h-5 text-vocari-primary" />
+                Carreras recomendadas con referencia MINEDUC
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {loading ? (
-                <div className="text-center py-8">
-                  <Spinner size="lg" />
-                  <p className="mt-4 text-vocari-text-muted">
-                    {loadingMessage || "Analizando tu perfil y buscando las mejores opciones..."}
-                  </p>
-                </div>
-              ) : recommendations.length > 0 ? (
-                recommendations.map((rec) => {
-                  const saturation = getSaturationLabel(rec.career.saturation_index);
+              {recommendations.length > 0 ? (
+                recommendations.map((recommendation) => {
+                  const saturation = getSaturationLabel(recommendation.career.saturation_index);
+                  const sourceYear = getMineducYear(recommendation.career.mineduc_data);
+
                   return (
                     <div
-                      key={rec.career.id}
-                      className="border rounded-lg p-4 hover:border-vocari-primary/50 transition-colors"
+                      key={recommendation.career.id}
+                      className="border border-gray-200 rounded-xl p-4 hover:border-vocari-primary/40 transition-colors"
                     >
-                      <div className="flex justify-between items-start mb-3">
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
                         <div>
-                          <h3 className="font-semibold text-vocari-text">
-                            {rec.career.name}
+                          <h3 className="font-semibold text-lg text-vocari-text">
+                            {recommendation.career.name}
                           </h3>
-                          <p className="text-sm text-vocari-text-muted">
-                            {rec.career.area}
-                          </p>
+                          <p className="text-sm text-vocari-text-muted">{recommendation.career.area}</p>
                         </div>
-                        <Badge className={dimensionColors[rec.career.holland_codes[0] as RIASECDimension] || "bg-gray-500"}>
-                          {Math.round(rec.match_score)}% compatibilidad
+                        <Badge className="bg-vocari-primary text-white w-fit">
+                          {Math.round(recommendation.match_score)}% compatibilidad
                         </Badge>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-3 text-sm">
-                        <div className="bg-gray-50 rounded p-2">
-                          <p className="text-vocari-text-muted text-xs">Salario mensual</p>
-                          <p className="font-medium text-vocari-text">
-                            {formatSalary(rec.career.salary_range)}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                        <div className="bg-gray-50 rounded-lg p-3">
+                          <p className="text-vocari-text-muted text-xs mb-1">Ingreso estimado</p>
+                          <p className="font-semibold text-vocari-text">
+                            {formatSalary(recommendation.career.salary_range)}
                           </p>
                         </div>
-                        <div className="bg-gray-50 rounded p-2">
-                          <p className="text-vocari-text-muted text-xs">Empleabilidad</p>
-                          <p className="font-medium text-green-600">
-                            {Math.round(rec.career.employability * 100)}%
+                        <div className="bg-gray-50 rounded-lg p-3">
+                          <p className="text-vocari-text-muted text-xs mb-1">Empleabilidad</p>
+                          <p className="font-semibold text-green-700">
+                            {Math.round(recommendation.career.employability * 100)}%
                           </p>
                         </div>
-                        <div className="bg-gray-50 rounded p-2">
-                          <p className="text-vocari-text-muted text-xs">Saturacion</p>
+                        <div className="bg-gray-50 rounded-lg p-3">
+                          <p className="text-vocari-text-muted text-xs mb-1">Saturacion</p>
                           <span className={`inline-block px-2 py-0.5 rounded text-xs ${saturation.color}`}>
                             {saturation.label}
                           </span>
                         </div>
                       </div>
 
-                      {rec.match_reasons.length > 0 && (
-                        <div className="mt-3 pt-3 border-t">
-                          <p className="text-xs text-vocari-text-muted mb-1">Por que es para ti:</p>
-                          <p className="text-sm text-vocari-text">{rec.match_reasons[0]}</p>
+                      {recommendation.match_reasons.length > 0 && (
+                        <div className="mt-3 pt-3 border-t border-gray-100">
+                          <p className="text-xs text-vocari-text-muted mb-1">Motivo principal de ajuste</p>
+                          <p className="text-sm text-vocari-text">{recommendation.match_reasons[0]}</p>
                         </div>
                       )}
+
+                      <p className="mt-3 text-xs text-vocari-text-muted">
+                        Fuente: MINEDUC/SIES{sourceYear ? ` (${sourceYear})` : ""}.
+                      </p>
                     </div>
                   );
                 })
               ) : (
-                <p className="text-center text-vocari-text-muted py-4">
-                  No se encontraron recomendaciones. Intenta con un perfil diferente.
+                <p className="text-center text-vocari-text-muted py-6">
+                  No se encontraron recomendaciones en este intento. Puedes repetir el test.
                 </p>
               )}
             </CardContent>
@@ -429,32 +570,26 @@ export default function TestGratisPage() {
             <CardContent className="pt-6 text-center">
               {reportGenerated ? (
                 <>
-                  <h2 className="text-xl font-bold mb-2">
-                    Informe generado exitosamente!
-                  </h2>
-                  <p className="opacity-90 mb-4">
-                    Comparte este enlace con quien quieras:
-                  </p>
+                  <h2 className="text-xl font-bold mb-2">Informe generado correctamente</h2>
+                  <p className="opacity-90 mb-4">Comparte este enlace o guardalo para revisarlo despues.</p>
                   <div className="bg-white/10 rounded-lg p-3 mb-4">
                     <p className="text-sm break-all font-mono">{reportUrl}</p>
                   </div>
                   <Button
                     variant="secondary"
                     className="bg-white text-vocari-primary hover:bg-gray-100"
-                    onClick={() => window.open(reportUrl, "_blank")}
+                    onClick={() => window.open(reportUrl, "_blank", "noopener,noreferrer")}
                   >
-                    Ver Informe
+                    Ver informe
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </>
               ) : (
                 <>
-                  <h2 className="text-xl font-bold mb-2">
-                    quieres un informe completo con IA?
-                  </h2>
+                  <h2 className="text-xl font-bold mb-2">Quieres un informe completo?</h2>
                   <p className="opacity-90 mb-4">
-                    Obtén un análisis personalizado con recomendaciones especificas,
-                    datos actualizados del mercado laboral y proximos pasos.
+                    Genera un reporte extendido con interpretacion personalizada y siguientes pasos
+                    para tu decision vocacional.
                   </p>
                   <Button
                     variant="secondary"
@@ -462,7 +597,7 @@ export default function TestGratisPage() {
                     onClick={generateReport}
                     loading={loading}
                   >
-                    Generar Informe con IA
+                    Generar informe
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </>
@@ -471,17 +606,8 @@ export default function TestGratisPage() {
           </Card>
 
           <div className="text-center">
-            <Button variant="ghost" onClick={() => {
-              setStep("intro");
-              setCurrentQuestion(0);
-              setAnswers({});
-              setRecommendations([]);
-              setReportGenerated(false);
-              setReportUrl("");
-              setLoading(false);
-              setLoadingMessage("");
-            }}>
-              Repetir Test
+            <Button variant="ghost" onClick={resetFlow}>
+              Repetir test
             </Button>
           </div>
 
