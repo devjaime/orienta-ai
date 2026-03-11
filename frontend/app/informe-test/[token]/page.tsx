@@ -89,7 +89,6 @@ export default async function PublicLeadReportPage({
             <p><strong>Origen:</strong> {report.source}</p>
             <p><strong>Interés:</strong> {report.interes}</p>
             <p><strong>Código Holland:</strong> {report.holland_code || "No disponible"}</p>
-            <p><strong>Token:</strong> {report.share_token}</p>
             <p><strong>Creado:</strong> {formatDate(report.created_at)}</p>
             <p><strong>Actualizado:</strong> {formatDate(report.updated_at)}</p>
           </div>
