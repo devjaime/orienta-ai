@@ -113,6 +113,7 @@ export default function RevisionLeadsPage() {
                       <th className="text-left p-3">Fuente</th>
                       <th className="text-left p-3">Test (JSON)</th>
                       <th className="text-left p-3">Encuesta (JSON)</th>
+                      <th className="text-left p-3">Informe IA</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -132,6 +133,22 @@ export default function RevisionLeadsPage() {
                           <pre className="text-xs bg-gray-50 p-2 rounded border border-gray-200 max-w-[260px] overflow-auto">
                             {JSON.stringify(lead.survey_response || {}, null, 2)}
                           </pre>
+                        </td>
+                        <td className="p-3">
+                          {lead.metadata?.ai_report_text ? (
+                            <div className="space-y-2 max-w-[360px]">
+                              <p className="text-xs text-gray-500">
+                                Generado: {typeof lead.metadata.ai_report_generated_at === "string"
+                                  ? formatDate(lead.metadata.ai_report_generated_at)
+                                  : "N/D"}
+                              </p>
+                              <pre className="text-xs bg-gray-50 p-2 rounded border border-gray-200 max-h-48 overflow-auto whitespace-pre-wrap">
+                                {String(lead.metadata.ai_report_text)}
+                              </pre>
+                            </div>
+                          ) : (
+                            <span className="text-xs text-gray-400">Sin informe IA</span>
+                          )}
                         </td>
                       </tr>
                     ))}

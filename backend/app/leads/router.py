@@ -4,6 +4,7 @@ Vocari Backend - Router de Leads (captura de prospectos).
 
 import uuid
 import secrets
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
@@ -191,7 +192,7 @@ async def generate_lead_ai_report(
         if lead_row:
             metadata = lead_row.metadata_json or {}
             metadata["ai_report_text"] = report_text
-            metadata["ai_report_generated_at"] = "now"
+            metadata["ai_report_generated_at"] = datetime.now(timezone.utc).isoformat()
             lead_row.metadata_json = metadata
             await db.flush()
 
