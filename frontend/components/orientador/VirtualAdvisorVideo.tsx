@@ -12,6 +12,8 @@ interface VirtualAdvisorVideoProps {
   durationEstimate?: string;
   autoplay?: boolean;
   showSkip?: boolean;
+  autoContinueOnEnd?: boolean;
+  transitionMs?: number;
   analyticsContext?: Record<string, string | number | boolean | null | undefined>;
   onContinue?: () => void;
   onCompleted?: () => void;
@@ -23,8 +25,10 @@ export default function VirtualAdvisorVideo({
   title,
   description,
   durationEstimate,
-  autoplay = false,
+  autoplay = true,
   showSkip = true,
+  autoContinueOnEnd = true,
+  transitionMs = 380,
   analyticsContext = {},
   onContinue,
   onCompleted,
@@ -35,10 +39,12 @@ export default function VirtualAdvisorVideo({
 
   const [inView, setInView] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
 
   const payload = useMemo(
     () => ({
@@ -72,15 +78,47 @@ export default function VirtualAdvisorVideo({
     trackEvent("virtual_advisor_video_impression", payload);
   }, [inView, payload]);
 
-  const handleContinue = () => {
-    if (!isCompleted) {
+  useEffect(() => {
+    if (!inView || !autoplay) return;
+    const video = videoRef.current;
+    if (!video) return;
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
+  }, [autoplay, inView, src]);
+
+  const handleContinue = (reason: "skip" | "completed" = "skip") => {
+    if (isExiting) return;
+    if (reason === "skip" && !isCompleted) {
       trackEvent("virtual_advisor_video_skip", payload);
     }
-    onContinue?.();
+    setIsExiting(true);
+    window.setTimeout(() => {
+      onContinue?.();
+    }, transitionMs);
+  };
+
+  const togglePlayPause = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      void video.play();
+      trackEvent("virtual_advisor_video_resume", payload);
+    } else {
+      video.pause();
+      trackEvent("virtual_advisor_video_pause", payload);
+    }
   };
 
   return (
-    <div ref={containerRef} className="rounded-2xl border border-vocari-primary/25 bg-white p-4 shadow-sm">
+    <div
+      ref={containerRef}
+      className={`rounded-2xl border border-vocari-primary/25 bg-white p-4 shadow-sm transition-all ease-out ${
+        isExiting ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
+      }`}
+      style={{ transitionDuration: `${transitionMs}ms` }}
+    >
       <div className="flex items-center justify-between gap-3 mb-3">
         <div>
           <p className="text-sm font-semibold text-vocari-text">{title}</p>
@@ -105,15 +143,21 @@ export default function VirtualAdvisorVideo({
             className="h-full w-full object-contain object-center bg-white"
             onLoadedData={() => setIsLoading(false)}
             onPlay={() => {
+              setIsPlaying(true);
               if (!hasStarted) {
                 setHasStarted(true);
                 trackEvent("virtual_advisor_video_play", payload);
               }
             }}
+            onPause={() => setIsPlaying(false)}
             onEnded={() => {
+              setIsPlaying(false);
               setIsCompleted(true);
               trackEvent("virtual_advisor_video_complete", payload);
               onCompleted?.();
+              if (autoContinueOnEnd) {
+                handleContinue("completed");
+              }
             }}
             onError={() => {
               setHasError(true);
@@ -140,6 +184,9 @@ export default function VirtualAdvisorVideo({
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2">
+        <Button size="sm" variant="secondary" onClick={togglePlayPause}>
+          {isPlaying ? "Pausar" : "Reanudar"}
+        </Button>
         <Button
           size="sm"
           variant="secondary"
@@ -148,7 +195,7 @@ export default function VirtualAdvisorVideo({
           {isMuted ? "Activar sonido" : "Silenciar"}
         </Button>
         {showSkip && (
-          <Button size="sm" onClick={handleContinue}>
+          <Button size="sm" onClick={() => handleContinue("skip")}>
             Continuar
           </Button>
         )}
