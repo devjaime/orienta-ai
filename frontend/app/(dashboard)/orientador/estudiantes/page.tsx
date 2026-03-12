@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { RoleGuard } from "@/components/auth/RoleGuard";
 import { Badge, Card, CardHeader, CardTitle, CardContent, Skeleton } from "@/components/ui";
 import { Search, Users, User } from "lucide-react";
@@ -158,6 +159,12 @@ export default function OrientadorEstudiantesPage() {
                       <p>
                         Claridad: {typeof e.clarity_score === "number" ? e.clarity_score.toFixed(1) : "N/D"}
                       </p>
+                      <Link
+                        href={`/orientador/estudiantes/${e.id}`}
+                        className="inline-block mt-2 text-vocari-primary hover:underline text-xs font-medium"
+                      >
+                        Ver ficha
+                      </Link>
                     </div>
                   </li>
                 ))}
