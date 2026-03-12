@@ -1,0 +1,340 @@
+{
+  "info": {
+    "_postman_id": "e6f7c9a9-2a2f-4d20-9df4-4b8f6f8b7d19",
+    "name": "Vocari Sales QA",
+    "description": "Colección de pruebas comerciales end-to-end con bootstrap de usuarios por rol usando /api/v1/auth/dev/setup.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "00 - Bootstrap",
+      "item": [
+        {
+          "name": "POST auth/dev/setup",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "pm.test('Respuesta valida', function () {",
+                  "  pm.expect(json.status).to.eql('ok');",
+                  "  pm.expect(Array.isArray(json.users)).to.eql(true);",
+                  "});",
+                  "",
+                  "json.users.forEach((u) => {",
+                  "  pm.environment.set(`token_${u.role}`, u.access_token);",
+                  "  pm.environment.set(`refresh_${u.role}`, u.refresh_token);",
+                  "  pm.environment.set(`email_${u.role}`, u.email);",
+                  "  if (u.role === 'estudiante') pm.environment.set('login_url_estudiante', u.login_url);",
+                  "  if (u.role === 'orientador') pm.environment.set('login_url_orientador', u.login_url);",
+                  "  if (u.role === 'admin_colegio') pm.environment.set('login_url_admin', u.login_url);",
+                  "  if (u.role === 'super_admin') pm.environment.set('login_url_super_admin', u.login_url);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"secret\": \"{{dev_secret}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/dev/setup",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "dev",
+                "setup"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 - Estudiante",
+      "item": [
+        {
+          "name": "GET auth/me (estudiante)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_estudiante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/auth/me"
+          }
+        },
+        {
+          "name": "GET sessions (estudiante)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_estudiante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/sessions?per_page=5"
+          }
+        },
+        {
+          "name": "GET careers/recommendations (estudiante)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_estudiante}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/careers/recommendations?holland_code=RIA&limit=5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Orientador",
+      "item": [
+        {
+          "name": "GET auth/me (orientador)",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_orientador}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/auth/me"
+          }
+        },
+        {
+          "name": "GET orientador/students",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  if (json.items && json.items.length > 0) {",
+                  "    pm.environment.set('student_id_demo', json.items[0].id);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_orientador}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/orientador/students"
+          }
+        },
+        {
+          "name": "GET orientador/students/{id}",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_orientador}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/orientador/students/{{student_id_demo}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Admin Colegio",
+      "item": [
+        {
+          "name": "GET auth/me (admin_colegio)",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin_colegio}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/auth/me"
+          }
+        },
+        {
+          "name": "GET admin/metrics",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin_colegio}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/admin/metrics"
+          }
+        },
+        {
+          "name": "GET admin/metrics (filtros)",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin_colegio}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/admin/metrics?curso=4%20Medio&periodo={{periodo_demo}}"
+          }
+        },
+        {
+          "name": "GET admin/insights",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_admin_colegio}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/admin/insights"
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Super Admin",
+      "item": [
+        {
+          "name": "GET auth/me (super_admin)",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_super_admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/auth/me"
+          }
+        },
+        {
+          "name": "GET dashboards/super-admin",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token_super_admin}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": "{{base_url}}/api/v1/dashboards/super-admin"
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Sanidad Pública",
+      "item": [
+        {
+          "name": "GET health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/health"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://vocari-api.fly.dev"
+    },
+    {
+      "key": "periodo_demo",
+      "value": "2026-03"
+    }
+  ]
+}
+
