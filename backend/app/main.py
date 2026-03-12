@@ -46,6 +46,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         import app.audit.models
         import app.notifications.models
         import app.leads.models
+        import app.orientador.models
         
         engine = get_engine()
 
@@ -397,6 +398,7 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     from app.leads.router import router as leads_router
     from app.notifications.router import router as notifications_router
     from app.parent_linking.router import router as parent_linking_router
+    from app.orientador.router import router as orientador_router
     from app.profiles.router import router as profiles_router
     from app.reports.router import router as reports_router
     from app.sessions.router import router as sessions_router
@@ -427,6 +429,7 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     app.include_router(
         student_import_router, prefix=f"{prefix}/students/csv", tags=["student-import"]
     )
+    app.include_router(orientador_router, prefix=f"{prefix}/orientador", tags=["orientador"])
     app.include_router(games_router, prefix=f"{prefix}/games", tags=["games"])
     app.include_router(reports_router, prefix=f"{prefix}/reports", tags=["reports"])
 
