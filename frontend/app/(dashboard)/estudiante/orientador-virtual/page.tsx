@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { RoleGuard } from "@/components/auth/RoleGuard";
-import { Send, MessageSquare } from "lucide-react";
+import { Send } from "lucide-react";
 import { api } from "@/lib/api";
+import OrientadorVirtualVideoMoments from "@/components/orientador/OrientadorVirtualVideoMoments";
 
 /* ---------- Types ---------- */
 
@@ -111,6 +112,7 @@ function OrientadorVirtualContent() {
   const [hasUserSentMessage, setHasUserSentMessage] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const userMessageCount = messages.filter((message) => message.role === "user").length;
 
   // Scroll to bottom on new messages
   useEffect(() => {
@@ -155,7 +157,7 @@ function OrientadorVirtualContent() {
         };
 
         setMessages((prev) => [...prev, assistantMessage]);
-      } catch (err) {
+      } catch {
         const errorMessage: Message = {
           id: `error-${Date.now()}`,
           role: "assistant",
@@ -199,6 +201,10 @@ function OrientadorVirtualContent() {
 
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto px-1 py-2">
+        <div className="mb-4">
+          <OrientadorVirtualVideoMoments userMessageCount={userMessageCount} />
+        </div>
+
         {messages.map((msg) => (
           <ChatBubble key={msg.id} message={msg} />
         ))}

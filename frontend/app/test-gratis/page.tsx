@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/Badge";
 import { Spinner } from "@/components/ui/Spinner";
 import { api } from "@/lib/api";
 import { AIAssistant } from "@/components/ai/AIAssistant";
+import TestFlowVideoGate from "@/components/orientador/TestFlowVideoGate";
+import { trackEvent } from "@/lib/utils/analytics";
 import {
   ArrowRight,
   BarChart3,
@@ -28,7 +30,7 @@ import {
 } from "lucide-react";
 import type { RIASECDimension } from "@/lib/types/career";
 
-type Step = "intro" | "test" | "results";
+type Step = "intro" | "test" | "resultsIntro" | "results";
 
 interface CareerRecommendation {
   career: {
@@ -261,6 +263,11 @@ export default function TestGratisPage() {
       setReportGenerated(true);
       setReportGeneratedFor(data.generated_for);
       setReportText(data.report_text);
+      trackEvent("ai_report_generated", {
+        page: "/test-gratis",
+        lead_id: leadId || undefined,
+        holland_code: hollandCode || undefined,
+      });
     } catch (error) {
       console.error("Error generating report:", error);
       setReportError("No se pudo generar el informe IA. Intenta nuevamente.");
@@ -283,6 +290,10 @@ export default function TestGratisPage() {
     }
 
     setLeadError("");
+    trackEvent("test_started", {
+      page: "/test-gratis",
+      email: leadEmail.trim().toLowerCase(),
+    });
     setStep("test");
   };
 
@@ -340,6 +351,11 @@ export default function TestGratisPage() {
         : `${window.location.origin}${surveyData.public_url}`;
       setPublicReportUrl(absoluteUrl);
       setSurveySubmitted(true);
+      trackEvent("survey_submitted", {
+        page: "/test-gratis",
+        lead_id: currentLeadId || undefined,
+        holland_code: hollandCode || undefined,
+      });
     } catch (error) {
       console.error("Error enviando encuesta:", error);
       setSurveyError("No pudimos enviar tu respuesta. Intenta nuevamente.");
@@ -374,7 +390,13 @@ export default function TestGratisPage() {
     const sortedDims = getTopDimensions(answersToUse);
     const code = sortedDims.map(([dim]) => dim).join("");
     setHollandCode(code);
-    setStep("results");
+    setStep("resultsIntro");
+    trackEvent("test_completed", {
+      page: "/test-gratis",
+      lead_id: leadId || undefined,
+      holland_code: code,
+      total_answers: Object.keys(answersToUse).length,
+    });
 
     void saveTestSnapshot(code, answersToUse);
     void fetchRecommendations(code);
@@ -454,6 +476,14 @@ export default function TestGratisPage() {
               Responde 24 preguntas, descubre tu codigo Holland y revisa carreras
               con empleabilidad, ingresos y nivel de saturacion del mercado chileno.
             </p>
+          </div>
+
+          <div className="mb-6">
+            <TestFlowVideoGate
+              videoId="intro_test"
+              storageKey="test_gratis_video_intro"
+              analyticsContext={{ page: "/test-gratis", step: "intro" }}
+            />
           </div>
 
           <Card className="mb-6 border-vocari-accent/40 bg-vocari-accent/5">
@@ -650,6 +680,37 @@ export default function TestGratisPage() {
     );
   }
 
+  if (step === "resultsIntro") {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
+        <div className="max-w-4xl mx-auto px-4 py-10 space-y-5">
+          <div className="text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-vocari-text mb-2">
+              Revisemos tu resultado vocacional
+            </h2>
+            <p className="text-vocari-text-muted">
+              Antes de mostrar tu informe, mira esta breve guía para entender mejor cómo interpretar tus recomendaciones.
+            </p>
+          </div>
+
+          <TestFlowVideoGate
+            videoId="intro_resultado"
+            storageKey="test_gratis_video_intro_resultado"
+            analyticsContext={{ page: "/test-gratis", step: "before_results" }}
+            onContinue={() => setStep("results")}
+          />
+
+          <div className="text-center">
+            <Button onClick={() => setStep("results")}>
+              Ir al resultado ahora
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (step === "results") {
     const topDims = getTopDimensions(answers);
 
@@ -826,6 +887,9 @@ export default function TestGratisPage() {
                     Genera un reporte extendido con interpretacion personalizada y siguientes pasos
                     para tu decision vocacional.
                   </p>
+                  {loading && loadingMessage && (
+                    <p className="text-sm text-vocari-text-muted mb-3">{loadingMessage}</p>
+                  )}
                   {reportError && <p className="text-sm text-red-700 mb-3">{reportError}</p>}
                   <Button
                     variant="primary"
@@ -931,6 +995,14 @@ export default function TestGratisPage() {
               )}
             </CardContent>
           </Card>
+
+          <div className="mb-8">
+            <TestFlowVideoGate
+              videoId="cierre_motivacional"
+              storageKey="test_gratis_video_cierre"
+              analyticsContext={{ page: "/test-gratis", step: "closing" }}
+            />
+          </div>
 
           <div className="text-center">
             <Button variant="ghost" onClick={resetFlow}>
