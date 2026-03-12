@@ -1,0 +1,39 @@
+name: Postman Sales QA
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 12 * * 1-5"
+
+jobs:
+  run-newman:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      BASE_URL: https://vocari-api.fly.dev
+      PERIODO_DEMO: 2026-03
+      DEV_SETUP_SECRET: ${{ secrets.DEV_SETUP_SECRET }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Newman
+        run: npm install --no-save newman
+
+      - name: Run Sales QA Collection
+        run: npm run postman:sales-qa
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-sales-qa-reports
+          path: reports/postman/
+          if-no-files-found: warn
+

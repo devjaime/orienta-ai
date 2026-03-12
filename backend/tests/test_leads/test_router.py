@@ -7,6 +7,7 @@ from __future__ import annotations
 import base64
 import uuid
 
+from app.followups.models import FollowupEvent as _FollowupEventModel  # noqa: F401
 from app.leads.models import Lead  # noqa: F401
 
 

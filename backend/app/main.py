@@ -47,6 +47,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         import app.notifications.models
         import app.leads.models
         import app.orientador.models
+        import app.followups.models
         
         engine = get_engine()
 
@@ -161,6 +162,25 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
             "CREATE INDEX IF NOT EXISTS ix_ai_reports_student_id ON ai_reports (student_id)",
             "CREATE INDEX IF NOT EXISTS ix_ai_reports_lead_id ON ai_reports (lead_id)",
             "CREATE INDEX IF NOT EXISTS ix_ai_reports_created_at ON ai_reports (created_at DESC)",
+            # followup_events: seguimiento automático post-test
+            """CREATE TABLE IF NOT EXISTS followup_events (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                lead_id UUID REFERENCES leads(id) ON DELETE SET NULL,
+                student_id UUID REFERENCES users(id) ON DELETE SET NULL,
+                journey_step VARCHAR(20) NOT NULL,
+                channel VARCHAR(20) NOT NULL DEFAULT 'email',
+                status VARCHAR(20) NOT NULL DEFAULT 'scheduled',
+                scheduled_at TIMESTAMPTZ NOT NULL,
+                sent_at TIMESTAMPTZ,
+                retry_count INTEGER NOT NULL DEFAULT 0,
+                last_error TEXT,
+                payload JSONB NOT NULL DEFAULT '{}',
+                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            )""",
+            "CREATE INDEX IF NOT EXISTS ix_followup_events_lead_id ON followup_events (lead_id)",
+            "CREATE INDEX IF NOT EXISTS ix_followup_events_student_id ON followup_events (student_id)",
+            "CREATE INDEX IF NOT EXISTS ix_followup_events_status_scheduled ON followup_events (status, scheduled_at)",
         ]
         for sql in schema_migrations:
             try:
@@ -412,6 +432,7 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     from app.consent.router import router as consent_router
     from app.dashboards.router import router as dashboards_router
     from app.games.router import router as games_router
+    from app.followups.router import router as followups_router
     from app.institutions.router import router as institutions_router
     from app.leads.router import router as leads_router
     from app.notifications.router import router as notifications_router
@@ -449,6 +470,7 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     )
     app.include_router(orientador_router, prefix=f"{prefix}/orientador", tags=["orientador"])
     app.include_router(admin_router, prefix=f"{prefix}/admin", tags=["admin"])
+    app.include_router(followups_router, prefix=f"{prefix}/followups", tags=["followups"])
     app.include_router(games_router, prefix=f"{prefix}/games", tags=["games"])
     app.include_router(reports_router, prefix=f"{prefix}/reports", tags=["reports"])
 

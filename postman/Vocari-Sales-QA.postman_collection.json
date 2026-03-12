@@ -52,19 +52,7 @@
               "mode": "raw",
               "raw": "{\n  \"secret\": \"{{dev_secret}}\"\n}"
             },
-            "url": {
-              "raw": "{{base_url}}/api/v1/auth/dev/setup",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "dev",
-                "setup"
-              ]
-            }
+            "url": "{{base_url}}/api/v1/auth/dev/setup"
           }
         }
       ]
@@ -337,4 +325,3 @@
     }
   ]
 }
-

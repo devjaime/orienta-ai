@@ -20,22 +20,23 @@ import sys
 
 import structlog
 
-from app.common.logging import setup_logging
-from app.config import get_settings
-
 # Importar jobs para que rq pueda encontrarlos al deserializar
 import app.ai_engine.jobs  # noqa: F401
+import app.followups.jobs  # noqa: F401
+from app.common.logging import setup_logging
+from app.config import get_settings
 
 logger = structlog.get_logger()
 
 # Queues por defecto (ordenadas por prioridad)
-DEFAULT_QUEUES = ["ai_analysis", "reports", "profiles"]
+DEFAULT_QUEUES = ["ai_analysis", "reports", "profiles", "followups"]
 
 # Timeout por tipo de queue
 QUEUE_TIMEOUTS: dict[str, int] = {
     "ai_analysis": 300,   # 5 minutos (pipeline IA puede tardar)
     "reports": 600,        # 10 minutos (reportes complejos)
     "profiles": 120,       # 2 minutos
+    "followups": 120,      # 2 minutos
 }
 
 # Flag para shutdown graceful

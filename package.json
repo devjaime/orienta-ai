@@ -17,7 +17,8 @@
     "project-future": "node scripts/07-project-future-real.js",
     "analyze-riasec": "node scripts/08-analyze-riasec.js",
     "sync-mineduc-full": "npm run process-matricula && npm run merge-carreras && npm run upload-supabase",
-    "analytics-full": "npm run analyze-trends && npm run project-future && npm run analyze-riasec"
+    "analytics-full": "npm run analyze-trends && npm run project-future && npm run analyze-riasec",
+    "postman:sales-qa": "./scripts/run-postman-sales-qa.sh"
   },
   "dependencies": {
     "@mlc-ai/web-llm": "^0.2.81",

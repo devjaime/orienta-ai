@@ -16,6 +16,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.common.database import get_async_session
+from app.followups.service import schedule_default_followups
 from app.leads.models import AIReport, Lead
 
 logger = structlog.get_logger()
@@ -211,7 +212,21 @@ async def submit_test_for_lead(
         test_answers=payload.test_answers,
         metadata=payload.metadata or {"step": "test_submitted"},
     )
-    return await create_lead(lead_data, db)
+    result = await create_lead(lead_data, db)
+    try:
+        async with db.begin_nested():
+            await schedule_default_followups(
+                db,
+                lead_id=uuid.UUID(result["lead_id"]),
+                force_reschedule=False,
+            )
+    except Exception as error:  # pragma: no cover
+        logger.warning(
+            "No se pudieron programar followups automáticos",
+            lead_id=result.get("lead_id"),
+            error=str(error),
+        )
+    return result
 
 
 @router.post("/leads/{lead_id}/survey")
