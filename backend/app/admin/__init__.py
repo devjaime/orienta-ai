@@ -1,0 +1,2 @@
+"""Modulo admin: métricas institucionales."""
+
