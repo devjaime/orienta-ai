@@ -102,7 +102,7 @@ export default function VirtualAdvisorVideo({
             muted={isMuted}
             autoPlay={autoplay}
             preload="metadata"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain object-center bg-white"
             onLoadedData={() => setIsLoading(false)}
             onPlay={() => {
               if (!hasStarted) {
