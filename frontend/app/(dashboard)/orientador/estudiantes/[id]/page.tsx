@@ -62,6 +62,7 @@ export default function OrientadorStudentProfilePage() {
 
   const [noteText, setNoteText] = useState("");
   const [taskTitle, setTaskTitle] = useState("");
+  const [printing, setPrinting] = useState(false);
 
   const detailQueryKey = useMemo(() => ["orientador", "student-detail", studentId], [studentId]);
 
@@ -113,12 +114,26 @@ export default function OrientadorStudentProfilePage() {
 
   return (
     <RoleGuard allowedRoles={["orientador", "admin_colegio"]}>
-      <div className="space-y-6">
+      <div className="space-y-6" id="student-report-print">
         <div className="flex items-center gap-3">
           <Link href="/orientador/estudiantes" className="text-vocari-primary hover:underline text-sm inline-flex items-center gap-1">
             <ArrowLeft className="w-4 h-4" />
             Volver
           </Link>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="ml-auto print:hidden"
+            onClick={() => {
+              setPrinting(true);
+              window.setTimeout(() => {
+                window.print();
+                setPrinting(false);
+              }, 80);
+            }}
+          >
+            Exportar PDF
+          </Button>
         </div>
 
         <Card>
@@ -249,7 +264,34 @@ export default function OrientadorStudentProfilePage() {
           </Card>
         </div>
       </div>
+
+      <style jsx global>{`
+        @media print {
+          body * {
+            visibility: hidden !important;
+          }
+          #student-report-print,
+          #student-report-print * {
+            visibility: visible !important;
+          }
+          #student-report-print {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: white;
+            padding: 16px;
+          }
+        }
+      `}</style>
+
+      {printing && (
+        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 print:hidden">
+          <div className="bg-white rounded-lg px-4 py-3 text-sm text-vocari-text shadow">
+            Preparando informe para PDF...
+          </div>
+        </div>
+      )}
     </RoleGuard>
   );
 }
-
