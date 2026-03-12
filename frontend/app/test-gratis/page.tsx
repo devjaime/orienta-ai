@@ -296,28 +296,48 @@ export default function TestGratisPage() {
     setSurveyLoading(true);
 
     try {
-      const data = await api.post<{ lead_id: string; public_url: string }>("/api/v1/leads", {
-        lead_id: leadId || undefined,
-        nombre: leadName.trim(),
-        email: leadEmail.trim(),
-        source: "test_gratis_feedback",
-        interes: "encuesta_post_test",
-        holland_code: hollandCode || undefined,
-        survey_response: {
-          claridad_resultado: surveyClarity,
-          confianza_datos_mineduc: surveyTrust,
-          recomendaria_vocari: surveyRecommend,
-          comentario: surveyComment.trim() || null,
+      let currentLeadId = leadId;
+
+      if (!currentLeadId) {
+        const submitData = await api.post<{ lead_id: string; public_url: string }>(
+          "/api/v1/tests/submit",
+          {
+            nombre: leadName.trim(),
+            email: leadEmail.trim(),
+            source: "test_gratis",
+            holland_code: hollandCode || undefined,
+            test_answers: answers,
+            metadata: {
+              step: "test_completed",
+              total_respuestas: Object.keys(answers).length,
+            },
+          },
+        );
+        currentLeadId = submitData.lead_id;
+        setLeadId(submitData.lead_id);
+        const submitUrl = submitData.public_url.startsWith("http")
+          ? submitData.public_url
+          : `${window.location.origin}${submitData.public_url}`;
+        setPublicReportUrl(submitUrl);
+      }
+
+      const surveyData = await api.post<{ lead_id: string; public_url: string }>(
+        `/api/v1/leads/${currentLeadId}/survey`,
+        {
+          survey_response: {
+            claridad_resultado: surveyClarity,
+            confianza_datos_mineduc: surveyTrust,
+            recomendaria_vocari: surveyRecommend,
+            comentario: surveyComment.trim() || null,
+          },
+          metadata: {
+            step: "feedback_submitted",
+          },
         },
-        test_answers: answers,
-        metadata: {
-          step: "feedback_submitted",
-        },
-      });
-      setLeadId(data.lead_id);
-      const absoluteUrl = data.public_url.startsWith("http")
-        ? data.public_url
-        : `${window.location.origin}${data.public_url}`;
+      );
+      const absoluteUrl = surveyData.public_url.startsWith("http")
+        ? surveyData.public_url
+        : `${window.location.origin}${surveyData.public_url}`;
       setPublicReportUrl(absoluteUrl);
       setSurveySubmitted(true);
     } catch (error) {
@@ -365,12 +385,11 @@ export default function TestGratisPage() {
     answersToUse: Record<number, number>,
   ) => {
     try {
-      const data = await api.post<{ lead_id: string; public_url: string }>("/api/v1/leads", {
+      const data = await api.post<{ lead_id: string; public_url: string }>("/api/v1/tests/submit", {
         lead_id: leadId || undefined,
         nombre: leadName.trim(),
         email: leadEmail.trim(),
         source: "test_gratis",
-        interes: "test_vocacional",
         holland_code: code,
         test_answers: answersToUse,
         metadata: {

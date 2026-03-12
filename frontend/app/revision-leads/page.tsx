@@ -13,6 +13,9 @@ interface LeadItem {
   holland_code: string | null;
   test_answers: Record<string, number>;
   survey_response: Record<string, unknown>;
+  clarity_score: number | null;
+  ai_report_text: string | null;
+  ai_report_generated_at: string | null;
   metadata: Record<string, unknown>;
   created_at: string | null;
   updated_at: string | null;
@@ -135,15 +138,15 @@ export default function RevisionLeadsPage() {
                           </pre>
                         </td>
                         <td className="p-3">
-                          {lead.metadata?.ai_report_text ? (
+                          {(lead.ai_report_text || lead.metadata?.ai_report_text) ? (
                             <div className="space-y-2 max-w-[360px]">
                               <p className="text-xs text-gray-500">
-                                Generado: {typeof lead.metadata.ai_report_generated_at === "string"
-                                  ? formatDate(lead.metadata.ai_report_generated_at)
+                                Generado: {typeof (lead.ai_report_generated_at || lead.metadata?.ai_report_generated_at) === "string"
+                                  ? formatDate(String(lead.ai_report_generated_at || lead.metadata?.ai_report_generated_at))
                                   : "N/D"}
                               </p>
                               <pre className="text-xs bg-gray-50 p-2 rounded border border-gray-200 max-h-48 overflow-auto whitespace-pre-wrap">
-                                {String(lead.metadata.ai_report_text)}
+                                {String(lead.ai_report_text || lead.metadata?.ai_report_text)}
                               </pre>
                             </div>
                           ) : (

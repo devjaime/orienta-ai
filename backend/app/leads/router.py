@@ -2,16 +2,18 @@
 Vocari Backend - Router de Leads (captura de prospectos).
 """
 
-import uuid
-import secrets
-from datetime import datetime, timezone
+# ruff: noqa: B008
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
+import secrets
+import uuid
+from datetime import UTC, datetime
+
 import structlog
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 from app.common.database import get_async_session
 from app.leads.models import Lead
@@ -38,12 +40,54 @@ class LeadCreate(BaseModel):
     metadata: dict | None = None
 
 
+class LeadTestSubmitRequest(BaseModel):
+    lead_id: uuid.UUID | None = None
+    nombre: str
+    email: str
+    source: str = "test_gratis"
+    holland_code: str | None = None
+    test_answers: dict = Field(default_factory=dict)
+    metadata: dict | None = None
+
+
+class LeadSurveyRequest(BaseModel):
+    survey_response: dict = Field(default_factory=dict)
+    metadata: dict | None = None
+
+
 class LeadAIReportRequest(BaseModel):
     lead_id: uuid.UUID | None = None
     nombre: str
     holland_code: str | None = None
     recommendations: list[dict] = Field(default_factory=list)
     survey_response: dict | None = None
+
+
+def _extract_clarity_score(survey_response: dict | None) -> float | None:
+    if not survey_response:
+        return None
+    value = survey_response.get("claridad_resultado")
+    if isinstance(value, (int, float)):
+        score = float(value)
+        if 1 <= score <= 5:
+            return score
+    return None
+
+
+def _merge_metadata(existing: dict, incoming: dict | None) -> dict:
+    if not incoming:
+        return existing
+    merged = dict(existing)
+    merged.update(incoming)
+    return merged
+
+
+async def _get_lead_by_id(db: AsyncSession, lead_id: uuid.UUID) -> Lead:
+    result = await db.execute(select(Lead).where(Lead.id == lead_id))
+    lead_row = result.scalar_one_or_none()
+    if lead_row is None:
+        raise HTTPException(status_code=404, detail="Lead no encontrado")
+    return lead_row
 
 
 def require_review_auth(
@@ -84,6 +128,7 @@ async def create_lead(
             share_token=secrets.token_urlsafe(18),
             test_answers=lead.test_answers or {},
             survey_response=lead.survey_response or {},
+            clarity_score=_extract_clarity_score(lead.survey_response),
             metadata_json=lead.metadata or {},
         )
         db.add(lead_row)
@@ -99,8 +144,9 @@ async def create_lead(
             lead_row.test_answers = lead.test_answers
         if lead.survey_response is not None:
             lead_row.survey_response = lead.survey_response
+            lead_row.clarity_score = _extract_clarity_score(lead.survey_response)
         if lead.metadata is not None:
-            lead_row.metadata_json = lead.metadata
+            lead_row.metadata_json = _merge_metadata(lead_row.metadata_json or {}, lead.metadata)
 
     await db.flush()
 
@@ -127,6 +173,53 @@ async def create_lead(
     }
 
 
+@router.post("/tests/submit")
+async def submit_test_for_lead(
+    payload: LeadTestSubmitRequest,
+    db: AsyncSession = Depends(get_async_session),
+) -> dict:
+    """
+    Guarda respuestas del test gratuito.
+    Endpoint de conveniencia para el frontend de app.vocari.cl.
+    """
+    lead_data = LeadCreate(
+        lead_id=payload.lead_id,
+        nombre=payload.nombre,
+        email=payload.email,
+        source=payload.source,
+        interes="test_vocacional",
+        holland_code=payload.holland_code,
+        test_answers=payload.test_answers,
+        metadata=payload.metadata or {"step": "test_submitted"},
+    )
+    return await create_lead(lead_data, db)
+
+
+@router.post("/leads/{lead_id}/survey")
+async def submit_lead_survey(
+    lead_id: uuid.UUID,
+    payload: LeadSurveyRequest,
+    db: AsyncSession = Depends(get_async_session),
+) -> dict:
+    """Guarda encuesta final vinculada al lead."""
+    lead_row = await _get_lead_by_id(db, lead_id)
+    lead_row.survey_response = payload.survey_response or {}
+    lead_row.clarity_score = _extract_clarity_score(payload.survey_response)
+    lead_row.metadata_json = _merge_metadata(
+        lead_row.metadata_json or {},
+        payload.metadata or {"step": "survey_submitted"},
+    )
+    await db.flush()
+
+    return {
+        "success": True,
+        "lead_id": str(lead_row.id),
+        "share_token": lead_row.share_token,
+        "public_url": f"/informe-test/{lead_row.share_token}",
+        "message": "Encuesta guardada correctamente",
+    }
+
+
 def _fallback_ai_report(nombre: str, holland_code: str | None, recommendations: list[dict]) -> str:
     top_career = recommendations[0]["career"]["name"] if recommendations else "una carrera de tu perfil"
     return (
@@ -145,8 +238,9 @@ async def generate_lead_ai_report(
     payload: LeadAIReportRequest,
     db: AsyncSession = Depends(get_async_session),
 ) -> dict:
-    """Genera informe IA para el lead y lo deja guardado en metadata."""
+    """Genera informe IA para el lead y lo deja persistido para revisión."""
     report_text = ""
+    generated_at = datetime.now(UTC)
 
     try:
         from app.ai_engine.openrouter_client import get_openrouter_client
@@ -187,13 +281,14 @@ async def generate_lead_ai_report(
         )
 
     if payload.lead_id:
-        result = await db.execute(select(Lead).where(Lead.id == payload.lead_id))
-        lead_row = result.scalar_one_or_none()
+        lead_row = await _get_lead_by_id(db, payload.lead_id)
         if lead_row:
             metadata = lead_row.metadata_json or {}
             metadata["ai_report_text"] = report_text
-            metadata["ai_report_generated_at"] = datetime.now(timezone.utc).isoformat()
+            metadata["ai_report_generated_at"] = generated_at.isoformat()
             lead_row.metadata_json = metadata
+            lead_row.ai_report_text = report_text
+            lead_row.ai_report_generated_at = generated_at
             await db.flush()
 
     return {
@@ -203,7 +298,40 @@ async def generate_lead_ai_report(
     }
 
 
+@router.get("/informe/{lead_id}")
+async def get_lead_report_by_id(
+    lead_id: uuid.UUID,
+    db: AsyncSession = Depends(get_async_session),
+) -> dict:
+    """Retorna informe consolidado de un lead por ID."""
+    lead_row = await _get_lead_by_id(db, lead_id)
+
+    return {
+        "success": True,
+        "id": str(lead_row.id),
+        "share_token": lead_row.share_token,
+        "nombre": lead_row.nombre,
+        "email": lead_row.email,
+        "source": lead_row.source,
+        "interes": lead_row.interes,
+        "holland_code": lead_row.holland_code,
+        "clarity_score": lead_row.clarity_score,
+        "test_answers": lead_row.test_answers,
+        "survey_response": lead_row.survey_response,
+        "ai_report_text": lead_row.ai_report_text,
+        "ai_report_generated_at": (
+            lead_row.ai_report_generated_at.isoformat()
+            if lead_row.ai_report_generated_at
+            else None
+        ),
+        "metadata": lead_row.metadata_json,
+        "created_at": lead_row.created_at.isoformat() if lead_row.created_at else None,
+        "updated_at": lead_row.updated_at.isoformat() if lead_row.updated_at else None,
+    }
+
+
 @router.get("/leads/review/all")
+@router.get("/revision/leads")
 async def get_all_leads_for_review(
     _: None = Depends(require_review_auth),
     db: AsyncSession = Depends(get_async_session),
@@ -223,8 +351,15 @@ async def get_all_leads_for_review(
                 "source": row.source,
                 "interes": row.interes,
                 "holland_code": row.holland_code,
+                "clarity_score": row.clarity_score,
                 "test_answers": row.test_answers,
                 "survey_response": row.survey_response,
+                "ai_report_text": row.ai_report_text,
+                "ai_report_generated_at": (
+                    row.ai_report_generated_at.isoformat()
+                    if row.ai_report_generated_at
+                    else None
+                ),
                 "metadata": row.metadata_json,
                 "created_at": row.created_at.isoformat() if row.created_at else None,
                 "updated_at": row.updated_at.isoformat() if row.updated_at else None,
@@ -258,8 +393,15 @@ async def get_public_lead_report(
         "source": lead_row.source,
         "interes": lead_row.interes,
         "holland_code": lead_row.holland_code,
+        "clarity_score": lead_row.clarity_score,
         "test_answers": lead_row.test_answers,
         "survey_response": lead_row.survey_response,
+        "ai_report_text": lead_row.ai_report_text,
+        "ai_report_generated_at": (
+            lead_row.ai_report_generated_at.isoformat()
+            if lead_row.ai_report_generated_at
+            else None
+        ),
         "metadata": lead_row.metadata_json,
         "created_at": lead_row.created_at.isoformat() if lead_row.created_at else None,
         "updated_at": lead_row.updated_at.isoformat() if lead_row.updated_at else None,
