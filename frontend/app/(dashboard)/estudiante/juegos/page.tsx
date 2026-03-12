@@ -7,6 +7,7 @@ import {
   CardContent,
   Badge,
   Skeleton,
+  Button,
 } from "@/components/ui";
 import {
   Gamepad2,
@@ -45,6 +46,18 @@ const GAME_DESCRIPTIONS: Record<string, string> = {
   "creativity-challenge": "Expresa tu creatividad",
   "teamwork-scenario": "Colabora en equipos simulados",
 };
+
+interface NextAction {
+  action_type: "game" | "test" | "chat" | "careers";
+  target_url: string;
+  label: string;
+  reason: string;
+  priority: number;
+}
+
+interface NextActionsResponse {
+  items: NextAction[];
+}
 
 function GameCard({ game }: { game: Game }) {
   const Icon = GAME_ICONS[game.slug] || Gamepad2;
@@ -93,7 +106,7 @@ function GameCard({ game }: { game: Game }) {
 function GameList() {
   const { data, isLoading } = useQuery({
     queryKey: ["games"],
-    queryFn: () => api.get<{ items: Game[] }>("/api/v1/games"),
+    queryFn: () => api.get<Game[]>("/api/v1/games"),
   });
 
   if (isLoading) {
@@ -114,7 +127,7 @@ function GameList() {
     );
   }
 
-  const games = data?.items ?? [];
+  const games = data ?? [];
 
   if (games.length === 0) {
     return (
@@ -137,6 +150,13 @@ function GameList() {
 }
 
 export default function JuegosPage() {
+  const { data: nextActionsData } = useQuery({
+    queryKey: ["student-next-actions"],
+    queryFn: () => api.get<NextActionsResponse>("/api/v1/students/me/next-actions"),
+  });
+  const nextActions = nextActionsData?.items ?? [];
+  const mainAction = nextActions[0];
+
   return (
     <RoleGuard allowedRoles={["estudiante"]}>
       <GameProvider>
@@ -159,6 +179,34 @@ export default function JuegosPage() {
               tu perfil y te ayudan a descubrir tu perfil vocacional completo.
             </p>
           </div>
+
+          {mainAction && (
+            <Card className="border-vocari-accent/30 bg-vocari-accent/5">
+              <CardContent className="p-4 md:p-5">
+                <p className="text-xs uppercase tracking-wide text-vocari-text-muted mb-2">
+                  Ruta recomendada para ti
+                </p>
+                <h2 className="text-lg font-semibold text-vocari-text mb-1">
+                  {mainAction.label}
+                </h2>
+                <p className="text-sm text-vocari-text-muted mb-4">
+                  {mainAction.reason}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Link href={mainAction.target_url}>
+                    <Button size="sm">Comenzar ahora</Button>
+                  </Link>
+                  {nextActions.slice(1, 3).map((action) => (
+                    <Link key={`${action.action_type}-${action.target_url}`} href={action.target_url}>
+                      <Button variant="secondary" size="sm">
+                        {action.label}
+                      </Button>
+                    </Link>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           <GameList />
         </div>

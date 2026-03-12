@@ -442,6 +442,7 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     from app.reports.router import router as reports_router
     from app.sessions.router import router as sessions_router
     from app.student_import.router import router as student_import_router
+    from app.students.router import router as students_router
     from app.tests_vocational.router import router as tests_router
 
     app.include_router(auth_router, prefix=f"{prefix}/auth", tags=["auth"])
@@ -468,6 +469,7 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     app.include_router(
         student_import_router, prefix=f"{prefix}/students/csv", tags=["student-import"]
     )
+    app.include_router(students_router, prefix=f"{prefix}/students", tags=["students"])
     app.include_router(orientador_router, prefix=f"{prefix}/orientador", tags=["orientador"])
     app.include_router(admin_router, prefix=f"{prefix}/admin", tags=["admin"])
     app.include_router(followups_router, prefix=f"{prefix}/followups", tags=["followups"])

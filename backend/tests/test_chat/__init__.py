@@ -1,0 +1,4 @@
+"""
+Tests del modulo chat.
+"""
+

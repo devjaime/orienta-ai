@@ -9,11 +9,12 @@ from __future__ import annotations
 
 import structlog
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.auth.middleware import get_current_user
 from app.auth.models import User
 from app.common.database import get_async_session
+from app.students.service import get_next_actions_for_user
 
 logger = structlog.get_logger()
 
@@ -55,6 +56,7 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     reply: str
     model_used: str
+    actions: list[dict] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -106,6 +108,44 @@ def _scripted_fallback(last_message: str) -> str:
         "descubriendo poco a poco que te apasiona y que se te da bien. Puedes contarme mas sobre "
         "lo que tienes en mente? Estoy aqui para escucharte y orientarte en lo que necesites."
     )
+
+
+def _build_cta_actions(last_message: str, next_actions: list[dict]) -> list[dict]:
+    """Genera CTAs simples para el chat usando intencion del mensaje + next actions."""
+    if not next_actions:
+        return []
+
+    msg = (last_message or "").lower()
+    if any(kw in msg for kw in ["indeciso", "no se", "duda", "confund", "perdido"]):
+        prioritized_types = ["game", "chat", "careers", "test"]
+    elif any(kw in msg for kw in ["test", "riasec", "holland", "resultado"]):
+        prioritized_types = ["test", "chat", "game", "careers"]
+    elif any(kw in msg for kw in ["carrera", "universidad", "profesion", "futuro"]):
+        prioritized_types = ["careers", "chat", "game", "test"]
+    else:
+        prioritized_types = ["game", "careers", "chat", "test"]
+
+    ordered: list[dict] = []
+    for action_type in prioritized_types:
+        for action in next_actions:
+            if action.get("action_type") == action_type:
+                ordered.append(action)
+                break
+
+    if not ordered:
+        ordered = next_actions
+
+    ctas = []
+    for action in ordered[:2]:
+        ctas.append(
+            {
+                "type": action["action_type"],
+                "label": action["label"],
+                "url": action["target_url"],
+                "reason": action["reason"],
+            }
+        )
+    return ctas
 
 
 # ---------------------------------------------------------------------------
@@ -167,6 +207,7 @@ async def chat_orientador(
     holland_code = ""
     scores: dict = {"R": 0, "I": 0, "A": 0, "S": 0, "E": 0, "C": 0}
     top_careers: list[str] = []
+    next_actions: list[dict] = []
 
     if body.student_context:
         try:
@@ -201,6 +242,13 @@ async def chat_orientador(
         except Exception as ctx_err:
             logger.warning("Error obteniendo contexto del estudiante", error=str(ctx_err)[:200])
 
+    try:
+        next_actions_items = await get_next_actions_for_user(db, user)
+        next_actions = [item.model_dump() for item in next_actions_items]
+    except Exception as actions_err:
+        logger.warning("Error generando next actions para chat", error=str(actions_err)[:200])
+        next_actions = []
+
     # --- Intentar OpenRouter ---
     try:
         from app.ai_engine.openrouter_client import get_openrouter_client
@@ -223,9 +271,16 @@ async def chat_orientador(
             max_tokens=600,
         )
 
+        last_user_msg = ""
+        for m in reversed(body.messages):
+            if m.role == "user":
+                last_user_msg = m.content
+                break
+
         return ChatResponse(
             reply=llm_response.content,
             model_used=llm_response.model_used,
+            actions=_build_cta_actions(last_user_msg, next_actions),
         )
 
     except Exception as llm_err:
@@ -242,4 +297,8 @@ async def chat_orientador(
             break
 
     reply = _scripted_fallback(last_user_msg)
-    return ChatResponse(reply=reply, model_used="scripted-fallback")
+    return ChatResponse(
+        reply=reply,
+        model_used="scripted-fallback",
+        actions=_build_cta_actions(last_user_msg, next_actions),
+    )

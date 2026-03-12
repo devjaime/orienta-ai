@@ -22,10 +22,11 @@ router = APIRouter()
 async def list_games(
     db: AsyncSession = Depends(get_async_session),
     include_inactive: bool = Query(False, description="Incluir juegos inactivos"),
+    slug: str | None = Query(None, description="Filtrar por slug exacto"),
     current_user: User = Depends(get_current_user),
 ) -> list[game_schemas.GameResponse]:
     """Lista todos los juegos disponibles."""
-    games = await service.list_games(db, include_inactive)
+    games = await service.list_games_filtered(db, include_inactive, slug)
     return games
 
 

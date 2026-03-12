@@ -27,11 +27,11 @@ function GameLoader() {
 
   const { data: gameData, isLoading } = useQuery({
     queryKey: ["game", slug],
-    queryFn: () => api.get<{ items: Game[] }>(`/api/v1/games?slug=${slug}`),
+    queryFn: () => api.get<Game>(`/api/v1/games/slug/${slug}`),
     enabled: !!slug,
   });
 
-  const game = gameData?.items?.[0];
+  const game = gameData;
 
   if (isLoading) {
     return (

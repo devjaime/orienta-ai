@@ -2,9 +2,10 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { RoleGuard } from "@/components/auth/RoleGuard";
-import { Send } from "lucide-react";
+import { Send, ArrowUpRight } from "lucide-react";
 import { api } from "@/lib/api";
 import OrientadorVirtualVideoMoments from "@/components/orientador/OrientadorVirtualVideoMoments";
+import Link from "next/link";
 
 /* ---------- Types ---------- */
 
@@ -13,11 +14,20 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
+  actions?: ChatAction[];
+}
+
+interface ChatAction {
+  type: "game" | "test" | "chat" | "careers";
+  label: string;
+  url: string;
+  reason?: string;
 }
 
 interface ChatResponse {
   reply: string;
   model_used: string;
+  actions?: ChatAction[];
 }
 
 /* ---------- Constants ---------- */
@@ -93,6 +103,20 @@ function ChatBubble({ message }: { message: Message }) {
           <p className="text-sm leading-relaxed text-vocari-text whitespace-pre-wrap">
             {message.content}
           </p>
+          {message.actions && message.actions.length > 0 && (
+            <div className="mt-3 space-y-2">
+              {message.actions.map((action) => (
+                <Link
+                  key={`${message.id}-${action.type}-${action.url}`}
+                  href={action.url}
+                  className="flex items-center justify-between rounded-lg border border-vocari-primary/25 bg-vocari-primary/5 px-3 py-2 text-sm text-vocari-primary hover:bg-vocari-primary/10 transition-colors"
+                >
+                  <span>{action.label}</span>
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
         <span className="text-xs text-vocari-text-muted mt-1 ml-1">
           Valeria &middot; {formatTime(message.timestamp)}
@@ -154,6 +178,7 @@ function OrientadorVirtualContent() {
           role: "assistant",
           content: response.reply,
           timestamp: new Date(),
+          actions: response.actions ?? [],
         };
 
         setMessages((prev) => [...prev, assistantMessage]);

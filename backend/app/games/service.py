@@ -23,6 +23,22 @@ async def list_games(db: AsyncSession, include_inactive: bool = False) -> list[G
     return list(result.scalars().all())
 
 
+async def list_games_filtered(
+    db: AsyncSession,
+    include_inactive: bool = False,
+    slug: str | None = None,
+) -> list[Game]:
+    """Lista juegos con filtros opcionales (MVP: slug)."""
+    stmt = select(Game)
+    if not include_inactive:
+        stmt = stmt.where(Game.is_active == True)
+    if slug:
+        stmt = stmt.where(Game.slug == slug)
+    stmt = stmt.order_by(Game.name)
+    result = await db.execute(stmt)
+    return list(result.scalars().all())
+
+
 async def get_game_by_id(db: AsyncSession, game_id: uuid.UUID) -> Game:
     """Obtiene un juego por ID."""
     stmt = select(Game).where(Game.id == game_id)
