@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.models import User, UserProfile, UserRole
 from app.common.exceptions import NotFoundError, ValidationError
-from app.leads.models import Lead
+from app.leads.models import AIReport, Lead
 from app.orientador.models import AdvisorNote, AdvisorTask, AdvisorTaskStatus
 from app.orientador.schemas import StudentListItem
 from app.sessions.models import Session
@@ -138,7 +138,7 @@ async def get_student_detail_for_orientador(
     db: AsyncSession,
     orientador: User,
     student_id: uuid.UUID,
-) -> tuple[StudentListItem, list[AdvisorNote], list[AdvisorTask]]:
+) -> tuple[StudentListItem, list[AdvisorNote], list[AdvisorTask], list[AIReport]]:
     students = await list_students_for_orientador(db, orientador)
     student = next((item for item in students if item.id == student_id), None)
     if not student:
@@ -166,7 +166,26 @@ async def get_student_detail_for_orientador(
         )
     ).scalars().all()
 
-    return student, list(notes), list(tasks)
+    lead_row = (
+        await db.execute(
+            select(Lead.id)
+            .where(Lead.email == student.email)
+            .order_by(Lead.updated_at.desc())
+            .limit(1)
+        )
+    ).first()
+
+    ai_reports: list[AIReport] = []
+    if lead_row:
+        reports_result = await db.execute(
+            select(AIReport)
+            .where(AIReport.lead_id == lead_row[0])
+            .order_by(AIReport.created_at.desc())
+            .limit(20)
+        )
+        ai_reports = list(reports_result.scalars().all())
+
+    return student, list(notes), list(tasks), ai_reports
 
 
 async def create_advisor_note(

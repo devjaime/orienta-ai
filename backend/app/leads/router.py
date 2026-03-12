@@ -16,7 +16,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.common.database import get_async_session
-from app.leads.models import Lead
+from app.leads.models import AIReport, Lead
 
 logger = structlog.get_logger()
 
@@ -61,6 +61,25 @@ class LeadAIReportRequest(BaseModel):
     holland_code: str | None = None
     recommendations: list[dict] = Field(default_factory=list)
     survey_response: dict | None = None
+
+
+class LeadAIReportHistoryItem(BaseModel):
+    id: str
+    lead_id: str | None = None
+    student_id: str | None = None
+    report_text: str
+    report_json: dict
+    holland_code: str | None = None
+    clarity_score: float | None = None
+    model_name: str
+    prompt_version: str
+    created_at: str
+
+
+class LeadAIReportHistoryResponse(BaseModel):
+    success: bool = True
+    count: int
+    items: list[LeadAIReportHistoryItem]
 
 
 def _extract_clarity_score(survey_response: dict | None) -> float | None:
@@ -233,6 +252,59 @@ def _fallback_ai_report(nombre: str, holland_code: str | None, recommendations: 
     )
 
 
+def _extract_career_name(recommendation: dict) -> str:
+    career_obj = recommendation.get("career")
+    if isinstance(career_obj, dict):
+        name = career_obj.get("name")
+        if isinstance(name, str) and name.strip():
+            return name.strip()
+    name = recommendation.get("name")
+    if isinstance(name, str) and name.strip():
+        return name.strip()
+    return "Carrera sugerida"
+
+
+def _extract_market_data(recommendation: dict) -> dict:
+    employability = (
+        recommendation.get("employability")
+        or recommendation.get("empleabilidad")
+        or recommendation.get("employment_rate")
+    )
+    salary = (
+        recommendation.get("salary")
+        or recommendation.get("ingreso")
+        or recommendation.get("salary_range")
+    )
+    saturation = recommendation.get("saturation") or recommendation.get("saturacion")
+    return {
+        "empleabilidad": employability,
+        "ingreso": salary,
+        "saturacion": saturation,
+    }
+
+
+def _build_report_json(
+    nombre: str,
+    holland_code: str | None,
+    recommendations: list[dict],
+    report_text: str,
+) -> dict:
+    top_careers = []
+    for item in recommendations[:3]:
+        top_careers.append(
+            {
+                "nombre": _extract_career_name(item),
+                "datos_mercado": _extract_market_data(item),
+            }
+        )
+
+    return {
+        "resumen_personalizado": f"{nombre}, este informe resume tu perfil {holland_code or 'en exploración'}.",
+        "top_careers": top_careers,
+        "texto_completo": report_text,
+    }
+
+
 @router.post("/leads/ai-report")
 async def generate_lead_ai_report(
     payload: LeadAIReportRequest,
@@ -240,6 +312,8 @@ async def generate_lead_ai_report(
 ) -> dict:
     """Genera informe IA para el lead y lo deja persistido para revisión."""
     report_text = ""
+    model_name = "fallback-local"
+    prompt_version = "leads-ai-report-v2"
     generated_at = datetime.now(UTC)
 
     try:
@@ -272,6 +346,7 @@ async def generate_lead_ai_report(
                 max_tokens=1200,
             )
             report_text = response.content
+            model_name = response.model_used
     except Exception as error:
         logger.warning("Fallo generación IA de lead", error=str(error))
         report_text = _fallback_ai_report(
@@ -280,22 +355,78 @@ async def generate_lead_ai_report(
             payload.recommendations,
         )
 
+    report_json = _build_report_json(
+        payload.nombre,
+        payload.holland_code,
+        payload.recommendations,
+        report_text,
+    )
+
+    lead_row: Lead | None = None
     if payload.lead_id:
         lead_row = await _get_lead_by_id(db, payload.lead_id)
-        if lead_row:
-            metadata = lead_row.metadata_json or {}
-            metadata["ai_report_text"] = report_text
-            metadata["ai_report_generated_at"] = generated_at.isoformat()
-            lead_row.metadata_json = metadata
-            lead_row.ai_report_text = report_text
-            lead_row.ai_report_generated_at = generated_at
-            await db.flush()
+        metadata = lead_row.metadata_json or {}
+        metadata["ai_report_text"] = report_text
+        metadata["ai_report_generated_at"] = generated_at.isoformat()
+        metadata["ai_report_model"] = model_name
+        metadata["ai_report_prompt_version"] = prompt_version
+        lead_row.metadata_json = metadata
+        lead_row.ai_report_text = report_text
+        lead_row.ai_report_generated_at = generated_at
+
+    ai_report_row = AIReport(
+        lead_id=payload.lead_id,
+        student_id=None,
+        report_text=report_text,
+        report_json=report_json,
+        holland_code=payload.holland_code,
+        clarity_score=_extract_clarity_score(payload.survey_response),
+        model_name=model_name,
+        prompt_version=prompt_version,
+    )
+    db.add(ai_report_row)
+    await db.flush()
 
     return {
         "success": True,
         "generated_for": payload.nombre,
         "report_text": report_text,
+        "report_id": str(ai_report_row.id),
+        "model_name": model_name,
+        "prompt_version": prompt_version,
     }
+
+
+@router.get("/leads/{lead_id}/ai-reports", response_model=LeadAIReportHistoryResponse)
+async def get_lead_ai_report_history(
+    lead_id: uuid.UUID,
+    db: AsyncSession = Depends(get_async_session),
+) -> LeadAIReportHistoryResponse:
+    """Histórico de informes IA asociados a un lead."""
+    await _get_lead_by_id(db, lead_id)
+    result = await db.execute(
+        select(AIReport).where(AIReport.lead_id == lead_id).order_by(AIReport.created_at.desc())
+    )
+    rows = result.scalars().all()
+
+    return LeadAIReportHistoryResponse(
+        count=len(rows),
+        items=[
+            LeadAIReportHistoryItem(
+                id=str(row.id),
+                lead_id=str(row.lead_id) if row.lead_id else None,
+                student_id=str(row.student_id) if row.student_id else None,
+                report_text=row.report_text,
+                report_json=row.report_json or {},
+                holland_code=row.holland_code,
+                clarity_score=row.clarity_score,
+                model_name=row.model_name,
+                prompt_version=row.prompt_version,
+                created_at=row.created_at.isoformat(),
+            )
+            for row in rows
+        ],
+    )
 
 
 @router.get("/informe/{lead_id}")

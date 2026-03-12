@@ -40,6 +40,28 @@ interface StudentDetailResponse {
   student: Student;
   notes: NoteItem[];
   tasks: TaskItem[];
+  ai_reports: AIReportItem[];
+}
+
+interface AIReportItem {
+  id: string;
+  report_text: string;
+  report_json: {
+    resumen_personalizado?: string;
+    top_careers?: Array<{
+      nombre?: string;
+      datos_mercado?: {
+        empleabilidad?: string | number | null;
+        ingreso?: string | number | null;
+        saturacion?: string | number | null;
+      };
+    }>;
+  };
+  holland_code?: string | null;
+  clarity_score?: number | null;
+  model_name: string;
+  prompt_version: string;
+  created_at: string;
 }
 
 const riskClass = {
@@ -110,7 +132,7 @@ export default function OrientadorStudentProfilePage() {
     );
   }
 
-  const { student, notes, tasks } = data;
+  const { student, notes, tasks, ai_reports } = data;
 
   return (
     <RoleGuard allowedRoles={["orientador", "admin_colegio"]}>
@@ -158,6 +180,57 @@ export default function OrientadorStudentProfilePage() {
         </Card>
 
         <div className="grid lg:grid-cols-2 gap-6">
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle>Informes IA históricos</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {ai_reports.length === 0 ? (
+                <p className="text-sm text-vocari-text-muted">Aún no hay informes IA para este estudiante.</p>
+              ) : (
+                <div className="space-y-3">
+                  {ai_reports.map((report) => (
+                    <details key={report.id} className="rounded-md border border-gray-200 bg-white p-3">
+                      <summary className="cursor-pointer text-sm font-medium text-vocari-text">
+                        {new Date(report.created_at).toLocaleString("es-CL")} · {report.model_name}
+                      </summary>
+                      <div className="mt-3 space-y-3 text-sm">
+                        {report.report_json?.resumen_personalizado && (
+                          <div className="rounded-md bg-sky-50 p-3 text-slate-800">
+                            <p className="font-medium mb-1">Resumen personalizado</p>
+                            <p>{report.report_json.resumen_personalizado}</p>
+                          </div>
+                        )}
+                        {(report.report_json?.top_careers?.length ?? 0) > 0 && (
+                          <div className="rounded-md bg-emerald-50 p-3 text-slate-800">
+                            <p className="font-medium mb-2">Carreras recomendadas</p>
+                            <ul className="list-disc pl-5 space-y-1">
+                              {report.report_json.top_careers?.map((career, index) => (
+                                <li key={`${report.id}-career-${index}`}>
+                                  <strong>{career.nombre || "Carrera sugerida"}</strong>
+                                  {career.datos_mercado?.empleabilidad ? ` · Empleabilidad: ${career.datos_mercado.empleabilidad}` : ""}
+                                  {career.datos_mercado?.ingreso ? ` · Ingreso: ${career.datos_mercado.ingreso}` : ""}
+                                  {career.datos_mercado?.saturacion ? ` · Saturación: ${career.datos_mercado.saturacion}` : ""}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        <div className="rounded-md bg-amber-50 p-3 text-slate-800">
+                          <p className="font-medium mb-1">Texto completo</p>
+                          <p className="whitespace-pre-wrap">{report.report_text}</p>
+                        </div>
+                        <p className="text-xs text-vocari-text-muted">
+                          Prompt: {report.prompt_version}
+                        </p>
+                      </div>
+                    </details>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle>Notas del orientador</CardTitle>

@@ -144,6 +144,23 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
             "CREATE INDEX IF NOT EXISTS ix_leads_holland_code ON leads (holland_code)",
             "CREATE UNIQUE INDEX IF NOT EXISTS ix_leads_share_token ON leads (share_token)",
             "CREATE INDEX IF NOT EXISTS ix_leads_created_at ON leads (created_at DESC)",
+            # ai_reports: historial auditable de informes IA
+            """CREATE TABLE IF NOT EXISTS ai_reports (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                student_id UUID REFERENCES users(id) ON DELETE SET NULL,
+                lead_id UUID REFERENCES leads(id) ON DELETE SET NULL,
+                report_text TEXT NOT NULL,
+                report_json JSONB NOT NULL DEFAULT '{}',
+                holland_code VARCHAR(20),
+                clarity_score FLOAT,
+                model_name VARCHAR(120) NOT NULL DEFAULT 'fallback-local',
+                prompt_version VARCHAR(40) NOT NULL DEFAULT 'v1',
+                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            )""",
+            "CREATE INDEX IF NOT EXISTS ix_ai_reports_student_id ON ai_reports (student_id)",
+            "CREATE INDEX IF NOT EXISTS ix_ai_reports_lead_id ON ai_reports (lead_id)",
+            "CREATE INDEX IF NOT EXISTS ix_ai_reports_created_at ON ai_reports (created_at DESC)",
         ]
         for sql in schema_migrations:
             try:

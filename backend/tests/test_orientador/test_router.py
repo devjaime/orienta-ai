@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.models import User, UserRole
 from app.institutions.models import Institution, InstitutionPlan
-from app.leads.models import Lead  # noqa: F401
+from app.leads.models import AIReport, Lead  # noqa: F401
 from app.orientador.models import AdvisorNote, AdvisorTask  # noqa: F401
 from app.sessions.models import Session  # noqa: F401
 from app.tests_vocational.models import TestResult as _TestResultModel  # noqa: F401
@@ -95,10 +95,34 @@ class TestOrientadorRouter:
     async def test_crea_nota_y_tarea(
         self,
         client,
+        db_session: AsyncSession,
         orientador: User,
         estudiante: User,
         auth_headers,
     ) -> None:
+        lead = Lead(
+            nombre=estudiante.name,
+            email=estudiante.email,
+            source="test",
+            share_token=f"token-{uuid.uuid4().hex[:10]}",
+            holland_code="ISA",
+            clarity_score=3.0,
+        )
+        db_session.add(lead)
+        await db_session.flush()
+
+        db_session.add(
+            AIReport(
+                lead_id=lead.id,
+                report_text="Informe IA de ejemplo",
+                report_json={"resumen_personalizado": "Resumen"},
+                holland_code="ISA",
+                model_name="fallback-local",
+                prompt_version="test-v1",
+            )
+        )
+        await db_session.flush()
+
         note_res = await client.post(
             f"/api/v1/orientador/students/{estudiante.id}/notes",
             json={"note": "Caso con indecisión vocacional"},
@@ -125,3 +149,4 @@ class TestOrientadorRouter:
         detail_data = detail_res.json()
         assert len(detail_data["notes"]) >= 1
         assert len(detail_data["tasks"]) >= 1
+        assert len(detail_data["ai_reports"]) >= 1

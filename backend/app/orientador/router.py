@@ -17,6 +17,7 @@ from app.orientador.schemas import (
     AdvisorTaskCreate,
     AdvisorTaskResponse,
     AdvisorTaskUpdate,
+    AIReportSummaryResponse,
     StudentDetailResponse,
     StudentListResponse,
 )
@@ -55,11 +56,24 @@ async def get_student_detail(
     ),
     db=Depends(get_async_session),
 ) -> StudentDetailResponse:
-    student, notes, tasks = await get_student_detail_for_orientador(db, user, student_id)
+    student, notes, tasks, ai_reports = await get_student_detail_for_orientador(db, user, student_id)
     return StudentDetailResponse(
         student=student,
         notes=[AdvisorNoteResponse.model_validate(n) for n in notes],
         tasks=[AdvisorTaskResponse.model_validate(t) for t in tasks],
+        ai_reports=[
+            AIReportSummaryResponse(
+                id=str(report.id),
+                report_text=report.report_text,
+                report_json=report.report_json or {},
+                holland_code=report.holland_code,
+                clarity_score=report.clarity_score,
+                model_name=report.model_name,
+                prompt_version=report.prompt_version,
+                created_at=report.created_at,
+            )
+            for report in ai_reports
+        ],
     )
 
 

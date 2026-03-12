@@ -66,8 +66,19 @@ class AdvisorTaskResponse(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class AIReportSummaryResponse(BaseModel):
+    id: str
+    report_text: str
+    report_json: dict
+    holland_code: str | None = None
+    clarity_score: float | None = None
+    model_name: str
+    prompt_version: str
+    created_at: datetime
+
+
 class StudentDetailResponse(BaseModel):
     student: StudentListItem
     notes: list[AdvisorNoteResponse]
     tasks: list[AdvisorTaskResponse]
-
+    ai_reports: list[AIReportSummaryResponse]

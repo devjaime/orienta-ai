@@ -56,6 +56,15 @@ class TestLeadsRouter:
         ai_data = ai_res.json()
         assert ai_data["success"] is True
         assert "Camila Perez" in ai_data["report_text"]
+        assert ai_data["report_id"]
+        assert ai_data["model_name"]
+        assert ai_data["prompt_version"]
+
+        history_res = await client.get(f"/api/v1/leads/{lead_id}/ai-reports")
+        assert history_res.status_code == 200
+        history_data = history_res.json()
+        assert history_data["count"] >= 1
+        assert history_data["items"][0]["lead_id"] == lead_id
 
         report_res = await client.get(f"/api/v1/informe/{lead_id}")
         assert report_res.status_code == 200
