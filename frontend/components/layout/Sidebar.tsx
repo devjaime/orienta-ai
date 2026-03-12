@@ -60,6 +60,7 @@ const NAV_BY_ROLE: Record<string, NavItem[]> = {
     { label: "Estudiantes", href: "/admin/estudiantes", icon: Users },
     { label: "Orientadores", href: "/admin/orientadores", icon: UserCircle },
     { label: "Metricas", href: "/admin/metricas", icon: BarChart3 },
+    { label: "Insights", href: "/admin/insights", icon: Activity },
     { label: "Importar", href: "/admin/importar", icon: Upload },
     { label: "Configuracion", href: "/admin/configuracion", icon: Settings },
   ],

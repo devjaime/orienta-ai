@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter, defaultdict
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import and_, select
@@ -43,6 +43,10 @@ def _safe_round(value: float | None, decimals: int = 1) -> float | None:
     if value is None:
         return None
     return round(value, decimals)
+
+
+def _month_key(date_value: datetime) -> str:
+    return date_value.strftime("%Y-%m")
 
 
 async def get_admin_metrics(
@@ -227,4 +231,206 @@ async def get_admin_metrics(
         "riasec_distribution_by_course": riasec_distribution_by_course,
         "clarity_by_course": clarity_by_course,
         "top_careers": top_careers,
+    }
+
+
+async def get_admin_insights(
+    db: AsyncSession,
+    institution_id,
+    curso: str | None = None,
+    periodo: str | None = None,
+) -> dict[str, Any]:
+    """Obtiene insights institucionales (cohorte, tendencias y alertas)."""
+    period_start, period_end = _parse_period(periodo)
+    if period_start is None and period_end is None:
+        period_end = datetime.now(UTC)
+        period_start = period_end - timedelta(days=180)
+
+    students_query = (
+        select(User.id, User.name, User.email, UserProfile.grade)
+        .outerjoin(UserProfile, UserProfile.user_id == User.id)
+        .where(
+            User.institution_id == institution_id,
+            User.role == UserRole.ESTUDIANTE,
+            User.is_active.is_(True),
+        )
+    )
+    if curso:
+        students_query = students_query.where(UserProfile.grade == curso)
+
+    student_rows = (await db.execute(students_query)).all()
+    student_ids = [row[0] for row in student_rows]
+    student_emails = [row[2] for row in student_rows if row[2]]
+    student_by_email = {row[2]: row for row in student_rows if row[2]}
+    courses = sorted({_course_label(row[3]) for row in student_rows})
+
+    if not student_ids:
+        return {
+            "filters": {
+                "curso": curso,
+                "periodo": periodo,
+                "period_start": period_start,
+                "period_end": period_end,
+            },
+            "summary": {
+                "total_students": 0,
+                "students_with_clarity": 0,
+                "students_with_high_indecision": 0,
+                "high_indecision_rate": 0.0,
+            },
+            "courses": courses,
+            "career_interest_by_course": [],
+            "clarity_trend": [],
+            "indecision_alerts": [],
+        }
+
+    leads_query = select(
+        Lead.id,
+        Lead.email,
+        Lead.clarity_score,
+        Lead.holland_code,
+        Lead.updated_at,
+    ).where(Lead.email.in_(student_emails))
+    if period_start and period_end:
+        leads_query = leads_query.where(and_(Lead.updated_at >= period_start, Lead.updated_at < period_end))
+    lead_rows = (await db.execute(leads_query)).all()
+
+    # Tendencia de claridad mensual (tomando todos los leads del periodo)
+    clarity_values_by_month: dict[str, list[float]] = defaultdict(list)
+    for _, _, clarity_score, _, updated_at in lead_rows:
+        if clarity_score is None or updated_at is None:
+            continue
+        month = _month_key(updated_at)
+        clarity_values_by_month[month].append(float(clarity_score))
+
+    clarity_trend = []
+    for month in sorted(clarity_values_by_month.keys()):
+        values = clarity_values_by_month[month]
+        indecision = [value for value in values if value <= 2]
+        clarity_trend.append(
+            {
+                "month": month,
+                "students_with_clarity": len(values),
+                "average_clarity": _safe_round(sum(values) / len(values), 2),
+                "indecision_index": _safe_round((len(indecision) / len(values)) * 100, 1),
+            }
+        )
+
+    # Último lead por email para alertas y summary
+    latest_lead_by_email: dict[str, dict[str, Any]] = {}
+    for lead_id, email, clarity_score, holland_code, updated_at in lead_rows:
+        previous = latest_lead_by_email.get(email)
+        current_time = updated_at or datetime.min.replace(tzinfo=UTC)
+        previous_time = (
+            previous["updated_at"] if previous and previous.get("updated_at") else datetime.min.replace(tzinfo=UTC)
+        )
+        if previous is None or current_time > previous_time:
+            latest_lead_by_email[email] = {
+                "lead_id": lead_id,
+                "clarity_score": clarity_score,
+                "holland_code": holland_code,
+                "updated_at": updated_at,
+            }
+
+    indecision_alerts = []
+    students_with_clarity = 0
+    students_with_high_indecision = 0
+    for email, info in latest_lead_by_email.items():
+        clarity_score = info.get("clarity_score")
+        if clarity_score is None:
+            continue
+        students_with_clarity += 1
+        if clarity_score > 2:
+            continue
+
+        students_with_high_indecision += 1
+        student_row = student_by_email.get(email)
+        if not student_row:
+            continue
+        student_id, student_name, student_email, grade = student_row
+        indecision_alerts.append(
+            {
+                "student_id": str(student_id),
+                "student_name": student_name,
+                "student_email": student_email,
+                "curso": _course_label(grade),
+                "clarity_score": float(clarity_score),
+                "holland_code": info.get("holland_code"),
+                "last_activity_at": info.get("updated_at"),
+                "recommended_action": "Priorizar reunión 1:1 con orientador en los próximos 7 días",
+            }
+        )
+
+    indecision_alerts.sort(
+        key=lambda item: (
+            item["clarity_score"],
+            item["last_activity_at"] or datetime.min.replace(tzinfo=UTC),
+        )
+    )
+
+    # Interés de carreras por cohorte (curso) usando report_json.top_careers
+    top_careers_by_course: dict[str, Counter[str]] = defaultdict(Counter)
+    if student_emails:
+        reports_query = (
+            select(Lead.email, AIReport.report_json, AIReport.created_at)
+            .join(Lead, Lead.id == AIReport.lead_id)
+            .where(Lead.email.in_(student_emails))
+        )
+        if period_start and period_end:
+            reports_query = reports_query.where(
+                and_(AIReport.created_at >= period_start, AIReport.created_at < period_end)
+            )
+        report_rows = (await db.execute(reports_query)).all()
+
+        for email, report_json, _ in report_rows:
+            student_row = student_by_email.get(email)
+            if not student_row:
+                continue
+            course = _course_label(student_row[3])
+            top_careers = (report_json or {}).get("top_careers", [])
+            if not isinstance(top_careers, list):
+                continue
+            for career_item in top_careers:
+                if not isinstance(career_item, dict):
+                    continue
+                name = career_item.get("nombre")
+                if isinstance(name, str) and name.strip():
+                    top_careers_by_course[course][name.strip()] += 1
+
+    career_interest_by_course = []
+    for course in courses:
+        counter = top_careers_by_course.get(course, Counter())
+        career_interest_by_course.append(
+            {
+                "curso": course,
+                "careers": [
+                    {"career_name": career_name, "count": count}
+                    for career_name, count in counter.most_common(8)
+                ],
+            }
+        )
+
+    high_indecision_rate = (
+        round((students_with_high_indecision / students_with_clarity) * 100, 1)
+        if students_with_clarity
+        else 0.0
+    )
+
+    return {
+        "filters": {
+            "curso": curso,
+            "periodo": periodo,
+            "period_start": period_start,
+            "period_end": period_end,
+        },
+        "summary": {
+            "total_students": len(student_ids),
+            "students_with_clarity": students_with_clarity,
+            "students_with_high_indecision": students_with_high_indecision,
+            "high_indecision_rate": high_indecision_rate,
+        },
+        "courses": courses,
+        "career_interest_by_course": career_interest_by_course,
+        "clarity_trend": clarity_trend,
+        "indecision_alerts": indecision_alerts[:50],
     }
