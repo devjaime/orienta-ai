@@ -43,6 +43,22 @@ interface StudentDetailResponse {
   ai_reports: AIReportItem[];
 }
 
+interface FollowupItem {
+  id: string;
+  journey_step: "D0" | "D7" | "D21" | string;
+  channel: "email" | "in_app";
+  status: "scheduled" | "sent" | "failed" | "canceled";
+  scheduled_at: string;
+  sent_at?: string | null;
+  retry_count: number;
+  last_error?: string | null;
+}
+
+interface FollowupListResponse {
+  items: FollowupItem[];
+  total: number;
+}
+
 interface AIReportItem {
   id: string;
   report_text: string;
@@ -77,6 +93,20 @@ const taskStatusLabel: Record<TaskItem["status"], string> = {
   cancelada: "Cancelada",
 };
 
+const followupStatusLabel: Record<FollowupItem["status"], string> = {
+  scheduled: "Programado",
+  sent: "Enviado",
+  failed: "Fallido",
+  canceled: "Cancelado",
+};
+
+const followupStatusClass: Record<FollowupItem["status"], string> = {
+  scheduled: "bg-sky-100 text-sky-700",
+  sent: "bg-emerald-100 text-emerald-700",
+  failed: "bg-rose-100 text-rose-700",
+  canceled: "bg-gray-100 text-gray-700",
+};
+
 export default function OrientadorStudentProfilePage() {
   const params = useParams<{ id: string }>();
   const studentId = params?.id;
@@ -92,6 +122,14 @@ export default function OrientadorStudentProfilePage() {
     queryKey: detailQueryKey,
     enabled: Boolean(studentId),
     queryFn: () => api.get<StudentDetailResponse>(`/api/v1/orientador/students/${studentId}`),
+  });
+
+  const followupsQueryKey = useMemo(() => ["followups", "student", studentId], [studentId]);
+
+  const { data: followupsData, isLoading: followupsLoading } = useQuery({
+    queryKey: followupsQueryKey,
+    enabled: Boolean(studentId),
+    queryFn: () => api.get<FollowupListResponse>(`/api/v1/followups/${studentId}`),
   });
 
   const createNoteMutation = useMutation({
@@ -120,6 +158,33 @@ export default function OrientadorStudentProfilePage() {
     },
   });
 
+  const scheduleFollowupsMutation = useMutation({
+    mutationFn: async () =>
+      api.post("/api/v1/followups/schedule", {
+        student_id: studentId,
+        force_reschedule: true,
+      }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: followupsQueryKey });
+    },
+  });
+
+  const retryFollowupMutation = useMutation({
+    mutationFn: async (followupId: string) =>
+      api.post(`/api/v1/followups/${followupId}/retry`),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: followupsQueryKey });
+    },
+  });
+
+  const cancelFollowupMutation = useMutation({
+    mutationFn: async (followupId: string) =>
+      api.post(`/api/v1/followups/${followupId}/cancel`),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: followupsQueryKey });
+    },
+  });
+
   if (isLoading || !data) {
     return (
       <RoleGuard allowedRoles={["orientador", "admin_colegio"]}>
@@ -133,6 +198,7 @@ export default function OrientadorStudentProfilePage() {
   }
 
   const { student, notes, tasks, ai_reports } = data;
+  const followups = followupsData?.items || [];
 
   return (
     <RoleGuard allowedRoles={["orientador", "admin_colegio"]}>
@@ -180,6 +246,72 @@ export default function OrientadorStudentProfilePage() {
         </Card>
 
         <div className="grid lg:grid-cols-2 gap-6">
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle>Timeline de seguimiento automático</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex justify-end">
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => scheduleFollowupsMutation.mutate()}
+                  loading={scheduleFollowupsMutation.isPending}
+                >
+                  Reprogramar D0/D7/D21
+                </Button>
+              </div>
+
+              {followupsLoading ? (
+                <Skeleton variant="rect" height={140} />
+              ) : followups.length === 0 ? (
+                <p className="text-sm text-vocari-text-muted">No hay seguimientos programados para este estudiante.</p>
+              ) : (
+                <div className="space-y-2">
+                  {followups.map((item) => (
+                    <div key={item.id} className="rounded-md border border-gray-200 p-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Badge className="bg-indigo-100 text-indigo-700">{item.journey_step}</Badge>
+                        <Badge className={followupStatusClass[item.status]}>
+                          {followupStatusLabel[item.status]}
+                        </Badge>
+                        <span className="text-xs text-vocari-text-muted">
+                          Programado: {new Date(item.scheduled_at).toLocaleString("es-CL")}
+                        </span>
+                        {item.sent_at && (
+                          <span className="text-xs text-vocari-text-muted">
+                            Enviado: {new Date(item.sent_at).toLocaleString("es-CL")}
+                          </span>
+                        )}
+                      </div>
+                      {item.last_error && (
+                        <p className="text-xs text-rose-700 mt-2">{item.last_error}</p>
+                      )}
+                      <div className="mt-2 flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => retryFollowupMutation.mutate(item.id)}
+                          loading={retryFollowupMutation.isPending}
+                        >
+                          Reintentar
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => cancelFollowupMutation.mutate(item.id)}
+                          loading={cancelFollowupMutation.isPending}
+                        >
+                          Cancelar
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
           <Card className="lg:col-span-2">
             <CardHeader>
               <CardTitle>Informes IA históricos</CardTitle>
