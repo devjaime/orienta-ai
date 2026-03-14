@@ -152,10 +152,10 @@ Este proyecto está protegido bajo una **Licencia de Uso con Atribución y Restr
 
 Atribución obligatoria en proyectos derivados:
 ```
-Basado en el trabajo original de Jaime Hernández (Vocari, 2024–2026).
+Basado en el trabajo original de Jaime Hernández (Vocari, 2026).
 ```
 
-**Copyright (c) 2024–2026 Jaime Hernández. Todos los derechos reservados.**
+**Copyright (c) 2026 Jaime Hernández. Todos los derechos reservados.**
 
 ---
 

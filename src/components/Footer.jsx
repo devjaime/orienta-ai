@@ -128,7 +128,7 @@ const Footer = () => {
         >
           <div>
             <p className="text-white/60 text-sm mb-1">
-              &copy; 2024–2026 Vocari · Prototipo tecnológico. Todos los derechos reservados.
+              &copy; 2026 Vocari · Prototipo tecnológico. Todos los derechos reservados.
             </p>
             <p className="text-white/40 text-xs mb-1">
               Desarrollo y arquitectura de plataforma: <strong className="text-white/60">Jaime Hernández</strong>
