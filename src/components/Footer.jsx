@@ -3,8 +3,6 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
   const footerLinks = {
     plataforma: [
       { name: "Test Vocacional", href: "/test" },
@@ -130,7 +128,7 @@ const Footer = () => {
         >
           <div>
             <p className="text-white/60 text-sm mb-1">
-              &copy; 2024–{currentYear} Vocari · Prototipo tecnológico. Todos los derechos reservados.
+              &copy; 2024–2026 Vocari · Prototipo tecnológico. Todos los derechos reservados.
             </p>
             <p className="text-white/40 text-xs mb-1">
               Desarrollo y arquitectura de plataforma: <strong className="text-white/60">Jaime Hernández</strong>
