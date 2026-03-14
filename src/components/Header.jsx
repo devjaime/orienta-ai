@@ -83,14 +83,6 @@ const Header = ({ onStartTest }) => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            {/* Language toggle */}
-            <button
-              onClick={toggle}
-              className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:border-vocari-primary hover:text-vocari-primary transition-all"
-              title={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
-            >
-              {lang === 'es' ? 'EN' : 'ES'}
-            </button>
             {!user ? (
               <>
                 <Link
@@ -143,6 +135,16 @@ const Header = ({ onStartTest }) => {
             )}
           </div>
 
+          {/* Language toggle — siempre visible */}
+          <button
+            onClick={toggle}
+            className="flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-lg border-2 border-vocari-primary/40 text-vocari-primary hover:bg-vocari-primary hover:text-white transition-all"
+            title={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+          >
+            <span>{lang === 'es' ? '🇬🇧' : '🇨🇱'}</span>
+            <span>{lang === 'es' ? 'EN' : 'ES'}</span>
+          </button>
+
           {/* Mobile Menu Button */}
           <button
             className="md:hidden text-gray-700 p-2"
@@ -178,12 +180,6 @@ const Header = ({ onStartTest }) => {
               >
                 {tx(t.header.navCode, lang)}
               </a>
-              <button
-                onClick={toggle}
-                className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:border-vocari-primary hover:text-vocari-primary transition-all w-fit"
-              >
-                {lang === 'es' ? '🌐 English' : '🌐 Español'}
-              </button>
               <Link
                 to="/test"
                 className="btn-primary w-full text-center block"
