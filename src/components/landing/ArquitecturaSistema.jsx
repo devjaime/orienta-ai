@@ -1,82 +1,85 @@
 import { motion } from 'framer-motion';
 import { Monitor, Server, Database, Puzzle, Users, ArrowRight, Code2, ExternalLink } from 'lucide-react';
-
-const layers = [
-  {
-    icon: Monitor,
-    title: 'Frontend',
-    color: 'blue',
-    bg: 'bg-blue-50',
-    border: 'border-blue-100',
-    iconBg: 'bg-blue-100',
-    iconColor: 'text-blue-600',
-    items: [
-      'React 19 + Vite 7',
-      'Tailwind CSS 3 + Framer Motion',
-      'React Router v6 (rutas protegidas por rol)',
-      'Lazy loading para módulos pesados',
-      'Next.js (app de orientación — app.vocari.cl)'
-    ]
-  },
-  {
-    icon: Server,
-    title: 'Backend',
-    color: 'purple',
-    bg: 'bg-purple-50',
-    border: 'border-purple-100',
-    iconBg: 'bg-purple-100',
-    iconColor: 'text-purple-600',
-    items: [
-      'FastAPI (Python) — API REST',
-      'Algoritmo RIASEC determinista',
-      'Motor de recomendación de carreras',
-      'Pipeline de datos MINEDUC (scripts Node.js)',
-      'Automatización de followups (D0/D7/D21)'
-    ]
-  },
-  {
-    icon: Database,
-    title: 'Base de datos',
-    color: 'green',
-    bg: 'bg-green-50',
-    border: 'border-green-100',
-    iconBg: 'bg-green-100',
-    iconColor: 'text-green-600',
-    items: [
-      'Supabase (PostgreSQL)',
-      'Row Level Security (RLS) por rol',
-      'Arquitectura multi-tenant (colegios)',
-      'Auth con Google OAuth',
-      'Storage para PDFs e informes'
-    ]
-  },
-  {
-    icon: Puzzle,
-    title: 'Servicios externos',
-    color: 'orange',
-    bg: 'bg-orange-50',
-    border: 'border-orange-100',
-    iconBg: 'bg-orange-100',
-    iconColor: 'text-orange-600',
-    items: [
-      'Anthropic Claude API (IA generativa)',
-      'Datos MINEDUC 2025 (matrículas y egresados)',
-      'Vercel (hosting frontend)',
-      'Railway / Render (hosting backend)',
-      'Google OAuth (autenticación)'
-    ]
-  }
-];
-
-const flujo = [
-  { label: 'Estudiante ingresa', sub: 'Google OAuth → perfil en Supabase' },
-  { label: 'Realiza test RIASEC', sub: 'Algoritmo determinista → puntuación' },
-  { label: 'Genera informe', sub: 'Datos MINEDUC + Claude AI (opcional)' },
-  { label: 'Orientador revisa', sub: 'Dashboard con timeline y notas' },
-  { label: 'Apoderado consulta', sub: 'Vista restringida del progreso del hijo' }
-];
+import { useLanguage } from '../../lib/i18n/LanguageContext';
+import { t, tx } from '../../lib/i18n/translations';
 
 const ArquitecturaSistema = () => {
+  const { lang } = useLanguage();
+  const layers = [
+    {
+      icon: Monitor,
+      title: tx(t.arch.frontend, lang),
+      color: 'blue',
+      bg: 'bg-blue-50',
+      border: 'border-blue-100',
+      iconBg: 'bg-blue-100',
+      iconColor: 'text-blue-600',
+      items: [
+        'React 19 + Vite 7',
+        'Tailwind CSS 3 + Framer Motion',
+        'React Router v6 (rutas protegidas por rol)',
+        'Lazy loading para módulos pesados',
+        'Next.js (app de orientación — app.vocari.cl)'
+      ]
+    },
+    {
+      icon: Server,
+      title: tx(t.arch.backend, lang),
+      color: 'purple',
+      bg: 'bg-purple-50',
+      border: 'border-purple-100',
+      iconBg: 'bg-purple-100',
+      iconColor: 'text-purple-600',
+      items: [
+        'FastAPI (Python) — API REST',
+        'Algoritmo RIASEC determinista',
+        'Motor de recomendación de carreras',
+        'Pipeline de datos MINEDUC (scripts Node.js)',
+        'Automatización de followups (D0/D7/D21)'
+      ]
+    },
+    {
+      icon: Database,
+      title: tx(t.arch.database, lang),
+      color: 'green',
+      bg: 'bg-green-50',
+      border: 'border-green-100',
+      iconBg: 'bg-green-100',
+      iconColor: 'text-green-600',
+      items: [
+        'Supabase (PostgreSQL)',
+        'Row Level Security (RLS) por rol',
+        'Arquitectura multi-tenant (colegios)',
+        'Auth con Google OAuth',
+        'Storage para PDFs e informes'
+      ]
+    },
+    {
+      icon: Puzzle,
+      title: tx(t.arch.external, lang),
+      color: 'orange',
+      bg: 'bg-orange-50',
+      border: 'border-orange-100',
+      iconBg: 'bg-orange-100',
+      iconColor: 'text-orange-600',
+      items: [
+        'Anthropic Claude API (IA generativa)',
+        'Datos MINEDUC 2025 (matrículas y egresados)',
+        'Vercel (hosting frontend)',
+        'Railway / Render (hosting backend)',
+        'Google OAuth (autenticación)'
+      ]
+    }
+  ];
+
+  const flujo = [
+    { label: tx(t.arch.flow1l, lang), sub: tx(t.arch.flow1s, lang) },
+    { label: tx(t.arch.flow2l, lang), sub: tx(t.arch.flow2s, lang) },
+    { label: tx(t.arch.flow3l, lang), sub: tx(t.arch.flow3s, lang) },
+    { label: tx(t.arch.flow4l, lang), sub: tx(t.arch.flow4s, lang) },
+    { label: tx(t.arch.flow5l, lang), sub: tx(t.arch.flow5s, lang) }
+  ];
+
   return (
     <section id="arquitectura" className="section-padding bg-vocari-bg">
       <div className="max-w-7xl mx-auto">
@@ -89,14 +92,13 @@ const ArquitecturaSistema = () => {
         >
           <div className="inline-flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-full px-4 py-2 mb-4">
             <Code2 size={16} className="text-gray-600" />
-            <span className="text-gray-700 text-sm font-medium">Stack tecnológico completo</span>
+            <span className="text-gray-700 text-sm font-medium">{tx(t.arch.badge, lang)}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-poppins font-bold text-vocari-dark mb-4">
-            Arquitectura del sistema
+            {tx(t.arch.title, lang)}
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Una plataforma full-stack moderna con separación clara de responsabilidades,
-            diseñada para escalar y demostrar patrones de producto reales.
+            {tx(t.arch.subtitle, lang)}
           </p>
         </motion.div>
 
@@ -141,7 +143,7 @@ const ArquitecturaSistema = () => {
             <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
               <Users size={20} className="text-gray-600" />
             </div>
-            <h3 className="text-lg font-poppins font-bold text-vocari-dark">Flujo de usuarios</h3>
+            <h3 className="text-lg font-poppins font-bold text-vocari-dark">{tx(t.arch.flowTitle, lang)}</h3>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             {flujo.map((paso, index) => (
@@ -180,7 +182,7 @@ const ArquitecturaSistema = () => {
             className="inline-flex items-center gap-2 text-vocari-primary hover:text-vocari-light font-medium transition-colors text-sm underline hover:no-underline"
           >
             <Code2 size={16} />
-            Ver código fuente completo y documentación técnica
+            {tx(t.arch.repoLink, lang)}
             <ExternalLink size={14} />
           </a>
         </motion.div>

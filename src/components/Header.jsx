@@ -3,12 +3,15 @@ import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { getCurrentUser, signOut } from '../lib/supabase';
+import { useLanguage } from '../lib/i18n/LanguageContext';
+import { t, tx } from '../lib/i18n/translations';
 
 const Header = ({ onStartTest }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const location = useLocation();
+  const { lang, toggle } = useLanguage();
 
   const isB2B = location.pathname.startsWith('/colegios');
 
@@ -60,13 +63,13 @@ const Header = ({ onStartTest }) => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <a href="#como-funciona" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
-              Como Funciona
+              {tx(t.header.navHowItWorks, lang)}
             </a>
             <a href="#sobre-el-proyecto" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
-              Sobre el proyecto
+              {tx(t.header.navAbout, lang)}
             </a>
             <a href="#arquitectura" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
-              Arquitectura
+              {tx(t.header.navArchitecture, lang)}
             </a>
             <a
               href="https://github.com/devjaime/orienta-ai"
@@ -74,19 +77,27 @@ const Header = ({ onStartTest }) => {
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium"
             >
-              Código
+              {tx(t.header.navCode, lang)}
             </a>
           </nav>
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Language toggle */}
+            <button
+              onClick={toggle}
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:border-vocari-primary hover:text-vocari-primary transition-all"
+              title={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+            >
+              {lang === 'es' ? 'EN' : 'ES'}
+            </button>
             {!user ? (
               <>
                 <Link
                   to="/test"
                   className="btn-primary text-sm px-6 py-2.5 inline-flex items-center gap-1.5"
                 >
-                  Probar demo gratuita
+                  {tx(t.header.cta, lang)}
                 </Link>
               </>
             ) : (
@@ -151,13 +162,13 @@ const Header = ({ onStartTest }) => {
           >
             <nav className="flex flex-col space-y-4">
               <a href="#como-funciona" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300">
-                Como Funciona
+                {tx(t.header.navHowItWorks, lang)}
               </a>
               <a href="#sobre-el-proyecto" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300">
-                Sobre el proyecto
+                {tx(t.header.navAbout, lang)}
               </a>
               <a href="#arquitectura" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300">
-                Arquitectura
+                {tx(t.header.navArchitecture, lang)}
               </a>
               <a
                 href="https://github.com/devjaime/orienta-ai"
@@ -165,13 +176,19 @@ const Header = ({ onStartTest }) => {
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 font-medium"
               >
-                Ver código
+                {tx(t.header.navCode, lang)}
               </a>
+              <button
+                onClick={toggle}
+                className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 hover:border-vocari-primary hover:text-vocari-primary transition-all w-fit"
+              >
+                {lang === 'es' ? '🌐 English' : '🌐 Español'}
+              </button>
               <Link
                 to="/test"
                 className="btn-primary w-full text-center block"
               >
-                Probar demo gratuita
+                {tx(t.header.cta, lang)}
               </Link>
 
               {user && (

@@ -1,26 +1,29 @@
 import { motion } from 'framer-motion';
 import { TrendingDown, Users, AlertTriangle } from 'lucide-react';
+import { useLanguage } from '../lib/i18n/LanguageContext';
+import { t, tx } from '../lib/i18n/translations';
 
 const ProblemSection = () => {
+  const { lang } = useLanguage();
   const stats = [
     {
       icon: TrendingDown,
       number: "29%",
-      description: "abandona la carrera en el primer ano",
+      description: tx(t.problem.stat1, lang),
       color: "text-red-500",
       bg: "bg-red-50"
     },
     {
       icon: Users,
       number: "43%",
-      description: "trabaja fuera del area que estudio",
+      description: tx(t.problem.stat2, lang),
       color: "text-orange-500",
       bg: "bg-orange-50"
     },
     {
       icon: AlertTriangle,
       number: "76%",
-      description: "no esta conforme con su empleo actual",
+      description: tx(t.problem.stat3, lang),
       color: "text-amber-500",
       bg: "bg-amber-50"
     }
@@ -37,11 +40,10 @@ const ProblemSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-bold text-vocari-dark mb-6">
-            El Problema de la Orientacion Vocacional
+            {tx(t.problem.title, lang)}
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Los jovenes enfrentan una crisis de orientacion vocacional que afecta su futuro profesional.
-            La falta de herramientas adecuadas genera decisiones apresuradas con impacto negativo.
+            {tx(t.problem.subtitle, lang)}
           </p>
         </motion.div>
 
@@ -82,13 +84,13 @@ const ProblemSection = () => {
         >
           <div>
             <h3 className="text-2xl md:text-3xl font-poppins font-semibold text-vocari-dark mb-6">
-              Por que ocurre esto?
+              {tx(t.problem.whyTitle, lang)}
             </h3>
             <div className="space-y-6">
               {[
-                { num: '1', title: 'Falta de autoconocimiento', desc: 'Los jovenes no tienen herramientas para identificar sus fortalezas, intereses y valores personales.' },
-                { num: '2', title: 'Informacion desactualizada', desc: 'Los datos sobre carreras y mercado laboral cambian constantemente, pero las orientaciones tradicionales no se actualizan.' },
-                { num: '3', title: 'Presion social y familiar', desc: 'Las expectativas de padres, amigos y sociedad influyen en decisiones que no reflejan los verdaderos intereses del joven.' }
+                { num: '1', title: tx(t.problem.reason1t, lang), desc: tx(t.problem.reason1d, lang) },
+                { num: '2', title: tx(t.problem.reason2t, lang), desc: tx(t.problem.reason2d, lang) },
+                { num: '3', title: tx(t.problem.reason3t, lang), desc: tx(t.problem.reason3d, lang) }
               ].map((item) => (
                 <div key={item.num} className="flex items-start gap-4">
                   <div className="w-8 h-8 bg-vocari-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
@@ -110,24 +112,24 @@ const ProblemSection = () => {
                   <AlertTriangle size={40} className="text-vocari-primary" />
                 </div>
                 <h4 className="text-xl font-semibold text-vocari-dark mb-4">
-                  El Costo de una Mala Decision
+                  {tx(t.problem.costTitle, lang)}
                 </h4>
                 <ul className="text-left space-y-3 text-gray-600">
                   <li className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-vocari-primary rounded-full flex-shrink-0"></div>
-                    Perdida de tiempo y recursos economicos
+                    {tx(t.problem.cost1, lang)}
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-vocari-primary rounded-full flex-shrink-0"></div>
-                    Frustracion y baja autoestima
+                    {tx(t.problem.cost2, lang)}
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-vocari-primary rounded-full flex-shrink-0"></div>
-                    Carreras profesionales insatisfactorias
+                    {tx(t.problem.cost3, lang)}
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-vocari-primary rounded-full flex-shrink-0"></div>
-                    Impacto negativo en la economia familiar
+                    {tx(t.problem.cost4, lang)}
                   </li>
                 </ul>
               </div>

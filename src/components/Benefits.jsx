@@ -1,46 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { CheckCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
-
-const stats = [
-  { value: '1000+', label: 'Estudiantes atendidos' },
-  { value: '50+', label: 'Orientadores certificados' },
-  { value: '4.8/5', label: 'Valoración promedio' },
-  { value: '98%', label: 'Satisfacción garantizada' },
-]
-
-const benefits = [
-  {
-    icon: '📊',
-    title: 'Datos reales de empleabilidad',
-    description: 'Usamos datos oficiales del MINEDUC sobre vacantes, remuneraciones y demanda laboral real en Chile.'
-  },
-  {
-    icon: '🔬',
-    title: 'Método científico validado',
-    description: 'Basado en el modelo RIASEC de John Holland, usado por universidades de todo el mundo.'
-  },
-  {
-    icon: '👨‍⚕️',
-    title: 'Revisión profesional',
-    description: 'Cada informe es revisado y validado por orientadores vocacionales certificados.'
-  },
-  {
-    icon: '⚡',
-    title: 'Resultados en 24-48 horas',
-    description: 'Rápido y eficiente. Recibe tu informe profesional en menos de 2 días hábiles.'
-  },
-  {
-    icon: '💰',
-    title: 'Garantía de satisfacción',
-    description: 'Si no estás satisfecho, te devolvemos tu dinero. Sin preguntas, sin complicaciones.'
-  },
-  {
-    icon: '🔒',
-    title: 'Pago seguro con PayPal',
-    description: 'Tu pago está protegido. PayPal te permite comprar con tranquilidad.'
-  }
-]
+import { useLanguage } from '../lib/i18n/LanguageContext'
+import { t, tx } from '../lib/i18n/translations'
 
 // Animated counter component
 function AnimatedCounter({ value, suffix = '' }) {
@@ -88,6 +50,45 @@ function AnimatedCounter({ value, suffix = '' }) {
 }
 
 export default function Benefits() {
+  const { lang } = useLanguage();
+  const stats = [
+    { value: '1000+', label: tx(t.benefits.stat1, lang) },
+    { value: '50+', label: tx(t.benefits.stat2, lang) },
+    { value: '4.8/5', label: tx(t.benefits.stat3, lang) },
+    { value: '98%', label: tx(t.benefits.stat4, lang) },
+  ];
+  const benefits = [
+    {
+      icon: '📊',
+      title: tx(t.benefits.b1t, lang),
+      description: tx(t.benefits.b1d, lang)
+    },
+    {
+      icon: '🔬',
+      title: tx(t.benefits.b2t, lang),
+      description: tx(t.benefits.b2d, lang)
+    },
+    {
+      icon: '👨‍⚕️',
+      title: tx(t.benefits.b3t, lang),
+      description: tx(t.benefits.b3d, lang)
+    },
+    {
+      icon: '⚡',
+      title: tx(t.benefits.b4t, lang),
+      description: tx(t.benefits.b4d, lang)
+    },
+    {
+      icon: '💰',
+      title: tx(t.benefits.b5t, lang),
+      description: tx(t.benefits.b5d, lang)
+    },
+    {
+      icon: '🔒',
+      title: tx(t.benefits.b6t, lang),
+      description: tx(t.benefits.b6d, lang)
+    }
+  ];
   return (
     <section className="py-20 bg-gradient-to-b from-white to-vocari-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -125,10 +126,10 @@ export default function Benefits() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl md:text-4xl font-poppins font-bold text-vocari-dark mb-4">
-            ¿Por qué elegir Vocari?
+            {tx(t.benefits.title, lang)}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            La diferencia está en los datos. No adivinamos, usamos evidencia.
+            {tx(t.benefits.subtitle, lang)}
           </p>
         </motion.div>
 
@@ -159,10 +160,10 @@ export default function Benefits() {
           transition={{ delay: 0.3 }}
         >
           {[
-            'Datos MINEDUC 2025',
-            'Método RIASEC validado',
-            'Orientadores certificados',
-            'Garantía de satisfacción'
+            tx(t.benefits.trust1, lang),
+            tx(t.benefits.trust2, lang),
+            tx(t.benefits.trust3, lang),
+            tx(t.benefits.trust4, lang)
           ].map((text, i) => (
             <motion.div 
               key={i}

@@ -12,18 +12,16 @@ import Footer from '../components/Footer';
 import AIChat from '../components/AIChat';
 import SobreElProyecto from '../components/landing/SobreElProyecto';
 import ArquitecturaSistema from '../components/landing/ArquitecturaSistema';
+import { useLanguage } from '../lib/i18n/LanguageContext';
+import { t, tx } from '../lib/i18n/translations';
 
 function LandingPage() {
   const navigate = useNavigate();
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const { lang } = useLanguage();
 
-  const closeChat = () => {
-    setIsChatOpen(false);
-  };
-
-  const goToTest = () => {
-    navigate('/test');
-  };
+  const closeChat = () => setIsChatOpen(false);
+  const goToTest = () => navigate('/test');
 
   return (
     <div className="min-h-screen bg-white">
@@ -32,7 +30,7 @@ function LandingPage() {
       {/* Banda de autoría — mt-16 para compensar el header fijo */}
       <div className="bg-vocari-primary text-white text-center py-2 text-sm mt-16">
         <span>
-          Prototipo tecnológico desarrollado por{' '}
+          {tx(t.landing.authorBand, lang)}{' '}
           <strong>Jaime Hernández</strong>
           {' '}·{' '}
           <a href="mailto:hernandez.hs@gmail.com" className="underline hover:no-underline">
@@ -56,10 +54,10 @@ function LandingPage() {
         <div className="bg-amber-50 border-t border-amber-200 py-8">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <p className="text-amber-800 text-sm leading-relaxed">
-              <strong>Estado del proyecto:</strong> La plataforma se encuentra en fase de exploración técnica
-              y se presenta únicamente como demostración funcional. No está operando comercialmente.{' '}
+              <strong>{tx(t.landing.disclaimerTitle, lang)}</strong>{' '}
+              {tx(t.landing.disclaimerBody, lang)}{' '}
               <a href="mailto:hernandez.hs@gmail.com" className="underline hover:no-underline">
-                Contacto: hernandez.hs@gmail.com
+                {tx(t.landing.contactLabel, lang)} hernandez.hs@gmail.com
               </a>
             </p>
           </div>

@@ -1,17 +1,20 @@
 import { Check, FileText, BarChart3, GraduationCap, UserCheck, Presentation, Sparkles, Play, Code2, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
-const demoFeatures = [
-  { icon: FileText, text: 'Test vocacional RIASEC completo (método científico)' },
-  { icon: BarChart3, text: 'Análisis de perfil con visualizaciones interactivas' },
-  { icon: GraduationCap, text: 'Recomendaciones de carrera con datos MINEDUC 2025' },
-  { icon: UserCheck, text: 'Informe PDF de ejemplo generado automáticamente' },
-  { icon: Presentation, text: 'Dashboard de orientador con timeline de estudiantes' },
-  { icon: Sparkles, text: 'Módulo de orientación virtual con IA (Claude API)' }
-];
+import { useLanguage } from '../../lib/i18n/LanguageContext';
+import { t, tx } from '../../lib/i18n/translations';
 
 const PricingSection = () => {
+  const { lang } = useLanguage();
+  const demoFeatures = [
+    { icon: FileText, text: tx(t.pricing.f1, lang) },
+    { icon: BarChart3, text: tx(t.pricing.f2, lang) },
+    { icon: GraduationCap, text: tx(t.pricing.f3, lang) },
+    { icon: UserCheck, text: tx(t.pricing.f4, lang) },
+    { icon: Presentation, text: tx(t.pricing.f5, lang) },
+    { icon: Sparkles, text: tx(t.pricing.f6, lang) }
+  ];
+
   return (
     <section id="informes" className="section-padding bg-vocari-bg">
       <div className="max-w-7xl mx-auto">
@@ -25,14 +28,13 @@ const PricingSection = () => {
         >
           <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-2 mb-4">
             <Code2 size={16} className="text-blue-600" />
-            <span className="text-blue-700 text-sm font-medium">Prototipo funcional · Demo gratuita</span>
+            <span className="text-blue-700 text-sm font-medium">{tx(t.pricing.badge, lang)}</span>
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-bold text-vocari-dark mb-6">
-            Explora la plataforma completa
+            {tx(t.pricing.title, lang)}
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Todas las funcionalidades están disponibles de forma gratuita como demostración técnica.
-            No se requiere pago ni datos de tarjeta.
+            {tx(t.pricing.subtitle, lang)}
           </p>
         </motion.div>
 
@@ -48,13 +50,13 @@ const PricingSection = () => {
             <div className="absolute -top-4 left-1/2 -translate-x-1/2">
               <span className="flex items-center gap-1 bg-vocari-primary text-white text-sm font-semibold px-4 py-1 rounded-full">
                 <Play size={14} className="fill-current" />
-                Demo Gratuita
+                {tx(t.pricing.demoBadge, lang)}
               </span>
             </div>
 
             <div className="text-center mb-6">
-              <div className="text-5xl font-black text-vocari-primary mb-1">Gratis</div>
-              <span className="text-gray-400 text-sm block">Sin registro obligatorio · Sin pago</span>
+              <div className="text-5xl font-black text-vocari-primary mb-1">{tx(t.pricing.free, lang)}</div>
+              <span className="text-gray-400 text-sm block">{tx(t.pricing.freeNote, lang)}</span>
             </div>
 
             <ul className="space-y-4 mb-8">
@@ -70,7 +72,7 @@ const PricingSection = () => {
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6">
               <p className="text-blue-700 text-sm text-center font-medium">
-                Prototipo tecnológico · Solo para demostración funcional
+                {tx(t.pricing.disclaimer, lang)}
               </p>
             </div>
 
@@ -83,7 +85,7 @@ const PricingSection = () => {
                 className="w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 bg-vocari-primary text-white hover:bg-vocari-light flex items-center justify-center gap-2"
               >
                 <Play size={18} />
-                Probar demo gratuita
+                {tx(t.pricing.cta, lang)}
               </Link>
             </motion.div>
           </div>
@@ -104,7 +106,7 @@ const PricingSection = () => {
             className="inline-flex items-center gap-2 text-vocari-primary hover:text-vocari-light font-medium transition-colors underline hover:no-underline"
           >
             <Code2 size={18} />
-            Ver código y documentación técnica
+            {tx(t.pricing.repoLink, lang)}
             <ExternalLink size={14} />
           </a>
         </motion.div>
@@ -113,19 +115,19 @@ const PricingSection = () => {
         <div className="mt-12 flex flex-wrap justify-center gap-8 text-center">
           <div className="flex flex-col items-center">
             <span className="text-3xl font-bold text-vocari-primary">React 19</span>
-            <span className="text-gray-500 text-sm">Frontend</span>
+            <span className="text-gray-500 text-sm">{tx(t.pricing.techFE, lang)}</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-3xl font-bold text-vocari-primary">FastAPI</span>
-            <span className="text-gray-500 text-sm">Backend</span>
+            <span className="text-gray-500 text-sm">{tx(t.pricing.techBE, lang)}</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-3xl font-bold text-vocari-primary">Supabase</span>
-            <span className="text-gray-500 text-sm">Base de datos</span>
+            <span className="text-gray-500 text-sm">{tx(t.pricing.techDB, lang)}</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-3xl font-bold text-vocari-primary">Claude AI</span>
-            <span className="text-gray-500 text-sm">IA Generativa</span>
+            <span className="text-gray-500 text-sm">{tx(t.pricing.techAI, lang)}</span>
           </div>
         </div>
       </div>

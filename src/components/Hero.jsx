@@ -2,8 +2,11 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Compass, Sparkles, FileText, Play, AlertTriangle } from 'lucide-react';
 import { fadeUp, scaleIn } from '../lib/animations';
+import { useLanguage } from '../lib/i18n/LanguageContext';
+import { t, tx } from '../lib/i18n/translations';
 
 const Hero = ({ onStartTest }) => {
+  const { lang } = useLanguage();
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-indigo-50 via-white to-amber-50/30 relative overflow-hidden">
       {/* Background Pattern */}
@@ -30,16 +33,16 @@ const Hero = ({ onStartTest }) => {
             >
               <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 rounded-full px-4 py-2 mb-4">
                 <AlertTriangle size={16} className="text-red-500" />
-                <span className="text-red-700 text-sm font-medium">No pongas en riesgo tu futuro</span>
+                <span className="text-red-700 text-sm font-medium">{tx(t.hero.badge, lang)}</span>
               </div>
               <p className="text-gray-600 text-lg leading-relaxed">
-                Decide con ciencia y datos reales
+                {tx(t.hero.tagline, lang)}
               </p>
               {/* Loss monetary highlight */}
               <div className="mt-4 p-4 bg-amber-50 border-l-4 border-vocari-accent rounded-r-lg">
-                <p className="text-sm text-gray-600">Una decisión vocacional mala puede costar</p>
-                <p className="text-2xl font-bold text-vocari-dark">+10 Millones CLP</p>
-                <p className="text-xs text-gray-500">en formación y oportunidades perdidas</p>
+                <p className="text-sm text-gray-600">{tx(t.hero.lossLabel, lang)}</p>
+                <p className="text-2xl font-bold text-vocari-dark">{tx(t.hero.lossAmount, lang)}</p>
+                <p className="text-xs text-gray-500">{tx(t.hero.lossNote, lang)}</p>
               </div>
             </motion.div>
 
@@ -49,8 +52,8 @@ const Hero = ({ onStartTest }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
             >
-              Descubre la carrera
-              <span className="block text-vocari-primary">que te hara feliz</span>
+              {tx(t.hero.h1a, lang)}
+              <span className="block text-vocari-primary">{tx(t.hero.h1b, lang)}</span>
             </motion.h1>
 
             <motion.p
@@ -59,8 +62,7 @@ const Hero = ({ onStartTest }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.4 }}
             >
-              Test vocacional basado en ciencia, datos reales del MINEDUC y orientacion
-              profesional. Gratuito y en menos de 10 minutos.
+              {tx(t.hero.subtitle, lang)}
             </motion.p>
 
             {/* Primary CTA */}
@@ -75,7 +77,7 @@ const Hero = ({ onStartTest }) => {
                 className="inline-flex items-center justify-center gap-2 text-lg px-10 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 bg-vocari-primary text-white z-20 relative"
               >
                 <Play size={20} />
-                Probar demo gratuita
+                {tx(t.hero.ctaPrimary, lang)}
               </Link>
             </motion.div>
 
@@ -91,7 +93,7 @@ const Hero = ({ onStartTest }) => {
                 className="bg-vocari-accent text-vocari-dark hover:bg-vocari-accent/80 text-sm px-6 py-3 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md z-20 relative"
               >
                 <FileText size={16} />
-                Ver ejemplo de informe
+                {tx(t.hero.ctaReport, lang)}
               </Link>
 
               <span className="text-gray-300 hidden sm:inline">|</span>
@@ -100,7 +102,7 @@ const Hero = ({ onStartTest }) => {
                 href="#sobre-el-proyecto"
                 className="text-vocari-primary hover:text-vocari-light text-sm font-medium z-20 relative transition-colors underline hover:no-underline"
               >
-                Sobre el proyecto
+                {tx(t.hero.ctaAbout, lang)}
               </a>
             </motion.div>
 
@@ -113,15 +115,15 @@ const Hero = ({ onStartTest }) => {
             >
               <span className="flex items-center gap-1.5">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                Test gratuito
+                {tx(t.hero.badge1, lang)}
               </span>
               <span className="flex items-center gap-1.5">
                 <div className="w-2 h-2 bg-vocari-primary rounded-full"></div>
-                Metodo RIASEC
+                {tx(t.hero.badge2, lang)}
               </span>
               <span className="flex items-center gap-1.5">
                 <div className="w-2 h-2 bg-vocari-accent rounded-full"></div>
-                Datos MINEDUC
+                {tx(t.hero.badge3, lang)}
               </span>
             </motion.div>
           </motion.div>

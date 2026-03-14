@@ -1,34 +1,37 @@
 import { motion } from 'framer-motion';
 import { CheckCircle, Download, FileCheck, Sparkles } from 'lucide-react';
-
-const steps = [
-  {
-    icon: FileCheck,
-    title: "1. Responde el test",
-    description: "15-20 minutos respondiendo preguntas sobre tus intereses, habilidades y preferencias.",
-    color: "bg-blue-500"
-  },
-  {
-    icon: Sparkles,
-    title: "2. Obtén tus resultados",
-    description: "Recibe tu perfil RIASEC y las 10 carreras más compatibles con tu perfil.",
-    color: "bg-purple-500"
-  },
-  {
-    icon: CheckCircle,
-    title: "3. Compra tu informe",
-    description: "Informe profesional PDF con datos reales de empleabilidad y revisión por orientador.",
-    color: "bg-green-500"
-  },
-  {
-    icon: Download,
-    title: "4. Descarga y decide",
-    description: "PDF descargable con guía completa para tomar la mejor decisión de carrera.",
-    color: "bg-amber-500"
-  }
-];
+import { useLanguage } from '../../lib/i18n/LanguageContext';
+import { t, tx } from '../../lib/i18n/translations';
 
 const HowItWorks = () => {
+  const { lang } = useLanguage();
+  const steps = [
+    {
+      icon: FileCheck,
+      title: tx(t.how.step1t, lang),
+      description: tx(t.how.step1d, lang),
+      color: "bg-blue-500"
+    },
+    {
+      icon: Sparkles,
+      title: tx(t.how.step2t, lang),
+      description: tx(t.how.step2d, lang),
+      color: "bg-purple-500"
+    },
+    {
+      icon: CheckCircle,
+      title: tx(t.how.step3t, lang),
+      description: tx(t.how.step3d, lang),
+      color: "bg-green-500"
+    },
+    {
+      icon: Download,
+      title: tx(t.how.step4t, lang),
+      description: tx(t.how.step4d, lang),
+      color: "bg-amber-500"
+    },
+  ];
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,10 +43,10 @@ const HowItWorks = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-poppins font-bold text-vocari-dark mb-4">
-            En solo 4 pasos
+            {tx(t.how.title, lang)}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Del test al informe profesional en menos de 24 horas
+            {tx(t.how.subtitle, lang)}
           </p>
         </motion.div>
 
@@ -86,9 +89,7 @@ const HowItWorks = () => {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <p className="text-gray-500 mb-4">
-            🎯 <strong>1000+ estudiantes</strong> ya encontraron su camino
-          </p>
+          <p className="text-gray-500 mb-4" dangerouslySetInnerHTML={{ __html: '🎯 ' + tx(t.how.social, lang) }} />
         </motion.div>
       </div>
     </section>

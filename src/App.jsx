@@ -51,8 +51,14 @@ import AIChatWidget from './components/AIChatWidget';
 const TermsPage = lazy(() => import('./pages/TermsPage'));
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 
+// Blog - lazy loading
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
+const BlogAdminPage = lazy(() => import('./pages/BlogAdminPage'));
+
 // Componente de proteccion de rutas
 import ProtectedRoute from './components/ProtectedRoute';
+import { LanguageProvider } from './lib/i18n/LanguageContext';
 
 // Loading fallback para lazy loaded components
 const LoadingFallback = () => (
@@ -66,6 +72,7 @@ const LoadingFallback = () => (
 
 function App() {
   return (
+    <LanguageProvider>
     <Router>
       {/* UrgencyBanner - disabled */}
       <WhatsAppFloat />
@@ -83,6 +90,9 @@ function App() {
           <Route path="/demo-colegio" element={<B2BDashboardDemo />} />
           <Route path="/terminos" element={<TermsPage />} />
           <Route path="/privacidad" element={<PrivacyPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
+          <Route path="/blog-admin" element={<BlogAdminPage />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/activate" element={<ActivateAccount />} />
@@ -189,6 +199,7 @@ function App() {
         </Routes>
       </Suspense>
     </Router>
+    </LanguageProvider>
   );
 }
 
