@@ -10,6 +10,8 @@ import Benefits from '../components/Benefits';
 import Testimonials from '../components/Testimonials';
 import Footer from '../components/Footer';
 import AIChat from '../components/AIChat';
+import SobreElProyecto from '../components/landing/SobreElProyecto';
+import ArquitecturaSistema from '../components/landing/ArquitecturaSistema';
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -26,23 +28,39 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
       <Header onStartTest={goToTest} />
+
+      {/* Banda de autoría — mt-16 para compensar el header fijo */}
+      <div className="bg-vocari-primary text-white text-center py-2 text-sm mt-16">
+        <span>
+          Prototipo tecnológico desarrollado por{' '}
+          <strong>Jaime Hernández</strong>
+          {' '}·{' '}
+          <a href="mailto:hernandez.hs@gmail.com" className="underline hover:no-underline">
+            hernandez.hs@gmail.com
+          </a>
+        </span>
+      </div>
+
       <main>
         <Hero onStartTest={goToTest} />
         <ProblemSection />
         <HowItWorks />
         <Benefits />
+        <SobreElProyecto />
+        <ArquitecturaSistema />
         <Testimonials />
         <PricingSection />
         <FAQ />
-        
-        {/* Disclaimer honesto */}
+
+        {/* Nota de transparencia */}
         <div className="bg-amber-50 border-t border-amber-200 py-8">
           <div className="max-w-4xl mx-auto px-4 text-center">
-            <p className="text-amber-800 text-sm">
-              <strong>📋 Estado del producto:</strong> Vocari es un MVP en desarrollo. 
-              El test vocacional funciona. Los informes son generados automáticamente con base en tus respuestas 
-              y datos públicos del MINEDUC. Estamos trabajando en integrar revisión por orientadores reales. 
-              ¿Ayudas a mejorar? <a href="mailto:hola@vocari.cl" className="underline">Escríbenos</a>
+            <p className="text-amber-800 text-sm leading-relaxed">
+              <strong>Estado del proyecto:</strong> La plataforma se encuentra en fase de exploración técnica
+              y se presenta únicamente como demostración funcional. No está operando comercialmente.{' '}
+              <a href="mailto:hernandez.hs@gmail.com" className="underline hover:no-underline">
+                Contacto: hernandez.hs@gmail.com
+              </a>
             </p>
           </div>
         </div>

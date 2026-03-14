@@ -59,36 +59,35 @@ const Header = ({ onStartTest }) => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#problema" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
-              El Problema
-            </a>
             <a href="#como-funciona" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
               Como Funciona
             </a>
-            <a href="#informes" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
-              Informes
+            <a href="#sobre-el-proyecto" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
+              Sobre el proyecto
             </a>
-            <Link to="/colegios" className="text-vocari-primary hover:text-vocari-light transition-colors duration-300 text-sm font-medium">
-              Para Colegios
-            </Link>
+            <a href="#arquitectura" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium">
+              Arquitectura
+            </a>
+            <a
+              href="https://github.com/devjaime/orienta-ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 text-sm font-medium"
+            >
+              Código
+            </a>
           </nav>
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
             {!user ? (
               <>
-                <a
-                  href="https://app.vocari.cl"
-                  className="text-gray-600 hover:text-vocari-primary px-4 py-2 rounded-xl transition-all duration-300 font-medium text-sm"
-                >
-                  Iniciar Sesion
-                </a>
-                <a
-                  href="https://app.vocari.cl"
+                <Link
+                  to="/test"
                   className="btn-primary text-sm px-6 py-2.5 inline-flex items-center gap-1.5"
                 >
-                  Acceder a la plataforma
-                </a>
+                  Probar demo gratuita
+                </Link>
               </>
             ) : (
               <div className="flex items-center gap-3">
@@ -151,30 +150,29 @@ const Header = ({ onStartTest }) => {
             exit={{ opacity: 0, height: 0 }}
           >
             <nav className="flex flex-col space-y-4">
-              <a href="#problema" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300">
-                El Problema
-              </a>
               <a href="#como-funciona" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300">
                 Como Funciona
               </a>
-              <a href="#informes" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300">
-                Informes
+              <a href="#sobre-el-proyecto" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300">
+                Sobre el proyecto
               </a>
-              <a href="/colegios" className="text-vocari-b2b hover:text-teal-700 transition-colors duration-300 font-medium">
-                Para Colegios
+              <a href="#arquitectura" className="text-gray-600 hover:text-vocari-primary transition-colors duration-300">
+                Arquitectura
               </a>
               <a
-                href="https://app.vocari.cl"
+                href="https://github.com/devjaime/orienta-ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-vocari-primary transition-colors duration-300 font-medium"
+              >
+                Ver código
+              </a>
+              <Link
+                to="/test"
                 className="btn-primary w-full text-center block"
               >
-                Acceder a la plataforma
-              </a>
-              <button
-                onClick={onStartTest}
-                className="w-full border border-vocari-primary text-vocari-primary py-2.5 rounded-xl font-medium text-sm hover:bg-vocari-primary/5 transition-colors"
-              >
-                Hacer Test Gratis
-              </button>
+                Probar demo gratuita
+              </Link>
 
               {user && (
                 <div className="pt-4 border-t border-gray-200 space-y-3">

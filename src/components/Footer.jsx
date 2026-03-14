@@ -1,4 +1,4 @@
-import { Mail, MapPin } from 'lucide-react';
+import { Mail, MapPin, Code2, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -6,10 +6,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = {
-    producto: [
+    plataforma: [
       { name: "Test Vocacional", href: "/test" },
-      { name: "Informes", href: "/informes" },
-      { name: "Para Colegios", href: "/colegios" }
+      { name: "Demo Informe", href: "/demo-informe" },
+      { name: "Demo Colegio", href: "/demo-colegio" }
     ],
     legal: [
       { name: "Politica de Privacidad", href: "/privacidad" },
@@ -36,15 +36,26 @@ const Footer = () => {
               <span className="text-white font-poppins font-semibold text-xl">Vocari</span>
             </motion.div>
             <motion.p
-              className="text-white/70 mb-6 leading-relaxed max-w-md"
+              className="text-white/70 mb-4 leading-relaxed max-w-md"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              Orientacion vocacional basada en ciencia y datos reales del MINEDUC
-              para jovenes de Chile y Latinoamerica.
+              Prototipo tecnológico de plataforma de orientación vocacional para
+              jóvenes de Chile y Latinoamérica. Desarrollado como exploración técnica.
             </motion.p>
+
+            <motion.div
+              className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4 max-w-md"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              viewport={{ once: true }}
+            >
+              <p className="text-white/90 text-sm font-medium mb-1">Desarrollo y arquitectura de plataforma:</p>
+              <p className="text-vocari-primary font-semibold">Jaime Hernández</p>
+            </motion.div>
 
             <motion.div
               className="space-y-3"
@@ -53,18 +64,29 @@ const Footer = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <motion.a 
-                href="mailto:hola@vocari.cl" 
+              <motion.a
+                href="mailto:hernandez.hs@gmail.com"
                 className="flex items-center gap-3 text-white/70 hover:text-vocari-primary transition-colors"
                 whileHover={{ x: 4 }}
               >
                 <Mail size={16} />
-                hola@vocari.cl
+                hernandez.hs@gmail.com
               </motion.a>
               <div className="flex items-center gap-3 text-white/70">
                 <MapPin size={16} />
                 <span>Santiago, Chile</span>
               </div>
+              <motion.a
+                href="https://github.com/devjaime/orienta-ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-white/70 hover:text-vocari-primary transition-colors"
+                whileHover={{ x: 4 }}
+              >
+                <Code2 size={16} />
+                Ver código y documentación técnica
+                <ExternalLink size={12} />
+              </motion.a>
             </motion.div>
           </div>
 
@@ -83,9 +105,7 @@ const Footer = () => {
               <ul className="space-y-2">
                 {links.map((link, linkIndex) => (
                   <li key={linkIndex}>
-                    <motion.div
-                      whileHover={{ x: 4 }}
-                    >
+                    <motion.div whileHover={{ x: 4 }}>
                       <Link
                         to={link.href}
                         className="text-white/70 hover:text-vocari-primary transition-colors duration-300 text-sm block"
@@ -106,15 +126,20 @@ const Footer = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
-          className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center"
+          className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
         >
-          <p className="text-white/60 text-sm mb-4 md:mb-0">
-            &copy; {currentYear} Vocari. Todos los derechos reservados.
-          </p>
-          <div className="flex items-center gap-6 text-sm text-white/60">
-            <span>Hecho con amor en Chile</span>
+          <div>
+            <p className="text-white/60 text-sm mb-1">
+              &copy; {currentYear} Vocari · Prototipo tecnológico. Todos los derechos reservados.
+            </p>
+            <p className="text-white/40 text-xs">
+              Desarrollo y arquitectura de plataforma: Jaime Hernández &nbsp;·&nbsp; Contacto: hernandez.hs@gmail.com
+            </p>
+          </div>
+          <div className="flex items-center gap-4 text-sm text-white/50">
+            <span>Exploración técnica</span>
             <span>&bull;</span>
-            <span>Para Latinoamerica</span>
+            <span>Portafolio profesional</span>
           </div>
         </motion.div>
       </div>

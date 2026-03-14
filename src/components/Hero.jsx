@@ -63,7 +63,7 @@ const Hero = ({ onStartTest }) => {
               profesional. Gratuito y en menos de 10 minutos.
             </motion.p>
 
-            {/* Primary CTA - Dorado y arriba */}
+            {/* Primary CTA */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -71,11 +71,11 @@ const Hero = ({ onStartTest }) => {
               className="mb-6"
             >
               <Link
-                to="/informes"
-                className="inline-flex items-center justify-center gap-2 text-lg px-10 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 bg-vocari-accent text-vocari-dark z-20 relative"
+                to="/test"
+                className="inline-flex items-center justify-center gap-2 text-lg px-10 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 bg-vocari-primary text-white z-20 relative"
               >
-                <FileText size={20} />
-                Obtener mi informe
+                <Play size={20} />
+                Probar demo gratuita
               </Link>
             </motion.div>
 
@@ -86,30 +86,22 @@ const Hero = ({ onStartTest }) => {
               transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center z-10 relative"
             >
+              <Link
+                to="/demo-informe"
+                className="bg-vocari-accent text-vocari-dark hover:bg-vocari-accent/80 text-sm px-6 py-3 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md z-20 relative"
+              >
+                <FileText size={16} />
+                Ver ejemplo de informe
+              </Link>
+
+              <span className="text-gray-300 hidden sm:inline">|</span>
+
               <a
-                href="https://app.vocari.cl"
-                className="bg-vocari-primary text-white hover:bg-vocari-light text-lg px-6 py-3 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md z-20 relative"
+                href="#sobre-el-proyecto"
+                className="text-vocari-primary hover:text-vocari-light text-sm font-medium z-20 relative transition-colors underline hover:no-underline"
               >
-                Acceder a la plataforma →
+                Sobre el proyecto
               </a>
-
-              <span className="text-gray-300 hidden sm:inline">|</span>
-
-              <Link
-                to="/test"
-                className="text-vocari-primary underline hover:no-underline text-sm z-20 relative"
-              >
-                ¿Primero hacer el test? Comenzar gratis
-              </Link>
-
-              <span className="text-gray-300 hidden sm:inline">|</span>
-
-              <Link
-                to="/colegios"
-                className="text-vocari-primary hover:text-vocari-light text-sm font-medium z-20 relative transition-colors"
-              >
-                🏫 Para Colegios
-              </Link>
             </motion.div>
 
             {/* Trust badges */}
