@@ -1,0 +1,94 @@
+LICENCIA DE USO CON ATRIBUCIÓN Y RESTRICCIÓN COMERCIAL
+Versión 1.0 — Marzo 2026
+
+Copyright (c) 2024–2026 Jaime Hernández
+Todos los derechos reservados.
+
+Participantes en el proyecto:
+  - Jaime Hernández (desarrollo, arquitectura de plataforma y dirección técnica)
+  - Natalia Soto (participante en etapa temprana del proyecto)
+
+Este software fue desarrollado originalmente como una idea de startup en etapa
+temprana bajo el concepto de plataforma de orientación vocacional para jóvenes
+de Chile y Latinoamérica. Ante el cierre de la etapa comercial, el código se
+libera públicamente como prototipo de referencia y material de estudio, bajo los
+términos de esta licencia.
+
+────────────────────────────────────────────────────────────────────────────────
+SE PERMITE:
+────────────────────────────────────────────────────────────────────────────────
+
+1. ESTUDIO Y APRENDIZAJE
+   Cualquier persona puede estudiar, leer, analizar y ejecutar este código con
+   fines educativos, académicos o de investigación personal.
+
+2. DERIVADOS NO COMERCIALES
+   Se permite crear proyectos derivados (forks, adaptaciones, modificaciones)
+   siempre que:
+   a) Se incluya esta licencia sin modificaciones en el proyecto derivado.
+   b) Se indique de forma visible y explícita en el README y en el sitio web:
+      "Basado en el trabajo original de Jaime Hernández (Vocari, 2024–2026)."
+   c) El proyecto derivado no genere ingresos económicos de ninguna forma
+      (ventas directas, suscripciones, publicidad, etc.).
+
+3. REFERENCIA ACADÉMICA Y PORTAFOLIO
+   Se puede referenciar este proyecto en trabajos académicos, presentaciones
+   técnicas o portafolios profesionales, citando la autoría correctamente.
+
+────────────────────────────────────────────────────────────────────────────────
+QUEDA EXPRESAMENTE PROHIBIDO:
+────────────────────────────────────────────────────────────────────────────────
+
+4. USO COMERCIAL SIN AUTORIZACIÓN
+   Ninguna persona, empresa u organización puede utilizar este código o cualquier
+   trabajo derivado de él para obtener beneficio económico —ya sea directamente
+   (cobro de servicios, venta del software) o indirectamente (inclusión en
+   productos de pago, modelos SaaS, licencias de terceros)— sin obtener
+   previamente una licencia comercial por escrito del titular de los derechos.
+
+5. ELIMINACIÓN DE ATRIBUCIÓN
+   No se puede eliminar, ocultar ni modificar los avisos de copyright, autoría
+   o esta licencia en ninguna copia o derivado del código.
+
+6. USO DE LA MARCA
+   Los nombres "Vocari", así como el logotipo y la identidad visual asociada,
+   no pueden ser utilizados en proyectos derivados sin autorización expresa.
+
+────────────────────────────────────────────────────────────────────────────────
+USO COMERCIAL B2B — SOCIOS INTERESADOS:
+────────────────────────────────────────────────────────────────────────────────
+
+7. MODELO B2B RESERVADO
+   El proyecto está disponible como base tecnológica para socios comerciales
+   interesados en implementar una plataforma de orientación vocacional en
+   contextos institucionales (colegios, universidades, empresas de RRHH,
+   gobiernos).
+
+   Los interesados en un acuerdo de licencia comercial B2B deben contactar al
+   titular para negociar los términos:
+
+   Jaime Hernández
+   Correo: hernandez.hs@gmail.com
+
+────────────────────────────────────────────────────────────────────────────────
+EXENCIÓN DE GARANTÍAS:
+────────────────────────────────────────────────────────────────────────────────
+
+8. AUSENCIA DE GARANTÍA
+   Este software se proporciona "tal cual", sin garantías de ningún tipo,
+   expresas o implícitas, incluyendo pero no limitado a garantías de
+   comerciabilidad, idoneidad para un propósito particular o ausencia de
+   defectos. El titular no será responsable de ningún daño directo, indirecto,
+   incidental o consecuente derivado del uso o la imposibilidad de uso de este
+   software.
+
+────────────────────────────────────────────────────────────────────────────────
+RESUMEN (no vinculante):
+────────────────────────────────────────────────────────────────────────────────
+
+  PUEDES:   Estudiar el código · Aprender de él · Crear forks educativos
+            con atribución · Referenciar en tu portafolio
+  NO PUEDES: Usarlo comercialmente · Quitar la autoría · Usar la marca Vocari
+  CONTÁCTAME si: Quieres implementarlo en un colegio, empresa o institución
+
+Para consultas sobre licencias comerciales: hernandez.hs@gmail.com

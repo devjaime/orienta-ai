@@ -130,10 +130,23 @@ const Footer = () => {
         >
           <div>
             <p className="text-white/60 text-sm mb-1">
-              &copy; {currentYear} Vocari · Prototipo tecnológico. Todos los derechos reservados.
+              &copy; 2024–{currentYear} Vocari · Prototipo tecnológico. Todos los derechos reservados.
             </p>
-            <p className="text-white/40 text-xs">
-              Desarrollo y arquitectura de plataforma: Jaime Hernández &nbsp;·&nbsp; Contacto: hernandez.hs@gmail.com
+            <p className="text-white/40 text-xs mb-1">
+              Desarrollo y arquitectura de plataforma: <strong className="text-white/60">Jaime Hernández</strong>
+              &nbsp;·&nbsp; Participante: <strong className="text-white/60">Natalia Soto</strong>
+            </p>
+            <p className="text-white/30 text-xs">
+              Contacto: hernandez.hs@gmail.com &nbsp;·&nbsp;
+              Uso comercial restringido — ver{' '}
+              <a
+                href="https://github.com/devjaime/orienta-ai/blob/main/LICENSE"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-white/60 transition-colors"
+              >
+                Licencia
+              </a>
             </p>
           </div>
           <div className="flex items-center gap-4 text-sm text-white/50">

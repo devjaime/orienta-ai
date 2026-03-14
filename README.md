@@ -1,196 +1,180 @@
-# 🎓 Vocari: Orientación Vocacional con IA
+# Vocari — Prototipo de Plataforma de Orientación Vocacional
 
-Una plataforma moderna de orientación vocacional con inteligencia artificial dirigida a jóvenes de 16 a 24 años en Chile y LATAM.
-
-## 🎯 Propósito
-
-Vocari combina tecnología de inteligencia artificial con psicología vocacional para ayudar a los jóvenes a tomar decisiones conscientes, felices y alineadas con su verdadero propósito profesional.
-
-## ✨ Características
-
-- **Diseño Moderno**: Interfaz limpia y atractiva con animaciones suaves
-- **Totalmente Responsivo**: Optimizado para desktop, tablet y móvil
-- **Animaciones**: Efectos de entrada con Framer Motion
-- **Paleta de Colores Personalizada**: Azul oscuro, celeste y blanco
-- **Componentes Modulares**: Estructura React organizada y reutilizable
-
-## 🎨 Paleta de Colores
-
-- **Azul Oscuro**: `#0C1E3C` (fondo principal)
-- **Celeste**: `#33B5E5` (resaltos y botones)
-- **Blanco**: `#FFFFFF` (texto y contrastes)
-- **Gris Claro**: `#F5F7FA` (fondo de secciones alternas)
-
-## 🚀 Tecnologías Utilizadas
-
-- **React 18** - Biblioteca de interfaz de usuario
-- **Vite** - Herramienta de construcción rápida
-- **Tailwind CSS** - Framework de CSS utilitario
-- **Framer Motion** - Biblioteca de animaciones
-- **Lucide React** - Íconos minimalistas
-- **Google Fonts** - Fuentes Inter y Poppins
-
-## 📁 Estructura del Proyecto
-
-```
-src/
-├── components/
-│   ├── Header.jsx          # Navegación principal
-│   ├── Hero.jsx            # Sección hero con CTA principal
-│   ├── ProblemSection.jsx  # Estadísticas del problema
-│   ├── SolutionSection.jsx # Nuestra solución y misión
-│   ├── ComparisonSection.jsx # Tabla comparativa
-│   ├── CTASection.jsx      # Llamado a la acción
-│   └── Footer.jsx          # Pie de página
-├── App.jsx                 # Componente principal
-├── main.jsx               # Punto de entrada
-└── index.css              # Estilos globales y Tailwind
-```
-
-## 🛠️ Instalación y Desarrollo
-
-### Prerrequisitos
-
-- Node.js 16+ 
-- npm o yarn
-
-### Pasos de Instalación
-
-1. **Clonar el repositorio**
-   ```bash
-   git clone https://github.com/tu-usuario/orienta-ai.git
-   cd orienta-ai
-   ```
-
-2. **Instalar dependencias**
-   ```bash
-   npm install
-   ```
-
-3. **Ejecutar en modo desarrollo**
-   ```bash
-   npm run dev
-   ```
-
-4. **Abrir en el navegador**
-   ```
-   http://localhost:5173
-   ```
-
-### Scripts Disponibles
-
-- `npm run dev` - Servidor de desarrollo
-- `npm run build` - Construir para producción
-- `npm run preview` - Vista previa de la build
-- `npm run lint` - Linting del código
-
-## 📱 Secciones de la Landing Page
-
-### 1. Header / Hero Section
-- Logo y navegación
-- Título principal: "Brújula: Orientación Vocacional con IA"
-- Subtítulo motivador
-- Botones CTA principales
-- Ilustración SVG animada
-
-### 2. Problema / Datos
-- Estadísticas impactantes sobre deserción universitaria
-- Análisis de las causas del problema
-- Visualización de datos con cards interactivas
-
-### 3. Nuestra Solución
-- Misión y valores de la empresa
-- Características principales de la plataforma
-- Demo interactivo (placeholder)
-
-### 4. Comparativa
-- Tabla comparativa con competidores
-- Ventajas clave de Brújula
-- Social proof y testimonios
-
-### 5. Llamado a la Acción
-- Test vocacional principal
-- Beneficios del servicio
-- Estadísticas de usuarios
-
-### 6. Footer
-- Enlaces organizados por categorías
-- Información de contacto
-- Redes sociales
-- Newsletter signup
-
-## 🎯 Características Técnicas
-
-### Animaciones
-- **Framer Motion**: Animaciones de entrada suaves
-- **Scroll-triggered**: Elementos que aparecen al hacer scroll
-- **Hover effects**: Interacciones en botones y cards
-- **Loading states**: Estados de carga elegantes
-
-### Responsividad
-- **Mobile-first**: Diseño optimizado para móviles
-- **Breakpoints**: Adaptación a tablet y desktop
-- **Flexible layouts**: Grid y Flexbox responsivos
-- **Touch-friendly**: Elementos táctiles optimizados
-
-### Performance
-- **Lazy loading**: Carga diferida de componentes
-- **Optimized images**: Imágenes optimizadas
-- **Minimal bundle**: Bundle reducido con Vite
-- **Fast loading**: Carga rápida de la página
-
-## 🌐 Despliegue
-
-### Netlify
-1. Conectar repositorio a Netlify
-2. Configurar build command: `npm run build`
-3. Configurar publish directory: `dist`
-4. Desplegar automáticamente
-
-### GitHub Pages
-1. Ejecutar `npm run build`
-2. Subir contenido de `dist/` a la rama `gh-pages`
-3. Configurar GitHub Pages en el repositorio
-
-### Vercel
-1. Conectar repositorio a Vercel
-2. Configurar automáticamente
-3. Desplegar con cada push
-
-## 📊 SEO y Metadatos
-
-- **Meta tags** optimizados para redes sociales
-- **Open Graph** para Facebook y LinkedIn
-- **Twitter Cards** para Twitter
-- **Schema markup** para motores de búsqueda
-- **Sitemap** y robots.txt incluidos
-
-## 🤝 Contribución
-
-1. Fork el proyecto
-2. Crear una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abrir un Pull Request
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## 📞 Contacto
-
-- **Email**: hola@brujula-ai.com
-- **Teléfono**: +56 9 1234 5678
-- **Ubicación**: Santiago, Chile
-- **Website**: https://brujula-ai.com
-
-## 🙏 Agradecimientos
-
-- [Tailwind CSS](https://tailwindcss.com/) por el framework de CSS
-- [Framer Motion](https://www.framer.com/motion/) por las animaciones
-- [Lucide](https://lucide.dev/) por los íconos
-- [Vite](https://vitejs.dev/) por la herramienta de construcción
+> **Estado:** Proyecto cerrado como startup. Código abierto para estudio y referencia técnica.
+> Uso comercial reservado — ver [Licencia](#licencia) y [Modelo B2B](#modelo-b2b--socios).
 
 ---
 
-**Hecho con ❤️ en Chile para Latinoamérica**
+## Autoría y participantes
+
+| Rol | Persona |
+|-----|---------|
+| Desarrollo, arquitectura de plataforma y dirección técnica | **Jaime Hernández** |
+| Participante en etapa temprana del proyecto | **Natalia Soto** |
+
+**Contacto:** hernandez.hs@gmail.com
+
+---
+
+## Qué es este proyecto
+
+**Vocari** nació como una idea de startup en etapa temprana: una plataforma de orientación
+vocacional para jóvenes de 16–24 años de Chile y Latinoamérica, que combina algoritmos
+deterministas (test Holland RIASEC, matching de carreras con datos MINEDUC) con explicaciones
+asistidas por IA generativa (Claude API de Anthropic).
+
+Ante el cierre de la etapa comercial, el proyecto se convierte en:
+
+- **Prototipo de referencia** para quienes quieran estudiar arquitecturas de producto SaaS en el
+  espacio EdTech/orientación vocacional.
+- **Base tecnológica** disponible para socios interesados en un modelo B2B institucional
+  (colegios, universidades, empresas de RRHH).
+- **Material de portafolio técnico** que demuestra implementación real de: autenticación multi-rol,
+  multi-tenancy, pipelines de datos públicos, integración de LLMs y dashboards operativos.
+
+> **La plataforma se presenta únicamente como demostración funcional.**
+> No está operando comercialmente ni gestionando datos reales de usuarios.
+
+---
+
+## Arquitectura del sistema
+
+```
+vocari.cl (landing / portafolio)          app.vocari.cl (plataforma)
+        │                                          │
+  React 19 + Vite 7                       Next.js 14 (App Router)
+  Tailwind CSS + Framer Motion            TypeScript + Tailwind CSS
+        │                                          │
+        └──────────────┬───────────────────────────┘
+                       │
+              Supabase (PostgreSQL)
+              Auth (Google OAuth)
+              Row Level Security por rol
+                       │
+              FastAPI (Python) — API REST
+              Algoritmo RIASEC determinista
+              Pipeline datos MINEDUC
+                       │
+              Claude API (Anthropic)
+              IA generativa para explicaciones
+              (flag VITE_AI_ENABLED)
+```
+
+### Roles de usuario
+
+| Rol | Acceso |
+|-----|--------|
+| `estudiante` | Test RIASEC, resultados, informe, dashboard personal |
+| `orientador` | Dashboard de estudiantes, notas de sesión, timeline |
+| `apoderado` | Vista del progreso de su hijo/a |
+| `admin_colegio` | Gestión de estudiantes de su institución |
+| `admin` / `super_admin` | Acceso completo al sistema |
+
+---
+
+## Mapa del repositorio
+
+```
+├── src/                  Frontend React/Vite (vocari.cl — landing)
+├── frontend/             Frontend Next.js (app.vocari.cl — plataforma)
+├── backend/              API FastAPI + Python
+├── specs/                Documentos de producto, roadmap y especificaciones
+├── scripts/              Pipeline de datos MINEDUC (scripts Node.js 00–08)
+├── data/                 Datos MINEDUC procesados (no incluidos en repo)
+├── postman/              Colecciones para QA por roles
+└── LICENSE               Licencia de uso con atribución y restricción comercial
+```
+
+---
+
+## Desarrollo local
+
+### Landing (Vite)
+
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build
+npm run lint
+```
+
+### App B2B — Frontend (Next.js)
+
+```bash
+cd frontend
+npm install
+npm run dev        # http://localhost:3000
+```
+
+### Backend (FastAPI)
+
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
+pip install -e ".[dev]"
+uvicorn app.main:app --reload --port 8000
+```
+
+### Pipeline de datos MINEDUC
+
+```bash
+npm run sync-mineduc-full    # process-matricula → merge-carreras → upload-supabase
+npm run analytics-full       # analyze-trends → project-future → analyze-riasec
+```
+
+---
+
+## Variables de entorno
+
+| Archivo | Descripción |
+|---------|-------------|
+| `.env` (raíz) | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_CLAUDE_API_KEY`, `VITE_AI_ENABLED` |
+| `frontend/.env.local` | URL API backend, configuración auth cliente |
+| `backend/.env` | Base de datos, CORS, JWT, proveedor IA, correo |
+
+Ver ejemplos: `.env.example`, `frontend/.env.local.example`, `backend/.env.example`
+
+---
+
+## Licencia
+
+Este proyecto está protegido bajo una **Licencia de Uso con Atribución y Restricción Comercial**
+(ver archivo [`LICENSE`](./LICENSE)).
+
+### Resumen
+
+| | |
+|---|---|
+| **Puedes** | Estudiar el código · Aprender de él · Crear forks educativos con atribución · Referenciar en tu portafolio |
+| **No puedes** | Usarlo comercialmente · Eliminar la autoría · Usar la marca "Vocari" |
+| **Contacta si** | Quieres implementarlo en un colegio, empresa o institución (B2B) |
+
+Atribución obligatoria en proyectos derivados:
+```
+Basado en el trabajo original de Jaime Hernández (Vocari, 2024–2026).
+```
+
+**Copyright (c) 2024–2026 Jaime Hernández. Todos los derechos reservados.**
+
+---
+
+## Modelo B2B — Socios
+
+El proyecto queda abierto exclusivamente para acuerdos de **licencia comercial B2B** con
+instituciones o empresas interesadas en:
+
+- Implementar la plataforma en colegios o redes educativas.
+- Adaptar el motor RIASEC para programas de RRHH o universidades.
+- Desarrollar un producto derivado con soporte y evolución continua.
+
+Para negociar términos: **hernandez.hs@gmail.com**
+
+---
+
+## Reconocimientos
+
+- Datos de matrículas y egresados: **MINEDUC Chile** (datos públicos 2024–2025).
+- Motor de IA generativa: **Anthropic Claude API**.
+- Método vocacional: **Holland RIASEC** (dominio público, adaptación propia).
+- Participante en etapa temprana: **Natalia Soto**.
