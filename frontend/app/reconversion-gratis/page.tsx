@@ -156,9 +156,7 @@ const initialForm = {
 
 export default function ReconversionGratisPage() {
   const router = useRouter();
-  const redirectTimeoutRef = useRef<ReturnType<
-    typeof window.setTimeout
-  > | null>(null);
+  const redirectTimeoutRef = useRef<number | null>(null);
   const [stage, setStage] = useState<Stage>("phase_0");
   const [form, setForm] = useState(initialForm);
   const [session, setSession] = useState<SessionResponse | null>(null);
