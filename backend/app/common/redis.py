@@ -6,6 +6,7 @@ from typing import Any
 
 import structlog
 from redis.asyncio import Redis
+from redis.exceptions import RedisError
 
 from app.config import get_settings
 
@@ -19,14 +20,28 @@ async def init_redis() -> None:
     global _redis
     settings = get_settings()
 
-    _redis = Redis.from_url(
+    client = Redis.from_url(
         settings.redis_url,
         decode_responses=True,
     )
 
-    # Verificar conexion
-    await _redis.ping()
-    logger.info("Redis conectado", url=settings.redis_url)
+    try:
+        await client.ping()
+    except RedisError as exc:
+        await client.close()
+        _redis = None
+
+        if settings.redis_required:
+            raise
+
+        logger.warning(
+            "Redis no disponible, continuando sin cache",
+            error=str(exc),
+        )
+        return
+
+    _redis = client
+    logger.info("Redis conectado")
 
 
 async def close_redis() -> None:
@@ -41,5 +56,5 @@ async def close_redis() -> None:
 async def get_redis_client() -> Any:
     """Dependency injection: provee el cliente Redis."""
     if _redis is None:
-        raise RuntimeError("Redis no inicializado. Llamar a init_redis() primero.")
+        raise RuntimeError("Redis no disponible o no inicializado.")
     return _redis

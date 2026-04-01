@@ -4,11 +4,11 @@ Vocari Backend - Monitoring y Observabilidad.
 Configuracion de Sentry, health checks, y metrics.
 """
 
-import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+from typing import Annotated
 
 import structlog
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -18,6 +18,7 @@ from app.config import get_settings
 logger = structlog.get_logger()
 
 router = APIRouter()
+DbSessionDep = Annotated[AsyncSession, Depends(get_async_session)]
 
 
 @router.get("/health")
@@ -26,19 +27,19 @@ async def health_check() -> dict:
     return {
         "status": "ok",
         "service": "vocari-backend",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
     }
 
 
 @router.get("/health/db")
-async def health_check_db(db: AsyncSession = Depends(get_async_session)) -> dict:
+async def health_check_db(db: DbSessionDep) -> dict:
     """Health check for database connection."""
     try:
         await db.execute(text("SELECT 1"))
         return {
             "status": "ok",
             "database": "connected",
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
         }
     except Exception as e:
         logger.error("Database health check failed", error=str(e))
@@ -46,7 +47,7 @@ async def health_check_db(db: AsyncSession = Depends(get_async_session)) -> dict
             "status": "error",
             "database": "disconnected",
             "error": str(e),
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
         }
 
 
@@ -54,14 +55,22 @@ async def health_check_db(db: AsyncSession = Depends(get_async_session)) -> dict
 async def health_check_redis() -> dict:
     """Health check for Redis connection."""
     from app.common.redis import get_redis_client
-    
+
     try:
-        redis = get_redis_client()
+        redis = await get_redis_client()
         await redis.ping()
         return {
             "status": "ok",
             "redis": "connected",
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
+        }
+    except RuntimeError as e:
+        logger.warning("Redis health check disabled", error=str(e))
+        return {
+            "status": "degraded",
+            "redis": "disabled",
+            "error": str(e),
+            "timestamp": datetime.now(UTC).isoformat(),
         }
     except Exception as e:
         logger.error("Redis health check failed", error=str(e))
@@ -69,7 +78,7 @@ async def health_check_redis() -> dict:
             "status": "error",
             "redis": "disconnected",
             "error": str(e),
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
         }
 
 
@@ -77,7 +86,7 @@ async def health_check_redis() -> dict:
 async def metrics_endpoint() -> dict:
     """Basic metrics endpoint."""
     return {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "service": "vocari-backend",
     }
 
@@ -85,16 +94,16 @@ async def metrics_endpoint() -> dict:
 def setup_sentry() -> None:
     """Inicializa Sentry para tracking de errores."""
     settings = get_settings()
-    
+
     if not settings.sentry_dsn:
         logger.info("Sentry DSN not configured, skipping Sentry setup")
         return
-    
+
     try:
         import sentry_sdk
         from sentry_sdk.integrations.fastapi import FastApiIntegration
         from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
-        
+
         sentry_sdk.init(
             dsn=settings.sentry_dsn,
             environment=settings.sentry_environment,

@@ -40,6 +40,7 @@ class Settings(BaseSettings):
 
     # --- Redis ---
     redis_url: str = "redis://localhost:6379/0"
+    redis_required: bool = True
 
     # --- Google OAuth ---
     google_client_id: str = ""
