@@ -284,3 +284,34 @@ class AdultReconversionPublicReportResponse(BaseModel):
     prompt_version: str
     session: AdultReconversionSessionResponse
     report: AdultReconversionReportPayload
+
+
+class AdultReconversionReviewItemResponse(BaseModel):
+    """Resumen interno para revision de informes de reconversion."""
+
+    session_id: uuid.UUID
+    share_token: str
+    public_url: str
+    nombre: str
+    email: str
+    profesion_actual: str
+    edad: int
+    pais: str | None = None
+    ciudad: str | None = None
+    situacion_actual: str | None = None
+    current_phase: int
+    status: str
+    resumen_personalizado: str
+    top_routes: list[str]
+    report_excerpt: str
+    model_name: str
+    prompt_version: str
+    generated_at: datetime | None = None
+    updated_at: datetime
+
+
+class AdultReconversionReviewListResponse(BaseModel):
+    """Listado interno de informes de reconversion."""
+
+    items: list[AdultReconversionReviewItemResponse]
+    total: int

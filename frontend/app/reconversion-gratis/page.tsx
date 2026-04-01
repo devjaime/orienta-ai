@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -154,6 +155,10 @@ const initialForm = {
 };
 
 export default function ReconversionGratisPage() {
+  const router = useRouter();
+  const redirectTimeoutRef = useRef<ReturnType<
+    typeof window.setTimeout
+  > | null>(null);
   const [stage, setStage] = useState<Stage>("phase_0");
   const [form, setForm] = useState(initialForm);
   const [session, setSession] = useState<SessionResponse | null>(null);
@@ -187,6 +192,7 @@ export default function ReconversionGratisPage() {
   const [reportGeneratedAt, setReportGeneratedAt] = useState<string | null>(
     null,
   );
+  const [isRedirectingToReport, setIsRedirectingToReport] = useState(false);
 
   const currentQuestion = reconversionQuestions[currentQuestionIndex];
   const answeredCount = Object.keys(answers).length;
@@ -207,6 +213,14 @@ export default function ReconversionGratisPage() {
   const phaseFourAnsweredCount = Object.keys(phaseFourAnswers).length;
   const phaseFourProgress =
     ((currentTradeoffIndex + 1) / reconversionPhaseFourScenarios.length) * 100;
+
+  useEffect(() => {
+    return () => {
+      if (redirectTimeoutRef.current) {
+        window.clearTimeout(redirectTimeoutRef.current);
+      }
+    };
+  }, []);
 
   function updateForm(field: keyof typeof initialForm, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -345,6 +359,7 @@ export default function ReconversionGratisPage() {
 
     setLoading(true);
     setError("");
+    setIsRedirectingToReport(false);
 
     try {
       const response = await api.post<GenerateReportResponse>(
@@ -352,7 +367,12 @@ export default function ReconversionGratisPage() {
       );
       setReportUrl(response.public_url);
       setReportGeneratedAt(response.generated_at);
+      setIsRedirectingToReport(true);
+      redirectTimeoutRef.current = window.setTimeout(() => {
+        router.push(response.public_url);
+      }, 900);
     } catch (requestError) {
+      setIsRedirectingToReport(false);
       const message =
         requestError instanceof Error
           ? requestError.message
@@ -1334,10 +1354,21 @@ export default function ReconversionGratisPage() {
                         </Button>
                       ) : (
                         <a href={reportUrl} className="inline-flex">
-                          <Button>Abrir informe público</Button>
+                          <Button>
+                            {isRedirectingToReport
+                              ? "Abrir informe ahora"
+                              : "Abrir informe publico"}
+                          </Button>
                         </a>
                       )}
                     </div>
+                    {isRedirectingToReport && reportUrl && (
+                      <div className="mt-4 flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 animate-pulse">
+                        <Spinner size="sm" />
+                        Estamos preparando tu informe final y te llevaremos a la
+                        vista publica en unos segundos.
+                      </div>
+                    )}
                     {reportUrl && (
                       <p className="mt-3 text-xs text-slate-400">
                         Informe generado

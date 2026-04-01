@@ -6,9 +6,11 @@ Vocari Backend - Router del flujo de reconversion vocacional para adultos.
 
 import uuid
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.auth.models import User, UserRole
+from app.auth.permissions import require_roles
 from app.common.database import get_async_session
 from app.reconversion.schemas import (
     AdultReconversionGenerateReportResponse,
@@ -21,6 +23,7 @@ from app.reconversion.schemas import (
     AdultReconversionPhaseTwoRequest,
     AdultReconversionPhaseTwoResponse,
     AdultReconversionPublicReportResponse,
+    AdultReconversionReviewListResponse,
     AdultReconversionSessionCreateRequest,
     AdultReconversionSessionDetailResponse,
     AdultReconversionSessionResponse,
@@ -32,6 +35,7 @@ from app.reconversion.service import (
     get_phase_result,
     get_public_report,
     get_session_by_id,
+    list_review_reports,
     submit_phase_four,
     submit_phase_one,
     submit_phase_three,
@@ -192,3 +196,23 @@ async def get_public_reconversion_report(
 ) -> AdultReconversionPublicReportResponse:
     """Obtiene el informe final de reconversion por URL pública."""
     return await get_public_report(db, share_token)
+
+
+@router.get(
+    "/review/reports",
+    response_model=AdultReconversionReviewListResponse,
+)
+async def list_reconversion_reports_for_review(
+    search: str | None = Query(default=None, max_length=255),
+    limit: int = Query(default=50, ge=1, le=200),
+    user: User = Depends(
+        require_roles(
+            UserRole.ORIENTADOR,
+            UserRole.ADMIN_COLEGIO,
+            UserRole.SUPER_ADMIN,
+        )
+    ),
+    db: AsyncSession = Depends(get_async_session),
+) -> AdultReconversionReviewListResponse:
+    """Lista informes generados para revision interna de orientador/admin."""
+    return await list_review_reports(db, user=user, search=search, limit=limit)

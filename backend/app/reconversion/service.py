@@ -5,9 +5,10 @@ Vocari Backend - Servicio de reconversion vocacional para adultos.
 import secrets
 import uuid
 
-from sqlalchemy import select
+from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.auth.models import User
 from app.common.exceptions import NotFoundError, ValidationError
 from app.reconversion.models import (
     AdultReconversionPhaseResult,
@@ -28,6 +29,8 @@ from app.reconversion.schemas import (
     AdultReconversionProfileSnapshot,
     AdultReconversionPublicReportResponse,
     AdultReconversionReportPayload,
+    AdultReconversionReviewItemResponse,
+    AdultReconversionReviewListResponse,
     AdultReconversionRouteRecommendation,
     AdultReconversionSessionCreateRequest,
     AdultReconversionSessionResponse,
@@ -1470,3 +1473,90 @@ async def get_public_report(
         session=AdultReconversionSessionResponse.model_validate(session),
         report=AdultReconversionReportPayload.model_validate(report_record.report_json),
     )
+
+
+async def list_review_reports(
+    db: AsyncSession,
+    user: User,
+    search: str | None = None,
+    limit: int = 50,
+) -> AdultReconversionReviewListResponse:
+    """Lista informes generados para revision interna de orientacion."""
+    del user  # El control de acceso se resuelve en el router.
+
+    normalized_search = search.strip() if search else None
+
+    filters = []
+    if normalized_search:
+        pattern = f"%{normalized_search}%"
+        filters.append(
+            or_(
+                AdultReconversionSession.nombre.ilike(pattern),
+                AdultReconversionSession.email.ilike(pattern),
+                AdultReconversionSession.profesion_actual.ilike(pattern),
+            )
+        )
+
+    count_query = (
+        select(func.count())
+        .select_from(AdultReconversionReport)
+        .join(
+            AdultReconversionSession,
+            AdultReconversionSession.id == AdultReconversionReport.session_id,
+        )
+    )
+    if filters:
+        count_query = count_query.where(*filters)
+
+    total = (await db.execute(count_query)).scalar_one()
+
+    query = (
+        select(AdultReconversionSession, AdultReconversionReport)
+        .join(
+            AdultReconversionReport,
+            AdultReconversionReport.session_id == AdultReconversionSession.id,
+        )
+        .order_by(AdultReconversionReport.updated_at.desc())
+        .limit(limit)
+    )
+    if filters:
+        query = query.where(*filters)
+
+    rows = (await db.execute(query)).all()
+
+    items = [
+        AdultReconversionReviewItemResponse(
+            session_id=session.id,
+            share_token=session.share_token,
+            public_url=f"/informe-reconversion/{session.share_token}",
+            nombre=session.nombre,
+            email=session.email,
+            profesion_actual=session.profesion_actual,
+            edad=session.edad,
+            pais=session.pais,
+            ciudad=session.ciudad,
+            situacion_actual=session.situacion_actual,
+            current_phase=session.current_phase,
+            status=session.status,
+            resumen_personalizado=str(
+                (report.report_json or {}).get("resumen_personalizado", "")
+            ),
+            top_routes=[
+                str(route.get("nombre_ruta", ""))
+                for route in (report.report_json or {}).get("rutas_recomendadas", [])
+                if route.get("nombre_ruta")
+            ][:3],
+            report_excerpt=(
+                report.report_text[:280] + "..."
+                if len(report.report_text) > 280
+                else report.report_text
+            ),
+            model_name=report.model_name,
+            prompt_version=report.prompt_version,
+            generated_at=report.updated_at,
+            updated_at=session.updated_at,
+        )
+        for session, report in rows
+    ]
+
+    return AdultReconversionReviewListResponse(items=items, total=total)

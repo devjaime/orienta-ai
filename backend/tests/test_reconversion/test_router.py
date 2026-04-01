@@ -371,3 +371,63 @@ class TestReconversionRouter:
             f"/api/v1/reconversion/sessions/{session_id}/generate-report",
         )
         assert response.status_code == 422
+
+    async def test_list_review_reports_for_orientador(
+        self,
+        client,
+        sample_orientador,
+        auth_headers,
+    ) -> None:
+        create_response = await client.post(
+            "/api/v1/reconversion/sessions",
+            json={
+                "nombre": "Patricia Nunez",
+                "email": "patricia@example.com",
+                "profesion_actual": "Coordinadora academica",
+                "edad": 43,
+                "nivel_ingles": "Intermedio",
+                "disponibilidad_para_estudiar": "alta",
+                "disponibilidad_para_relocalizarse": "ninguna",
+                "ingreso_actual_aprox": 1250000,
+            },
+        )
+        session_body = create_response.json()
+        session_id = session_body["id"]
+
+        await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": _phase_one_answers()},
+        )
+        await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-2",
+            json={"answers": _phase_two_answers()},
+        )
+        await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-3",
+            json={"answers": _phase_three_answers()},
+        )
+        await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-4",
+            json={"answers": _phase_four_answers()},
+        )
+        await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/generate-report",
+        )
+
+        response = await client.get(
+            "/api/v1/reconversion/review/reports?search=patricia",
+            headers=auth_headers(sample_orientador),
+        )
+        assert response.status_code == 200
+
+        body = response.json()
+        assert body["total"] >= 1
+        assert len(body["items"]) >= 1
+        matching_item = next(
+            item
+            for item in body["items"]
+            if item["session_id"] == session_id
+        )
+        assert matching_item["nombre"] == "Patricia Nunez"
+        assert matching_item["public_url"].endswith(session_body["share_token"])
+        assert matching_item["top_routes"]
