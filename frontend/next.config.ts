@@ -1,6 +1,11 @@
 import path from "path";
 import type { NextConfig } from "next";
 
+const backendApiUrl =
+  process.env.BACKEND_API_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://vocari-api.fly.dev";
+
 const nextConfig: NextConfig = {
   // Turbopack root to avoid multi-lockfile warning
   turbopack: {
@@ -13,12 +18,12 @@ const nextConfig: NextConfig = {
       // Paths que ya incluyen /v1 (mayoría de llamadas desde pages)
       {
         source: "/api/v1/:path*",
-        destination: "https://vocari-api.fly.dev/api/v1/:path*",
+        destination: `${backendApiUrl}/api/v1/:path*`,
       },
       // Paths sin /v1 (auth-store, token refresh, etc.)
       {
         source: "/api/:path*",
-        destination: "https://vocari-api.fly.dev/api/v1/:path*",
+        destination: `${backendApiUrl}/api/v1/:path*`,
       },
     ];
   },

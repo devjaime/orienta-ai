@@ -4,8 +4,8 @@ export const APP_NAME = "Vocari";
 export const APP_DESCRIPTION =
   "Orientacion vocacional inteligente para colegios chilenos";
 
-/** Backend API base URL - usar proxy de Next.js */
-export const API_BASE_URL = "";
+/** Backend API base URL - usa proxy si no hay variable configurada */
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 /** Nombres de rutas por rol */
 export const ROLE_HOME_ROUTES: Record<string, string> = {
