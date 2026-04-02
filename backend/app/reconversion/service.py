@@ -4,6 +4,7 @@ Vocari Backend - Servicio de reconversion vocacional para adultos.
 
 import secrets
 import uuid
+from datetime import UTC, date, datetime, time, timedelta
 
 from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -1479,12 +1480,16 @@ async def list_review_reports(
     db: AsyncSession,
     user: User,
     search: str | None = None,
+    status: str | None = None,
+    generated_from: date | None = None,
+    generated_to: date | None = None,
     limit: int = 50,
 ) -> AdultReconversionReviewListResponse:
     """Lista informes generados para revision interna de orientacion."""
     del user  # El control de acceso se resuelve en el router.
 
     normalized_search = search.strip() if search else None
+    normalized_status = status.strip() if status else None
 
     filters = []
     if normalized_search:
@@ -1496,6 +1501,25 @@ async def list_review_reports(
                 AdultReconversionSession.profesion_actual.ilike(pattern),
             )
         )
+
+    if normalized_status:
+        filters.append(AdultReconversionSession.status == normalized_status)
+
+    if generated_from:
+        generated_from_dt = datetime.combine(
+            generated_from,
+            time.min,
+            tzinfo=UTC,
+        )
+        filters.append(AdultReconversionReport.updated_at >= generated_from_dt)
+
+    if generated_to:
+        generated_to_dt = datetime.combine(
+            generated_to + timedelta(days=1),
+            time.min,
+            tzinfo=UTC,
+        )
+        filters.append(AdultReconversionReport.updated_at < generated_to_dt)
 
     count_query = (
         select(func.count())

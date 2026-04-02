@@ -55,21 +55,43 @@ const STATUS_LABELS: Record<string, string> = {
   report_ready: "Informe listo",
 };
 
+const STATUS_OPTIONS = [
+  { value: "", label: "Todos los estados" },
+  { value: "report_ready", label: "Informe listo" },
+  { value: "ready_for_report", label: "Listo para informe" },
+  { value: "in_progress", label: "En progreso" },
+];
+
 export function ReconversionReviewPanel({
   title,
   description,
 }: ReconversionReviewPanelProps) {
   const [searchDraft, setSearchDraft] = useState("");
   const [search, setSearch] = useState("");
+  const [statusDraft, setStatusDraft] = useState("");
+  const [status, setStatus] = useState("");
+  const [generatedFromDraft, setGeneratedFromDraft] = useState("");
+  const [generatedToDraft, setGeneratedToDraft] = useState("");
+  const [generatedFrom, setGeneratedFrom] = useState("");
+  const [generatedTo, setGeneratedTo] = useState("");
 
-  const queryKey = useMemo(() => ["reconversion-review", search], [search]);
+  const queryKey = useMemo(
+    () => ["reconversion-review", search, status, generatedFrom, generatedTo],
+    [search, status, generatedFrom, generatedTo],
+  );
+
+  const queryParams = new URLSearchParams();
+  if (search) queryParams.set("search", search);
+  if (status) queryParams.set("status", status);
+  if (generatedFrom) queryParams.set("generated_from", generatedFrom);
+  if (generatedTo) queryParams.set("generated_to", generatedTo);
 
   const { data, isLoading, isFetching, error, refetch } = useQuery({
     queryKey,
     queryFn: () =>
       api.get<ReconversionReviewResponse>(
         `/api/v1/reconversion/review/reports${
-          search ? `?search=${encodeURIComponent(search)}` : ""
+          queryParams.toString() ? `?${queryParams.toString()}` : ""
         }`,
       ),
     staleTime: 60_000,
@@ -87,7 +109,7 @@ export function ReconversionReviewPanel({
           </div>
 
           <div className="flex w-full flex-col gap-3 md:w-auto md:min-w-[420px]">
-            <div className="flex gap-2">
+            <div className="grid gap-2 lg:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto_auto]">
               <div className="relative flex-1">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-vocari-text-muted" />
                 <Input
@@ -97,13 +119,52 @@ export function ReconversionReviewPanel({
                   className="pl-10"
                 />
               </div>
+              <select
+                value={statusDraft}
+                onChange={(event) => setStatusDraft(event.target.value)}
+                className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-slate-400"
+              >
+                {STATUS_OPTIONS.map((option) => (
+                  <option key={option.value || "all"} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <Input
+                type="date"
+                value={generatedFromDraft}
+                onChange={(event) => setGeneratedFromDraft(event.target.value)}
+              />
+              <Input
+                type="date"
+                value={generatedToDraft}
+                onChange={(event) => setGeneratedToDraft(event.target.value)}
+              />
               <Button
                 variant="secondary"
-                onClick={() => setSearch(searchDraft.trim())}
+                onClick={() => {
+                  setSearch(searchDraft.trim());
+                  setStatus(statusDraft);
+                  setGeneratedFrom(generatedFromDraft);
+                  setGeneratedTo(generatedToDraft);
+                }}
               >
                 Buscar
               </Button>
-              <Button variant="ghost" onClick={() => refetch()}>
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setSearchDraft("");
+                  setStatusDraft("");
+                  setGeneratedFromDraft("");
+                  setGeneratedToDraft("");
+                  setSearch("");
+                  setStatus("");
+                  setGeneratedFrom("");
+                  setGeneratedTo("");
+                  refetch();
+                }}
+              >
                 <RefreshCw className="h-4 w-4" />
               </Button>
             </div>

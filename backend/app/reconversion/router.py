@@ -5,6 +5,7 @@ Vocari Backend - Router del flujo de reconversion vocacional para adultos.
 # ruff: noqa: B008
 
 import uuid
+from datetime import date
 
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -204,6 +205,9 @@ async def get_public_reconversion_report(
 )
 async def list_reconversion_reports_for_review(
     search: str | None = Query(default=None, max_length=255),
+    status: str | None = Query(default=None, max_length=50),
+    generated_from: date | None = Query(default=None),
+    generated_to: date | None = Query(default=None),
     limit: int = Query(default=50, ge=1, le=200),
     user: User = Depends(
         require_roles(
@@ -215,4 +219,12 @@ async def list_reconversion_reports_for_review(
     db: AsyncSession = Depends(get_async_session),
 ) -> AdultReconversionReviewListResponse:
     """Lista informes generados para revision interna de orientador/admin."""
-    return await list_review_reports(db, user=user, search=search, limit=limit)
+    return await list_review_reports(
+        db,
+        user=user,
+        search=search,
+        status=status,
+        generated_from=generated_from,
+        generated_to=generated_to,
+        limit=limit,
+    )

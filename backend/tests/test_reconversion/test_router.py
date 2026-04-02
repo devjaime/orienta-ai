@@ -2,6 +2,8 @@
 Tests de integracion para el flujo inicial de reconversion vocacional.
 """
 
+from datetime import UTC, datetime
+
 from app.reconversion.models import (  # noqa: F401
     AdultReconversionPhaseResult,
     AdultReconversionReport,
@@ -415,7 +417,10 @@ class TestReconversionRouter:
         )
 
         response = await client.get(
-            "/api/v1/reconversion/review/reports?search=patricia",
+            (
+                "/api/v1/reconversion/review/reports"
+                f"?search=patricia&status=report_ready&generated_from={datetime.now(UTC).date().isoformat()}"
+            ),
             headers=auth_headers(sample_orientador),
         )
         assert response.status_code == 200
