@@ -406,7 +406,8 @@ def _configure_middleware(app: FastAPI, settings: object) -> None:
     # CORS
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.allowed_origins,
+        allow_origins=settings.cors_allowed_origins,
+        allow_origin_regex=settings.cors_allow_origin_regex,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

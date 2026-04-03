@@ -70,7 +70,7 @@ const Hero = ({ onStartTest }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.5 }}
-              className="mb-6"
+              className="mb-6 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
               <Link
                 to="/test"
@@ -79,6 +79,14 @@ const Hero = ({ onStartTest }) => {
                 <Play size={20} />
                 {tx(t.hero.ctaPrimary, lang)}
               </Link>
+
+              <a
+                href="https://app.vocari.cl/reconversion-gratis"
+                className="inline-flex items-center justify-center gap-2 text-lg px-8 py-4 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all transform hover:scale-[1.02] border border-vocari-primary/20 bg-white text-vocari-primary z-20 relative"
+              >
+                <ArrowRight size={20} />
+                {tx(t.hero.ctaAdult, lang)}
+              </a>
             </motion.div>
 
             {/* Secondary CTAs */}

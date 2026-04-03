@@ -5,6 +5,7 @@ Endpoints de autenticacion: Google OAuth, JWT refresh, perfil.
 """
 
 import os
+import uuid
 
 from fastapi import APIRouter, Body, Depends, Query, Request, Response
 from fastapi.responses import RedirectResponse
@@ -12,8 +13,14 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.middleware import get_current_user
-from app.auth.models import User
-from app.auth.schemas import AuthMeResponse, AuthTokenResponse, TokenRefreshResponse, UserResponse
+from app.auth.models import User, UserRole
+from app.auth.schemas import (
+    AuthMeResponse,
+    AuthTokenResponse,
+    MVPCredentialsLoginRequest,
+    TokenRefreshResponse,
+    UserResponse,
+)
 from app.auth.service import (
     create_access_token,
     create_refresh_token,
@@ -25,8 +32,116 @@ from app.auth.service import (
 )
 from app.common.database import get_async_session
 from app.common.exceptions import AuthenticationError, UserNotFoundError
+from app.config import get_settings
 
 router = APIRouter()
+
+
+async def _ensure_demo_institution(db: AsyncSession) -> uuid.UUID | None:
+    """Obtiene o crea una institucion demo para perfiles internos del MVP."""
+    from sqlalchemy import text as _text
+    from app.institutions.models import Institution, InstitutionPlan
+
+    institution_id: uuid.UUID | None = None
+
+    try:
+        async with db.begin_nested():
+            row = (
+                await db.execute(
+                    _text(
+                        "SELECT id FROM institutions WHERE name = 'Colegio Demo Vocari' LIMIT 1"
+                    )
+                )
+            ).fetchone()
+            if row:
+                institution_id = row[0]
+            else:
+                new_id = uuid.uuid4()
+                await db.execute(
+                    _text(
+                        """
+                        INSERT INTO institutions (id, name, code)
+                        VALUES (:id, 'Colegio Demo Vocari', 'demo-vocari-001')
+                        ON CONFLICT DO NOTHING
+                        """
+                    ),
+                    {"id": str(new_id)},
+                )
+                for col_sql in [
+                    "UPDATE institutions SET slug='colegio-demo-vocari' WHERE id=:id",
+                    "UPDATE institutions SET is_active=true WHERE id=:id",
+                    "UPDATE institutions SET max_students=200 WHERE id=:id",
+                ]:
+                    try:
+                        await db.execute(_text(col_sql), {"id": str(new_id)})
+                    except Exception:
+                        pass
+                institution_id = new_id
+    except Exception:
+        result = await db.execute(
+            select(Institution).where(Institution.name == "Colegio Demo Vocari")
+        )
+        institution = result.scalar_one_or_none()
+        if institution:
+            institution_id = institution.id
+        else:
+            institution = Institution(
+                id=uuid.uuid4(),
+                name="Colegio Demo Vocari",
+                slug=f"colegio-demo-vocari-{uuid.uuid4().hex[:6]}",
+                plan=InstitutionPlan.FREE,
+                max_students=200,
+                is_active=True,
+            )
+            db.add(institution)
+            await db.flush()
+            institution_id = institution.id
+
+    return institution_id
+
+
+async def _get_or_create_internal_mvp_user(
+    db: AsyncSession,
+    *,
+    role: UserRole,
+    institution_id: uuid.UUID | None,
+) -> User:
+    """Crea o actualiza un usuario interno del MVP para login por clave fija."""
+    user_defs = {
+        UserRole.ORIENTADOR: {
+            "email": "devjaime.orientador@vocari.cl",
+            "name": "Devjaime (Orientador)",
+            "google_id": "mvp-fixed-devjaime-orientador",
+        },
+        UserRole.ADMIN_COLEGIO: {
+            "email": "devjaime.admin@vocari.cl",
+            "name": "Devjaime (Admin Colegio)",
+            "google_id": "mvp-fixed-devjaime-admin",
+        },
+    }
+    definition = user_defs[role]
+
+    result = await db.execute(select(User).where(User.email == definition["email"]))
+    user = result.scalar_one_or_none()
+    if not user:
+        user = User(
+            id=uuid.uuid4(),
+            email=definition["email"],
+            google_id=definition["google_id"],
+            name=definition["name"],
+            role=role,
+            institution_id=institution_id,
+            is_active=True,
+        )
+        db.add(user)
+        await db.flush()
+    else:
+        user.name = definition["name"]
+        user.role = role
+        user.institution_id = institution_id
+        user.is_active = True
+
+    return user
 
 
 @router.post("/google", response_model=dict)
@@ -176,6 +291,48 @@ async def get_current_user_info(
         institution=institution,
         permissions=permissions,
         consent_status=None,  # Se implementara en consent module
+    )
+
+
+@router.post("/mvp-login", response_model=AuthTokenResponse)
+async def mvp_credentials_login(
+    data: MVPCredentialsLoginRequest,
+    db: AsyncSession = Depends(get_async_session),
+) -> AuthTokenResponse:
+    """Login simple para perfiles internos del MVP usando clave fija."""
+    settings = get_settings()
+
+    if not settings.mvp_login_enabled:
+        raise AuthenticationError("Login MVP deshabilitado")
+
+    if (
+        data.username.strip() != settings.mvp_login_username
+        or data.password != settings.mvp_login_password
+    ):
+        raise AuthenticationError("Usuario o clave invalidos")
+
+    institution_id = await _ensure_demo_institution(db)
+    user = await _get_or_create_internal_mvp_user(
+        db,
+        role=data.role,
+        institution_id=institution_id if data.role != UserRole.SUPER_ADMIN else None,
+    )
+
+    access_token = create_access_token(
+        user_id=user.id,
+        role=user.role.value,
+        email=user.email,
+        name=user.name,
+        institution_id=user.institution_id,
+    )
+    refresh_token = create_refresh_token(user.id)
+
+    await db.commit()
+
+    return AuthTokenResponse(
+        access_token=access_token,
+        refresh_token=refresh_token,
+        user=UserResponse.model_validate(user),
     )
 
 

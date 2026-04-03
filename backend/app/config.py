@@ -74,6 +74,11 @@ class Settings(BaseSettings):
     frontend_url: str = "http://localhost:3000"
     allowed_origins: list[str] = ["http://localhost:3000", "http://localhost:5173"]
 
+    # --- Login MVP por credenciales fijas ---
+    mvp_login_enabled: bool = True
+    mvp_login_username: str = "devjaime"
+    mvp_login_password: str = "CasaPropia08.."
+
     # --- Rate Limiting ---
     rate_limit_per_minute: int = 60
     rate_limit_per_hour: int = 1000
@@ -98,8 +103,8 @@ class Settings(BaseSettings):
     @classmethod
     def parse_origins(cls, v: str | list[str]) -> list[str]:
         if isinstance(v, str):
-            return [origin.strip() for origin in v.split(",")]
-        return v
+            return [origin.strip() for origin in v.split(",") if origin.strip()]
+        return [origin.strip() for origin in v if origin.strip()]
 
     @property
     def is_production(self) -> bool:
@@ -108,6 +113,31 @@ class Settings(BaseSettings):
     @property
     def is_development(self) -> bool:
         return self.app_env == "development"
+
+    @property
+    def cors_allowed_origins(self) -> list[str]:
+        """Construye una lista robusta de origins permitidos para CORS."""
+        origins = {
+            "http://localhost:3000",
+            "http://localhost:5173",
+            "http://127.0.0.1:3000",
+            "http://127.0.0.1:5173",
+            "https://vocari.cl",
+            "https://app.vocari.cl",
+            "https://vocari-api.fly.dev",
+        }
+
+        if self.frontend_url:
+            origins.add(self.frontend_url.rstrip("/"))
+
+        origins.update(origin.rstrip("/") for origin in self.allowed_origins if origin)
+
+        return sorted(origins)
+
+    @property
+    def cors_allow_origin_regex(self) -> str:
+        """Permite previews controlados sin depender de variables manuales."""
+        return r"^https://([a-z0-9-]+\.)?(vocari\.cl|vercel\.app)$"
 
 
 @lru_cache

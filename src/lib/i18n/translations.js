@@ -30,6 +30,7 @@ export const t = {
     h1b:          { es: 'que te hará feliz', en: 'that will make you happy' },
     subtitle:     { es: 'Test vocacional basado en ciencia, datos reales del MINEDUC y orientación profesional. Gratuito y en menos de 10 minutos.', en: 'Science-based vocational test with real data and professional guidance. Free and in under 10 minutes.' },
     ctaPrimary:   { es: 'Probar demo gratuita', en: 'Try free demo' },
+    ctaAdult:     { es: 'Reconversion laboral para adultos', en: 'Career transition for adults' },
     ctaReport:    { es: 'Ver ejemplo de informe', en: 'View sample report' },
     ctaAbout:     { es: 'Sobre el proyecto', en: 'About the project' },
     badge1:       { es: 'Test gratuito', en: 'Free test' },
