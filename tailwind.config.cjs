@@ -7,6 +7,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'aura': {
+          'surface': '#FAF8FF',
+          'surface-low': '#F2F3FF',
+          'surface-high': '#E2E7FF',
+          'ink': '#131B2E',
+          'muted': '#56566A',
+          'primary': '#4F46E5',
+          'violet': '#7C3AED',
+          'teal': '#06B6D4',
+          'gold': '#D9B44A',
+        },
         'vocari': {
           'primary': '#0B1A33',   // Navy - confiable e institucional
           'light': '#12264F',     // Navy claro - apoyo
@@ -35,6 +46,7 @@ module.exports = {
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
         'poppins': ['Poppins', 'sans-serif'],
+        'display': ['Plus Jakarta Sans', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-in-out',

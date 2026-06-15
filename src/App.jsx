@@ -40,11 +40,6 @@ const DemoInforme = lazy(() => import('./pages/DemoInforme'));
 const B2BDashboardDemo = lazy(() => import('./pages/B2BDashboardDemo'));
 
 // Componentes
-import WhatsAppFloat from './components/WhatsAppFloat';
-import UrgencyBanner from './components/UrgencyBanner';
-import SocialProof from './components/SocialProof';
-import ExitIntentPopup from './components/ExitIntentPopup';
-import DiscountPopup from './components/DiscountPopup';
 import AIChatWidget from './components/AIChatWidget';
 
 // Legal - lazy loading
@@ -74,11 +69,6 @@ function App() {
   return (
     <LanguageProvider>
     <Router>
-      {/* UrgencyBanner - disabled */}
-      <WhatsAppFloat />
-      <SocialProof />
-      {/* ExitIntentPopup - disabled */}
-      {/* DiscountPopup - disabled */}
       <AIChatWidget />
       <Suspense fallback={<LoadingFallback />}>
         <Routes>

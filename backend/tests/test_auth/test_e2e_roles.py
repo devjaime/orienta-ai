@@ -194,12 +194,18 @@ class TestAuthMeEndpoint:
 class TestMvpCredentialsLogin:
     """Verifica el login fijo de MVP para orientador y admin."""
 
-    async def test_mvp_login_orientador(self, client: AsyncClient) -> None:
+    async def test_mvp_login_orientador(
+        self, client: AsyncClient, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        settings = get_settings()
+        monkeypatch.setattr(settings, "mvp_login_enabled", True)  # type: ignore[attr-defined]
+        monkeypatch.setattr(settings, "mvp_login_username", "usuario-prueba")  # type: ignore[attr-defined]
+        monkeypatch.setattr(settings, "mvp_login_password", "clave-prueba-segura")  # type: ignore[attr-defined]
         response = await client.post(
             "/api/v1/auth/mvp-login",
             json={
-                "username": "devjaime",
-                "password": "CasaPropia08..",
+                "username": "usuario-prueba",
+                "password": "clave-prueba-segura",
                 "role": "orientador",
             },
         )
@@ -211,12 +217,18 @@ class TestMvpCredentialsLogin:
         assert data["access_token"]
         assert data["refresh_token"]
 
-    async def test_mvp_login_admin_colegio(self, client: AsyncClient) -> None:
+    async def test_mvp_login_admin_colegio(
+        self, client: AsyncClient, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        settings = get_settings()
+        monkeypatch.setattr(settings, "mvp_login_enabled", True)  # type: ignore[attr-defined]
+        monkeypatch.setattr(settings, "mvp_login_username", "usuario-prueba")  # type: ignore[attr-defined]
+        monkeypatch.setattr(settings, "mvp_login_password", "clave-prueba-segura")  # type: ignore[attr-defined]
         response = await client.post(
             "/api/v1/auth/mvp-login",
             json={
-                "username": "devjaime",
-                "password": "CasaPropia08..",
+                "username": "usuario-prueba",
+                "password": "clave-prueba-segura",
                 "role": "admin_colegio",
             },
         )
@@ -229,12 +241,16 @@ class TestMvpCredentialsLogin:
         assert data["refresh_token"]
 
     async def test_mvp_login_rechaza_credenciales_invalidas(
-        self, client: AsyncClient
+        self, client: AsyncClient, monkeypatch: pytest.MonkeyPatch
     ) -> None:
+        settings = get_settings()
+        monkeypatch.setattr(settings, "mvp_login_enabled", True)  # type: ignore[attr-defined]
+        monkeypatch.setattr(settings, "mvp_login_username", "usuario-prueba")  # type: ignore[attr-defined]
+        monkeypatch.setattr(settings, "mvp_login_password", "clave-prueba-segura")  # type: ignore[attr-defined]
         response = await client.post(
             "/api/v1/auth/mvp-login",
             json={
-                "username": "devjaime",
+                "username": "usuario-prueba",
                 "password": "incorrecta",
                 "role": "orientador",
             },

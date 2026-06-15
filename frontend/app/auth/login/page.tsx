@@ -32,12 +32,13 @@ const PERFILES: Array<{
 ];
 
 export default function LoginPage() {
+  const mvpLoginEnabled = process.env.NEXT_PUBLIC_MVP_LOGIN_ENABLED === "true";
   const router = useRouter();
   const handleAuthCallback = useAuthStore(
     (s: AuthState) => s.handleAuthCallback,
   );
-  const [username, setUsername] = useState("devjaime");
-  const [password, setPassword] = useState("CasaPropia08..");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [role, setRole] = useState<"orientador" | "admin_colegio">(
     "admin_colegio",
   );
@@ -82,28 +83,30 @@ export default function LoginPage() {
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-6">
-          <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
-            <p className="text-sm font-semibold text-blue-950">
-              Acceso interno MVP
-            </p>
-            <p className="mt-1 text-sm text-blue-900/80">
-              Usa el mismo usuario y clave para entrar como orientador o como
-              administrador del colegio.
-            </p>
-          </div>
+          {mvpLoginEnabled && (
+            <>
+              <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
+                <p className="text-sm font-semibold text-blue-950">
+                  Acceso interno MVP
+                </p>
+                <p className="mt-1 text-sm text-blue-900/80">
+                  Ingresa las credenciales configuradas para el entorno de
+                  demostracion.
+                </p>
+              </div>
 
-          <form className="space-y-4" onSubmit={handleMvpLogin}>
-            <label className="block">
-              <span className="mb-2 block text-sm font-medium text-slate-700">
-                Usuario
-              </span>
-              <input
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-vocari-primary"
-                placeholder="devjaime"
-              />
-            </label>
+              <form className="space-y-4" onSubmit={handleMvpLogin}>
+                <label className="block">
+                  <span className="mb-2 block text-sm font-medium text-slate-700">
+                    Usuario
+                  </span>
+                  <input
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
+                    className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-vocari-primary"
+                    placeholder="Usuario interno"
+                  />
+                </label>
 
             <label className="block">
               <span className="mb-2 block text-sm font-medium text-slate-700">
@@ -114,7 +117,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-vocari-primary"
-                placeholder="CasaPropia08.."
+                placeholder="Clave de acceso"
               />
             </label>
 
@@ -150,16 +153,18 @@ export default function LoginPage() {
             >
               {loading ? "Ingresando..." : "Entrar con acceso MVP"}
             </button>
-          </form>
+              </form>
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white px-3 text-vocari-text-muted">o</span>
+              </div>
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-3 text-vocari-text-muted">o</span>
-            </div>
-          </div>
+            </>
+          )}
 
           <GoogleSignInButton />
 

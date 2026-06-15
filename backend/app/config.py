@@ -74,10 +74,10 @@ class Settings(BaseSettings):
     frontend_url: str = "http://localhost:3000"
     allowed_origins: list[str] = ["http://localhost:3000", "http://localhost:5173"]
 
-    # --- Login MVP por credenciales fijas ---
-    mvp_login_enabled: bool = True
-    mvp_login_username: str = "devjaime"
-    mvp_login_password: str = "CasaPropia08.."
+    # --- Login MVP por credenciales configuradas en entorno ---
+    mvp_login_enabled: bool = False
+    mvp_login_username: str = ""
+    mvp_login_password: str = ""
 
     # --- Rate Limiting ---
     rate_limit_per_minute: int = 60

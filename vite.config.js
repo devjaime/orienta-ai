@@ -6,7 +6,19 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    open: false
+    open: false,
+    watch: {
+      ignored: [
+        '**/.agents/**',
+        '**/.codex/**',
+        '**/skills/**',
+        '**/backend/**',
+        '**/frontend/**',
+        '**/data/**',
+        '**/app_vocacional_docs/**',
+        '**/node_modules 2/**'
+      ]
+    }
   },
   css: {
     postcss: './postcss.config.cjs'
