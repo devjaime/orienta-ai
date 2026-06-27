@@ -50,7 +50,6 @@ const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const FutureLaborHubPage = lazy(() => import('./pages/FutureLaborHubPage'));
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
-const BlogAdminPage = lazy(() => import('./pages/BlogAdminPage'));
 
 // Componente de proteccion de rutas
 import ProtectedRoute from './components/ProtectedRoute';
@@ -84,7 +83,6 @@ function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/futuro-laboral-2030" element={<FutureLaborHubPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
-          <Route path="/blog-admin" element={<BlogAdminPage />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/activate" element={<ActivateAccount />} />

@@ -17,6 +17,7 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+._*
 *.suo
 *.ntvs*
 *.njsproj
@@ -42,3 +43,6 @@ data/processed/*.json
 !data/mineduc-raw/titulados/.gitkeep
 !data/mineduc-raw/admision/.gitkeep
 !data/processed/.gitkeep
+
+# Local Netlify folder
+.netlify
