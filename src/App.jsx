@@ -40,11 +40,6 @@ const DemoInforme = lazy(() => import('./pages/DemoInforme'));
 const B2BDashboardDemo = lazy(() => import('./pages/B2BDashboardDemo'));
 
 // Componentes
-import WhatsAppFloat from './components/WhatsAppFloat';
-import UrgencyBanner from './components/UrgencyBanner';
-import SocialProof from './components/SocialProof';
-import ExitIntentPopup from './components/ExitIntentPopup';
-import DiscountPopup from './components/DiscountPopup';
 import AIChatWidget from './components/AIChatWidget';
 
 // Legal - lazy loading
@@ -53,8 +48,8 @@ const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 
 // Blog - lazy loading
 const BlogPage = lazy(() => import('./pages/BlogPage'));
+const FutureLaborHubPage = lazy(() => import('./pages/FutureLaborHubPage'));
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
-const BlogAdminPage = lazy(() => import('./pages/BlogAdminPage'));
 
 // Componente de proteccion de rutas
 import ProtectedRoute from './components/ProtectedRoute';
@@ -74,11 +69,6 @@ function App() {
   return (
     <LanguageProvider>
     <Router>
-      {/* UrgencyBanner - disabled */}
-      <WhatsAppFloat />
-      <SocialProof />
-      {/* ExitIntentPopup - disabled */}
-      {/* DiscountPopup - disabled */}
       <AIChatWidget />
       <Suspense fallback={<LoadingFallback />}>
         <Routes>
@@ -91,8 +81,8 @@ function App() {
           <Route path="/terminos" element={<TermsPage />} />
           <Route path="/privacidad" element={<PrivacyPage />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/futuro-laboral-2030" element={<FutureLaborHubPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
-          <Route path="/blog-admin" element={<BlogAdminPage />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/activate" element={<ActivateAccount />} />
