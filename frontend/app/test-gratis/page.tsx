@@ -10,6 +10,8 @@ import { api } from "@/lib/api";
 import { AIAssistant } from "@/components/ai/AIAssistant";
 import TestFlowVideoGate from "@/components/orientador/TestFlowVideoGate";
 import { trackEvent } from "@/lib/utils/analytics";
+import { riasecQuestions } from "@/lib/data/riasec-questions";
+import { calcularCodigoRIASEC } from "@/lib/data/riasec-scoring";
 import {
   ArrowRight,
   BarChart3,
@@ -48,38 +50,7 @@ interface CareerRecommendation {
   match_reasons: string[];
 }
 
-interface QuickQuestion {
-  id: number;
-  dimension: RIASECDimension;
-  text: string;
-}
-
-const quickQuestions: QuickQuestion[] = [
-  { id: 1, dimension: "R", text: "Me gusta trabajar con herramientas y maquinaria." },
-  { id: 2, dimension: "R", text: "Disfruto actividades al aire libre y trabajo practico." },
-  { id: 3, dimension: "R", text: "Me interesa como funcionan las cosas (mecanica, electricidad)." },
-  { id: 4, dimension: "R", text: "Prefiero trabajos donde veo resultados concretos." },
-  { id: 5, dimension: "I", text: "Me gusta analizar datos y encontrar patrones." },
-  { id: 6, dimension: "I", text: "Disfruto resolver problemas complejos con pensamiento logico." },
-  { id: 7, dimension: "I", text: "Me interesa investigar y profundizar en temas tecnicos o cientificos." },
-  { id: 8, dimension: "I", text: "Disfruto aprender ciencia, matematicas o tecnologia." },
-  { id: 9, dimension: "A", text: "Me gusta expresarme creativamente y crear cosas nuevas." },
-  { id: 10, dimension: "A", text: "Prefiero trabajos que permitan usar imaginacion." },
-  { id: 11, dimension: "A", text: "Me siento comodo en ambientes menos estructurados." },
-  { id: 12, dimension: "A", text: "Me interesa la estetica y el diseno visual." },
-  { id: 13, dimension: "S", text: "Me gusta ayudar a otras personas y trabajar en equipo." },
-  { id: 14, dimension: "S", text: "Disfruto ensenar y compartir conocimientos." },
-  { id: 15, dimension: "S", text: "Me interesa el bienestar y desarrollo de los demas." },
-  { id: 16, dimension: "S", text: "Prefiero trabajos con interaccion directa con personas." },
-  { id: 17, dimension: "E", text: "Me gusta liderar proyectos y tomar decisiones." },
-  { id: 18, dimension: "E", text: "Disfruto persuadir y defender ideas." },
-  { id: 19, dimension: "E", text: "Me gusta asumir riesgos y enfrentar desafios nuevos." },
-  { id: 20, dimension: "E", text: "Me interesa el mundo de los negocios y la gestion." },
-  { id: 21, dimension: "C", text: "Me gusta trabajar con datos, numeros y sistemas ordenados." },
-  { id: 22, dimension: "C", text: "Prefiero procesos definidos y tareas con precision." },
-  { id: 23, dimension: "C", text: "Me siento comodo en ambientes estructurados y predecibles." },
-  { id: 24, dimension: "C", text: "Me interesa la administracion y organizacion de informacion." },
-];
+const testQuestions = riasecQuestions;
 
 const scaleOptions = [
   { value: 1, label: "Muy en desacuerdo", helper: "Casi nunca me representa" },
@@ -154,6 +125,18 @@ const surveyScale = [
   { value: 5, label: "Muy alta" },
 ];
 
+/** Divide el texto del reporte en dos partes: antes y después de "Próximos Pasos". */
+function splitReportText(text: string): { beforeNextSteps: string; nextSteps: string } {
+  const idx = text.search(/(\d+[\.\)]\s*)?(pr[oó]ximos\s+pasos)/i);
+  if (idx !== -1) {
+    return {
+      beforeNextSteps: text.slice(0, idx).trimEnd(),
+      nextSteps: text.slice(idx),
+    };
+  }
+  return { beforeNextSteps: text, nextSteps: "" };
+}
+
 export default function TestGratisPage() {
   const [step, setStep] = useState<Step>("intro");
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -188,29 +171,25 @@ export default function TestGratisPage() {
     setLeadEmail(params.get("email")?.trim() || "");
   }, []);
 
-  const getScores = (answersToUse: Record<number, number>) => {
-    const scores: Record<RIASECDimension, number> = {
-      R: 0,
-      I: 0,
-      A: 0,
-      S: 0,
-      E: 0,
-      C: 0,
-    };
-
-    quickQuestions.forEach((question) => {
-      const answer = answersToUse[question.id] || 0;
-      scores[question.dimension] += answer;
-    });
-
-    return scores;
+  const getTopDimensions = (answersToUse: Record<number, number>) => {
+    return calcularCodigoRIASEC(answersToUse).ranking
+      .slice(0, 3)
+      .map((item) => [item.dimension, item.score] as [RIASECDimension, number]);
   };
 
-  const getTopDimensions = (answersToUse: Record<number, number>) => {
-    const scores = getScores(answersToUse);
-    return (Object.entries(scores) as [RIASECDimension, number][])
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3);
+  const buildTestMetadata = (
+    answersToUse: Record<number, number>,
+    stepName = "test_completed",
+  ) => {
+    const result = calcularCodigoRIASEC(answersToUse);
+    return {
+      step: stepName,
+      total_respuestas: Object.keys(answersToUse).length,
+      total_preguntas: testQuestions.length,
+      certeza: result.certeza,
+      puntajes: result.puntajes,
+      ranking: result.ranking,
+    };
   };
 
   const resetFlow = () => {
@@ -240,6 +219,8 @@ export default function TestGratisPage() {
     setSurveyError("");
   };
 
+  const surveyComplete = surveyClarity !== null && surveyTrust !== null && surveyRecommend !== null;
+
   const generateReport = async () => {
     setLoading(true);
     setLoadingMessage("Generando tu informe vocacional...");
@@ -252,12 +233,6 @@ export default function TestGratisPage() {
           nombre: leadName.trim(),
           holland_code: hollandCode || undefined,
           recommendations,
-          survey_response: {
-            claridad_resultado: surveyClarity,
-            confianza_datos_mineduc: surveyTrust,
-            recomendaria_vocari: surveyRecommend,
-            comentario: surveyComment.trim() || null,
-          },
         },
       );
       setReportGenerated(true);
@@ -318,10 +293,7 @@ export default function TestGratisPage() {
             source: "test_gratis",
             holland_code: hollandCode || undefined,
             test_answers: answers,
-            metadata: {
-              step: "test_completed",
-              total_respuestas: Object.keys(answers).length,
-            },
+            metadata: buildTestMetadata(answers),
           },
         );
         currentLeadId = submitData.lead_id;
@@ -356,6 +328,8 @@ export default function TestGratisPage() {
         lead_id: currentLeadId || undefined,
         holland_code: hollandCode || undefined,
       });
+      // Navegar a resultados solo después de completar la encuesta obligatoria
+      setStep("results");
     } catch (error) {
       console.error("Error enviando encuesta:", error);
       setSurveyError("No pudimos enviar tu respuesta. Intenta nuevamente.");
@@ -370,7 +344,7 @@ export default function TestGratisPage() {
 
     try {
       const data = await api.get<{ recommendations: CareerRecommendation[] }>(
-        `/api/v1/careers/recommendations?holland_code=${code}&limit=6`,
+        `/api/v1/careers/public/recommendations?holland_code=${code}&limit=6`,
       );
       if (requestId === recommendationsRequestRef.current) {
         setRecommendations(data.recommendations || []);
@@ -387,14 +361,15 @@ export default function TestGratisPage() {
   };
 
   const calculateResults = (answersToUse: Record<number, number>) => {
-    const sortedDims = getTopDimensions(answersToUse);
-    const code = sortedDims.map(([dim]) => dim).join("");
+    const result = calcularCodigoRIASEC(answersToUse);
+    const code = result.codigo_holland;
     setHollandCode(code);
     setStep("resultsIntro");
     trackEvent("test_completed", {
       page: "/test-gratis",
       lead_id: leadId || undefined,
       holland_code: code,
+      certainty: result.certeza,
       total_answers: Object.keys(answersToUse).length,
     });
 
@@ -414,10 +389,7 @@ export default function TestGratisPage() {
         source: "test_gratis",
         holland_code: code,
         test_answers: answersToUse,
-        metadata: {
-          step: "test_completed",
-          total_respuestas: Object.keys(answersToUse).length,
-        },
+        metadata: buildTestMetadata(answersToUse),
       });
       setLeadId(data.lead_id);
       const absoluteUrl = data.public_url.startsWith("http")
@@ -441,11 +413,11 @@ export default function TestGratisPage() {
   };
 
   const handleAnswer = (value: number) => {
-    const questionId = quickQuestions[currentQuestion].id;
+    const questionId = testQuestions[currentQuestion].id;
     const newAnswers = { ...answers, [questionId]: value };
     setAnswers(newAnswers);
 
-    if (currentQuestion < quickQuestions.length - 1) {
+    if (currentQuestion < testQuestions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
       return;
     }
@@ -473,7 +445,7 @@ export default function TestGratisPage() {
               Test vocacional gratis para decidir con datos reales
             </h1>
             <p className="text-vocari-text-muted text-lg max-w-3xl mx-auto">
-              Responde 24 preguntas, descubre tu codigo Holland y revisa carreras
+              Responde 36 preguntas, descubre tu codigo Holland y revisa carreras
               con empleabilidad, ingresos y nivel de saturacion del mercado chileno.
             </p>
           </div>
@@ -528,8 +500,8 @@ export default function TestGratisPage() {
                   <Clock3 className="w-4 h-4" />
                   <span className="text-sm font-semibold">Tiempo estimado</span>
                 </div>
-                <p className="text-2xl font-bold text-vocari-text">5-7 min</p>
-                <p className="text-sm text-vocari-text-muted">Formato rapido de 24 preguntas</p>
+                <p className="text-2xl font-bold text-vocari-text">7-10 min</p>
+                <p className="text-sm text-vocari-text-muted">Cuestionario completo de 36 preguntas</p>
               </CardContent>
             </Card>
 
@@ -567,9 +539,9 @@ export default function TestGratisPage() {
               <div className="flex items-start gap-3">
                 <BarChart3 className="w-5 h-5 text-vocari-primary mt-0.5" />
                 <div>
-                  <p className="font-medium text-vocari-text">Evaluacion breve y estructurada</p>
+                  <p className="font-medium text-vocari-text">Evaluacion completa y estructurada</p>
                   <p className="text-sm text-vocari-text-muted">
-                    24 preguntas del modelo RIASEC para perfilar tus intereses vocacionales.
+                    36 preguntas del modelo RIASEC para perfilar tus intereses vocacionales.
                   </p>
                 </div>
               </div>
@@ -615,8 +587,8 @@ export default function TestGratisPage() {
   }
 
   if (step === "test") {
-    const question = quickQuestions[currentQuestion];
-    const progress = ((currentQuestion + 1) / quickQuestions.length) * 100;
+    const question = testQuestions[currentQuestion];
+    const progress = ((currentQuestion + 1) / testQuestions.length) * 100;
 
     return (
       <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
@@ -624,7 +596,7 @@ export default function TestGratisPage() {
           <Card className="mb-5">
             <CardContent className="pt-4">
               <div className="flex justify-between text-sm text-vocari-text-muted mb-2">
-                <span>Pregunta {currentQuestion + 1} de {quickQuestions.length}</span>
+                <span>Pregunta {currentQuestion + 1} de {testQuestions.length}</span>
                 <span>{Math.round(progress)}%</span>
               </div>
               <ProgressBar value={progress} className="h-2 mb-3" />
@@ -857,141 +829,174 @@ export default function TestGratisPage() {
           </Card>
 
           <Card className="mb-8 border border-vocari-primary/30 bg-gradient-to-r from-vocari-bg to-white">
-            <CardContent className="pt-6 text-center">
+            <CardContent className="pt-6">
               {reportGenerated ? (
-                <>
-                  <h2 className="text-xl font-bold mb-2">
-                    Informe IA personalizado para {reportGeneratedFor || leadName}
-                  </h2>
-                  <p className="text-vocari-text-muted mb-4">
-                    El informe se muestra en esta misma página.
-                  </p>
-                  <div className="bg-white rounded-lg p-4 mb-4 text-left border border-gray-200">
-                    <p className="text-sm whitespace-pre-line leading-relaxed text-vocari-text">
-                      {reportText}
-                    </p>
-                  </div>
-                  <Button
-                    variant="primary"
-                    onClick={generateReport}
-                    loading={loading}
-                  >
-                    Regenerar informe IA
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </>
+                (() => {
+                  const { beforeNextSteps, nextSteps } = splitReportText(reportText);
+                  return (
+                    <>
+                      <h2 className="text-xl font-bold mb-3 text-center">
+                        Informe IA personalizado para {reportGeneratedFor || leadName}
+                      </h2>
+
+                      {/* Parte 1 del informe — siempre visible */}
+                      <div className="bg-white rounded-lg p-4 mb-5 text-left border border-gray-200">
+                        <p className="text-sm whitespace-pre-line leading-relaxed text-vocari-text">
+                          {beforeNextSteps}
+                        </p>
+                      </div>
+
+                      {/* Próximos Pasos — bloqueados hasta completar encuesta */}
+                      {nextSteps ? (
+                        surveySubmitted ? (
+                          /* Desbloqueado: mostrar próximos pasos */
+                          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-5 text-left">
+                            <p className="text-sm whitespace-pre-line leading-relaxed text-vocari-text">
+                              {nextSteps}
+                            </p>
+                          </div>
+                        ) : (
+                          /* Bloqueado: mostrar encuesta */
+                          <div className="space-y-4 mb-5">
+                            <div className="rounded-xl border border-vocari-primary/40 bg-vocari-primary/5 p-5 text-center">
+                              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-vocari-primary/10 mb-3">
+                                <MessageSquare className="w-6 h-6 text-vocari-primary" />
+                              </div>
+                              <h3 className="text-lg font-bold text-vocari-text mb-1">
+                                🔒 Próximos Pasos Recomendados
+                              </h3>
+                              <p className="text-vocari-text-muted text-sm">
+                                Para poder entregar tu reporte completo, favor completa esta breve encuesta.
+                              </p>
+                            </div>
+
+                            <Card className="border border-gray-200">
+                              <CardHeader>
+                                <CardTitle className="flex items-center gap-2 text-base">
+                                  <MessageSquare className="w-4 h-4 text-vocari-primary" />
+                                  Encuesta breve (30 segundos)
+                                </CardTitle>
+                              </CardHeader>
+                              <CardContent className="space-y-5">
+                                <div>
+                                  <p className="text-sm font-medium text-vocari-text mb-2">
+                                    1) ¿Qué tan claro te resultó el resultado del test?
+                                  </p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {surveyScale.map((option) => (
+                                      <Button
+                                        key={`clarity-${option.value}`}
+                                        variant={surveyClarity === option.value ? "primary" : "secondary"}
+                                        size="sm"
+                                        onClick={() => setSurveyClarity(option.value)}
+                                      >
+                                        {option.value} — {option.label}
+                                      </Button>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <p className="text-sm font-medium text-vocari-text mb-2">
+                                    2) ¿Cuánta confianza te dieron los datos de MINEDUC/SIES?
+                                  </p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {surveyScale.map((option) => (
+                                      <Button
+                                        key={`trust-${option.value}`}
+                                        variant={surveyTrust === option.value ? "primary" : "secondary"}
+                                        size="sm"
+                                        onClick={() => setSurveyTrust(option.value)}
+                                      >
+                                        {option.value} — {option.label}
+                                      </Button>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <p className="text-sm font-medium text-vocari-text mb-2">
+                                    3) ¿Qué tan probable es que recomiendes Vocari?
+                                  </p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {surveyScale.map((option) => (
+                                      <Button
+                                        key={`recommend-${option.value}`}
+                                        variant={surveyRecommend === option.value ? "primary" : "secondary"}
+                                        size="sm"
+                                        onClick={() => setSurveyRecommend(option.value)}
+                                      >
+                                        <Star className="w-3 h-3 mr-1" />
+                                        {option.value} — {option.label}
+                                      </Button>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <label className="block text-sm font-medium text-vocari-text mb-2">
+                                    Comentario opcional
+                                  </label>
+                                  <textarea
+                                    value={surveyComment}
+                                    onChange={(event) => setSurveyComment(event.target.value)}
+                                    placeholder="¿Qué te gustaría mejorar?"
+                                    rows={3}
+                                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-vocari-text"
+                                  />
+                                </div>
+
+                                {surveyError && <p className="text-sm text-red-700">{surveyError}</p>}
+
+                                <Button
+                                  onClick={submitSurvey}
+                                  loading={surveyLoading}
+                                  disabled={!surveyComplete}
+                                  className="w-full"
+                                >
+                                  {surveyComplete
+                                    ? "Ver mis próximos pasos →"
+                                    : "Responde las 3 preguntas para continuar"}
+                                </Button>
+                              </CardContent>
+                            </Card>
+                          </div>
+                        )
+                      ) : null}
+
+                      {/* Confirmación post-encuesta */}
+                      {surveySubmitted && (
+                        <div className="rounded-lg border border-green-200 bg-green-50 p-4 mb-4 text-green-800 text-sm flex items-center gap-2">
+                          <CheckCircle2 className="w-4 h-4 shrink-0" />
+                          Gracias por completar la encuesta. Tu feedback fue registrado.
+                        </div>
+                      )}
+
+                      <div className="text-center">
+                        <Button variant="primary" onClick={generateReport} loading={loading}>
+                          Regenerar informe IA
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      </div>
+                    </>
+                  );
+                })()
               ) : (
-                <>
-                  <h2 className="text-xl font-bold mb-2">Quieres un informe completo?</h2>
+                <div className="text-center">
+                  <h2 className="text-xl font-bold mb-2">¿Quieres un informe completo?</h2>
                   <p className="text-vocari-text-muted mb-4">
-                    Genera un reporte extendido con interpretacion personalizada y siguientes pasos
-                    para tu decision vocacional.
+                    Genera un reporte extendido con interpretación personalizada y siguientes pasos
+                    para tu decisión vocacional.
                   </p>
                   {loading && loadingMessage && (
                     <p className="text-sm text-vocari-text-muted mb-3">{loadingMessage}</p>
                   )}
                   {reportError && <p className="text-sm text-red-700 mb-3">{reportError}</p>}
-                  <Button
-                    variant="primary"
-                    onClick={generateReport}
-                    loading={loading}
-                  >
-                    Generar informe
+                  <Button variant="primary" onClick={generateReport} loading={loading}>
+                    Generar informe con IA
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
-                </>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-vocari-primary" />
-                Encuesta breve (30 segundos)
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-5">
-              {surveySubmitted ? (
-                <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 text-sm">
-                  Gracias. Tu feedback ya fue registrado.
                 </div>
-              ) : (
-                <>
-                  <div>
-                    <p className="text-sm font-medium text-vocari-text mb-2">
-                      1) Que tan claro te resulto el resultado del test?
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {surveyScale.map((option) => (
-                        <Button
-                          key={`clarity-${option.value}`}
-                          variant={surveyClarity === option.value ? "primary" : "secondary"}
-                          size="sm"
-                          onClick={() => setSurveyClarity(option.value)}
-                        >
-                          {option.value}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium text-vocari-text mb-2">
-                      2) Cuanta confianza te dieron los datos de MINEDUC/SIES?
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {surveyScale.map((option) => (
-                        <Button
-                          key={`trust-${option.value}`}
-                          variant={surveyTrust === option.value ? "primary" : "secondary"}
-                          size="sm"
-                          onClick={() => setSurveyTrust(option.value)}
-                        >
-                          {option.value}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium text-vocari-text mb-2">
-                      3) Que tan probable es que recomiendes Vocari?
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {surveyScale.map((option) => (
-                        <Button
-                          key={`recommend-${option.value}`}
-                          variant={surveyRecommend === option.value ? "primary" : "secondary"}
-                          size="sm"
-                          onClick={() => setSurveyRecommend(option.value)}
-                        >
-                          <Star className="w-3 h-3" />
-                          {option.value}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-vocari-text mb-2">
-                      Comentario opcional
-                    </label>
-                    <textarea
-                      value={surveyComment}
-                      onChange={(event) => setSurveyComment(event.target.value)}
-                      placeholder="Que te gustaria mejorar?"
-                      rows={3}
-                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-vocari-text"
-                    />
-                  </div>
-
-                  {surveyError && <p className="text-sm text-red-700">{surveyError}</p>}
-
-                  <Button onClick={submitSurvey} loading={surveyLoading}>
-                    Enviar encuesta
-                  </Button>
-                </>
               )}
             </CardContent>
           </Card>

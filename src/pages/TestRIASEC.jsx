@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { riasecQuestions, scaleLabels, validateResponses } from '../data/riasecQuestions';
-import { getCurrentUser, supabase } from '../lib/supabase';
+import { getCurrentUser } from '../lib/supabase';
 import SaturationAlert from '../components/SaturationAlert';
 import { checkPartialTestSaturation } from '../lib/saturationChecker';
 
@@ -36,7 +36,7 @@ function TestRIASEC() {
     const partialScores = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
 
     Object.entries(responses).forEach(([questionId, value]) => {
-      const question = riasecQuestions.find(q => q.id === questionId);
+      const question = riasecQuestions.find(q => q.id === Number(questionId));
       if (question) {
         partialScores[question.dimension] += value;
       }
@@ -116,7 +116,7 @@ function TestRIASEC() {
               <span>{Math.round(progress)}%</span>
             </div>
             <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-              <motion.div
+              <Motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.3 }}
@@ -149,7 +149,7 @@ function TestRIASEC() {
           </div>
         )}
 
-        <motion.div
+        <Motion.div
           key={currentQuestion}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -168,7 +168,7 @@ function TestRIASEC() {
 
           <div className="space-y-3">
             {[1, 2, 3, 4, 5].map(value => (
-              <motion.button
+              <Motion.button
                 key={value}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -196,14 +196,14 @@ function TestRIASEC() {
                   </div>
                   <span className="text-2xl">{value}</span>
                 </div>
-              </motion.button>
+              </Motion.button>
             ))}
           </div>
-        </motion.div>
+        </Motion.div>
 
         {/* Navigation */}
         <div className="flex items-center justify-between mt-8">
-          <motion.button
+          <Motion.button
             onClick={handlePrevious}
             disabled={currentQuestion === 0}
             className="flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
@@ -212,10 +212,10 @@ function TestRIASEC() {
           >
             <ChevronLeft size={20} />
             Anterior
-          </motion.button>
+          </Motion.button>
 
           {currentQuestion === riasecQuestions.length - 1 ? (
-            <motion.button
+            <Motion.button
               onClick={handleSubmit}
               disabled={answeredCount < riasecQuestions.length}
               className="flex items-center gap-2 px-8 py-3 bg-vocari-primary text-white font-bold rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
@@ -224,9 +224,9 @@ function TestRIASEC() {
             >
               Ver Resultados
               <Check size={20} />
-            </motion.button>
+            </Motion.button>
           ) : (
-            <motion.button
+            <Motion.button
               onClick={handleNext}
               className="flex items-center gap-2 px-6 py-3 bg-vocari-primary text-white rounded-lg hover:bg-vocari-primary/80 transition-all"
               whileHover={{ scale: 1.02 }}
@@ -234,7 +234,7 @@ function TestRIASEC() {
             >
               Siguiente
               <ChevronRight size={20} />
-            </motion.button>
+            </Motion.button>
           )}
         </div>
       </div>

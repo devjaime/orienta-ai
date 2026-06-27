@@ -21,6 +21,9 @@ export function formatDateTime(dateStr: string): string {
   return format(parseISO(dateStr), "dd/MM/yyyy HH:mm", { locale: es });
 }
 
+/** Alias usado por pantallas chilenas de reconversion. */
+export const formatDateTimeCL = formatDateTime;
+
 /** Tiempo relativo: "hace 2 horas" */
 export function formatRelative(dateStr: string): string {
   return formatDistanceToNow(parseISO(dateStr), { addSuffix: true, locale: es });
