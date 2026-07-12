@@ -137,7 +137,7 @@ export default function BlogAdminPage() {
 
     setImportando(true);
     try {
-      const mammoth = (await import("mammoth")).default;
+      const mammoth = (await import("mammoth/mammoth.browser.js")).default;
       const arrayBuffer = await file.arrayBuffer();
       const result = await mammoth.convertToHtml({ arrayBuffer });
       setField("contenido", result.value);
@@ -145,7 +145,7 @@ export default function BlogAdminPage() {
         console.warn("Advertencias mammoth:", result.messages);
       }
       setMensaje({ tipo: "ok", texto: `✅ Importado desde "${file.name}"` });
-    } catch {
+    } catch (err) {
       setMensaje({ tipo: "error", texto: `Error al leer el archivo: ${err.message}` });
     } finally {
       setImportando(false);
