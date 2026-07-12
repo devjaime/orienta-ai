@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { formatDateTimeCL } from "@/lib/utils/dates";
 
 interface PublicLeadReport {
   success: boolean;
@@ -52,8 +53,8 @@ export async function generateMetadata({
 }
 
 function formatDate(value: string | null): string {
-  if (!value) return "No disponible";
-  return new Date(value).toLocaleString("es-CL");
+  const r = formatDateTimeCL(value);
+  return r === "N/D" ? "No disponible" : r;
 }
 
 export default async function PublicLeadReportPage({
@@ -67,22 +68,22 @@ export default async function PublicLeadReportPage({
   if (!report) notFound();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
+    <div className="min-h-screen bg-aura-surface">
       <main className="max-w-4xl mx-auto px-4 py-10 space-y-6">
-        <section className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-          <p className="text-xs uppercase tracking-wide text-vocari-text-muted mb-2">
+        <section className="aura-glass p-6">
+          <p className="text-xs uppercase tracking-wide text-aura-muted mb-2">
             URL pública de datos
           </p>
-          <h1 className="text-2xl md:text-3xl font-bold text-vocari-text mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-aura-ink mb-2">
             Informe de almacenamiento del test
           </h1>
-          <p className="text-sm text-vocari-text-muted">
+          <p className="text-sm text-aura-muted">
             Esta vista muestra los datos guardados para auditoría y validación del flujo.
           </p>
         </section>
 
-        <section className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-vocari-text mb-3">Datos de contacto</h2>
+        <section className="aura-glass p-6">
+          <h2 className="text-lg font-semibold text-aura-ink mb-3">Datos de contacto</h2>
           <div className="grid md:grid-cols-2 gap-3 text-sm">
             <p><strong>Nombre:</strong> {report.nombre}</p>
             <p><strong>Email:</strong> {report.email}</p>
@@ -94,23 +95,23 @@ export default async function PublicLeadReportPage({
           </div>
         </section>
 
-        <section className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-vocari-text mb-3">Respuestas del test</h2>
-          <pre className="text-xs bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-auto">
+        <section className="aura-glass p-6">
+          <h2 className="text-lg font-semibold text-aura-ink mb-3">Respuestas del test</h2>
+          <pre className="text-xs bg-aura-surface-low border border-aura-primary/10 rounded-lg p-4 overflow-auto">
             {JSON.stringify(report.test_answers || {}, null, 2)}
           </pre>
         </section>
 
-        <section className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-vocari-text mb-3">Encuesta final</h2>
-          <pre className="text-xs bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-auto">
+        <section className="aura-glass p-6">
+          <h2 className="text-lg font-semibold text-aura-ink mb-3">Encuesta final</h2>
+          <pre className="text-xs bg-aura-surface-low border border-aura-primary/10 rounded-lg p-4 overflow-auto">
             {JSON.stringify(report.survey_response || {}, null, 2)}
           </pre>
         </section>
 
-        <section className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-vocari-text mb-3">Metadata</h2>
-          <pre className="text-xs bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-auto">
+        <section className="aura-glass p-6">
+          <h2 className="text-lg font-semibold text-aura-ink mb-3">Metadata</h2>
+          <pre className="text-xs bg-aura-surface-low border border-aura-primary/10 rounded-lg p-4 overflow-auto">
             {JSON.stringify(report.metadata || {}, null, 2)}
           </pre>
         </section>

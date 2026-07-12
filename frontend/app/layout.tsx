@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,17 +8,26 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-display",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Vocari - Orientacion Vocacional Inteligente",
     template: "%s | Vocari",
   },
   description:
-    "Plataforma de orientacion vocacional con IA para colegios chilenos. Tests RIASEC, sesiones con orientadores, y recomendaciones de carreras basadas en datos.",
+    "Orientacion vocacional inteligente basada en evidencia. Test RIASEC, datos MINEDUC y rutas hacia IA para estudiantes y profesionales en Chile.",
   keywords: [
     "orientacion vocacional",
     "RIASEC",
     "carreras Chile",
+    "reconversion laboral",
+    "skill graph",
     "colegios",
     "educacion",
   ],
@@ -31,7 +40,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es-CL">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body
+        className={`${inter.variable} ${jakarta.variable} font-sans antialiased`}
+      >
         {children}
       </body>
     </html>

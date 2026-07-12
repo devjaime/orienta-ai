@@ -10,6 +10,8 @@ import { api } from "@/lib/api";
 import { AIAssistant } from "@/components/ai/AIAssistant";
 import TestFlowVideoGate from "@/components/orientador/TestFlowVideoGate";
 import { trackEvent } from "@/lib/utils/analytics";
+import { riasecQuestions } from "@/lib/data/riasec-questions";
+import { calcularCodigoRIASEC } from "@/lib/data/riasec-scoring";
 import {
   ArrowRight,
   BarChart3,
@@ -48,38 +50,7 @@ interface CareerRecommendation {
   match_reasons: string[];
 }
 
-interface QuickQuestion {
-  id: number;
-  dimension: RIASECDimension;
-  text: string;
-}
-
-const quickQuestions: QuickQuestion[] = [
-  { id: 1, dimension: "R", text: "Me gusta trabajar con herramientas y maquinaria." },
-  { id: 2, dimension: "R", text: "Disfruto actividades al aire libre y trabajo practico." },
-  { id: 3, dimension: "R", text: "Me interesa como funcionan las cosas (mecanica, electricidad)." },
-  { id: 4, dimension: "R", text: "Prefiero trabajos donde veo resultados concretos." },
-  { id: 5, dimension: "I", text: "Me gusta analizar datos y encontrar patrones." },
-  { id: 6, dimension: "I", text: "Disfruto resolver problemas complejos con pensamiento logico." },
-  { id: 7, dimension: "I", text: "Me interesa investigar y profundizar en temas tecnicos o cientificos." },
-  { id: 8, dimension: "I", text: "Disfruto aprender ciencia, matematicas o tecnologia." },
-  { id: 9, dimension: "A", text: "Me gusta expresarme creativamente y crear cosas nuevas." },
-  { id: 10, dimension: "A", text: "Prefiero trabajos que permitan usar imaginacion." },
-  { id: 11, dimension: "A", text: "Me siento comodo en ambientes menos estructurados." },
-  { id: 12, dimension: "A", text: "Me interesa la estetica y el diseno visual." },
-  { id: 13, dimension: "S", text: "Me gusta ayudar a otras personas y trabajar en equipo." },
-  { id: 14, dimension: "S", text: "Disfruto ensenar y compartir conocimientos." },
-  { id: 15, dimension: "S", text: "Me interesa el bienestar y desarrollo de los demas." },
-  { id: 16, dimension: "S", text: "Prefiero trabajos con interaccion directa con personas." },
-  { id: 17, dimension: "E", text: "Me gusta liderar proyectos y tomar decisiones." },
-  { id: 18, dimension: "E", text: "Disfruto persuadir y defender ideas." },
-  { id: 19, dimension: "E", text: "Me gusta asumir riesgos y enfrentar desafios nuevos." },
-  { id: 20, dimension: "E", text: "Me interesa el mundo de los negocios y la gestion." },
-  { id: 21, dimension: "C", text: "Me gusta trabajar con datos, numeros y sistemas ordenados." },
-  { id: 22, dimension: "C", text: "Prefiero procesos definidos y tareas con precision." },
-  { id: 23, dimension: "C", text: "Me siento comodo en ambientes estructurados y predecibles." },
-  { id: 24, dimension: "C", text: "Me interesa la administracion y organizacion de informacion." },
-];
+const testQuestions = riasecQuestions;
 
 const scaleOptions = [
   { value: 1, label: "Muy en desacuerdo", helper: "Casi nunca me representa" },
@@ -99,21 +70,21 @@ const dimensionNames: Record<RIASECDimension, string> = {
 };
 
 const dimensionBadgeStyles: Record<RIASECDimension, string> = {
-  R: "bg-red-100 text-red-800",
-  I: "bg-blue-100 text-blue-800",
-  A: "bg-purple-100 text-purple-800",
-  S: "bg-green-100 text-green-800",
-  E: "bg-amber-100 text-amber-800",
-  C: "bg-slate-100 text-slate-800",
+  R: "bg-riasec-R/10 text-riasec-R",
+  I: "bg-riasec-I/10 text-riasec-I",
+  A: "bg-riasec-A/10 text-riasec-A",
+  S: "bg-riasec-S/10 text-riasec-S",
+  E: "bg-riasec-E/10 text-riasec-E",
+  C: "bg-riasec-C/10 text-riasec-C",
 };
 
 const dimensionAccentStyles: Record<RIASECDimension, string> = {
-  R: "border-red-300",
-  I: "border-blue-300",
-  A: "border-purple-300",
-  S: "border-green-300",
-  E: "border-amber-300",
-  C: "border-slate-300",
+  R: "border-riasec-R/20",
+  I: "border-riasec-I/20",
+  A: "border-riasec-A/20",
+  S: "border-riasec-S/20",
+  E: "border-riasec-E/20",
+  C: "border-riasec-C/20",
 };
 
 const formatCLP = (value: number) =>
@@ -141,9 +112,9 @@ const getMineducYear = (data: Record<string, unknown>) => {
 };
 
 const getSaturationLabel = (index: number) => {
-  if (index < 0.3) return { label: "Baja", color: "bg-green-100 text-green-800" };
-  if (index < 0.6) return { label: "Media", color: "bg-amber-100 text-amber-800" };
-  return { label: "Alta", color: "bg-red-100 text-red-800" };
+  if (index < 0.3) return { label: "Baja", color: "bg-success/10 text-success" };
+  if (index < 0.6) return { label: "Media", color: "bg-warning/10 text-warning" };
+  return { label: "Alta", color: "bg-error/10 text-error" };
 };
 
 const surveyScale = [
@@ -153,6 +124,18 @@ const surveyScale = [
   { value: 4, label: "Alta" },
   { value: 5, label: "Muy alta" },
 ];
+
+/** Divide el texto del reporte en dos partes: antes y después de "Próximos Pasos". */
+function splitReportText(text: string): { beforeNextSteps: string; nextSteps: string } {
+  const idx = text.search(/(\d+[\.\)]\s*)?(pr[oó]ximos\s+pasos)/i);
+  if (idx !== -1) {
+    return {
+      beforeNextSteps: text.slice(0, idx).trimEnd(),
+      nextSteps: text.slice(idx),
+    };
+  }
+  return { beforeNextSteps: text, nextSteps: "" };
+}
 
 export default function TestGratisPage() {
   const [step, setStep] = useState<Step>("intro");
@@ -188,29 +171,25 @@ export default function TestGratisPage() {
     setLeadEmail(params.get("email")?.trim() || "");
   }, []);
 
-  const getScores = (answersToUse: Record<number, number>) => {
-    const scores: Record<RIASECDimension, number> = {
-      R: 0,
-      I: 0,
-      A: 0,
-      S: 0,
-      E: 0,
-      C: 0,
-    };
-
-    quickQuestions.forEach((question) => {
-      const answer = answersToUse[question.id] || 0;
-      scores[question.dimension] += answer;
-    });
-
-    return scores;
+  const getTopDimensions = (answersToUse: Record<number, number>) => {
+    return calcularCodigoRIASEC(answersToUse).ranking
+      .slice(0, 3)
+      .map((item) => [item.dimension, item.score] as [RIASECDimension, number]);
   };
 
-  const getTopDimensions = (answersToUse: Record<number, number>) => {
-    const scores = getScores(answersToUse);
-    return (Object.entries(scores) as [RIASECDimension, number][])
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3);
+  const buildTestMetadata = (
+    answersToUse: Record<number, number>,
+    stepName = "test_completed",
+  ) => {
+    const result = calcularCodigoRIASEC(answersToUse);
+    return {
+      step: stepName,
+      total_respuestas: Object.keys(answersToUse).length,
+      total_preguntas: testQuestions.length,
+      certeza: result.certeza,
+      puntajes: result.puntajes,
+      ranking: result.ranking,
+    };
   };
 
   const resetFlow = () => {
@@ -240,6 +219,8 @@ export default function TestGratisPage() {
     setSurveyError("");
   };
 
+  const surveyComplete = surveyClarity !== null && surveyTrust !== null && surveyRecommend !== null;
+
   const generateReport = async () => {
     setLoading(true);
     setLoadingMessage("Generando tu informe vocacional...");
@@ -252,12 +233,6 @@ export default function TestGratisPage() {
           nombre: leadName.trim(),
           holland_code: hollandCode || undefined,
           recommendations,
-          survey_response: {
-            claridad_resultado: surveyClarity,
-            confianza_datos_mineduc: surveyTrust,
-            recomendaria_vocari: surveyRecommend,
-            comentario: surveyComment.trim() || null,
-          },
         },
       );
       setReportGenerated(true);
@@ -318,10 +293,7 @@ export default function TestGratisPage() {
             source: "test_gratis",
             holland_code: hollandCode || undefined,
             test_answers: answers,
-            metadata: {
-              step: "test_completed",
-              total_respuestas: Object.keys(answers).length,
-            },
+            metadata: buildTestMetadata(answers),
           },
         );
         currentLeadId = submitData.lead_id;
@@ -356,6 +328,8 @@ export default function TestGratisPage() {
         lead_id: currentLeadId || undefined,
         holland_code: hollandCode || undefined,
       });
+      // Navegar a resultados solo después de completar la encuesta obligatoria
+      setStep("results");
     } catch (error) {
       console.error("Error enviando encuesta:", error);
       setSurveyError("No pudimos enviar tu respuesta. Intenta nuevamente.");
@@ -370,7 +344,7 @@ export default function TestGratisPage() {
 
     try {
       const data = await api.get<{ recommendations: CareerRecommendation[] }>(
-        `/api/v1/careers/recommendations?holland_code=${code}&limit=6`,
+        `/api/v1/careers/public/recommendations?holland_code=${code}&limit=6`,
       );
       if (requestId === recommendationsRequestRef.current) {
         setRecommendations(data.recommendations || []);
@@ -387,14 +361,15 @@ export default function TestGratisPage() {
   };
 
   const calculateResults = (answersToUse: Record<number, number>) => {
-    const sortedDims = getTopDimensions(answersToUse);
-    const code = sortedDims.map(([dim]) => dim).join("");
+    const result = calcularCodigoRIASEC(answersToUse);
+    const code = result.codigo_holland;
     setHollandCode(code);
     setStep("resultsIntro");
     trackEvent("test_completed", {
       page: "/test-gratis",
       lead_id: leadId || undefined,
       holland_code: code,
+      certainty: result.certeza,
       total_answers: Object.keys(answersToUse).length,
     });
 
@@ -414,10 +389,7 @@ export default function TestGratisPage() {
         source: "test_gratis",
         holland_code: code,
         test_answers: answersToUse,
-        metadata: {
-          step: "test_completed",
-          total_respuestas: Object.keys(answersToUse).length,
-        },
+        metadata: buildTestMetadata(answersToUse),
       });
       setLeadId(data.lead_id);
       const absoluteUrl = data.public_url.startsWith("http")
@@ -441,11 +413,11 @@ export default function TestGratisPage() {
   };
 
   const handleAnswer = (value: number) => {
-    const questionId = quickQuestions[currentQuestion].id;
+    const questionId = testQuestions[currentQuestion].id;
     const newAnswers = { ...answers, [questionId]: value };
     setAnswers(newAnswers);
 
-    if (currentQuestion < quickQuestions.length - 1) {
+    if (currentQuestion < testQuestions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
       return;
     }
@@ -461,19 +433,19 @@ export default function TestGratisPage() {
 
   if (step === "intro") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
+      <div className="min-h-screen bg-gradient-to-br from-aura-primary/5 via-aura-surface to-aura-violet/5">
         <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-vocari-primary/10 text-vocari-primary rounded-full px-4 py-2 text-sm font-medium mb-4">
+            <div className="inline-flex items-center gap-2 bg-aura-primary/10 text-aura-primary rounded-full px-4 py-2 text-sm font-medium mb-4">
               <ShieldCheck className="w-4 h-4" />
               Metodologia RIASEC + datos de MINEDUC/SIES
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-bold text-vocari-text mb-4">
+            <h1 className="text-3xl md:text-5xl font-bold text-aura-ink mb-4">
               Test vocacional gratis para decidir con datos reales
             </h1>
-            <p className="text-vocari-text-muted text-lg max-w-3xl mx-auto">
-              Responde 24 preguntas, descubre tu codigo Holland y revisa carreras
+            <p className="text-aura-muted text-lg max-w-3xl mx-auto">
+              Responde 36 preguntas, descubre tu codigo Holland y revisa carreras
               con empleabilidad, ingresos y nivel de saturacion del mercado chileno.
             </p>
           </div>
@@ -486,14 +458,14 @@ export default function TestGratisPage() {
             />
           </div>
 
-          <Card className="mb-6 border-vocari-accent/40 bg-vocari-accent/5">
+          <Card className="mb-6 border-aura-teal/40 bg-aura-teal/5">
             <CardContent className="pt-4 space-y-4">
-              <p className="text-sm text-vocari-text">
+              <p className="text-sm text-aura-ink">
                 Confirma tus datos para personalizar recomendaciones y enviar seguimiento.
               </p>
               <div className="grid md:grid-cols-2 gap-3">
                 <label className="block">
-                  <span className="text-xs text-vocari-text-muted mb-1 inline-flex items-center gap-1">
+                  <span className="text-xs text-aura-muted mb-1 inline-flex items-center gap-1">
                     <User className="w-3 h-3" />
                     Nombre
                   </span>
@@ -501,11 +473,11 @@ export default function TestGratisPage() {
                     value={leadName}
                     onChange={(event) => setLeadName(event.target.value)}
                     placeholder="Tu nombre"
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-vocari-text bg-white"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-aura-ink bg-white"
                   />
                 </label>
                 <label className="block">
-                  <span className="text-xs text-vocari-text-muted mb-1 inline-flex items-center gap-1">
+                  <span className="text-xs text-aura-muted mb-1 inline-flex items-center gap-1">
                     <Mail className="w-3 h-3" />
                     Correo
                   </span>
@@ -513,7 +485,7 @@ export default function TestGratisPage() {
                     value={leadEmail}
                     onChange={(event) => setLeadEmail(event.target.value)}
                     placeholder="tu@email.com"
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-vocari-text bg-white"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-aura-ink bg-white"
                   />
                 </label>
               </div>
@@ -522,36 +494,36 @@ export default function TestGratisPage() {
           </Card>
 
           <div className="grid md:grid-cols-3 gap-4 mb-8">
-            <Card className="border-vocari-primary/20">
+            <Card className="border-aura-primary/20">
               <CardContent className="pt-4">
-                <div className="flex items-center gap-2 mb-2 text-vocari-primary">
+                <div className="flex items-center gap-2 mb-2 text-aura-primary">
                   <Clock3 className="w-4 h-4" />
                   <span className="text-sm font-semibold">Tiempo estimado</span>
                 </div>
-                <p className="text-2xl font-bold text-vocari-text">5-7 min</p>
-                <p className="text-sm text-vocari-text-muted">Formato rapido de 24 preguntas</p>
+                <p className="text-2xl font-bold text-aura-ink">7-10 min</p>
+                <p className="text-sm text-aura-muted">Cuestionario completo de 36 preguntas</p>
               </CardContent>
             </Card>
 
-            <Card className="border-vocari-primary/20">
+            <Card className="border-aura-primary/20">
               <CardContent className="pt-4">
-                <div className="flex items-center gap-2 mb-2 text-vocari-primary">
+                <div className="flex items-center gap-2 mb-2 text-aura-primary">
                   <Target className="w-4 h-4" />
                   <span className="text-sm font-semibold">Resultado principal</span>
                 </div>
-                <p className="text-2xl font-bold text-vocari-text">Codigo RIASEC</p>
-                <p className="text-sm text-vocari-text-muted">Tus 3 dimensiones dominantes</p>
+                <p className="text-2xl font-bold text-aura-ink">Codigo RIASEC</p>
+                <p className="text-sm text-aura-muted">Tus 3 dimensiones dominantes</p>
               </CardContent>
             </Card>
 
-            <Card className="border-vocari-primary/20">
+            <Card className="border-aura-primary/20">
               <CardContent className="pt-4">
-                <div className="flex items-center gap-2 mb-2 text-vocari-primary">
+                <div className="flex items-center gap-2 mb-2 text-aura-primary">
                   <Building2 className="w-4 h-4" />
                   <span className="text-sm font-semibold">Fuente de datos</span>
                 </div>
-                <p className="text-2xl font-bold text-vocari-text">MINEDUC/SIES</p>
-                <p className="text-sm text-vocari-text-muted">Mercado laboral chileno</p>
+                <p className="text-2xl font-bold text-aura-ink">MINEDUC/SIES</p>
+                <p className="text-sm text-aura-muted">Mercado laboral chileno</p>
               </CardContent>
             </Card>
           </div>
@@ -565,37 +537,37 @@ export default function TestGratisPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start gap-3">
-                <BarChart3 className="w-5 h-5 text-vocari-primary mt-0.5" />
+                <BarChart3 className="w-5 h-5 text-aura-primary mt-0.5" />
                 <div>
-                  <p className="font-medium text-vocari-text">Evaluacion breve y estructurada</p>
-                  <p className="text-sm text-vocari-text-muted">
-                    24 preguntas del modelo RIASEC para perfilar tus intereses vocacionales.
+                  <p className="font-medium text-aura-ink">Evaluacion completa y estructurada</p>
+                  <p className="text-sm text-aura-muted">
+                    36 preguntas del modelo RIASEC para perfilar tus intereses vocacionales.
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <TrendingUp className="w-5 h-5 text-vocari-primary mt-0.5" />
+                <TrendingUp className="w-5 h-5 text-aura-primary mt-0.5" />
                 <div>
-                  <p className="font-medium text-vocari-text">Ranking de carreras compatibles</p>
-                  <p className="text-sm text-vocari-text-muted">
+                  <p className="font-medium text-aura-ink">Ranking de carreras compatibles</p>
+                  <p className="text-sm text-aura-muted">
                     Compatibilidad estimada con tu perfil + razones de ajuste.
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Briefcase className="w-5 h-5 text-vocari-primary mt-0.5" />
+                <Briefcase className="w-5 h-5 text-aura-primary mt-0.5" />
                 <div>
-                  <p className="font-medium text-vocari-text">Indicadores de decision</p>
-                  <p className="text-sm text-vocari-text-muted">
+                  <p className="font-medium text-aura-ink">Indicadores de decision</p>
+                  <p className="text-sm text-aura-muted">
                     Empleabilidad, rango salarial y saturacion para comparar opciones.
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Users className="w-5 h-5 text-vocari-primary mt-0.5" />
+                <Users className="w-5 h-5 text-aura-primary mt-0.5" />
                 <div>
-                  <p className="font-medium text-vocari-text">Acceso inmediato</p>
-                  <p className="text-sm text-vocari-text-muted">
+                  <p className="font-medium text-aura-ink">Acceso inmediato</p>
+                  <p className="text-sm text-aura-muted">
                     Gratis, sin pago ni pasos complejos para comenzar.
                   </p>
                 </div>
@@ -615,20 +587,20 @@ export default function TestGratisPage() {
   }
 
   if (step === "test") {
-    const question = quickQuestions[currentQuestion];
-    const progress = ((currentQuestion + 1) / quickQuestions.length) * 100;
+    const question = testQuestions[currentQuestion];
+    const progress = ((currentQuestion + 1) / testQuestions.length) * 100;
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
+      <div className="min-h-screen bg-gradient-to-br from-aura-primary/5 via-aura-surface to-aura-violet/5">
         <div className="max-w-3xl mx-auto px-4 py-8">
           <Card className="mb-5">
             <CardContent className="pt-4">
-              <div className="flex justify-between text-sm text-vocari-text-muted mb-2">
-                <span>Pregunta {currentQuestion + 1} de {quickQuestions.length}</span>
+              <div className="flex justify-between text-sm text-aura-muted mb-2">
+                <span>Pregunta {currentQuestion + 1} de {testQuestions.length}</span>
                 <span>{Math.round(progress)}%</span>
               </div>
               <ProgressBar value={progress} className="h-2 mb-3" />
-              <p className="text-xs text-vocari-text-muted">
+              <p className="text-xs text-aura-muted">
                 Responde con honestidad. No hay respuestas correctas o incorrectas.
               </p>
             </CardContent>
@@ -639,7 +611,7 @@ export default function TestGratisPage() {
               <Badge className={`mb-4 ${dimensionBadgeStyles[question.dimension]}`}>
                 Dimension: {dimensionNames[question.dimension]}
               </Badge>
-              <p className="text-xl md:text-2xl font-semibold text-vocari-text leading-relaxed">
+              <p className="text-xl md:text-2xl font-semibold text-aura-ink leading-relaxed">
                 {question.text}
               </p>
             </CardContent>
@@ -653,12 +625,12 @@ export default function TestGratisPage() {
                 className="w-full text-left justify-start h-auto py-4 px-5 border-gray-300"
                 onClick={() => handleAnswer(option.value)}
               >
-                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-vocari-primary text-white text-sm font-semibold mr-3">
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-aura-primary text-white text-sm font-semibold mr-3">
                   {option.value}
                 </span>
                 <span>
-                  <span className="block text-vocari-text font-medium">{option.label}</span>
-                  <span className="block text-xs text-vocari-text-muted">{option.helper}</span>
+                  <span className="block text-aura-ink font-medium">{option.label}</span>
+                  <span className="block text-xs text-aura-muted">{option.helper}</span>
                 </span>
               </Button>
             ))}
@@ -667,7 +639,7 @@ export default function TestGratisPage() {
           <div className="mt-6">
             <Button
               variant="ghost"
-              className="px-0 text-vocari-text-muted"
+              className="px-0 text-aura-muted"
               onClick={handlePreviousQuestion}
               disabled={currentQuestion === 0}
             >
@@ -682,13 +654,13 @@ export default function TestGratisPage() {
 
   if (step === "resultsIntro") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
+      <div className="min-h-screen bg-gradient-to-br from-aura-primary/5 via-aura-surface to-aura-violet/5">
         <div className="max-w-4xl mx-auto px-4 py-10 space-y-5">
           <div className="text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-vocari-text mb-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-aura-ink mb-2">
               Revisemos tu resultado vocacional
             </h2>
-            <p className="text-vocari-text-muted">
+            <p className="text-aura-muted">
               Antes de mostrar tu informe, mira esta breve guía para entender mejor cómo interpretar tus recomendaciones.
             </p>
           </div>
@@ -715,29 +687,29 @@ export default function TestGratisPage() {
     const topDims = getTopDimensions(answers);
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-vocari-bg via-white to-vocari-bg-warm">
+      <div className="min-h-screen bg-gradient-to-br from-aura-primary/5 via-aura-surface to-aura-violet/5">
         <div className="max-w-5xl mx-auto px-4 py-8">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-vocari-primary/10 text-vocari-primary rounded-full px-4 py-2 text-sm font-medium mb-3">
+            <div className="inline-flex items-center gap-2 bg-aura-primary/10 text-aura-primary rounded-full px-4 py-2 text-sm font-medium mb-3">
               <Lightbulb className="w-4 h-4" />
               Resultado vocacional personalizado
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-vocari-text mb-2">
+            <h1 className="text-3xl md:text-4xl font-bold text-aura-ink mb-2">
               Tu perfil vocacional es {hollandCode}
             </h1>
-            <p className="text-vocari-text-muted max-w-3xl mx-auto">
+            <p className="text-aura-muted max-w-3xl mx-auto">
               Esta recomendacion combina tus intereses (RIASEC) con indicadores del mercado chileno
               para ayudarte a priorizar carreras con mejor ajuste y proyeccion.
             </p>
           </div>
 
           {publicReportUrl && (
-            <Card className="mb-8 border-vocari-primary/30 bg-vocari-primary/5">
+            <Card className="mb-8 border-aura-primary/30 bg-aura-primary/5">
               <CardHeader>
                 <CardTitle className="text-base">Enlace aparte del informe guardado</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <p className="text-sm text-vocari-text-muted">
+                <p className="text-sm text-aura-muted">
                   Este es el link público independiente para revisar exactamente lo almacenado.
                 </p>
                 <p className="text-xs bg-white border border-gray-200 rounded p-2 break-all">
@@ -763,8 +735,8 @@ export default function TestGratisPage() {
               <Card key={dim} className={`border-2 ${dimensionAccentStyles[dim]}`}>
                 <CardContent className="pt-4">
                   <Badge className={dimensionBadgeStyles[dim]}>{dim} - {dimensionNames[dim]}</Badge>
-                  <p className="mt-3 text-2xl font-bold text-vocari-text">{score} pts</p>
-                  <p className="text-sm text-vocari-text-muted">Intensidad de interes detectada</p>
+                  <p className="mt-3 text-2xl font-bold text-aura-ink">{score} pts</p>
+                  <p className="text-sm text-aura-muted">Intensidad de interes detectada</p>
                 </CardContent>
               </Card>
             ))}
@@ -773,20 +745,20 @@ export default function TestGratisPage() {
           <Card className="mb-8">
             <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Briefcase className="w-5 h-5 text-vocari-primary" />
+              <Briefcase className="w-5 h-5 text-aura-primary" />
               Carreras recomendadas con referencia MINEDUC
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
               {loadingRecommendations ? (
-                <div className="rounded-xl border border-vocari-primary/30 bg-vocari-primary/5 p-6">
+                <div className="rounded-xl border border-aura-primary/30 bg-aura-primary/5 p-6">
                   <div className="flex items-center gap-3">
                     <Spinner size="md" />
                     <div>
-                      <p className="font-medium text-vocari-text">
+                      <p className="font-medium text-aura-ink">
                         Cruzando tu perfil con carreras del mercado chileno...
                       </p>
-                      <p className="text-sm text-vocari-text-muted">
+                      <p className="text-sm text-aura-muted">
                         Esto puede tardar unos segundos segun la disponibilidad de datos.
                       </p>
                     </div>
@@ -800,35 +772,35 @@ export default function TestGratisPage() {
                   return (
                     <div
                       key={recommendation.career.id}
-                      className="border border-gray-200 rounded-xl p-4 hover:border-vocari-primary/40 transition-colors"
+                      className="border border-gray-200 rounded-xl p-4 hover:border-aura-primary/40 transition-colors"
                     >
                       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
                         <div>
-                          <h3 className="font-semibold text-lg text-vocari-text">
+                          <h3 className="font-semibold text-lg text-aura-ink">
                             {recommendation.career.name}
                           </h3>
-                          <p className="text-sm text-vocari-text-muted">{recommendation.career.area}</p>
+                          <p className="text-sm text-aura-muted">{recommendation.career.area}</p>
                         </div>
-                        <Badge className="bg-vocari-primary text-white w-fit">
+                        <Badge className="bg-aura-primary text-white w-fit">
                           {Math.round(recommendation.match_score)}% compatibilidad
                         </Badge>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
                         <div className="bg-gray-50 rounded-lg p-3">
-                          <p className="text-vocari-text-muted text-xs mb-1">Ingreso estimado</p>
-                          <p className="font-semibold text-vocari-text">
+                          <p className="text-aura-muted text-xs mb-1">Ingreso estimado</p>
+                          <p className="font-semibold text-aura-ink">
                             {formatSalary(recommendation.career.salary_range)}
                           </p>
                         </div>
                         <div className="bg-gray-50 rounded-lg p-3">
-                          <p className="text-vocari-text-muted text-xs mb-1">Empleabilidad</p>
+                          <p className="text-aura-muted text-xs mb-1">Empleabilidad</p>
                           <p className="font-semibold text-green-700">
                             {Math.round(recommendation.career.employability * 100)}%
                           </p>
                         </div>
                         <div className="bg-gray-50 rounded-lg p-3">
-                          <p className="text-vocari-text-muted text-xs mb-1">Saturacion</p>
+                          <p className="text-aura-muted text-xs mb-1">Saturacion</p>
                           <span className={`inline-block px-2 py-0.5 rounded text-xs ${saturation.color}`}>
                             {saturation.label}
                           </span>
@@ -837,161 +809,194 @@ export default function TestGratisPage() {
 
                       {recommendation.match_reasons.length > 0 && (
                         <div className="mt-3 pt-3 border-t border-gray-100">
-                          <p className="text-xs text-vocari-text-muted mb-1">Motivo principal de ajuste</p>
-                          <p className="text-sm text-vocari-text">{recommendation.match_reasons[0]}</p>
+                          <p className="text-xs text-aura-muted mb-1">Motivo principal de ajuste</p>
+                          <p className="text-sm text-aura-ink">{recommendation.match_reasons[0]}</p>
                         </div>
                       )}
 
-                      <p className="mt-3 text-xs text-vocari-text-muted">
+                      <p className="mt-3 text-xs text-aura-muted">
                         Fuente: MINEDUC/SIES{sourceYear ? ` (${sourceYear})` : ""}.
                       </p>
                     </div>
                   );
                 })
               ) : (
-                <p className="text-center text-vocari-text-muted py-6">
+                <p className="text-center text-aura-muted py-6">
                   No se encontraron recomendaciones en este intento. Puedes repetir el test.
                 </p>
               )}
             </CardContent>
           </Card>
 
-          <Card className="mb-8 border border-vocari-primary/30 bg-gradient-to-r from-vocari-bg to-white">
-            <CardContent className="pt-6 text-center">
+          <Card className="mb-8 border border-aura-primary/30 bg-gradient-to-r from-aura-primary/5 to-aura-surface">
+            <CardContent className="pt-6">
               {reportGenerated ? (
-                <>
-                  <h2 className="text-xl font-bold mb-2">
-                    Informe IA personalizado para {reportGeneratedFor || leadName}
-                  </h2>
-                  <p className="text-vocari-text-muted mb-4">
-                    El informe se muestra en esta misma página.
-                  </p>
-                  <div className="bg-white rounded-lg p-4 mb-4 text-left border border-gray-200">
-                    <p className="text-sm whitespace-pre-line leading-relaxed text-vocari-text">
-                      {reportText}
-                    </p>
-                  </div>
-                  <Button
-                    variant="primary"
-                    onClick={generateReport}
-                    loading={loading}
-                  >
-                    Regenerar informe IA
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </>
+                (() => {
+                  const { beforeNextSteps, nextSteps } = splitReportText(reportText);
+                  return (
+                    <>
+                      <h2 className="text-xl font-bold mb-3 text-center">
+                        Informe IA personalizado para {reportGeneratedFor || leadName}
+                      </h2>
+
+                      {/* Parte 1 del informe — siempre visible */}
+                      <div className="bg-white rounded-lg p-4 mb-5 text-left border border-gray-200">
+                        <p className="text-sm whitespace-pre-line leading-relaxed text-aura-ink">
+                          {beforeNextSteps}
+                        </p>
+                      </div>
+
+                      {/* Próximos Pasos — bloqueados hasta completar encuesta */}
+                      {nextSteps ? (
+                        surveySubmitted ? (
+                          /* Desbloqueado: mostrar próximos pasos */
+                          <div className="bg-success/5 border border-success/20 rounded-lg p-4 mb-5 text-left">
+                            <p className="text-sm whitespace-pre-line leading-relaxed text-aura-ink">
+                              {nextSteps}
+                            </p>
+                          </div>
+                        ) : (
+                          /* Bloqueado: mostrar encuesta */
+                          <div className="space-y-4 mb-5">
+                            <div className="rounded-xl border border-aura-primary/40 bg-aura-primary/5 p-5 text-center">
+                              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-aura-primary/10 mb-3">
+                                <MessageSquare className="w-6 h-6 text-aura-primary" />
+                              </div>
+                              <h3 className="text-lg font-bold text-aura-ink mb-1">
+                                🔒 Próximos Pasos Recomendados
+                              </h3>
+                              <p className="text-aura-muted text-sm">
+                                Para poder entregar tu reporte completo, favor completa esta breve encuesta.
+                              </p>
+                            </div>
+
+                            <Card className="border border-gray-200">
+                              <CardHeader>
+                                <CardTitle className="flex items-center gap-2 text-base">
+                                  <MessageSquare className="w-4 h-4 text-aura-primary" />
+                                  Encuesta breve (30 segundos)
+                                </CardTitle>
+                              </CardHeader>
+                              <CardContent className="space-y-5">
+                                <div>
+                                  <p className="text-sm font-medium text-aura-ink mb-2">
+                                    1) ¿Qué tan claro te resultó el resultado del test?
+                                  </p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {surveyScale.map((option) => (
+                                      <Button
+                                        key={`clarity-${option.value}`}
+                                        variant={surveyClarity === option.value ? "primary" : "secondary"}
+                                        size="sm"
+                                        onClick={() => setSurveyClarity(option.value)}
+                                      >
+                                        {option.value} — {option.label}
+                                      </Button>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <p className="text-sm font-medium text-aura-ink mb-2">
+                                    2) ¿Cuánta confianza te dieron los datos de MINEDUC/SIES?
+                                  </p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {surveyScale.map((option) => (
+                                      <Button
+                                        key={`trust-${option.value}`}
+                                        variant={surveyTrust === option.value ? "primary" : "secondary"}
+                                        size="sm"
+                                        onClick={() => setSurveyTrust(option.value)}
+                                      >
+                                        {option.value} — {option.label}
+                                      </Button>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <p className="text-sm font-medium text-aura-ink mb-2">
+                                    3) ¿Qué tan probable es que recomiendes Vocari?
+                                  </p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {surveyScale.map((option) => (
+                                      <Button
+                                        key={`recommend-${option.value}`}
+                                        variant={surveyRecommend === option.value ? "primary" : "secondary"}
+                                        size="sm"
+                                        onClick={() => setSurveyRecommend(option.value)}
+                                      >
+                                        <Star className="w-3 h-3 mr-1" />
+                                        {option.value} — {option.label}
+                                      </Button>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <label className="block text-sm font-medium text-aura-ink mb-2">
+                                    Comentario opcional
+                                  </label>
+                                  <textarea
+                                    value={surveyComment}
+                                    onChange={(event) => setSurveyComment(event.target.value)}
+                                    placeholder="¿Qué te gustaría mejorar?"
+                                    rows={3}
+                                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-aura-ink"
+                                  />
+                                </div>
+
+                                {surveyError && <p className="text-sm text-red-700">{surveyError}</p>}
+
+                                <Button
+                                  onClick={submitSurvey}
+                                  loading={surveyLoading}
+                                  disabled={!surveyComplete}
+                                  className="w-full"
+                                >
+                                  {surveyComplete
+                                    ? "Ver mis próximos pasos →"
+                                    : "Responde las 3 preguntas para continuar"}
+                                </Button>
+                              </CardContent>
+                            </Card>
+                          </div>
+                        )
+                      ) : null}
+
+                      {/* Confirmación post-encuesta */}
+                      {surveySubmitted && (
+                        <div className="rounded-lg border border-success/20 bg-success/5 p-4 mb-4 text-success text-sm flex items-center gap-2">
+                          <CheckCircle2 className="w-4 h-4 shrink-0" />
+                          Gracias por completar la encuesta. Tu feedback fue registrado.
+                        </div>
+                      )}
+
+                      <div className="text-center">
+                        <Button variant="primary" onClick={generateReport} loading={loading}>
+                          Regenerar informe IA
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      </div>
+                    </>
+                  );
+                })()
               ) : (
-                <>
-                  <h2 className="text-xl font-bold mb-2">Quieres un informe completo?</h2>
-                  <p className="text-vocari-text-muted mb-4">
-                    Genera un reporte extendido con interpretacion personalizada y siguientes pasos
-                    para tu decision vocacional.
+                <div className="text-center">
+                  <h2 className="text-xl font-bold mb-2">¿Quieres un informe completo?</h2>
+                  <p className="text-aura-muted mb-4">
+                    Genera un reporte extendido con interpretación personalizada y siguientes pasos
+                    para tu decisión vocacional.
                   </p>
                   {loading && loadingMessage && (
-                    <p className="text-sm text-vocari-text-muted mb-3">{loadingMessage}</p>
+                    <p className="text-sm text-aura-muted mb-3">{loadingMessage}</p>
                   )}
                   {reportError && <p className="text-sm text-red-700 mb-3">{reportError}</p>}
-                  <Button
-                    variant="primary"
-                    onClick={generateReport}
-                    loading={loading}
-                  >
-                    Generar informe
+                  <Button variant="primary" onClick={generateReport} loading={loading}>
+                    Generar informe con IA
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
-                </>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-vocari-primary" />
-                Encuesta breve (30 segundos)
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-5">
-              {surveySubmitted ? (
-                <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 text-sm">
-                  Gracias. Tu feedback ya fue registrado.
                 </div>
-              ) : (
-                <>
-                  <div>
-                    <p className="text-sm font-medium text-vocari-text mb-2">
-                      1) Que tan claro te resulto el resultado del test?
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {surveyScale.map((option) => (
-                        <Button
-                          key={`clarity-${option.value}`}
-                          variant={surveyClarity === option.value ? "primary" : "secondary"}
-                          size="sm"
-                          onClick={() => setSurveyClarity(option.value)}
-                        >
-                          {option.value}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium text-vocari-text mb-2">
-                      2) Cuanta confianza te dieron los datos de MINEDUC/SIES?
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {surveyScale.map((option) => (
-                        <Button
-                          key={`trust-${option.value}`}
-                          variant={surveyTrust === option.value ? "primary" : "secondary"}
-                          size="sm"
-                          onClick={() => setSurveyTrust(option.value)}
-                        >
-                          {option.value}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium text-vocari-text mb-2">
-                      3) Que tan probable es que recomiendes Vocari?
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {surveyScale.map((option) => (
-                        <Button
-                          key={`recommend-${option.value}`}
-                          variant={surveyRecommend === option.value ? "primary" : "secondary"}
-                          size="sm"
-                          onClick={() => setSurveyRecommend(option.value)}
-                        >
-                          <Star className="w-3 h-3" />
-                          {option.value}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-vocari-text mb-2">
-                      Comentario opcional
-                    </label>
-                    <textarea
-                      value={surveyComment}
-                      onChange={(event) => setSurveyComment(event.target.value)}
-                      placeholder="Que te gustaria mejorar?"
-                      rows={3}
-                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-vocari-text"
-                    />
-                  </div>
-
-                  {surveyError && <p className="text-sm text-red-700">{surveyError}</p>}
-
-                  <Button onClick={submitSurvey} loading={surveyLoading}>
-                    Enviar encuesta
-                  </Button>
-                </>
               )}
             </CardContent>
           </Card>
@@ -1017,7 +1022,7 @@ export default function TestGratisPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-vocari-bg to-vocari-bg-warm">
+    <div className="min-h-screen bg-gradient-to-br from-aura-primary/5 to-aura-violet/5">
       <AIAssistant />
     </div>
   );

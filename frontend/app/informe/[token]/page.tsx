@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { formatDateCL } from "@/lib/utils/dates";
 
 interface RIASECData {
   result_code: string;
@@ -78,12 +79,12 @@ export async function generateMetadata({
 }
 
 const RIASEC_COLORS: Record<string, string> = {
-  R: "bg-orange-100 text-orange-800 border-orange-200",
-  I: "bg-blue-100 text-blue-800 border-blue-200",
-  A: "bg-purple-100 text-purple-800 border-purple-200",
-  S: "bg-green-100 text-green-800 border-green-200",
-  E: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  C: "bg-gray-100 text-gray-800 border-gray-200",
+  R: "bg-riasec-R/10 text-riasec-R border-riasec-R/20",
+  I: "bg-riasec-I/10 text-riasec-I border-riasec-I/20",
+  A: "bg-riasec-A/10 text-riasec-A border-riasec-A/20",
+  S: "bg-riasec-S/10 text-riasec-S border-riasec-S/20",
+  E: "bg-riasec-E/10 text-riasec-E border-riasec-E/20",
+  C: "bg-riasec-C/10 text-riasec-C border-riasec-C/20",
 };
 
 const RIASEC_LABELS: Record<string, string> = {
@@ -107,27 +108,27 @@ function RIASECBar({ letter, score }: { letter: string; score: number }) {
   const pct = Math.round((score / 30) * 100);
   const colorClass =
     letter === "R"
-      ? "bg-orange-400"
+      ? "bg-riasec-R"
       : letter === "I"
-        ? "bg-blue-400"
+        ? "bg-riasec-I"
         : letter === "A"
-          ? "bg-purple-400"
+          ? "bg-riasec-A"
           : letter === "S"
-            ? "bg-green-400"
+            ? "bg-riasec-S"
             : letter === "E"
-              ? "bg-yellow-400"
-              : "bg-gray-400";
+              ? "bg-riasec-E"
+              : "bg-riasec-C";
 
   return (
     <div className="flex items-center gap-3">
-      <span className="w-6 font-bold text-sm text-gray-700">{letter}</span>
-      <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden">
+      <span className="w-6 font-bold text-sm text-aura-ink">{letter}</span>
+      <div className="flex-1 bg-aura-surface-low rounded-full h-3 overflow-hidden">
         <div
           className={`h-3 rounded-full transition-all ${colorClass}`}
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="w-8 text-right text-sm font-semibold text-gray-700">
+      <span className="w-8 text-right text-sm font-semibold text-aura-ink">
         {score}
       </span>
     </div>
@@ -149,41 +150,42 @@ export default async function InformePage({
     day: "numeric",
     month: "long",
     year: "numeric",
+    timeZone: "America/Santiago",
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-aura-surface">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10 print:static">
+      <header className="bg-white border-b border-aura-primary/10 sticky top-0 z-10 print:static">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-aura-primary to-aura-violet rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">V</span>
             </div>
-            <span className="font-bold text-gray-900">Vocari</span>
+            <span className="font-bold text-aura-ink">Vocari</span>
           </div>
-          <span className="text-sm text-gray-500">Informe Vocacional</span>
+          <span className="text-sm text-aura-muted">Informe Vocacional</span>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8 space-y-8">
         {/* Hero card */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-xl">
+        <div className="bg-gradient-to-r from-aura-primary to-aura-violet rounded-2xl p-8 text-white shadow-xl">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div>
-              <p className="text-blue-200 text-sm font-medium uppercase tracking-wider mb-1">
+              <p className="text-white/70 text-sm font-medium uppercase tracking-wider mb-1">
                 Informe Vocacional
               </p>
               <h1 className="text-3xl font-bold mb-1">{d.student_name}</h1>
-              <p className="text-blue-200">{d.institution_name}</p>
-              <p className="text-blue-300 text-sm mt-2">Generado el {generatedDate}</p>
+              <p className="text-white/70">{d.institution_name}</p>
+              <p className="text-white/50 text-sm mt-2">Generado el {generatedDate}</p>
             </div>
             {d.holland_code && (
               <div className="text-center">
                 <div className="w-24 h-24 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center border border-white/30">
                   <span className="text-4xl font-black">{d.holland_code}</span>
                 </div>
-                <p className="text-blue-200 text-xs mt-2 font-medium">Código Holland</p>
+                <p className="text-white/70 text-xs mt-2 font-medium">Código Holland</p>
               </div>
             )}
           </div>
@@ -191,11 +193,11 @@ export default async function InformePage({
 
         {/* RIASEC Profile */}
         {d.riasec && (
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">
+          <div className="aura-glass p-6">
+            <h2 className="text-xl font-bold text-aura-ink mb-1">
               Perfil RIASEC
             </h2>
-            <p className="text-gray-500 text-sm mb-5">
+            <p className="text-aura-muted text-sm mb-5">
               Test de Intereses Vocacionales de Holland
             </p>
 
@@ -225,8 +227,8 @@ export default async function InformePage({
 
             {/* Descriptions for top 3 */}
             {d.holland_code && (
-              <div className="mt-5 pt-5 border-t border-gray-100">
-                <p className="text-sm font-medium text-gray-700 mb-3">
+              <div className="mt-5 pt-5 border-t border-aura-primary/10">
+                <p className="text-sm font-medium text-aura-ink mb-3">
                   Tus dimensiones principales:
                 </p>
                 <div className="grid gap-2">
@@ -247,15 +249,15 @@ export default async function InformePage({
 
         {/* AI Insights */}
         {d.ai_insights && (
-          <div className="bg-gradient-to-r from-violet-50 to-purple-50 rounded-2xl p-6 shadow-sm border border-violet-100">
-            <h2 className="text-xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+          <div className="aura-glass p-6">
+            <h2 className="text-xl font-bold text-aura-ink mb-1 flex items-center gap-2">
               <span className="text-2xl">🤖</span>
-              Analisis Personalizado con IA
+              Análisis Personalizado con IA
             </h2>
-            <p className="text-gray-500 text-sm mb-5">
-              Interpretacion generada por inteligencia artificial de tu perfil vocacional
+            <p className="text-aura-muted text-sm mb-5">
+              Interpretación generada por inteligencia artificial de tu perfil vocacional
             </p>
-            <div className="prose prose-sm max-w-none text-gray-700 whitespace-pre-wrap leading-relaxed">
+            <div className="prose prose-sm max-w-none text-aura-ink whitespace-pre-wrap leading-relaxed">
               {d.ai_insights}
             </div>
           </div>
@@ -263,11 +265,11 @@ export default async function InformePage({
 
         {/* Career Recommendations */}
         {d.career_recommendations.length > 0 && (
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">
+          <div className="aura-glass p-6">
+            <h2 className="text-xl font-bold text-aura-ink mb-1">
               Carreras Recomendadas
             </h2>
-            <p className="text-gray-500 text-sm mb-5">
+            <p className="text-aura-muted text-sm mb-5">
               Basado en tu perfil vocacional y datos de empleabilidad MINEDUC
             </p>
 
@@ -275,27 +277,27 @@ export default async function InformePage({
               {d.career_recommendations.map((career, idx) => (
                 <div
                   key={idx}
-                  className="border border-gray-100 rounded-xl p-4 hover:border-blue-200 hover:bg-blue-50/50 transition-colors"
+                  className="border border-aura-primary/10 rounded-xl p-4 hover:border-aura-primary/30 hover:bg-aura-surface-low/50 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-3 flex-wrap">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-semibold text-gray-900">{career.name}</h3>
+                        <h3 className="font-semibold text-aura-ink">{career.name}</h3>
                         {career.match_score > 0 && (
-                          <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                          <span className="text-xs bg-success/10 text-success px-2 py-0.5 rounded-full font-medium">
                             {career.match_score}% compatibilidad
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-500 mb-1">{career.area}</p>
-                      <p className="text-sm text-gray-600">{career.description}</p>
+                      <p className="text-sm text-aura-muted mb-1">{career.area}</p>
+                      <p className="text-sm text-aura-ink/80">{career.description}</p>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-xs text-gray-400 mb-0.5">Sueldo promedio</p>
-                      <p className="font-bold text-gray-900 text-sm">
+                      <p className="text-xs text-aura-muted mb-0.5">Sueldo promedio</p>
+                      <p className="font-bold text-aura-ink text-sm">
                         {formatCLP(career.salary_range?.median ?? 0)}
                       </p>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-aura-muted">
                         {career.salary_range?.min && career.salary_range?.max
                           ? `${formatCLP(career.salary_range.min)} – ${formatCLP(career.salary_range.max)}`
                           : ""}
@@ -303,10 +305,10 @@ export default async function InformePage({
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
+                  <div className="flex items-center gap-4 mt-3 pt-3 border-t border-aura-primary/10">
                     <div className="flex items-center gap-1.5">
-                      <div className="w-2 h-2 rounded-full bg-green-400" />
-                      <span className="text-xs text-gray-600">
+                      <div className="w-2 h-2 rounded-full bg-success" />
+                      <span className="text-xs text-aura-muted">
                         {Math.round((career.employability ?? 0) * 100)}% empleabilidad
                       </span>
                     </div>
@@ -314,13 +316,13 @@ export default async function InformePage({
                       <div
                         className={`w-2 h-2 rounded-full ${
                           (career.saturation_index ?? 0) < 0.4
-                            ? "bg-green-400"
+                            ? "bg-success"
                             : (career.saturation_index ?? 0) < 0.6
-                              ? "bg-yellow-400"
-                              : "bg-red-400"
+                              ? "bg-warning"
+                              : "bg-error"
                         }`}
                       />
-                      <span className="text-xs text-gray-600">
+                      <span className="text-xs text-aura-muted">
                         Saturación{" "}
                         {(career.saturation_index ?? 0) < 0.4
                           ? "baja"
@@ -333,7 +335,7 @@ export default async function InformePage({
                       {(career.holland_codes ?? []).map((code) => (
                         <span
                           key={code}
-                          className={`text-xs px-1.5 py-0.5 rounded font-bold border ${RIASEC_COLORS[code] ?? "bg-gray-100 text-gray-600 border-gray-200"}`}
+                          className={`text-xs px-1.5 py-0.5 rounded font-bold border ${RIASEC_COLORS[code] ?? "bg-aura-surface-high text-aura-muted border-aura-primary/20"}`}
                         >
                           {code}
                         </span>
@@ -344,7 +346,7 @@ export default async function InformePage({
               ))}
             </div>
 
-            <p className="text-xs text-gray-400 mt-4">
+            <p className="text-xs text-aura-muted mt-4">
               * Datos de empleabilidad y sueldos basados en estadísticas del Ministerio de Educación de Chile (MINEDUC)
             </p>
           </div>
@@ -352,11 +354,11 @@ export default async function InformePage({
 
         {/* Skills from games */}
         {Object.keys(d.skills_summary).length > 0 && (
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">
+          <div className="aura-glass p-6">
+            <h2 className="text-xl font-bold text-aura-ink mb-1">
               Habilidades Evaluadas
             </h2>
-            <p className="text-gray-500 text-sm mb-5">
+            <p className="text-aura-muted text-sm mb-5">
               Resultado de actividades y juegos vocacionales
             </p>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -365,12 +367,12 @@ export default async function InformePage({
                 .map(([skill, score]) => (
                   <div
                     key={skill}
-                    className="bg-gray-50 rounded-xl p-3 text-center border border-gray-100"
+                    className="bg-aura-surface-low rounded-xl p-3 text-center border border-aura-primary/10"
                   >
-                    <div className="text-2xl font-black text-blue-600">
+                    <div className="text-2xl font-black text-aura-primary">
                       {Math.round(score * 100)}
                     </div>
-                    <div className="text-xs text-gray-500 mt-1 capitalize">
+                    <div className="text-xs text-aura-muted mt-1 capitalize">
                       {skill.replace(/_/g, " ")}
                     </div>
                   </div>
@@ -381,26 +383,26 @@ export default async function InformePage({
 
         {/* Games history */}
         {d.game_results.length > 0 && (
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-900 mb-5">
+          <div className="aura-glass p-6">
+            <h2 className="text-xl font-bold text-aura-ink mb-5">
               Actividades Realizadas
             </h2>
             <div className="space-y-3">
               {d.game_results.map((game, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl border border-gray-100"
+                  className="flex items-center gap-4 p-3 bg-aura-surface-low rounded-xl border border-aura-primary/10"
                 >
-                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span className="text-blue-600 font-bold text-sm">{idx + 1}</span>
+                  <div className="w-10 h-10 bg-aura-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span className="text-aura-primary font-bold text-sm">{idx + 1}</span>
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900 text-sm">{game.game_name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="font-medium text-aura-ink text-sm">{game.game_name}</p>
+                    <p className="text-xs text-aura-muted">
                       {game.skills_evaluated.join(", ")}
                     </p>
                   </div>
-                  <div className="text-right text-xs text-gray-400">
+                  <div className="text-right text-xs text-aura-muted">
                     {Math.round((game.duration_seconds ?? 0) / 60)} min
                   </div>
                 </div>
@@ -410,23 +412,23 @@ export default async function InformePage({
         )}
 
         {/* CTA footer */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-6 text-white text-center">
+        <div className="bg-gradient-to-r from-aura-primary to-aura-violet rounded-2xl p-6 text-white text-center">
           <h3 className="text-lg font-bold mb-2">
             ¿Quieres orientación personalizada?
           </h3>
-          <p className="text-blue-200 text-sm mb-4">
+          <p className="text-white/70 text-sm mb-4">
             Accede a la plataforma Vocari para sesiones con orientadores, más tests y seguimiento continuo de tu desarrollo vocacional.
           </p>
           <a
             href="https://app.vocari.cl"
-            className="inline-block bg-white text-blue-700 font-semibold px-6 py-2.5 rounded-xl hover:bg-blue-50 transition-colors text-sm"
+            className="inline-block bg-white text-aura-primary font-semibold px-6 py-2.5 rounded-xl hover:bg-aura-surface transition-colors text-sm"
           >
             Acceder a Vocari →
           </a>
         </div>
 
         {/* Footer */}
-        <div className="text-center text-xs text-gray-400 pb-4">
+        <div className="text-center text-xs text-aura-muted pb-4">
           <p>Informe generado por Vocari — Plataforma de Orientación Vocacional</p>
           <p className="mt-1">
             vocari.cl · app.vocari.cl

@@ -1,0 +1,141 @@
+export const refresh = {
+  header: {
+    paths: "Caminos",
+    how: "Cómo funciona",
+    project: "Proyecto",
+    code: "Código",
+    cta: "Probar demo",
+    dashboard: "Mi panel",
+    logout: "Cerrar sesión",
+    menuLabel: "Abrir menú",
+    navigationLabel: "Navegación principal",
+    mobileNavigationLabel: "Navegación móvil",
+  },
+  hero: {
+    badge: "Orientación para cada etapa profesional",
+    title: "Tu futuro no se adivina.",
+    highlight: "Se diseña con evidencia.",
+    subtitle:
+      "Vocari conecta autoconocimiento, datos reales y rutas de aprendizaje para ayudarte a elegir una carrera o evolucionar profesionalmente hacia la inteligencia artificial.",
+    primaryCta: "Descubrir mi vocación",
+    secondaryCta: "Diagnosticar mi reconversión",
+    dataTitle: "Datos reales",
+    dataDescription: "MINEDUC + RIASEC",
+    aiTitle: "Rutas hacia IA",
+    aiDescription: "Skills + ejercicios",
+    newLabel: "Nuevo",
+    cardEyebrow: "Dos caminos, una brújula",
+    cardTitle: "Elige con claridad. Evoluciona con propósito.",
+    cardDescription:
+      "Desde tu primera carrera hasta tu próxima especialización.",
+  },
+  paths: {
+    kicker: "Encuentra tu punto de partida",
+    title: "¿En qué etapa estás?",
+    subtitle:
+      "Vocari organiza la experiencia según la decisión que necesitas tomar hoy.",
+    studentEyebrow: "Orientación vocacional",
+    studentTitle: "Estoy eligiendo una carrera",
+    studentDescription:
+      "Descubre tus intereses, fortalezas y carreras compatibles con una metodología clara y datos del sistema educativo chileno.",
+    studentDetail1: "Test Holland RIASEC",
+    studentDetail2: "Datos de carreras MINEDUC",
+    studentDetail3: "Informe y recomendaciones",
+    studentCta: "Comenzar test",
+    professionalEyebrow: "Evolución profesional",
+    professionalTitle: "Quiero evolucionar hacia IA",
+    professionalDescription:
+      "Convierte tu experiencia actual en una ventaja y descubre qué capacidades necesitas para avanzar hacia roles con inteligencia artificial.",
+    professionalDetail1: "Diagnóstico de reconversión",
+    professionalDetail2: "Roadmaps por perfil profesional",
+    professionalDetail3: "Agente, ejercicios y certificaciones",
+    professionalCta: "Explorar ruta profesional",
+  },
+  flow: {
+    kicker: "Orientación basada en evidencia",
+    title: "De la duda a una decisión informada",
+    subtitle:
+      "Una experiencia simple que combina ciencia vocacional, información pública y explicaciones comprensibles.",
+    step1Title: "Conoce tu perfil",
+    step1Description:
+      "Responde el test RIASEC para identificar los entornos y actividades que mejor conectan con tus intereses.",
+    step2Title: "Contrasta con datos reales",
+    step2Description:
+      "Explora carreras, tendencias y antecedentes provenientes de fuentes públicas del MINEDUC.",
+    step3Title: "Construye tu siguiente paso",
+    step3Description:
+      "Revisa recomendaciones e informes que convierten los resultados en opciones concretas para investigar.",
+    primaryCta: "Probar demo vocacional",
+    secondaryCta: "Ver informe de ejemplo",
+  },
+  skillGraph: {
+    badge: "Vocari presenta · Skill Graph",
+    title: "Tu experiencia también puede convertirse en una ruta hacia IA",
+    subtitle:
+      "Skill Graph es un mapa vivo en español que transforma tu rol actual en un roadmap práctico con habilidades, ejercicios, recursos y certificaciones.",
+    languageNote: "Disponible actualmente en español",
+    primaryCta: "Explorar mi ruta hacia IA",
+    secondaryCta: "Diagnosticar mi reconversión",
+    previewLabel: "Vista previa del roadmap",
+    node1: "Introducción a AI Engineering",
+    node2: "Python para IA aplicada",
+    node3: "LLMs e inferencia",
+    node4: "RAG y búsqueda semántica",
+    node5: "Agentes, tools y MCP",
+    node6: "Seguridad y evaluación",
+    profile1: "Backend",
+    profile2: "Data",
+    profile3: "Cloud / DevOps",
+    profile4: "UX / Producto",
+    profile5: "Legal / Finanzas",
+    profile6: "Operaciones / Liderazgo",
+    agent: "Agente de rutas",
+    playground: "Ejercicios",
+    certifications: "Certificaciones",
+  },
+  project: {
+    kicker: "Transparencia técnica",
+    title: "Un ecosistema de orientación construido como prototipo abierto",
+    subtitle:
+      "Vocari demuestra cómo unir producto, datos y capacidades de IA sin delegar decisiones humanas importantes a un modelo generativo.",
+    card1Title: "Decisiones deterministas",
+    card1Description:
+      "RIASEC y el matching de carreras mantienen reglas explicables; la IA se usa para orientar y comunicar.",
+    card2Title: "Arquitectura real",
+    card2Description:
+      "Landing React/Vite, plataforma Next.js, API FastAPI, Supabase y pipelines de datos MINEDUC.",
+    card3Title: "Privacidad y control",
+    card3Description:
+      "Roles, separación de responsabilidades y revisión humana como principios del diseño del sistema.",
+    cta: "Explorar código y arquitectura",
+  },
+  faq: {
+    title: "Preguntas frecuentes",
+    q1: "¿Vocari es solo para estudiantes?",
+    a1: "No. La experiencia vocacional está orientada a jóvenes, mientras que reconversión y Skill Graph ayudan a profesionales que quieren rediseñar su trayectoria.",
+    q2: "¿Qué relación existe entre reconversión y Skill Graph?",
+    a2: "El diagnóstico de reconversión ayuda a clarificar el cambio. Skill Graph convierte ese objetivo en una ruta de aprendizaje concreta hacia roles de IA.",
+    q3: "¿Skill Graph forma parte del mismo código?",
+    a3: "Es un miniproyecto independiente presentado dentro del ecosistema Vocari. Se abre en su propio sitio para conservar su experiencia interactiva.",
+    q4: "¿La inteligencia artificial decide qué carrera debo elegir?",
+    a4: "No. El perfil vocacional y el matching usan lógica determinista. La IA apoya explicaciones y rutas, pero la decisión sigue siendo humana.",
+    q5: "¿Vocari está operando comercialmente?",
+    a5: "No. Actualmente se presenta como prototipo tecnológico y demostración funcional. El uso comercial del código requiere una licencia.",
+    contact: "¿Tienes otra pregunta? Escríbenos a",
+  },
+  footer: {
+    description:
+      "Orientación vocacional y evolución profesional conectadas por evidencia, tecnología y aprendizaje continuo.",
+    explore: "Explorar",
+    test: "Test vocacional",
+    reconversion: "Reconversión laboral",
+    project: "Proyecto",
+    code: "Código fuente",
+    privacy: "Privacidad",
+    terms: "Términos",
+    copyright: "© 2026 Vocari · Desarrollado por Jaime Hernández.",
+    transparency: "Prototipo tecnológico · No opera comercialmente",
+  },
+} as const;
+
+export type Refresh = typeof refresh;

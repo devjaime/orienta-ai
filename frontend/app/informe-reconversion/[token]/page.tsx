@@ -135,41 +135,41 @@ export default async function InformeReconversionPage({
   const { session, report } = data;
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,_#f7fbff_0%,_#ffffff_45%,_#f7f5ef_100%)]">
+    <div className="min-h-screen bg-aura-surface">
       <main className="mx-auto max-w-6xl px-4 py-10 md:px-6">
-        <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_25px_80px_rgba(15,23,42,0.08)]">
-          <div className="bg-[radial-gradient(circle_at_top_left,_#d9f3ff,_transparent_35%),linear-gradient(135deg,_#0f172a,_#164e63_60%,_#ecfeff)] px-6 py-8 text-white md:px-10 md:py-10">
+        <section className="overflow-hidden rounded-[2rem] aura-glass">
+          <div className="bg-gradient-to-br from-aura-ink via-aura-primary to-aura-teal px-6 py-8 text-white md:px-10 md:py-10">
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div className="max-w-3xl">
-                <p className="text-xs uppercase tracking-[0.22em] text-cyan-100">
+                <p className="text-xs uppercase tracking-[0.22em] text-white/70">
                   Vocari Reconversion
                 </p>
                 <h1 className="mt-3 text-3xl font-bold tracking-tight md:text-5xl">
                   Informe de futuro laboral para {session.nombre}
                 </h1>
-                <p className="mt-4 text-base leading-7 text-cyan-50 md:text-lg">
-                  Este informe sintetiza contexto actual, energia laboral,
-                  confirmacion vocacional y decisiones de cambio para proponer
-                  rutas fuera de tu profesion actual con mejor ajuste potencial.
+                <p className="mt-4 text-base leading-7 text-white/50 md:text-lg">
+                  Este informe sintetiza contexto actual, energía laboral,
+                  confirmación vocacional y decisiones de cambio para proponer
+                  rutas fuera de tu profesión actual con mejor ajuste potencial.
                 </p>
               </div>
 
               <div className="grid gap-3 rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur md:min-w-[280px]">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-cyan-100">
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/70">
                     Perfil base
                   </p>
                   <p className="mt-1 text-lg font-semibold">
                     {session.profesion_actual}
                   </p>
                 </div>
-                <div className="grid grid-cols-2 gap-3 text-sm text-cyan-50">
+                <div className="grid grid-cols-2 gap-3 text-sm text-white/50">
                   <div>
-                    <p className="text-cyan-100">Edad</p>
+                    <p className="text-white/70">Edad</p>
                     <p className="font-semibold">{session.edad} años</p>
                   </div>
                   <div>
-                    <p className="text-cyan-100">Generado</p>
+                    <p className="text-white/70">Generado</p>
                     <p className="font-semibold">
                       {formatDate(data.generated_at)}
                     </p>
@@ -181,24 +181,24 @@ export default async function InformeReconversionPage({
         </section>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm md:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700">
+          <article className="aura-glass p-6 md:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-aura-primary">
               Resumen personalizado
             </p>
-            <p className="mt-4 text-lg leading-8 text-slate-700">
+            <p className="mt-4 text-lg leading-8 text-aura-ink">
               {report.resumen_personalizado}
             </p>
 
             <div className="mt-8 grid gap-4 md:grid-cols-2">
-              <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-5">
-                <p className="text-sm font-semibold text-emerald-950">
+              <div className="rounded-3xl border border-aura-primary/15 bg-aura-surface-low p-5">
+                <p className="text-sm font-semibold text-aura-ink">
                   Fortalezas transferibles
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {report.perfil_actual.fortalezas_transferibles.map((item) => (
                     <span
                       key={item}
-                      className="rounded-full bg-white px-3 py-1 text-sm text-emerald-900 shadow-sm"
+                      className="rounded-full bg-white px-3 py-1 text-sm text-aura-primary shadow-sm"
                     >
                       {item}
                     </span>
@@ -206,15 +206,15 @@ export default async function InformeReconversionPage({
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-rose-200 bg-rose-50 p-5">
-                <p className="text-sm font-semibold text-rose-950">
+              <div className="rounded-3xl border border-error/15 bg-error/5 p-5">
+                <p className="text-sm font-semibold text-aura-ink">
                   Factores que te drenan
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {report.perfil_actual.factores_que_drenan.map((item) => (
                     <span
                       key={item}
-                      className="rounded-full bg-white px-3 py-1 text-sm text-rose-900 shadow-sm"
+                      className="rounded-full bg-white px-3 py-1 text-sm text-error shadow-sm"
                     >
                       {item}
                     </span>
@@ -224,18 +224,18 @@ export default async function InformeReconversionPage({
             </div>
           </article>
 
-          <aside className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm md:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+          <aside className="aura-glass p-6 md:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-aura-muted">
               Gráfico central
             </p>
-            <h2 className="mt-2 text-2xl font-bold text-slate-900">
+            <h2 className="mt-2 text-2xl font-bold text-aura-ink">
               Bienestar vs ingreso
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-500">
+            <p className="mt-2 text-sm leading-6 text-aura-muted">
               No muestra una verdad absoluta: es una estimación útil para
               comparar rutas posibles de reconversión.
             </p>
-            <div className="mt-6 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-4">
+            <div className="mt-6 rounded-[1.5rem] border border-aura-primary/10 bg-aura-surface-low p-4">
               <WellbeingIncomeChart data={report.grafico_bienestar_ingreso} />
             </div>
           </aside>
@@ -243,10 +243,10 @@ export default async function InformeReconversionPage({
 
         <section className="mt-8">
           <div className="mb-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-aura-muted">
               Rutas recomendadas
             </p>
-            <h2 className="mt-2 text-3xl font-bold text-slate-900">
+            <h2 className="mt-2 text-3xl font-bold text-aura-ink">
               Tus mejores escenarios de cambio hoy
             </h2>
           </div>
@@ -255,81 +255,81 @@ export default async function InformeReconversionPage({
             {report.rutas_recomendadas.map((route, index) => (
               <article
                 key={route.nombre_ruta}
-                className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm"
+                className="aura-glass p-6"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-aura-primary">
                       Ruta {index + 1}
                     </p>
-                    <h3 className="mt-2 text-xl font-bold text-slate-900">
+                    <h3 className="mt-2 text-xl font-bold text-aura-ink">
                       {route.nombre_ruta}
                     </h3>
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-aura-muted">
                       {getTypeLabel(route.tipo)}
                     </p>
                   </div>
-                  <div className="rounded-2xl bg-slate-100 px-3 py-2 text-right">
-                    <p className="text-xs text-slate-500">Bienestar</p>
-                    <p className="text-lg font-bold text-slate-900">
+                  <div className="rounded-2xl bg-aura-surface-low px-3 py-2 text-right">
+                    <p className="text-xs text-aura-muted">Bienestar</p>
+                    <p className="text-lg font-bold text-aura-ink">
                       {route.felicidad_estimada}/100
                     </p>
                   </div>
                 </div>
 
-                <p className="mt-4 text-sm leading-6 text-slate-600">
+                <p className="mt-4 text-sm leading-6 text-aura-muted">
                   {route.porque_encaja}
                 </p>
 
-                <div className="mt-5 grid gap-3 rounded-3xl bg-slate-50 p-4">
+                <div className="mt-5 grid gap-3 rounded-3xl bg-aura-surface-low p-4">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-slate-500">Ingreso estimado</span>
-                    <span className="font-semibold text-slate-900">
+                    <span className="text-aura-muted">Ingreso estimado</span>
+                    <span className="font-semibold text-aura-ink">
                       {formatCLP(route.ingreso_estimado)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-slate-500">Fricción de cambio</span>
-                    <span className="font-semibold text-slate-900">
+                    <span className="text-aura-muted">Fricción de cambio</span>
+                    <span className="font-semibold text-aura-ink">
                       {route.friccion_cambio}/100
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-slate-500">Tiempo estimado</span>
-                    <span className="font-semibold text-slate-900">
+                    <span className="text-aura-muted">Tiempo estimado</span>
+                    <span className="font-semibold text-aura-ink">
                       {route.tiempo_reconversion_meses} meses
                     </span>
                   </div>
                 </div>
 
                 <div className="mt-5 space-y-3">
-                  <div className="rounded-2xl border border-slate-200 p-4">
-                    <p className="text-sm font-semibold text-slate-900">
+                  <div className="rounded-2xl border border-aura-primary/10 p-4">
+                    <p className="text-sm font-semibold text-aura-ink">
                       Relocalización
                     </p>
-                    <p className="mt-1 text-sm text-slate-600">
+                    <p className="mt-1 text-sm text-aura-muted">
                       {route.relocalizacion_detalle}
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-slate-200 p-4">
-                    <p className="text-sm font-semibold text-slate-900">
+                  <div className="rounded-2xl border border-aura-primary/10 p-4">
+                    <p className="text-sm font-semibold text-aura-ink">
                       Idioma
                     </p>
-                    <p className="mt-1 text-sm text-slate-600">
+                    <p className="mt-1 text-sm text-aura-muted">
                       {route.ingles_detalle}
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-5">
-                  <p className="text-sm font-semibold text-slate-900">
+                  <p className="text-sm font-semibold text-aura-ink">
                     Aprendizajes sugeridos
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {route.aprendizajes_sugeridos.map((item) => (
                       <span
                         key={item}
-                        className="rounded-full bg-cyan-50 px-3 py-1 text-sm text-cyan-900"
+                        className="rounded-full bg-aura-primary/10 px-3 py-1 text-sm text-aura-primary"
                       >
                         {item}
                       </span>
@@ -342,18 +342,18 @@ export default async function InformeReconversionPage({
         </section>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm md:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+          <article className="aura-glass p-6 md:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-aura-muted">
               Alertas
             </p>
-            <h2 className="mt-2 text-2xl font-bold text-slate-900">
+            <h2 className="mt-2 text-2xl font-bold text-aura-ink">
               Lo que conviene cuidar
             </h2>
             <div className="mt-5 space-y-3">
               {report.alertas.map((item) => (
                 <div
                   key={item}
-                  className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950"
+                  className="rounded-2xl border border-warning/15 bg-warning/5 p-4 text-sm leading-6 text-aura-ink"
                 >
                   {item}
                 </div>
@@ -361,23 +361,23 @@ export default async function InformeReconversionPage({
             </div>
           </article>
 
-          <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm md:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+          <article className="aura-glass p-6 md:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-aura-muted">
               Hoja de ruta
             </p>
-            <h2 className="mt-2 text-2xl font-bold text-slate-900">
+            <h2 className="mt-2 text-2xl font-bold text-aura-ink">
               Plan sugerido para salir del punto actual
             </h2>
 
             <div className="mt-6 grid gap-5 md:grid-cols-2">
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-sm font-semibold text-slate-900">
+              <div className="rounded-3xl border border-aura-primary/10 bg-aura-surface-low p-5">
+                <p className="text-sm font-semibold text-aura-ink">
                   Próximos 30 días
                 </p>
-                <ol className="mt-3 space-y-3 text-sm leading-6 text-slate-600">
+                <ol className="mt-3 space-y-3 text-sm leading-6 text-aura-muted">
                   {report.plan_30_dias.map((item, index) => (
                     <li key={item} className="flex gap-3">
-                      <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white">
+                      <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-aura-primary text-xs font-semibold text-white">
                         {index + 1}
                       </span>
                       <span>{item}</span>
@@ -386,14 +386,14 @@ export default async function InformeReconversionPage({
                 </ol>
               </div>
 
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-sm font-semibold text-slate-900">
+              <div className="rounded-3xl border border-aura-primary/10 bg-aura-surface-low p-5">
+                <p className="text-sm font-semibold text-aura-ink">
                   Próximos 90 días
                 </p>
-                <ol className="mt-3 space-y-3 text-sm leading-6 text-slate-600">
+                <ol className="mt-3 space-y-3 text-sm leading-6 text-aura-muted">
                   {report.plan_90_dias.map((item, index) => (
                     <li key={item} className="flex gap-3">
-                      <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-cyan-700 text-xs font-semibold text-white">
+                      <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-aura-violet text-xs font-semibold text-white">
                         {index + 1}
                       </span>
                       <span>{item}</span>

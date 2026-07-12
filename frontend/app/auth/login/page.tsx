@@ -73,23 +73,23 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-vocari-bg flex items-center justify-center px-4 py-10">
+    <main className="min-h-screen bg-aura-surface flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-vocari-primary mb-2">
+          <h1 className="text-3xl font-bold text-aura-primary mb-2">
             Vocari
           </h1>
-          <p className="text-vocari-text-muted">Inicia sesion para continuar</p>
+          <p className="text-aura-muted">Inicia sesion para continuar</p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-6">
+        <div className="aura-glass rounded-xl p-6 space-y-6">
           {mvpLoginEnabled && (
             <>
-              <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
-                <p className="text-sm font-semibold text-blue-950">
+              <div className="aura-glass px-4 py-3">
+                <p className="text-sm font-semibold text-aura-ink">
                   Acceso interno MVP
                 </p>
-                <p className="mt-1 text-sm text-blue-900/80">
+                <p className="mt-1 text-sm text-aura-muted">
                   Ingresa las credenciales configuradas para el entorno de
                   demostracion.
                 </p>
@@ -97,32 +97,32 @@ export default function LoginPage() {
 
               <form className="space-y-4" onSubmit={handleMvpLogin}>
                 <label className="block">
-                  <span className="mb-2 block text-sm font-medium text-slate-700">
+                  <span className="mb-2 block text-sm font-medium text-aura-muted">
                     Usuario
                   </span>
                   <input
                     value={username}
                     onChange={(event) => setUsername(event.target.value)}
-                    className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-vocari-primary"
+                    className="w-full rounded-md border border-aura-primary/20 px-4 py-3 text-sm text-aura-ink outline-none transition focus:border-aura-primary"
                     placeholder="Usuario interno"
                   />
                 </label>
 
             <label className="block">
-              <span className="mb-2 block text-sm font-medium text-slate-700">
+              <span className="mb-2 block text-sm font-medium text-aura-muted">
                 Clave
               </span>
               <input
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-vocari-primary"
+                className="w-full rounded-md border border-aura-primary/20 px-4 py-3 text-sm text-aura-ink outline-none transition focus:border-aura-primary"
                 placeholder="Clave de acceso"
               />
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-sm font-medium text-slate-700">
+              <span className="mb-2 block text-sm font-medium text-aura-muted">
                 Perfil
               </span>
               <select
@@ -130,7 +130,7 @@ export default function LoginPage() {
                 onChange={(event) =>
                   setRole(event.target.value as "orientador" | "admin_colegio")
                 }
-                className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-vocari-primary"
+                className="w-full rounded-md border border-aura-primary/20 px-4 py-3 text-sm text-aura-ink outline-none transition focus:border-aura-primary"
               >
                 {PERFILES.map((perfil) => (
                   <option key={perfil.value} value={perfil.value}>
@@ -141,7 +141,7 @@ export default function LoginPage() {
             </label>
 
             {error && (
-              <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              <div className="rounded-md border border-error/30 bg-error/5 px-3 py-2 text-sm text-error">
                 {error}
               </div>
             )}
@@ -149,7 +149,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-md bg-vocari-primary px-4 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-md bg-aura-primary px-4 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Ingresando..." : "Entrar con acceso MVP"}
             </button>
@@ -157,10 +157,10 @@ export default function LoginPage() {
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
+                <div className="w-full border-t border-aura-primary/10" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-3 text-vocari-text-muted">o</span>
+                <span className="bg-aura-surface-low px-3 text-aura-muted">o</span>
               </div>
             </div>
             </>
@@ -168,7 +168,7 @@ export default function LoginPage() {
 
           <GoogleSignInButton />
 
-          <p className="text-xs text-center text-vocari-text-muted">
+          <p className="text-xs text-center text-aura-muted">
             Al iniciar sesion, aceptas nuestros{" "}
             <a href="/terminos" className="underline">
               terminos de servicio

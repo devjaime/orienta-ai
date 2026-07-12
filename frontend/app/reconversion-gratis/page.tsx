@@ -392,25 +392,25 @@ export default function ReconversionGratisPage() {
       <main className="mx-auto max-w-5xl px-4 py-10 md:px-6">
         <div className="mb-8 grid gap-4 md:grid-cols-[1.3fr_0.7fr] md:items-end">
           <div>
-            <p className="text-sm font-medium uppercase tracking-[0.18em] text-slate-500">
+            <p className="text-sm font-medium uppercase tracking-[0.18em] text-aura-muted">
               Vocari Reconversion
             </p>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 md:text-5xl">
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-aura-ink md:text-5xl">
               Explora un futuro laboral con mejor ajuste para tu vida adulta.
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg">
+            <p className="mt-4 max-w-2xl text-base leading-7 text-aura-muted md:text-lg">
               Este flujo inicial cruza tu contexto actual con un test de
               reconversion para detectar energias, motivadores y una primera
               hipotesis de camino profesional.
             </p>
           </div>
 
-          <Card className="border-slate-200 bg-white/90 shadow-sm backdrop-blur">
+          <Card className="border-aura-primary/10 bg-white/90 shadow-sm backdrop-blur">
             <CardContent className="space-y-3 p-5">
-              <p className="text-sm font-semibold text-slate-900">
+              <p className="text-sm font-semibold text-aura-ink">
                 Lo que cubre esta primera version
               </p>
-              <div className="grid gap-2 text-sm text-slate-600">
+              <div className="grid gap-2 text-sm text-aura-muted">
                 <p>Fase 0: contexto actual y situacion laboral.</p>
                 <p>Fase 1: test base de 30 preguntas.</p>
                 <p>Fase 2: desafio de energia laboral con escenarios reales.</p>
@@ -428,15 +428,15 @@ export default function ReconversionGratisPage() {
         )}
 
         {stage === "phase_0" && (
-          <Card className="border-slate-200 bg-white/95 shadow-sm">
+          <Card className="border-aura-primary/10 bg-white/95 shadow-sm">
             <CardHeader className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-slate-900 p-3 text-white">
+                <div className="rounded-xl bg-aura-ink p-3 text-white">
                   <UserRound className="h-5 w-5" />
                 </div>
                 <div>
                   <CardTitle>Fase 0 · Tu punto de partida</CardTitle>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-aura-muted">
                     Antes de sugerir cambios, necesitamos entender tu contexto
                     actual.
                   </p>
@@ -445,115 +445,115 @@ export default function ReconversionGratisPage() {
             </CardHeader>
 
             <CardContent className="grid gap-4 md:grid-cols-2">
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Nombre
                 <input
                   value={form.nombre}
                   onChange={(event) => updateForm("nombre", event.target.value)}
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400"
+                  className="rounded-xl border border-aura-primary/10 px-4 py-3 text-aura-ink outline-none transition focus:border-aura-primary/30"
                   placeholder="Tu nombre"
                 />
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Correo
                 <div className="relative">
-                  <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-aura-muted/50" />
                   <input
                     value={form.email}
                     onChange={(event) =>
                       updateForm("email", event.target.value)
                     }
-                    className="w-full rounded-xl border border-slate-200 py-3 pl-10 pr-4 text-slate-900 outline-none transition focus:border-slate-400"
+                    className="w-full rounded-xl border border-aura-primary/10 py-3 pl-10 pr-4 text-aura-ink outline-none transition focus:border-aura-primary/30"
                     placeholder="nombre@correo.com"
                     type="email"
                   />
                 </div>
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Profesion actual
                 <div className="relative">
-                  <Briefcase className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <Briefcase className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-aura-muted/50" />
                   <input
                     value={form.profesion_actual}
                     onChange={(event) =>
                       updateForm("profesion_actual", event.target.value)
                     }
-                    className="w-full rounded-xl border border-slate-200 py-3 pl-10 pr-4 text-slate-900 outline-none transition focus:border-slate-400"
+                    className="w-full rounded-xl border border-aura-primary/10 py-3 pl-10 pr-4 text-aura-ink outline-none transition focus:border-aura-primary/30"
                     placeholder="Ej: administrativa, enfermero, vendedor"
                   />
                 </div>
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Edad
                 <input
                   value={form.edad}
                   onChange={(event) => updateForm("edad", event.target.value)}
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400"
+                  className="rounded-xl border border-aura-primary/10 px-4 py-3 text-aura-ink outline-none transition focus:border-aura-primary/30"
                   placeholder="Ej: 34"
                   type="number"
                 />
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Pais
                 <input
                   value={form.pais}
                   onChange={(event) => updateForm("pais", event.target.value)}
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400"
+                  className="rounded-xl border border-aura-primary/10 px-4 py-3 text-aura-ink outline-none transition focus:border-aura-primary/30"
                 />
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Ciudad
                 <div className="relative">
-                  <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-aura-muted/50" />
                   <input
                     value={form.ciudad}
                     onChange={(event) =>
                       updateForm("ciudad", event.target.value)
                     }
-                    className="w-full rounded-xl border border-slate-200 py-3 pl-10 pr-4 text-slate-900 outline-none transition focus:border-slate-400"
+                    className="w-full rounded-xl border border-aura-primary/10 py-3 pl-10 pr-4 text-aura-ink outline-none transition focus:border-aura-primary/30"
                     placeholder="Ej: Santiago"
                   />
                 </div>
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Nivel educativo
                 <input
                   value={form.nivel_educativo}
                   onChange={(event) =>
                     updateForm("nivel_educativo", event.target.value)
                   }
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400"
+                  className="rounded-xl border border-aura-primary/10 px-4 py-3 text-aura-ink outline-none transition focus:border-aura-primary/30"
                   placeholder="Ej: tecnico, universitario, media completa"
                 />
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Ingreso actual aproximado
                 <input
                   value={form.ingreso_actual_aprox}
                   onChange={(event) =>
                     updateForm("ingreso_actual_aprox", event.target.value)
                   }
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400"
+                  className="rounded-xl border border-aura-primary/10 px-4 py-3 text-aura-ink outline-none transition focus:border-aura-primary/30"
                   placeholder="Ej: 850000"
                   type="number"
                 />
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Nivel de ingles
                 <select
                   value={form.nivel_ingles}
                   onChange={(event) =>
                     updateForm("nivel_ingles", event.target.value)
                   }
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400"
+                  className="rounded-xl border border-aura-primary/10 px-4 py-3 text-aura-ink outline-none transition focus:border-aura-primary/30"
                 >
                   <option value="">Selecciona</option>
                   <option value="Nulo">Nulo</option>
@@ -563,14 +563,14 @@ export default function ReconversionGratisPage() {
                 </select>
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Situacion actual
                 <select
                   value={form.situacion_actual}
                   onChange={(event) =>
                     updateForm("situacion_actual", event.target.value)
                   }
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400"
+                  className="rounded-xl border border-aura-primary/10 px-4 py-3 text-aura-ink outline-none transition focus:border-aura-primary/30"
                 >
                   <option value="">Selecciona</option>
                   <option value="empleado">Empleado/a</option>
@@ -580,7 +580,7 @@ export default function ReconversionGratisPage() {
                 </select>
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink">
                 Disponibilidad para estudiar
                 <select
                   value={form.disponibilidad_para_estudiar}
@@ -590,7 +590,7 @@ export default function ReconversionGratisPage() {
                       event.target.value,
                     )
                   }
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400"
+                  className="rounded-xl border border-aura-primary/10 px-4 py-3 text-aura-ink outline-none transition focus:border-aura-primary/30"
                 >
                   <option value="">Selecciona</option>
                   <option value="baja">Baja</option>
@@ -599,7 +599,7 @@ export default function ReconversionGratisPage() {
                 </select>
               </label>
 
-              <label className="grid gap-2 text-sm font-medium text-slate-700 md:col-span-2">
+              <label className="grid gap-2 text-sm font-medium text-aura-ink md:col-span-2">
                 Disponibilidad para relocalizarse
                 <select
                   value={form.disponibilidad_para_relocalizarse}
@@ -609,7 +609,7 @@ export default function ReconversionGratisPage() {
                       event.target.value,
                     )
                   }
-                  className="rounded-xl border border-slate-200 px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400"
+                  className="rounded-xl border border-aura-primary/10 px-4 py-3 text-aura-ink outline-none transition focus:border-aura-primary/30"
                 >
                   <option value="">Selecciona</option>
                   <option value="ninguna">Ninguna</option>
@@ -633,37 +633,37 @@ export default function ReconversionGratisPage() {
 
         {stage === "phase_1" && session && (
           <div className="space-y-6">
-            <Card className="border-slate-200 bg-white/95 shadow-sm">
+            <Card className="border-aura-primary/10 bg-white/95 shadow-sm">
               <CardContent className="space-y-4 p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-medium uppercase tracking-[0.18em] text-slate-500">
+                    <p className="text-sm font-medium uppercase tracking-[0.18em] text-aura-muted">
                       Fase 1
                     </p>
-                    <h2 className="text-2xl font-bold text-slate-900">
+                    <h2 className="text-2xl font-bold text-aura-ink">
                       Test base de reconversion
                     </h2>
                   </div>
-                  <div className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600">
+                  <div className="rounded-full bg-aura-surface-low px-3 py-1 text-sm text-aura-muted">
                     {currentQuestionIndex + 1} / {reconversionQuestions.length}
                   </div>
                 </div>
                 <ProgressBar
                   value={questionProgress}
                   showLabel={false}
-                  color="bg-slate-900"
+                  color="bg-aura-ink"
                 />
               </CardContent>
             </Card>
 
-            <Card className="border-slate-200 bg-white shadow-sm">
+            <Card className="border-aura-primary/10 bg-white shadow-sm">
               <CardHeader className="space-y-3">
                 <div className="flex items-center justify-between gap-3">
-                  <div className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
+                  <div className="rounded-full bg-aura-surface-low px-3 py-1 text-sm font-medium text-aura-ink">
                     {reconversionDimensionLabels[currentQuestion.dimension] ??
                       currentQuestion.dimension}
                   </div>
-                  <div className="text-sm text-slate-500">
+                  <div className="text-sm text-aura-muted">
                     Respondidas: {answeredCount}
                   </div>
                 </div>
@@ -687,14 +687,14 @@ export default function ReconversionGratisPage() {
                       }
                       className={`w-full rounded-2xl border px-4 py-4 text-left transition ${
                         selected
-                          ? "border-slate-900 bg-slate-900 text-white"
-                          : "border-slate-200 bg-white text-slate-700 hover:border-slate-400"
+                          ? "border-aura-ink bg-aura-ink text-white"
+                          : "border-aura-primary/10 bg-white text-aura-ink hover:border-aura-primary/30"
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3">
                         <span className="font-medium">{option.label}</span>
                         <span
-                          className={`text-sm ${selected ? "text-slate-200" : "text-slate-400"}`}
+                          className={`text-sm ${selected ? "text-white/70" : "text-aura-muted/50"}`}
                         >
                           {option.value}
                         </span>
@@ -745,22 +745,22 @@ export default function ReconversionGratisPage() {
 
         {stage === "phase_2" && session && phaseSummary && (
           <div className="space-y-6">
-            <Card className="border-slate-200 bg-white/95 shadow-sm">
+            <Card className="border-aura-primary/10 bg-white/95 shadow-sm">
               <CardContent className="space-y-4 p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-medium uppercase tracking-[0.18em] text-slate-500">
+                    <p className="text-sm font-medium uppercase tracking-[0.18em] text-aura-muted">
                       Fase 2
                     </p>
-                    <h2 className="text-2xl font-bold text-slate-900">
+                    <h2 className="text-2xl font-bold text-aura-ink">
                       Desafio intencional de energia laboral
                     </h2>
-                    <p className="mt-2 max-w-2xl text-sm text-slate-500">
+                    <p className="mt-2 max-w-2xl text-sm text-aura-muted">
                       Ahora vamos a observar que tipo de situaciones te activan,
                       te dejan neutro o te drenan.
                     </p>
                   </div>
-                  <div className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600">
+                  <div className="rounded-full bg-aura-surface-low px-3 py-1 text-sm text-aura-muted">
                     {currentScenarioIndex + 1} /{" "}
                     {reconversionPhaseTwoScenarios.length}
                   </div>
@@ -773,20 +773,20 @@ export default function ReconversionGratisPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-slate-200 bg-white shadow-sm">
+            <Card className="border-aura-primary/10 bg-white shadow-sm">
               <CardHeader className="space-y-3">
                 <div className="flex items-center justify-between gap-3">
                   <div className="rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-900">
                     {reconversionPhaseTwoLabels[currentScenario.dimension]}
                   </div>
-                  <div className="text-sm text-slate-500">
+                  <div className="text-sm text-aura-muted">
                     Respondidas: {phaseTwoAnsweredCount}
                   </div>
                 </div>
                 <CardTitle className="text-2xl leading-9">
                   {currentScenario.title}
                 </CardTitle>
-                <p className="text-base leading-7 text-slate-600">
+                <p className="text-base leading-7 text-aura-muted">
                   {currentScenario.description}
                 </p>
               </CardHeader>
@@ -799,18 +799,18 @@ export default function ReconversionGratisPage() {
                     description:
                       "Esto me haria sentir mas vivo/a y con buena disposicion.",
                     className:
-                      "border-emerald-300 bg-emerald-50 text-emerald-900 hover:border-emerald-500",
+                      "border-aura-primary/20 bg-aura-surface-low text-aura-ink hover:border-aura-primary/30",
                     selectedClassName:
-                      "border-emerald-700 bg-emerald-700 text-white",
+                      "border-aura-primary bg-aura-primary text-white",
                   },
                   {
                     value: "neutral" as const,
                     title: "Me da igual",
                     description: "Puedo hacerlo, pero no me mueve demasiado.",
                     className:
-                      "border-slate-300 bg-slate-50 text-slate-900 hover:border-slate-500",
+                      "border-aura-primary/20 bg-aura-surface-low text-aura-ink hover:border-aura-primary/30",
                     selectedClassName:
-                      "border-slate-800 bg-slate-800 text-white",
+                      "border-aura-ink bg-aura-ink text-white",
                   },
                   {
                     value: "drena" as const,
@@ -818,8 +818,8 @@ export default function ReconversionGratisPage() {
                     description:
                       "Esto probablemente me desgasta o me apaga con el tiempo.",
                     className:
-                      "border-rose-300 bg-rose-50 text-rose-900 hover:border-rose-500",
-                    selectedClassName: "border-rose-700 bg-rose-700 text-white",
+                      "border-error/20 bg-error/5 text-error hover:border-error/30",
+                    selectedClassName: "border-error bg-error text-white",
                   },
                 ].map((option) => {
                   const selected =
@@ -894,23 +894,23 @@ export default function ReconversionGratisPage() {
 
         {stage === "phase_3" && session && phaseSummary && phaseTwoSummary && (
           <div className="space-y-6">
-            <Card className="border-slate-200 bg-white/95 shadow-sm">
+            <Card className="border-aura-primary/10 bg-white/95 shadow-sm">
               <CardContent className="space-y-4 p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-medium uppercase tracking-[0.18em] text-slate-500">
+                    <p className="text-sm font-medium uppercase tracking-[0.18em] text-aura-muted">
                       Fase 3
                     </p>
-                    <h2 className="text-2xl font-bold text-slate-900">
+                    <h2 className="text-2xl font-bold text-aura-ink">
                       Test confirmatorio de direccion vocacional
                     </h2>
-                    <p className="mt-2 max-w-2xl text-sm text-slate-500">
+                    <p className="mt-2 max-w-2xl text-sm text-aura-muted">
                       Esta fase comprueba si las señales del test base y del
                       desafio de energia se sostienen cuando te pedimos tomar
                       posicion frente a un cambio mas concreto.
                     </p>
                   </div>
-                  <div className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600">
+                  <div className="rounded-full bg-aura-surface-low px-3 py-1 text-sm text-aura-muted">
                     {currentConfirmQuestionIndex + 1} /{" "}
                     {reconversionPhaseThreeQuestions.length}
                   </div>
@@ -918,22 +918,22 @@ export default function ReconversionGratisPage() {
                 <ProgressBar
                   value={phaseThreeProgress}
                   showLabel={false}
-                  color="bg-violet-600"
+                  color="bg-aura-violet"
                 />
               </CardContent>
             </Card>
 
-            <Card className="border-slate-200 bg-white shadow-sm">
+            <Card className="border-aura-primary/10 bg-white shadow-sm">
               <CardHeader className="space-y-3">
                 <div className="flex items-center justify-between gap-3">
-                  <div className="rounded-full bg-violet-100 px-3 py-1 text-sm font-medium text-violet-900">
+                  <div className="rounded-full bg-aura-violet/10 px-3 py-1 text-sm font-medium text-aura-violet">
                     {
                       reconversionPhaseThreeLabels[
                         currentConfirmQuestion.dimension
                       ]
                     }
                   </div>
-                  <div className="text-sm text-slate-500">
+                  <div className="text-sm text-aura-muted">
                     Respondidas: {phaseThreeAnsweredCount}
                   </div>
                 </div>
@@ -959,14 +959,14 @@ export default function ReconversionGratisPage() {
                       }
                       className={`w-full rounded-2xl border px-4 py-4 text-left transition ${
                         selected
-                          ? "border-violet-700 bg-violet-700 text-white"
-                          : "border-slate-200 bg-white text-slate-700 hover:border-violet-300"
+                          ? "border-aura-violet bg-aura-violet text-white"
+                          : "border-aura-primary/10 bg-white text-aura-ink hover:border-aura-violet/30"
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3">
                         <span className="font-medium">{option.label}</span>
                         <span
-                          className={`text-sm ${selected ? "text-violet-100" : "text-slate-400"}`}
+                          className={`text-sm ${selected ? "text-white/70" : "text-aura-muted/50"}`}
                         >
                           {option.value}
                         </span>
@@ -1030,23 +1030,23 @@ export default function ReconversionGratisPage() {
           phaseTwoSummary &&
           phaseThreeSummary && (
             <div className="space-y-6">
-              <Card className="border-slate-200 bg-white/95 shadow-sm">
+              <Card className="border-aura-primary/10 bg-white/95 shadow-sm">
                 <CardContent className="space-y-4 p-5">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <p className="text-sm font-medium uppercase tracking-[0.18em] text-slate-500">
+                      <p className="text-sm font-medium uppercase tracking-[0.18em] text-aura-muted">
                         Fase 4
                       </p>
-                      <h2 className="text-2xl font-bold text-slate-900">
+                      <h2 className="text-2xl font-bold text-aura-ink">
                         Simulador de trade-offs de reconversion
                       </h2>
-                      <p className="mt-2 max-w-2xl text-sm text-slate-500">
+                      <p className="mt-2 max-w-2xl text-sm text-aura-muted">
                         Aqui ya no medimos solo afinidad. Te pedimos elegir
                         entre costos reales del cambio para entender como se
                         podria sostener una reconversion posible para tu vida.
                       </p>
                     </div>
-                    <div className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600">
+                    <div className="rounded-full bg-aura-surface-low px-3 py-1 text-sm text-aura-muted">
                       {currentTradeoffIndex + 1} /{" "}
                       {reconversionPhaseFourScenarios.length}
                     </div>
@@ -1054,25 +1054,25 @@ export default function ReconversionGratisPage() {
                   <ProgressBar
                     value={phaseFourProgress}
                     showLabel={false}
-                    color="bg-cyan-700"
+                    color="bg-aura-teal"
                   />
                 </CardContent>
               </Card>
 
-              <Card className="border-slate-200 bg-white shadow-sm">
+              <Card className="border-aura-primary/10 bg-white shadow-sm">
                 <CardHeader className="space-y-3">
                   <div className="flex items-center justify-between gap-3">
-                    <div className="rounded-full bg-cyan-100 px-3 py-1 text-sm font-medium text-cyan-900">
+                    <div className="rounded-full bg-aura-teal/10 px-3 py-1 text-sm font-medium text-aura-teal">
                       {currentTradeoff.theme}
                     </div>
-                    <div className="text-sm text-slate-500">
+                    <div className="text-sm text-aura-muted">
                       Respondidas: {phaseFourAnsweredCount}
                     </div>
                   </div>
                   <CardTitle className="text-2xl leading-9">
                     {currentTradeoff.title}
                   </CardTitle>
-                  <p className="text-base leading-7 text-slate-600">
+                  <p className="text-base leading-7 text-aura-muted">
                     {currentTradeoff.description}
                   </p>
                 </CardHeader>
@@ -1093,14 +1093,14 @@ export default function ReconversionGratisPage() {
                         }
                         className={`w-full rounded-2xl border px-4 py-4 text-left transition ${
                           selected
-                            ? "border-cyan-700 bg-cyan-700 text-white"
-                            : "border-slate-200 bg-white text-slate-700 hover:border-cyan-300"
+                            ? "border-aura-teal bg-aura-teal text-white"
+                            : "border-aura-primary/10 bg-white text-aura-ink hover:border-aura-teal/30"
                         }`}
                       >
                         <p className="font-semibold">{option.title}</p>
                         <p
                           className={`mt-1 text-sm ${
-                            selected ? "text-cyan-50" : "text-slate-500"
+                            selected ? "text-white/50" : "text-aura-muted"
                           }`}
                         >
                           {option.description}
@@ -1161,15 +1161,15 @@ export default function ReconversionGratisPage() {
           phaseFourSummary &&
           session && (
             <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-              <Card className="border-slate-200 bg-white shadow-sm">
+              <Card className="border-aura-primary/10 bg-white shadow-sm">
                 <CardHeader>
                   <CardTitle>Tu primera lectura de reconversion</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4 text-slate-700">
+                <CardContent className="space-y-4 text-aura-ink">
                   <p className="text-base leading-7">
                     {phaseSummary.profile_summary}
                   </p>
-                  <p className="text-sm leading-6 text-slate-500">
+                  <p className="text-sm leading-6 text-aura-muted">
                     {phaseSummary.consistency_hint}
                   </p>
 
@@ -1177,12 +1177,12 @@ export default function ReconversionGratisPage() {
                     {phaseSummary.top_dimensions.map((dimension) => (
                       <div
                         key={dimension}
-                        className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                        className="rounded-2xl border border-aura-primary/10 bg-aura-surface-low px-4 py-3"
                       >
-                        <p className="text-sm font-semibold text-slate-900">
+                        <p className="text-sm font-semibold text-aura-ink">
                           {reconversionDimensionLabels[dimension] ?? dimension}
                         </p>
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-aura-muted">
                           Puntaje base:{" "}
                           {phaseSummary.dimension_scores[dimension] ?? 0} / 100
                         </p>
@@ -1205,18 +1205,18 @@ export default function ReconversionGratisPage() {
                     </p>
                   </div>
 
-                  <div className="rounded-2xl border border-violet-200 bg-violet-50 px-4 py-4">
-                    <p className="text-sm font-semibold text-violet-950">
+                  <div className="rounded-2xl border border-aura-violet/20 bg-aura-surface-low px-4 py-4">
+                    <p className="text-sm font-semibold text-aura-ink">
                       Confirmacion de fase 3
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-violet-950">
+                    <p className="mt-2 text-sm leading-6 text-aura-ink">
                       {phaseThreeSummary.confirmation_readout}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {phaseThreeSummary.confirmed_signals.map((signal) => (
                         <span
                           key={signal}
-                          className="rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-900"
+                          className="rounded-full bg-aura-violet/10 px-3 py-1 text-xs font-medium text-aura-violet"
                         >
                           {signal}
                         </span>
@@ -1224,18 +1224,18 @@ export default function ReconversionGratisPage() {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-cyan-200 bg-cyan-50 px-4 py-4">
-                    <p className="text-sm font-semibold text-cyan-950">
+                  <div className="rounded-2xl border border-aura-teal/20 bg-aura-surface-low px-4 py-4">
+                    <p className="text-sm font-semibold text-aura-ink">
                       Lectura del desafio de trade-offs
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-cyan-950">
+                    <p className="mt-2 text-sm leading-6 text-aura-ink">
                       {phaseFourSummary.decision_summary}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {phaseFourSummary.tradeoff_profile.map((signal) => (
                         <span
                           key={signal}
-                          className="rounded-full bg-cyan-100 px-3 py-1 text-xs font-medium text-cyan-900"
+                          className="rounded-full bg-aura-teal/10 px-3 py-1 text-xs font-medium text-aura-teal"
                         >
                           {signal}
                         </span>
@@ -1245,12 +1245,12 @@ export default function ReconversionGratisPage() {
                 </CardContent>
               </Card>
 
-              <Card className="border-slate-200 bg-white shadow-sm">
+              <Card className="border-aura-primary/10 bg-white shadow-sm">
                 <CardHeader>
                   <CardTitle>Lo que ya sabemos de ti</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4 text-sm text-slate-600">
-                  <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-900">
+                <CardContent className="space-y-4 text-sm text-aura-muted">
+                  <div className="rounded-2xl border border-aura-primary/15 bg-aura-surface-low px-4 py-3 text-aura-ink">
                     <p className="font-semibold">Te energiza</p>
                     <p className="mt-1">
                       {phaseTwoSummary.energy_map.length > 0
@@ -1258,7 +1258,7 @@ export default function ReconversionGratisPage() {
                         : "Aun no aparece una fuente dominante de energia."}
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-900">
+                  <div className="rounded-2xl border border-error/15 bg-error/5 px-4 py-3 text-error">
                     <p className="font-semibold">Te drena</p>
                     <p className="mt-1">
                       {phaseTwoSummary.drain_map.length > 0
@@ -1266,7 +1266,7 @@ export default function ReconversionGratisPage() {
                         : "No se detecta drenaje fuerte por ahora."}
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700">
+                  <div className="rounded-2xl border border-aura-primary/10 bg-aura-surface-low px-4 py-3 text-aura-ink">
                     <p className="font-semibold">
                       Modos de trabajo compatibles
                     </p>
@@ -1274,7 +1274,7 @@ export default function ReconversionGratisPage() {
                       {phaseTwoSummary.dominant_work_modes.join(", ")}.
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-violet-200 bg-violet-50 px-4 py-3 text-violet-950">
+                  <div className="rounded-2xl border border-aura-violet/20 bg-aura-surface-low px-4 py-3 text-aura-ink">
                     <p className="font-semibold">
                       Confianza de la hipotesis actual
                     </p>
@@ -1287,7 +1287,7 @@ export default function ReconversionGratisPage() {
                       pasar al desafio final y al informe IA.
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700">
+                  <div className="rounded-2xl border border-aura-primary/10 bg-aura-surface-low px-4 py-3 text-aura-ink">
                     <p className="font-semibold">Senales a mirar con cuidado</p>
                     <p className="mt-1">
                       {phaseThreeSummary.tension_signals.length > 0
@@ -1295,7 +1295,7 @@ export default function ReconversionGratisPage() {
                         : "No aparecen tensiones fuertes en esta etapa."}
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-cyan-200 bg-cyan-50 px-4 py-3 text-cyan-950">
+                  <div className="rounded-2xl border border-aura-teal/20 bg-aura-surface-low px-4 py-3 text-aura-ink">
                     <p className="font-semibold">Readiness de cambio</p>
                     <p className="mt-1 text-2xl font-bold">
                       {phaseFourSummary.change_readiness} / 100
@@ -1307,18 +1307,18 @@ export default function ReconversionGratisPage() {
                       {phaseFourSummary.upskilling_readiness.toLowerCase()}.
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700">
+                  <div className="rounded-2xl border border-aura-primary/10 bg-aura-surface-low px-4 py-3 text-aura-ink">
                     <p className="font-semibold">
                       Modalidad y tension economica
                     </p>
                     <p className="mt-1">
                       {phaseFourSummary.preferred_work_setup}
                     </p>
-                    <p className="mt-2 text-sm text-slate-500">
+                    <p className="mt-2 text-sm text-aura-muted">
                       {phaseFourSummary.income_tension}
                     </p>
                   </div>
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-700">
+                  <div className="rounded-2xl border border-aura-primary/10 bg-aura-surface-low px-4 py-3 text-aura-ink">
                     <p className="font-semibold">Condiciones a respetar</p>
                     <p className="mt-1">
                       {phaseFourSummary.constraints_to_respect.join(" ")}
@@ -1330,11 +1330,11 @@ export default function ReconversionGratisPage() {
                     reconversion, fricciones y balance entre bienestar e
                     ingreso.
                   </p>
-                  <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                    <p className="font-semibold text-slate-900">
+                  <div className="rounded-2xl border border-aura-primary/10 bg-white px-4 py-4">
+                    <p className="font-semibold text-aura-ink">
                       Informe final
                     </p>
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-aura-muted">
                       Genera una vista pública con rutas recomendadas, gráfico
                       de bienestar vs ingreso y plan de acción.
                     </p>
@@ -1361,21 +1361,21 @@ export default function ReconversionGratisPage() {
                       )}
                     </div>
                     {isRedirectingToReport && reportUrl && (
-                      <div className="mt-4 flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 animate-pulse">
+                      <div className="mt-4 flex items-center gap-3 rounded-2xl border border-aura-primary/15 bg-aura-surface-low px-4 py-3 text-sm text-aura-ink animate-pulse">
                         <Spinner size="sm" />
                         Estamos preparando tu informe final y te llevaremos a la
                         vista publica en unos segundos.
                       </div>
                     )}
                     {reportUrl && (
-                      <p className="mt-3 text-xs text-slate-400">
+                      <p className="mt-3 text-xs text-aura-muted/50">
                         Informe generado
                         {reportGeneratedAt ? `: ${reportGeneratedAt}` : ""}.
                         URL: {reportUrl}
                       </p>
                     )}
                   </div>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-aura-muted/50">
                     Session ID: {session.id}
                   </p>
                 </CardContent>
