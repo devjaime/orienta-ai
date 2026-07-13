@@ -45,10 +45,10 @@ export default function OrientadorAgendaPage() {
     <RoleGuard allowedRoles={["orientador", "admin_colegio"]}>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-vocari-text">Mi Agenda de Disponibilidad</h1>
+          <h1 className="text-2xl font-bold text-aura-ink">Mi Agenda de Disponibilidad</h1>
         </div>
 
-        <p className="text-sm text-vocari-text-muted">
+        <p className="text-sm text-aura-muted">
           Define los bloques horarios en que los estudiantes pueden agendarte sesiones.
         </p>
 
@@ -69,15 +69,15 @@ export default function OrientadorAgendaPage() {
                   </CardHeader>
                   <CardContent className="space-y-2">
                     {dayBlocks.length === 0 ? (
-                      <p className="text-xs text-vocari-text-muted py-2">Sin bloques</p>
+                      <p className="text-xs text-aura-muted py-2">Sin bloques</p>
                     ) : (
                       dayBlocks.map((b) => (
                         <div
                           key={b.id}
-                          className="flex items-center justify-between p-2 bg-vocari-primary/5 rounded-md"
+                          className="flex items-center justify-between p-2 bg-aura-primary/5 rounded-md"
                         >
                           <div className="flex items-center gap-2">
-                            <Clock className="h-3.5 w-3.5 text-vocari-primary" />
+                            <Clock className="h-3.5 w-3.5 text-aura-primary" />
                             <span className="text-xs font-medium">
                               {b.start_time} – {b.end_time}
                             </span>
@@ -102,10 +102,10 @@ export default function OrientadorAgendaPage() {
         {blocks.length === 0 && !isLoading && (
           <div className="text-center py-8">
             <Clock className="h-10 w-10 text-gray-300 mx-auto mb-3" />
-            <p className="text-vocari-text-muted">
+            <p className="text-aura-muted">
               No has configurado tu disponibilidad aún.
             </p>
-            <p className="text-sm text-vocari-text-muted mt-1">
+            <p className="text-sm text-aura-muted mt-1">
               Contacta al administrador para configurar tus horarios.
             </p>
           </div>

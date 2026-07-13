@@ -43,9 +43,9 @@ function UpcomingSessions() {
 
   if (sessions.length === 0) {
     return (
-      <p className="text-vocari-text-muted text-sm py-4">
+      <p className="text-aura-muted text-sm py-4">
         No tienes sesiones programadas.{" "}
-        <a href="/estudiante/sesiones/agendar" className="text-vocari-accent underline">
+        <a href="/estudiante/sesiones/agendar" className="text-aura-teal underline">
           Agendar una sesion
         </a>
       </p>
@@ -58,13 +58,13 @@ function UpcomingSessions() {
         <li key={s.id}>
           <a
             href={`/estudiante/sesiones/${s.id}`}
-            className="flex items-center justify-between p-3 rounded-md border border-gray-100 hover:border-vocari-accent transition-colors"
+            className="flex items-center justify-between p-3 rounded-md border border-gray-100 hover:border-aura-teal transition-colors"
           >
             <div>
-              <p className="text-sm font-medium text-vocari-text">
+              <p className="text-sm font-medium text-aura-ink">
                 {formatSessionDate(s.scheduled_at)}
               </p>
-              <p className="text-xs text-vocari-text-muted">
+              <p className="text-xs text-aura-muted">
                 {s.duration_minutes} min
               </p>
             </div>
@@ -85,7 +85,7 @@ export default function StudentDashboard() {
   return (
     <RoleGuard allowedRoles={["estudiante"]}>
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-vocari-text">
+        <h1 className="text-2xl font-bold text-aura-ink">
           Mi Dashboard
         </h1>
 
@@ -93,12 +93,12 @@ export default function StudentDashboard() {
           {/* Stat cards */}
           <Card>
             <CardContent className="flex items-center gap-3">
-              <div className="p-2 bg-blue-100 rounded-md">
-                <Calendar className="h-5 w-5 text-blue-600" />
+              <div className="p-2 bg-aura-primary/10 rounded-md">
+                <Calendar className="h-5 w-5 text-aura-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-vocari-text">0</p>
-                <p className="text-xs text-vocari-text-muted">
+                <p className="text-2xl font-bold text-aura-ink">0</p>
+                <p className="text-xs text-aura-muted">
                   Sesiones este mes
                 </p>
               </div>
@@ -111,8 +111,8 @@ export default function StudentDashboard() {
                 <ClipboardList className="h-5 w-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-vocari-text">1</p>
-                <p className="text-xs text-vocari-text-muted">
+                <p className="text-2xl font-bold text-aura-ink">1</p>
+                <p className="text-xs text-aura-muted">
                   Tests pendientes
                 </p>
               </div>
@@ -121,12 +121,12 @@ export default function StudentDashboard() {
 
           <Card>
             <CardContent className="flex items-center gap-3">
-              <div className="p-2 bg-green-100 rounded-md">
-                <GraduationCap className="h-5 w-5 text-green-600" />
+              <div className="p-2 bg-success/10 rounded-md">
+                <GraduationCap className="h-5 w-5 text-success" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-vocari-text">5</p>
-                <p className="text-xs text-vocari-text-muted">
+                <p className="text-2xl font-bold text-aura-ink">5</p>
+                <p className="text-xs text-aura-muted">
                   Carreras recomendadas
                 </p>
               </div>
@@ -135,12 +135,12 @@ export default function StudentDashboard() {
 
           <Card>
             <CardContent className="flex items-center gap-3">
-              <div className="p-2 bg-yellow-100 rounded-md">
-                <TrendingUp className="h-5 w-5 text-yellow-600" />
+              <div className="p-2 bg-warning/10 rounded-md">
+                <TrendingUp className="h-5 w-5 text-warning" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-vocari-text">--</p>
-                <p className="text-xs text-vocari-text-muted">
+                <p className="text-2xl font-bold text-aura-ink">--</p>
+                <p className="text-xs text-aura-muted">
                   Score perfil
                 </p>
               </div>
@@ -167,16 +167,16 @@ export default function StudentDashboard() {
             <CardContent>
               <a
                 href="/estudiante/tests/riasec"
-                className="flex items-center gap-3 p-3 rounded-md border border-gray-100 hover:border-vocari-accent transition-colors"
+                className="flex items-center gap-3 p-3 rounded-md border border-gray-100 hover:border-aura-teal transition-colors"
               >
-                <div className="p-2 bg-vocari-accent/10 rounded-md">
-                  <ClipboardList className="h-5 w-5 text-vocari-accent" />
+                <div className="p-2 bg-aura-teal/10 rounded-md">
+                  <ClipboardList className="h-5 w-5 text-aura-teal" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-vocari-text">
+                  <p className="text-sm font-medium text-aura-ink">
                     Test RIASEC
                   </p>
-                  <p className="text-xs text-vocari-text-muted">
+                  <p className="text-xs text-aura-muted">
                     36 preguntas - Descubre tus intereses vocacionales
                   </p>
                 </div>

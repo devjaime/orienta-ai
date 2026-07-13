@@ -68,7 +68,7 @@ export default function AgendarSesionPage() {
   return (
     <RoleGuard allowedRoles={["estudiante"]}>
       <div className="max-w-2xl mx-auto space-y-6">
-        <h1 className="text-2xl font-bold text-vocari-text">
+        <h1 className="text-2xl font-bold text-aura-ink">
           Agendar sesion
         </h1>
 
@@ -112,7 +112,7 @@ export default function AgendarSesionPage() {
                   <Skeleton variant="rect" height={40} />
                 </div>
               ) : !availability || availability.length === 0 ? (
-                <p className="text-vocari-text-muted text-sm py-4">
+                <p className="text-aura-muted text-sm py-4">
                   Este orientador no tiene horarios disponibles.
                 </p>
               ) : (
@@ -128,14 +128,14 @@ export default function AgendarSesionPage() {
                           onClick={() => setSelectedSlot(key)}
                           className={`p-3 text-left rounded-md border transition-colors ${
                             isSelected
-                              ? "border-vocari-accent bg-vocari-accent/10"
-                              : "border-gray-200 hover:border-vocari-accent"
+                              ? "border-aura-teal bg-aura-teal/10"
+                              : "border-gray-200 hover:border-aura-teal"
                           }`}
                         >
-                          <p className="text-sm font-medium text-vocari-text">
+                          <p className="text-sm font-medium text-aura-ink">
                             {DIAS_SEMANA[block.day_of_week]}
                           </p>
-                          <p className="text-xs text-vocari-text-muted">
+                          <p className="text-xs text-aura-muted">
                             {block.start_time} - {block.end_time}
                           </p>
                         </button>

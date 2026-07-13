@@ -29,15 +29,15 @@ function StatsCards({
   const cards = [
     {
       icon: Building2,
-      bgColor: "bg-blue-100",
-      iconColor: "text-blue-600",
+      bgColor: "bg-aura-primary/10",
+      iconColor: "text-aura-primary",
       value: `${stats.active_institutions}/${stats.total_institutions}`,
       label: "Instituciones activas",
     },
     {
       icon: Users,
-      bgColor: "bg-green-100",
-      iconColor: "text-green-600",
+      bgColor: "bg-success/10",
+      iconColor: "text-success",
       value: stats.total_users,
       label: "Usuarios totales",
     },
@@ -50,8 +50,8 @@ function StatsCards({
     },
     {
       icon: ClipboardCheck,
-      bgColor: "bg-yellow-100",
-      iconColor: "text-yellow-600",
+      bgColor: "bg-warning/10",
+      iconColor: "text-warning",
       value: stats.tests_this_month,
       label: "Tests este mes",
     },
@@ -66,10 +66,10 @@ function StatsCards({
               <card.icon className={`h-5 w-5 ${card.iconColor}`} />
             </div>
             <div>
-              <p className="text-2xl font-bold text-vocari-text">
+              <p className="text-2xl font-bold text-aura-ink">
                 {card.value}
               </p>
-              <p className="text-xs text-vocari-text-muted">{card.label}</p>
+              <p className="text-xs text-aura-muted">{card.label}</p>
             </div>
           </CardContent>
         </Card>
@@ -85,7 +85,7 @@ function InstitutionsList({
 }) {
   if (institutions.length === 0) {
     return (
-      <p className="text-vocari-text-muted text-sm py-4">
+      <p className="text-aura-muted text-sm py-4">
         No hay instituciones activas
       </p>
     );
@@ -97,15 +97,15 @@ function InstitutionsList({
         <a
           key={inst.id}
           href={`/super-admin/instituciones/${inst.id}`}
-          className="flex items-center justify-between p-4 rounded-lg border border-gray-100 hover:border-vocari-accent transition-colors"
+          className="flex items-center justify-between p-4 rounded-lg border border-aura-surface hover:border-aura-teal transition-colors"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-vocari-primary/10 rounded-md">
-              <Building2 className="h-5 w-5 text-vocari-primary" />
+            <div className="p-2 bg-aura-primary/10 rounded-md">
+              <Building2 className="h-5 w-5 text-aura-primary" />
             </div>
             <div>
-              <p className="font-medium text-vocari-text">{inst.name}</p>
-              <p className="text-xs text-vocari-text-muted">{inst.slug}</p>
+              <p className="font-medium text-aura-ink">{inst.name}</p>
+              <p className="text-xs text-aura-muted">{inst.slug}</p>
             </div>
           </div>
           <div className="text-right">
@@ -115,7 +115,7 @@ function InstitutionsList({
             >
               {inst.is_active ? "Activa" : "Inactiva"}
             </Badge>
-            <p className="text-xs text-vocari-text-muted">
+            <p className="text-xs text-aura-muted">
               {inst.total_students} estudiantes | {inst.total_sessions} sesiones
             </p>
           </div>
@@ -136,14 +136,14 @@ function QuickStats({
     <div className="grid grid-cols-2 gap-4">
       <Card>
         <CardContent className="flex items-center gap-3 py-4">
-          <div className="p-2 bg-green-100 rounded-md">
-            <TrendingUp className="h-5 w-5 text-green-600" />
+          <div className="p-2 bg-success/10 rounded-md">
+            <TrendingUp className="h-5 w-5 text-success" />
           </div>
           <div>
-            <p className="text-2xl font-bold text-vocari-text">
+            <p className="text-2xl font-bold text-aura-ink">
               {recentSessions}
             </p>
-            <p className="text-xs text-vocari-text-muted">
+            <p className="text-xs text-aura-muted">
               Sesiones ultima semana
             </p>
           </div>
@@ -156,8 +156,8 @@ function QuickStats({
             <Activity className="h-5 w-5 text-purple-600" />
           </div>
           <div>
-            <p className="text-2xl font-bold text-vocari-text">{recentTests}</p>
-            <p className="text-xs text-vocari-text-muted">
+            <p className="text-2xl font-bold text-aura-ink">{recentTests}</p>
+            <p className="text-xs text-aura-muted">
               Tests ultima semana
             </p>
           </div>
@@ -249,10 +249,10 @@ export default function SuperAdminDashboard() {
     <RoleGuard allowedRoles={["super_admin"]}>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-vocari-text">
+          <h1 className="text-2xl font-bold text-aura-ink">
             Dashboard Super Admin
           </h1>
-          <p className="text-vocari-text-muted">
+          <p className="text-aura-muted">
             Estadisticas globales de la plataforma
           </p>
         </div>

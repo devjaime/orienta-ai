@@ -135,10 +135,10 @@ function CsvImport() {
         <CardContent className="space-y-4">
           <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
             <FileSpreadsheet className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-vocari-text mb-2">
+            <p className="text-aura-ink mb-2">
               Selecciona un archivo CSV con los datos de los estudiantes
             </p>
-            <p className="text-sm text-vocari-text-muted mb-4">
+            <p className="text-sm text-aura-muted mb-4">
               Formato requerido: email, full_name, grade, section, enrollment_year
             </p>
             <input
@@ -150,7 +150,7 @@ function CsvImport() {
               id="csv-file"
             />
             <label htmlFor="csv-file" className="inline-block cursor-pointer">
-              <span className="inline-flex items-center justify-center gap-2 font-medium rounded-md transition-all duration-200 px-4 py-2 text-base bg-white text-vocari-primary border border-vocari-primary hover:bg-vocari-primary hover:text-white">
+              <span className="inline-flex items-center justify-center gap-2 font-medium rounded-md transition-all duration-200 px-4 py-2 text-base bg-white text-aura-primary border border-aura-primary hover:bg-aura-primary hover:text-white">
                 Seleccionar archivo
               </span>
             </label>
@@ -159,8 +159,8 @@ function CsvImport() {
           {file && (
             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center gap-3">
-                <FileSpreadsheet className="h-5 w-5 text-green-600" />
-                <span className="font-medium text-vocari-text">{file.name}</span>
+                <FileSpreadsheet className="h-5 w-5 text-success" />
+                <span className="font-medium text-aura-ink">{file.name}</span>
               </div>
               <Button variant="ghost" size="sm" onClick={handleReset}>
                 <RefreshCw className="h-4 w-4" />
@@ -169,9 +169,9 @@ function CsvImport() {
           )}
 
           {error && (
-            <div className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <AlertCircle className="h-5 w-5 text-red-600" />
-              <span className="text-sm text-red-700">{error}</span>
+            <div className="flex items-center gap-3 p-4 bg-error border border-error rounded-lg">
+              <AlertCircle className="h-5 w-5 text-error" />
+              <span className="text-sm text-error">{error}</span>
             </div>
           )}
 
@@ -246,7 +246,7 @@ function CsvImport() {
               </div>
 
               {preview.rows.length > 10 && (
-                <p className="text-sm text-vocari-text-muted text-center">
+                <p className="text-sm text-aura-muted text-center">
                   Mostrando 10 de {preview.rows.length} filas
                 </p>
               )}
@@ -268,19 +268,19 @@ function CsvImport() {
 
           {result && (
             <div className="space-y-4">
-              <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-green-600" />
-                <span className="text-green-700">
+              <div className="flex items-center gap-3 p-4 bg-success border border-success rounded-lg">
+                <CheckCircle className="h-5 w-5 text-success" />
+                <span className="text-success">
                   Se importaron {result.imported} estudiantes correctamente
                 </span>
               </div>
 
               {result.failed > 0 && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                  <p className="text-sm text-red-700 font-medium mb-2">
+                <div className="bg-error border border-error rounded-lg p-4">
+                  <p className="text-sm text-error font-medium mb-2">
                     {result.failed} estudiantes no pudieron ser importados:
                   </p>
-                  <ul className="list-disc list-inside text-sm text-red-600 space-y-1">
+                  <ul className="list-disc list-inside text-sm text-error space-y-1">
                     {result.errors.slice(0, 5).map((e) => (
                       <li key={e.row}>
                         Fila {e.row}: {e.error}
@@ -303,15 +303,15 @@ function CsvImport() {
           <CardTitle>Formato del archivo CSV</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-vocari-text-muted mb-4">
+          <p className="text-sm text-aura-muted mb-4">
             El archivo debe contener las siguientes columnas:
           </p>
           <div className="bg-gray-50 rounded-lg p-4 font-mono text-sm">
             <p>email,full_name,grade,section,enrollment_year</p>
-            <p className="mt-2 text-vocari-text-muted">
+            <p className="mt-2 text-aura-muted">
               estudiante1@colegio.cl,Juan Perez,4,A,2024
             </p>
-            <p className="text-vocari-text-muted">
+            <p className="text-aura-muted">
               estudiante2@colegio.cl,Maria Garcia,3,B,2024
             </p>
           </div>
@@ -330,10 +330,10 @@ export default function ImportarPage() {
     <RoleGuard allowedRoles={["admin_colegio"]}>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-vocari-text">
+          <h1 className="text-2xl font-bold text-aura-ink">
             Importar Estudiantes
           </h1>
-          <p className="text-vocari-text-muted">
+          <p className="text-aura-muted">
             Carga masiva de estudiantes desde un archivo CSV
           </p>
         </div>

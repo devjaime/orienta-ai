@@ -37,10 +37,10 @@ export default function EstudianteSesionesPage() {
     <RoleGuard allowedRoles={["estudiante"]}>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-vocari-text">Mis Sesiones</h1>
+          <h1 className="text-2xl font-bold text-aura-ink">Mis Sesiones</h1>
           <Link
             href="/estudiante/sesiones/agendar"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-vocari-primary text-white rounded-md hover:opacity-90 text-sm font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-aura-primary text-white rounded-md hover:opacity-90 text-sm font-medium"
           >
             <Plus className="h-4 w-4" />
             Agendar sesión
@@ -61,12 +61,12 @@ export default function EstudianteSesionesPage() {
             ) : sessions.length === 0 ? (
               <div className="py-12 text-center">
                 <Calendar className="h-10 w-10 text-gray-300 mx-auto mb-3" />
-                <p className="text-vocari-text-muted mb-4">
+                <p className="text-aura-muted mb-4">
                   No tienes sesiones registradas.
                 </p>
                 <Link
                   href="/estudiante/sesiones/agendar"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-vocari-primary text-white rounded-md hover:opacity-90 text-sm"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-aura-primary text-white rounded-md hover:opacity-90 text-sm"
                 >
                   <Plus className="h-4 w-4" />
                   Agendar tu primera sesión
@@ -77,10 +77,10 @@ export default function EstudianteSesionesPage() {
                 {sessions.map((s) => (
                   <li key={s.id} className="py-4 flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-vocari-text">
+                      <p className="text-sm font-medium text-aura-ink">
                         {formatSessionDate(s.scheduled_at)}
                       </p>
-                      <p className="text-xs text-vocari-text-muted mt-0.5">
+                      <p className="text-xs text-aura-muted mt-0.5">
                         {s.duration_minutes} minutos
                       </p>
                     </div>

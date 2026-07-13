@@ -60,11 +60,11 @@ export default function OrientadorEstudiantesPage() {
     <RoleGuard allowedRoles={["orientador", "admin_colegio"]}>
       <div className="space-y-6">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <h1 className="text-2xl font-bold text-vocari-text">
+          <h1 className="text-2xl font-bold text-aura-ink">
             Mis Estudiantes
           </h1>
           {data && (
-            <span className="text-sm text-vocari-text-muted">
+            <span className="text-sm text-aura-muted">
               {data.total} estudiante{data.total !== 1 ? "s" : ""}
             </span>
           )}
@@ -74,7 +74,7 @@ export default function OrientadorEstudiantesPage() {
           <CardContent className="pt-5">
             <div className="grid gap-3 md:grid-cols-3">
               <label className="relative">
-                <Search className="w-4 h-4 absolute left-3 top-2.5 text-vocari-text-muted" />
+                <Search className="w-4 h-4 absolute left-3 top-2.5 text-aura-muted" />
                 <input
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
@@ -121,7 +121,7 @@ export default function OrientadorEstudiantesPage() {
             ) : estudiantes.length === 0 ? (
               <div className="py-12 text-center">
                 <Users className="h-10 w-10 text-gray-300 mx-auto mb-3" />
-                <p className="text-vocari-text-muted">
+                <p className="text-aura-muted">
                   No tienes estudiantes asignados aún.
                 </p>
               </div>
@@ -129,39 +129,39 @@ export default function OrientadorEstudiantesPage() {
               <ul className="divide-y divide-gray-100">
                 {estudiantes.map((e) => (
                   <li key={e.id} className="py-4 flex items-center gap-3 flex-wrap">
-                    <div className="h-9 w-9 rounded-full bg-vocari-primary/10 flex items-center justify-center shrink-0">
-                      <User className="h-5 w-5 text-vocari-primary" />
+                    <div className="h-9 w-9 rounded-full bg-aura-primary/10 flex items-center justify-center shrink-0">
+                      <User className="h-5 w-5 text-aura-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-vocari-text truncate">{e.name}</p>
-                      <p className="text-xs text-vocari-text-muted truncate">{e.email}</p>
+                      <p className="text-sm font-medium text-aura-ink truncate">{e.name}</p>
+                      <p className="text-xs text-aura-muted truncate">{e.email}</p>
                       <div className="mt-1 flex flex-wrap gap-1.5">
                         <Badge className={riskBadgeClass(e.risk_level)}>
                           Riesgo {e.risk_level}
                         </Badge>
-                        <Badge className={e.test_status === "completo" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"}>
+                        <Badge className={e.test_status === "completo" ? "bg-success/10 text-success" : "bg-gray-100 text-gray-700"}>
                           Test {e.test_status}
                         </Badge>
                         {e.holland_code && (
-                          <Badge className="bg-vocari-primary/10 text-vocari-primary">
+                          <Badge className="bg-aura-primary/10 text-aura-primary">
                             {e.holland_code}
                           </Badge>
                         )}
                         {e.curso && (
-                          <Badge className="bg-blue-100 text-blue-700">
+                          <Badge className="bg-aura-primary/10 text-aura-primary">
                             {e.curso}
                           </Badge>
                         )}
                       </div>
                     </div>
-                    <div className="text-right text-xs text-vocari-text-muted shrink-0">
+                    <div className="text-right text-xs text-aura-muted shrink-0">
                       <p>{e.sessions_count} sesión{e.sessions_count !== 1 ? "es" : ""}</p>
                       <p>
                         Claridad: {typeof e.clarity_score === "number" ? e.clarity_score.toFixed(1) : "N/D"}
                       </p>
                       <Link
                         href={`/orientador/estudiantes/${e.id}`}
-                        className="inline-block mt-2 text-vocari-primary hover:underline text-xs font-medium"
+                        className="inline-block mt-2 text-aura-primary hover:underline text-xs font-medium"
                       >
                         Ver ficha
                       </Link>

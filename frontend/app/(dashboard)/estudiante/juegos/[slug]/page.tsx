@@ -44,7 +44,7 @@ function GameLoader() {
   if (!game) {
     return (
       <div className="text-center py-12">
-        <p className="text-vocari-text-muted">Juego no encontrado</p>
+        <p className="text-aura-muted">Juego no encontrado</p>
       </div>
     );
   }
@@ -54,7 +54,7 @@ function GameLoader() {
   if (!GameComponent) {
     return (
       <div className="text-center py-12">
-        <p className="text-vocari-text-muted">Juego no implementado: {game.slug}</p>
+        <p className="text-aura-muted">Juego no implementado: {game.slug}</p>
       </div>
     );
   }

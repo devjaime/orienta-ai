@@ -25,7 +25,7 @@ function ChildCard({ child }: { child: ParentDashboardResponse["children"][0] })
   return (
     <Link
       href={`/apoderado/hijos/${child.student_id}`}
-      className="block p-4 rounded-lg border border-gray-100 hover:border-vocari-accent transition-colors"
+      className="block p-4 rounded-lg border border-aura-surface hover:border-aura-teal transition-colors"
     >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
@@ -33,21 +33,21 @@ function ChildCard({ child }: { child: ParentDashboardResponse["children"][0] })
             <Heart className="h-5 w-5 text-pink-600" />
           </div>
           <div>
-            <h3 className="font-medium text-vocari-text">
+            <h3 className="font-medium text-aura-ink">
               {child.student_name}
             </h3>
-            <p className="text-xs text-vocari-text-muted">
+            <p className="text-xs text-aura-muted">
               {child.student_email}
             </p>
           </div>
         </div>
-        <ChevronRight className="h-5 w-5 text-vocari-text-muted" />
+        <ChevronRight className="h-5 w-5 text-aura-muted" />
       </div>
 
       {child.happiness_indicator !== null && child.happiness_indicator !== undefined && (
         <div className="flex items-center gap-2 mb-3">
-          <TrendingUp className="h-4 w-4 text-green-600" />
-          <span className="text-sm text-vocari-text">
+          <TrendingUp className="h-4 w-4 text-success" />
+          <span className="text-sm text-aura-ink">
             Indicador de bienestar: <strong>{child.happiness_indicator}%</strong>
           </span>
         </div>
@@ -56,8 +56,8 @@ function ChildCard({ child }: { child: ParentDashboardResponse["children"][0] })
       <div className="space-y-2">
         {child.upcoming_sessions.length > 0 && (
           <div className="flex items-center gap-2 text-sm">
-            <Calendar className="h-4 w-4 text-blue-600" />
-            <span className="text-vocari-text-muted">
+            <Calendar className="h-4 w-4 text-aura-primary" />
+            <span className="text-aura-muted">
               Proxima sesion: {formatSessionDate(child.upcoming_sessions[0].scheduled_at)}
             </span>
           </div>
@@ -65,7 +65,7 @@ function ChildCard({ child }: { child: ParentDashboardResponse["children"][0] })
         {child.recent_tests.length > 0 && (
           <div className="flex items-center gap-2 text-sm">
             <ClipboardList className="h-4 w-4 text-purple-600" />
-            <span className="text-vocari-text-muted">
+            <span className="text-aura-muted">
               Ultimo test: {child.recent_tests[0].test_type}
             </span>
           </div>
@@ -97,10 +97,10 @@ function ChildrenList() {
     return (
       <div className="text-center py-8">
         <Heart className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-        <p className="text-vocari-text-muted">
+        <p className="text-aura-muted">
           No tienes hijos vinculados a tu cuenta.
         </p>
-        <p className="text-sm text-vocari-text-muted mt-1">
+        <p className="text-sm text-aura-muted mt-1">
           Contacta al orientador para obtener un codigo de vinculacion.
         </p>
       </div>
@@ -121,14 +121,14 @@ function QuickActions() {
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <Link
         href="/apoderado/consentimiento"
-        className="flex items-center gap-3 p-4 rounded-lg border border-gray-100 hover:border-vocari-accent transition-colors"
+        className="flex items-center gap-3 p-4 rounded-lg border border-aura-surface hover:border-aura-teal transition-colors"
       >
-        <div className="p-2 bg-blue-100 rounded-md">
-          <ClipboardList className="h-5 w-5 text-blue-600" />
+        <div className="p-2 bg-aura-primary/10 rounded-md">
+          <ClipboardList className="h-5 w-5 text-aura-primary" />
         </div>
         <div>
-          <p className="font-medium text-vocari-text">Consentimientos</p>
-          <p className="text-xs text-vocari-text-muted">
+          <p className="font-medium text-aura-ink">Consentimientos</p>
+          <p className="text-xs text-aura-muted">
             Gestionar permisos de tratamiento de datos
           </p>
         </div>
@@ -136,14 +136,14 @@ function QuickActions() {
 
       <Link
         href="/apoderado/hijos"
-        className="flex items-center gap-3 p-4 rounded-lg border border-gray-100 hover:border-vocari-accent transition-colors"
+        className="flex items-center gap-3 p-4 rounded-lg border border-aura-surface hover:border-aura-teal transition-colors"
       >
-        <div className="p-2 bg-green-100 rounded-md">
-          <Heart className="h-5 w-5 text-green-600" />
+        <div className="p-2 bg-success/10 rounded-md">
+          <Heart className="h-5 w-5 text-success" />
         </div>
         <div>
-          <p className="font-medium text-vocari-text">Ver hijos</p>
-          <p className="text-xs text-vocari-text-muted">
+          <p className="font-medium text-aura-ink">Ver hijos</p>
+          <p className="text-xs text-aura-muted">
             Explorar progreso y resultados
           </p>
         </div>
@@ -157,10 +157,10 @@ export default function ApoderadoDashboard() {
     <RoleGuard allowedRoles={["apoderado"]}>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-vocari-text">
+          <h1 className="text-2xl font-bold text-aura-ink">
             Dashboard Apoderado
           </h1>
-          <p className="text-vocari-text-muted">
+          <p className="text-aura-muted">
             Seguimiento del progreso vocacional de tus hijos
           </p>
         </div>

@@ -25,10 +25,10 @@ import type {
 /* ---------- Helpers ---------- */
 
 const SENTIMENT_COLORS: Record<string, string> = {
-  positivo: "text-green-600",
-  neutro: "text-gray-600",
-  negativo: "text-red-600",
-  mixto: "text-yellow-600",
+  positivo: "text-success",
+  neutro: "text-aura-muted",
+  negativo: "text-error",
+  mixto: "text-warning",
 };
 
 const PRIORITY_COLORS: Record<string, "error" | "warning" | "info"> = {
@@ -49,7 +49,7 @@ function TranscriptViewer({ sessionId }: { sessionId: string }) {
   if (isLoading) return <Skeleton variant="rect" height={200} />;
   if (!data) {
     return (
-      <p className="text-vocari-text-muted text-sm py-4">
+      <p className="text-aura-muted text-sm py-4">
         La transcripcion aun no esta disponible.
       </p>
     );
@@ -58,7 +58,7 @@ function TranscriptViewer({ sessionId }: { sessionId: string }) {
   return (
     <div className="space-y-4">
       {/* Meta info */}
-      <div className="flex gap-4 text-xs text-vocari-text-muted">
+      <div className="flex gap-4 text-xs text-aura-muted">
         <span>Idioma: {data.language}</span>
         <span>{data.word_count.toLocaleString()} palabras</span>
         <span>Fuente: {data.source.replace(/_/g, " ")}</span>
@@ -70,18 +70,18 @@ function TranscriptViewer({ sessionId }: { sessionId: string }) {
           data.segments.map((seg, i) => (
             <div key={i} className="flex gap-3">
               <div className="shrink-0 w-28">
-                <span className="text-xs font-semibold text-vocari-accent block">
+                <span className="text-xs font-semibold text-aura-teal block">
                   {seg.speaker}
                 </span>
-                <span className="text-[10px] text-vocari-text-muted">
+                <span className="text-[10px] text-aura-muted">
                   {seg.timestamp}
                 </span>
               </div>
-              <p className="text-sm text-vocari-text">{seg.text}</p>
+              <p className="text-sm text-aura-ink">{seg.text}</p>
             </div>
           ))
         ) : (
-          <p className="text-sm text-vocari-text whitespace-pre-wrap">
+          <p className="text-sm text-aura-ink whitespace-pre-wrap">
             {data.full_text}
           </p>
         )}
@@ -102,7 +102,7 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
   if (isLoading) return <Skeleton variant="rect" height={200} />;
   if (!data) {
     return (
-      <p className="text-vocari-text-muted text-sm py-4">
+      <p className="text-aura-muted text-sm py-4">
         El analisis IA aun no esta disponible.
       </p>
     );
@@ -111,7 +111,7 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
   return (
     <div className="space-y-5">
       {/* Meta */}
-      <div className="flex gap-4 text-xs text-vocari-text-muted">
+      <div className="flex gap-4 text-xs text-aura-muted">
         <span>Modelo: {data.model_used}</span>
         <span>{data.tokens_used.toLocaleString()} tokens</span>
         <span>{data.processing_time_seconds.toFixed(1)}s</span>
@@ -122,30 +122,30 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
 
       {/* Resumen */}
       <div>
-        <h4 className="text-sm font-semibold text-vocari-text mb-1">
+        <h4 className="text-sm font-semibold text-aura-ink mb-1">
           Resumen
         </h4>
-        <p className="text-sm text-vocari-text">{data.summary}</p>
+        <p className="text-sm text-aura-ink">{data.summary}</p>
       </div>
 
       {/* Intereses detectados */}
       {data.interests_detected.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-vocari-text mb-2">
+          <h4 className="text-sm font-semibold text-aura-ink mb-2">
             Intereses detectados ({data.interests_detected.length})
           </h4>
           <div className="space-y-2">
             {data.interests_detected.map((item: InterestDetected, i: number) => (
               <div
                 key={i}
-                className="flex items-start gap-2 p-2 rounded-md bg-blue-50"
+                className="flex items-start gap-2 p-2 rounded-md bg-aura-primary/10"
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-vocari-text">
+                    <span className="text-sm font-medium text-aura-ink">
                       {item.interest}
                     </span>
-                    <span className="text-[10px] text-vocari-text-muted">
+                    <span className="text-[10px] text-aura-muted">
                       {Math.round(item.confidence * 100)}%
                     </span>
                     {item.holland_category && (
@@ -155,7 +155,7 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
                       <Badge variant="success">Nuevo</Badge>
                     )}
                   </div>
-                  <p className="text-xs text-vocari-text-muted mt-0.5">
+                  <p className="text-xs text-aura-muted mt-0.5">
                     {item.evidence}
                   </p>
                 </div>
@@ -168,31 +168,31 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
       {/* Habilidades detectadas */}
       {data.skills_detected.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-vocari-text mb-2">
+          <h4 className="text-sm font-semibold text-aura-ink mb-2">
             Habilidades detectadas ({data.skills_detected.length})
           </h4>
           <div className="space-y-2">
             {data.skills_detected.map((item: SkillDetected, i: number) => (
               <div
                 key={i}
-                className="flex items-start gap-2 p-2 rounded-md bg-green-50"
+                className="flex items-start gap-2 p-2 rounded-md bg-success/10"
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-vocari-text">
+                    <span className="text-sm font-medium text-aura-ink">
                       {item.skill}
                     </span>
-                    <span className="text-[10px] text-vocari-text-muted">
+                    <span className="text-[10px] text-aura-muted">
                       {Math.round(item.confidence * 100)}%
                     </span>
                     <Badge variant={item.skill_type === "hard" ? "info" : "warning"}>
                       {item.skill_type}
                     </Badge>
-                    <span className="text-[10px] text-vocari-text-muted capitalize">
+                    <span className="text-[10px] text-aura-muted capitalize">
                       {item.level}
                     </span>
                   </div>
-                  <p className="text-xs text-vocari-text-muted mt-0.5">
+                  <p className="text-xs text-aura-muted mt-0.5">
                     {item.evidence}
                   </p>
                 </div>
@@ -204,7 +204,7 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
 
       {/* Sentimiento emocional */}
       <div>
-        <h4 className="text-sm font-semibold text-vocari-text mb-2">
+        <h4 className="text-sm font-semibold text-aura-ink mb-2">
           Sentimiento emocional
         </h4>
         <div className="p-3 rounded-md bg-gray-50 space-y-2">
@@ -214,20 +214,20 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
             >
               {data.emotional_sentiment.overall}
             </span>
-            <span className="text-xs text-vocari-text-muted">
+            <span className="text-xs text-aura-muted">
               Score: {data.emotional_sentiment.score.toFixed(2)}
             </span>
           </div>
-          <div className="flex gap-4 text-xs text-vocari-text-muted">
+          <div className="flex gap-4 text-xs text-aura-muted">
             <span>Engagement: {data.emotional_sentiment.engagement}</span>
             <span>Motivacion: {data.emotional_sentiment.motivation}</span>
           </div>
           {data.emotional_sentiment.anxiety_indicators.length > 0 && (
             <div>
-              <span className="text-xs font-medium text-red-600">
+              <span className="text-xs font-medium text-error">
                 Indicadores de ansiedad:
               </span>
-              <ul className="list-disc list-inside text-xs text-vocari-text-muted">
+              <ul className="list-disc list-inside text-xs text-aura-muted">
                 {data.emotional_sentiment.anxiety_indicators.map((a, i) => (
                   <li key={i}>{a}</li>
                 ))}
@@ -236,10 +236,10 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
           )}
           {data.emotional_sentiment.key_moments.length > 0 && (
             <div>
-              <span className="text-xs font-medium text-vocari-text">
+              <span className="text-xs font-medium text-aura-ink">
                 Momentos clave:
               </span>
-              <ul className="list-disc list-inside text-xs text-vocari-text-muted">
+              <ul className="list-disc list-inside text-xs text-aura-muted">
                 {data.emotional_sentiment.key_moments.map((m, i) => (
                   <li key={i}>{m}</li>
                 ))}
@@ -252,7 +252,7 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
       {/* Tests sugeridos */}
       {data.suggested_tests.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-vocari-text mb-2">
+          <h4 className="text-sm font-semibold text-aura-ink mb-2">
             Tests sugeridos
           </h4>
           <div className="space-y-1">
@@ -261,10 +261,10 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
                 <Badge variant={PRIORITY_COLORS[t.priority] || "info"}>
                   {t.priority}
                 </Badge>
-                <span className="font-medium text-vocari-text">
+                <span className="font-medium text-aura-ink">
                   {t.test_name}
                 </span>
-                <span className="text-xs text-vocari-text-muted">
+                <span className="text-xs text-aura-muted">
                   — {t.reason}
                 </span>
               </div>
@@ -276,7 +276,7 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
       {/* Juegos sugeridos */}
       {data.suggested_games.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-vocari-text mb-2">
+          <h4 className="text-sm font-semibold text-aura-ink mb-2">
             Juegos sugeridos
           </h4>
           <div className="space-y-1">
@@ -285,10 +285,10 @@ function AIAnalysisPanel({ sessionId }: { sessionId: string }) {
                 <Badge variant={PRIORITY_COLORS[g.priority] || "info"}>
                   {g.priority}
                 </Badge>
-                <span className="font-medium text-vocari-text">
+                <span className="font-medium text-aura-ink">
                   {g.game_name}
                 </span>
-                <span className="text-xs text-vocari-text-muted">
+                <span className="text-xs text-aura-muted">
                   — {g.reason}
                 </span>
               </div>
@@ -324,7 +324,7 @@ export default function OrientadorSessionDetailPage({
   }
 
   if (!session) {
-    return <p className="text-vocari-text-muted">Sesion no encontrada.</p>;
+    return <p className="text-aura-muted">Sesion no encontrada.</p>;
   }
 
   const statusLabels: Record<string, string> = {
@@ -342,10 +342,10 @@ export default function OrientadorSessionDetailPage({
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-vocari-text">
+            <h1 className="text-2xl font-bold text-aura-ink">
               Detalle de sesion
             </h1>
-            <p className="text-vocari-text-muted">
+            <p className="text-aura-muted">
               {formatDateLong(session.scheduled_at)} a las{" "}
               {formatTime(session.scheduled_at)}
             </p>
@@ -368,32 +368,32 @@ export default function OrientadorSessionDetailPage({
           <CardContent>
             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
-                <dt className="text-vocari-text-muted">Estudiante</dt>
-                <dd className="font-medium text-vocari-text">
+                <dt className="text-aura-muted">Estudiante</dt>
+                <dd className="font-medium text-aura-ink">
                   {session.student_name || session.student_id}
                 </dd>
               </div>
               <div>
-                <dt className="text-vocari-text-muted">Duracion</dt>
-                <dd className="font-medium text-vocari-text">
+                <dt className="text-aura-muted">Duracion</dt>
+                <dd className="font-medium text-aura-ink">
                   {session.duration_minutes} minutos
                 </dd>
               </div>
               {session.notes_by_student && (
                 <div className="sm:col-span-2">
-                  <dt className="text-vocari-text-muted">Notas del estudiante</dt>
-                  <dd className="text-vocari-text">{session.notes_by_student}</dd>
+                  <dt className="text-aura-muted">Notas del estudiante</dt>
+                  <dd className="text-aura-ink">{session.notes_by_student}</dd>
                 </div>
               )}
               {session.google_meet_link && (
                 <div className="sm:col-span-2">
-                  <dt className="text-vocari-text-muted">Google Meet</dt>
+                  <dt className="text-aura-muted">Google Meet</dt>
                   <dd>
                     <a
                       href={session.google_meet_link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-vocari-accent underline"
+                      className="text-aura-teal underline"
                     >
                       {session.google_meet_link}
                     </a>

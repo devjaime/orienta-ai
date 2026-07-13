@@ -79,7 +79,7 @@ function MatchScoreBadge({ score }: { score: number }) {
 function SaturationIndicator({ index }: { index: number }) {
   if (index >= 0.7) {
     return (
-      <div className="flex items-center gap-1 text-red-600">
+      <div className="flex items-center gap-1 text-error">
         <TrendingUp className="h-4 w-4" />
         <span className="text-xs">Alta saturacion</span>
       </div>
@@ -87,14 +87,14 @@ function SaturationIndicator({ index }: { index: number }) {
   }
   if (index >= 0.4) {
     return (
-      <div className="flex items-center gap-1 text-yellow-600">
+      <div className="flex items-center gap-1 text-warning">
         <Minus className="h-4 w-4" />
         <span className="text-xs">Saturacion media</span>
       </div>
     );
   }
   return (
-    <div className="flex items-center gap-1 text-green-600">
+    <div className="flex items-center gap-1 text-success">
       <TrendingDown className="h-4 w-4" />
       <span className="text-xs">Baja saturacion</span>
     </div>
@@ -131,15 +131,15 @@ function CareerCard({
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-bold text-vocari-text-muted">
+              <span className="text-xs font-bold text-aura-muted">
                 #{rank}
               </span>
-              <h3 className="text-base font-semibold text-vocari-text">
+              <h3 className="text-base font-semibold text-aura-ink">
                 {career.name}
               </h3>
               {rank <= 3 && <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />}
             </div>
-            <p className="text-xs text-vocari-text-muted mb-2">
+            <p className="text-xs text-aura-muted mb-2">
               {career.area}
             </p>
 
@@ -162,11 +162,11 @@ function CareerCard({
 
             {/* Key metrics */}
             <div className="grid grid-cols-3 gap-3 text-xs">
-              <div className="flex items-center gap-1 text-vocari-text-muted">
+              <div className="flex items-center gap-1 text-aura-muted">
                 <DollarSign className="h-3.5 w-3.5" />
                 {formatSalary(career.salary_range)}
               </div>
-              <div className="flex items-center gap-1 text-vocari-text-muted">
+              <div className="flex items-center gap-1 text-aura-muted">
                 <Briefcase className="h-3.5 w-3.5" />
                 {(career.employability * 100).toFixed(0)}% empleabilidad
               </div>
@@ -178,7 +178,7 @@ function CareerCard({
             <MatchScoreBadge score={match_score} />
             <button
               onClick={() => setExpanded(!expanded)}
-              className="text-vocari-accent text-xs flex items-center gap-1 hover:underline"
+              className="text-aura-teal text-xs flex items-center gap-1 hover:underline"
             >
               {expanded ? "Menos" : "Mas"}
               {expanded ? (
@@ -193,20 +193,20 @@ function CareerCard({
         {/* Expanded details */}
         {expanded && (
           <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
-            <p className="text-sm text-vocari-text">{career.description}</p>
+            <p className="text-sm text-aura-ink">{career.description}</p>
 
             {match_reasons.length > 0 && (
               <div>
-                <p className="text-xs font-medium text-vocari-text mb-1">
+                <p className="text-xs font-medium text-aura-ink mb-1">
                   Por que es compatible:
                 </p>
                 <ul className="space-y-1">
                   {match_reasons.map((reason, i) => (
                     <li
                       key={i}
-                      className="text-xs text-vocari-text-muted flex items-start gap-1"
+                      className="text-xs text-aura-muted flex items-start gap-1"
                     >
-                      <span className="text-vocari-accent mt-0.5">&#x2022;</span>
+                      <span className="text-aura-teal mt-0.5">&#x2022;</span>
                       {reason}
                     </li>
                   ))}
@@ -216,7 +216,7 @@ function CareerCard({
 
             <a
               href={`/estudiante/carreras/${career.id}`}
-              className="inline-flex items-center gap-1 text-xs text-vocari-accent hover:underline"
+              className="inline-flex items-center gap-1 text-xs text-aura-teal hover:underline"
             >
               Ver detalle completo
               <ChevronDown className="h-3 w-3 -rotate-90" />
@@ -233,17 +233,17 @@ function NoRecommendations() {
     <Card>
       <CardContent className="py-12">
         <div className="text-center">
-          <Target className="h-12 w-12 text-vocari-text-muted mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-vocari-text mb-2">
+          <Target className="h-12 w-12 text-aura-muted mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-aura-ink mb-2">
             Sin recomendaciones todavia
           </h3>
-          <p className="text-sm text-vocari-text-muted mb-4 max-w-md mx-auto">
+          <p className="text-sm text-aura-muted mb-4 max-w-md mx-auto">
             Necesitas completar al menos un test RIASEC para que podamos
             recomendarte carreras compatibles con tu perfil.
           </p>
           <a
             href="/estudiante/tests/riasec"
-            className="inline-flex px-4 py-2 bg-vocari-accent text-white text-sm rounded-md hover:opacity-90"
+            className="inline-flex px-4 py-2 bg-aura-teal text-white text-sm rounded-md hover:opacity-90"
           >
             Realizar test RIASEC
           </a>
@@ -293,11 +293,11 @@ export default function CarrerasPage() {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-vocari-text flex items-center gap-2">
-            <GraduationCap className="h-6 w-6 text-vocari-accent" />
+          <h1 className="text-2xl font-bold text-aura-ink flex items-center gap-2">
+            <GraduationCap className="h-6 w-6 text-aura-teal" />
             Carreras Recomendadas
           </h1>
-          <p className="text-sm text-vocari-text-muted mt-1">
+          <p className="text-sm text-aura-muted mt-1">
             Basado en tus intereses vocacionales y perfil longitudinal.
           </p>
         </div>
@@ -307,14 +307,14 @@ export default function CarrerasPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card>
               <CardContent className="flex items-center gap-3">
-                <div className="p-2 bg-vocari-accent/10 rounded-md">
-                  <BarChart3 className="h-5 w-5 text-vocari-accent" />
+                <div className="p-2 bg-aura-teal/10 rounded-md">
+                  <BarChart3 className="h-5 w-5 text-aura-teal" />
                 </div>
                 <div>
-                  <p className="text-sm text-vocari-text-muted">
+                  <p className="text-sm text-aura-muted">
                     Tu codigo Holland
                   </p>
-                  <p className="text-lg font-bold text-vocari-text">
+                  <p className="text-lg font-bold text-aura-ink">
                     {recommendations.holland_code}
                   </p>
                 </div>
@@ -323,14 +323,14 @@ export default function CarrerasPage() {
 
             <Card>
               <CardContent className="flex items-center gap-3">
-                <div className="p-2 bg-green-100 rounded-md">
-                  <GraduationCap className="h-5 w-5 text-green-600" />
+                <div className="p-2 bg-success/10 rounded-md">
+                  <GraduationCap className="h-5 w-5 text-success" />
                 </div>
                 <div>
-                  <p className="text-sm text-vocari-text-muted">
+                  <p className="text-sm text-aura-muted">
                     Carreras compatibles
                   </p>
-                  <p className="text-lg font-bold text-vocari-text">
+                  <p className="text-lg font-bold text-aura-ink">
                     {recommendations.recommendations.length}
                   </p>
                 </div>
@@ -339,14 +339,14 @@ export default function CarrerasPage() {
 
             <Card>
               <CardContent className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 rounded-md">
-                  <Search className="h-5 w-5 text-blue-600" />
+                <div className="p-2 bg-aura-primary/10 rounded-md">
+                  <Search className="h-5 w-5 text-aura-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-vocari-text-muted">
+                  <p className="text-sm text-aura-muted">
                     Carreras analizadas
                   </p>
-                  <p className="text-lg font-bold text-vocari-text">
+                  <p className="text-lg font-bold text-aura-ink">
                     {recommendations.total_careers_analyzed}
                   </p>
                 </div>
@@ -359,7 +359,7 @@ export default function CarrerasPage() {
         {recommendations && recommendations.recommendations.length > 0 && (
           <div className="flex flex-col md:flex-row gap-3">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-vocari-text-muted" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-aura-muted" />
               <Input
                 placeholder="Buscar carrera por nombre o area..."
                 value={searchTerm}
@@ -394,7 +394,7 @@ export default function CarrerasPage() {
         ) : (
           <div className="space-y-3">
             {filtered.length === 0 ? (
-              <p className="text-center text-vocari-text-muted py-8">
+              <p className="text-center text-aura-muted py-8">
                 No se encontraron carreras con esos filtros.
               </p>
             ) : (
