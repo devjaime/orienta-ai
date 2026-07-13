@@ -43,6 +43,7 @@ const Header = () => {
     { label: tx(t.refresh.header.paths, lang), href: `${homePrefix}#caminos` },
     { label: tx(t.refresh.header.how, lang), href: `${homePrefix}#como-funciona` },
     { label: 'Skill Graph', href: `${homePrefix}#skill-graph` },
+    { label: 'Blog 2030', href: SITE_LINKS.futureLabor2030 },
     { label: tx(t.refresh.header.project, lang), href: `${homePrefix}#proyecto` },
   ];
 

@@ -75,15 +75,15 @@ function TestLeadCapturePage() {
       console.error('No se pudo guardar el lead en localStorage:', storageError);
     }
 
-    try {
-      await fetch(LEADS_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(leadPayload)
-      });
-    } catch (apiError) {
+    // Fire-and-forget: no bloqueamos el redirect esperando al backend.
+    // Los datos ya están en localStorage como respaldo.
+    fetch(LEADS_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(leadPayload)
+    }).catch((apiError) => {
       console.error('No se pudo enviar el lead al backend:', apiError);
-    }
+    });
 
     redirectToTest();
   };

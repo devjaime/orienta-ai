@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { Download, Share2, Sparkles, TrendingUp, Award, Loader2, BarChart3 } from 'lucide-react';
 import { calcularCodigoRIASEC, generarInterpretacion } from '../lib/riasecScoring';
 import { recomendarCarreras } from '../lib/recomendacionCarreras';
@@ -73,29 +73,31 @@ function Resultados() {
       // 4. Generar explicación IA (si está habilitada y hay cuota disponible)
       const aiEnabled = isAIEnabled();
       const canUseAI = canUseTestAI();
+      let explicacionParaGuardar = null;
 
       if (!aiEnabled) {
         // IA desactivada por variable de entorno
-        setExplicacionIA(
+        explicacionParaGuardar =
           `🔒 **Modo Demo Limitado**\n\n` +
           `Las funcionalidades de IA están actualmente limitadas en esta demo.\n\n` +
           `Tu perfil ${resultadoTest.codigo_holland} combina las dimensiones ${interp.perfil}. ` +
           `Esto indica que tienes fortalezas en ${interp.fortalezas.join(' y ')}.\n\n` +
-          `**¿Quieres acceso completo?**\nContáctanos en ${LIMITS.CONTACT_EMAIL} para obtener análisis personalizados ilimitados con IA.`
-        );
+          `**¿Quieres acceso completo?**\nContáctanos en ${LIMITS.CONTACT_EMAIL} para obtener análisis personalizados ilimitados con IA.`;
+        setExplicacionIA(explicacionParaGuardar);
       } else if (!canUseAI) {
         // Límite alcanzado
         const limitMsg = getLimitMessages().testLimit;
-        setExplicacionIA(
+        explicacionParaGuardar =
           `🔒 **${limitMsg.message}**\n\n` +
           `Tu perfil ${resultadoTest.codigo_holland} combina las dimensiones ${interp.perfil}. ` +
-          `Esto indica que tienes fortalezas en ${interp.fortalezas.join(' y ')}.`
-        );
+          `Esto indica que tienes fortalezas en ${interp.fortalezas.join(' y ')}.`;
+        setExplicacionIA(explicacionParaGuardar);
       } else {
         // Puede usar IA
         setLoadingIA(true);
         try {
           const explicacion = await generarExplicacionIA(resultadoTest);
+          explicacionParaGuardar = explicacion;
           setExplicacionIA(explicacion);
           recordTestAIUsage(); // Registrar uso exitoso
         } catch (err) {
@@ -103,19 +105,19 @@ function Resultados() {
 
           // Verificar si es error de rate limit (429)
           if (err.message?.includes('429') || err.message?.includes('Límite')) {
-            setExplicacionIA(
+            explicacionParaGuardar =
               `⏱️ **Límite de uso alcanzado**\n\n` +
               err.message + `\n\n` +
               `Tu perfil ${resultadoTest.codigo_holland} combina las dimensiones ${interp.perfil}. ` +
-              `Para más información, contáctanos en ${LIMITS.CONTACT_EMAIL}`
-            );
+              `Para más información, contáctanos en ${LIMITS.CONTACT_EMAIL}`;
+            setExplicacionIA(explicacionParaGuardar);
           } else {
             // Error genérico, mostrar fallback básico
-            setExplicacionIA(
+            explicacionParaGuardar =
               `Tu perfil ${resultadoTest.codigo_holland} combina las dimensiones ${interp.perfil}. ` +
               `Esto indica que tienes fortalezas en ${interp.fortalezas.join(' y ')}. ` +
-              `Las carreras recomendadas se alinean con estas características.`
-            );
+              `Las carreras recomendadas se alinean con estas características.`;
+            setExplicacionIA(explicacionParaGuardar);
           }
         } finally {
           setLoadingIA(false);
@@ -133,7 +135,7 @@ function Resultados() {
             puntajes: resultadoTest.puntajes,
             respuestas: responses,
             duracion_minutos: parseInt(duration) || 10,
-            explicacion_ia: explicacionIA || null,
+            explicacion_ia: explicacionParaGuardar,
             carreras_recomendadas: carreras.map(c => c.id)
           });
         } else {
@@ -177,7 +179,7 @@ function Resultados() {
       {/* Hero Section - Resultados Principales */}
       <div className="bg-gradient-to-br from-vocari-dark via-vocari-primary/20 to-vocari-dark border-b border-white/10">
         <div className="container mx-auto px-4 py-16 max-w-5xl">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
@@ -208,14 +210,14 @@ function Resultados() {
                 </span>
               </div>
             </div>
-          </motion.div>
+          </Motion.div>
 
           {/* Top 3 Dimensions */}
           <div className="grid md:grid-cols-3 gap-4 mb-8">
             {top3Dimensions.map((dim, index) => {
               const desc = dimensionDescriptions[dim.dimension];
               return (
-                <motion.div
+                <Motion.div
                   key={dim.dimension}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -238,7 +240,7 @@ function Resultados() {
                       {dim.puntaje}/30
                     </span>
                   </div>
-                </motion.div>
+                </Motion.div>
               );
             })}
           </div>
@@ -247,7 +249,7 @@ function Resultados() {
 
       {/* Explicación IA */}
       <div className="container mx-auto px-4 py-12 max-w-5xl">
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
@@ -272,10 +274,10 @@ function Resultados() {
               </p>
             </div>
           )}
-        </motion.div>
+        </Motion.div>
 
         {/* Recomendaciones de Carreras */}
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -284,11 +286,11 @@ function Resultados() {
             recomendaciones={recomendaciones}
             codigoUsuario={resultado.codigo_holland}
           />
-        </motion.div>
+        </Motion.div>
 
         {/* Proyecciones y Tendencias del Mercado Laboral */}
         {projectionsData && !loadingProjections && (
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
@@ -314,7 +316,7 @@ function Resultados() {
                 if (!proyeccion) return null;
 
                 return (
-                  <motion.div
+                  <Motion.div
                     key={carrera.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -324,7 +326,7 @@ function Resultados() {
                       carrera={carrera}
                       proyeccion={proyeccion}
                     />
-                  </motion.div>
+                  </Motion.div>
                 );
               })}
             </div>
@@ -339,21 +341,21 @@ function Resultados() {
                 Ver Dashboard Completo con Todas las Carreras
               </Link>
             </div>
-          </motion.div>
+          </Motion.div>
         )}
 
         {/* Botón de Agendamiento */}
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
           className="mt-12"
         >
           <ScheduleButton />
-        </motion.div>
+        </Motion.div>
 
         {/* Actions */}
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
@@ -389,7 +391,7 @@ function Resultados() {
           >
             Volver al inicio
           </button>
-        </motion.div>
+        </Motion.div>
 
         {saving && (
           <p className="text-center text-gray-400 text-sm mt-4">

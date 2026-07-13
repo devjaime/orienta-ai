@@ -1,4 +1,31 @@
 export const t = {
+  refresh: {
+    header: {
+      paths: { es: 'Caminos', en: 'Paths' },
+      how: { es: 'Cómo funciona', en: 'How it works' },
+      project: { es: 'Proyecto', en: 'Project' },
+      navigationLabel: { es: 'Navegación principal', en: 'Main navigation' },
+      mobileNavigationLabel: { es: 'Navegación móvil', en: 'Mobile navigation' },
+      code: { es: 'Código', en: 'Code' },
+      dashboard: { es: 'Panel', en: 'Dashboard' },
+      logout: { es: 'Cerrar sesión', en: 'Sign out' },
+      cta: { es: 'Probar demo gratuita', en: 'Try free demo' },
+      menuLabel: { es: 'Abrir menú', en: 'Open menu' },
+    },
+    footer: {
+      description: { es: 'Orientación vocacional con datos, exploración y acompañamiento.', en: 'Vocational guidance with data, exploration and support.' },
+      explore: { es: 'Explora', en: 'Explore' },
+      test: { es: 'Test vocacional', en: 'Vocational test' },
+      reconversion: { es: 'Reinvéntate profesionalmente', en: 'Reinvent your career' },
+      project: { es: 'Proyecto', en: 'Project' },
+      code: { es: 'Código fuente', en: 'Source code' },
+      privacy: { es: 'Privacidad', en: 'Privacy' },
+      terms: { es: 'Términos', en: 'Terms' },
+      copyright: { es: '© 2026 Vocari', en: '© 2026 Vocari' },
+      transparency: { es: 'Prototipo tecnológico en desarrollo.', en: 'Technology prototype in development.' },
+    },
+  },
+
   // ─── Header ───────────────────────────────────────────────────────────────
   header: {
     navHowItWorks:    { es: 'Cómo Funciona',       en: 'How It Works' },

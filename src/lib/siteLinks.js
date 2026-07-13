@@ -7,6 +7,8 @@ export const SITE_LINKS = {
   skillGraphAgent: 'https://skill-graph-five.vercel.app/agent',
   skillGraphPlayground: 'https://skill-graph-five.vercel.app/playground',
   skillGraphCertifications: 'https://skill-graph-five.vercel.app/certifications',
+  blog: '/blog',
+  futureLabor2030: '/blog/futuro-laboral-2030',
   repository: 'https://github.com/devjaime/orienta-ai',
   license: 'https://github.com/devjaime/orienta-ai/blob/main/LICENSE',
   email: 'mailto:hernandez.hs@gmail.com',

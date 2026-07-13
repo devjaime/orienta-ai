@@ -26,6 +26,7 @@ const Footer = () => {
           <h3 className="text-sm font-bold uppercase tracking-[0.16em] text-aura-ink">{tx(t.refresh.footer.explore, lang)}</h3>
           <div className="mt-4 flex flex-col gap-3 text-sm text-aura-muted">
             <Link to={SITE_LINKS.vocationalTest} className="hover:text-aura-primary">{tx(t.refresh.footer.test, lang)}</Link>
+            <Link to={SITE_LINKS.futureLabor2030} className="hover:text-aura-primary">Futuro laboral 2030</Link>
             <a href={SITE_LINKS.careerTransition} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-aura-primary">
               {tx(t.refresh.footer.reconversion, lang)} <ArrowUpRight size={13} />
             </a>
