@@ -58,27 +58,27 @@ function ConsentItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="flex items-start gap-4 p-4 rounded-lg border border-gray-100">
+    <div className="flex items-start gap-4 p-4 rounded-lg border border-aura-surface">
       <button
         onClick={onToggle}
         className={`mt-1 flex-shrink-0 w-6 h-6 rounded border-2 flex items-center justify-center transition-colors ${
           granted
-            ? "bg-vocari-primary border-vocari-primary"
-            : "border-gray-300 hover:border-vocari-primary"
+            ? "bg-aura-primary border-aura-primary"
+            : "border-gray-300 hover:border-aura-primary"
         }`}
       >
         {granted && <CheckCircle className="h-4 w-4 text-white" />}
       </button>
       <div className="flex-1">
         <div className="flex items-center gap-2">
-          <h3 className="font-medium text-vocari-text">{item.title}</h3>
+          <h3 className="font-medium text-aura-ink">{item.title}</h3>
           {item.required && (
             <Badge variant="error" dot>
               Obligatorio
             </Badge>
           )}
         </div>
-        <p className="text-sm text-vocari-text-muted mt-1">{item.description}</p>
+        <p className="text-sm text-aura-muted mt-1">{item.description}</p>
       </div>
     </div>
   );
@@ -118,10 +118,10 @@ export default function ConsentimientoPage() {
     <RoleGuard allowedRoles={["apoderado"]}>
       <div className="space-y-6 max-w-3xl">
         <div>
-          <h1 className="text-2xl font-bold text-vocari-text">
+          <h1 className="text-2xl font-bold text-aura-ink">
             Consentimiento Parental
           </h1>
-          <p className="text-vocari-text-muted">
+          <p className="text-aura-muted">
             Gestiona los permisos para el tratamiento de datos de tu hijo/a
           </p>
         </div>
@@ -134,14 +134,14 @@ export default function ConsentimientoPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div className="bg-aura-primary/10 border border-aura-primary rounded-lg p-4 mb-6">
               <div className="flex items-start gap-3">
-                <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+                <AlertCircle className="h-5 w-5 text-aura-primary mt-0.5" />
                 <div>
-                  <p className="text-sm text-blue-800 font-medium">
+                  <p className="text-sm text-aura-ink font-medium">
                     Informacion importante
                   </p>
-                  <p className="text-sm text-blue-700 mt-1">
+                  <p className="text-sm text-aura-muted mt-1">
                     Segun la ley chilena 19.628, los padres o apoderados deben
                     otorgar consentimiento para el tratamiento de datos de
                     menores de edad. Los campos marcados como &quot;Obligatorio&quot;
@@ -164,7 +164,7 @@ export default function ConsentimientoPage() {
 
             <div className="flex items-center justify-between pt-4 border-t">
               {saved ? (
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-success">
                   <CheckCircle className="h-5 w-5" />
                   <span className="text-sm font-medium">
                     Consentimientos guardados
@@ -197,13 +197,13 @@ export default function ConsentimientoPage() {
             <CardTitle>Politica de Privacidad</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-vocari-text-muted mb-4">
+            <p className="text-sm text-aura-muted mb-4">
               Puedes revisar nuestra politica de privacidad completa para
               entender como protegemos los datos de tus hijos.
             </p>
             <a
               href="#"
-              className="inline-flex items-center gap-2 text-sm text-vocari-accent hover:underline"
+              className="inline-flex items-center gap-2 text-sm text-aura-teal hover:underline"
             >
               <ExternalLink className="h-4 w-4" />
               Ver politica de privacidad completa

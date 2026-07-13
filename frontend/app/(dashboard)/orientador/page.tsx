@@ -60,7 +60,7 @@ function TodaySessions() {
 
   if (sessions.length === 0) {
     return (
-      <p className="text-vocari-text-muted text-sm py-4">
+      <p className="text-aura-muted text-sm py-4">
         No tienes sesiones para hoy.
       </p>
     );
@@ -74,13 +74,13 @@ function TodaySessions() {
           <li key={s.id}>
             <a
               href={`/orientador/sesiones/${s.id}`}
-              className="flex items-center justify-between p-3 rounded-md border border-gray-100 hover:border-vocari-accent transition-colors"
+              className="flex items-center justify-between p-3 rounded-md border border-gray-100 hover:border-aura-teal transition-colors"
             >
               <div>
-                <p className="text-sm font-medium text-vocari-text">
+                <p className="text-sm font-medium text-aura-ink">
                   {s.student_name || "Estudiante"}
                 </p>
-                <p className="text-xs text-vocari-text-muted">
+                <p className="text-xs text-aura-muted">
                   {formatSessionDate(s.scheduled_at)} - {s.duration_minutes} min
                 </p>
               </div>
@@ -124,29 +124,29 @@ function StatsCards() {
   const cards = [
     {
       icon: Calendar,
-      bgColor: "bg-blue-100",
-      iconColor: "text-blue-600",
+      bgColor: "bg-aura-primary/10",
+      iconColor: "text-aura-primary",
       value: stats?.sesiones_hoy ?? 0,
       label: "Sesiones hoy",
     },
     {
       icon: ClipboardCheck,
-      bgColor: "bg-yellow-100",
-      iconColor: "text-yellow-600",
+      bgColor: "bg-warning/10",
+      iconColor: "text-warning",
       value: stats?.reviews_pendientes ?? 0,
       label: "Reviews pendientes",
     },
     {
       icon: Users,
-      bgColor: "bg-green-100",
-      iconColor: "text-green-600",
+      bgColor: "bg-success/10",
+      iconColor: "text-success",
       value: stats?.estudiantes_asignados ?? 0,
       label: "Estudiantes asignados",
     },
     {
       icon: AlertTriangle,
-      bgColor: "bg-red-100",
-      iconColor: "text-red-600",
+      bgColor: "bg-error/10",
+      iconColor: "text-error",
       value: stats?.alertas_activas ?? 0,
       label: "Alertas activas",
     },
@@ -161,10 +161,10 @@ function StatsCards() {
               <card.icon className={`h-5 w-5 ${card.iconColor}`} />
             </div>
             <div>
-              <p className="text-2xl font-bold text-vocari-text">
+              <p className="text-2xl font-bold text-aura-ink">
                 {card.value}
               </p>
-              <p className="text-xs text-vocari-text-muted">{card.label}</p>
+              <p className="text-xs text-aura-muted">{card.label}</p>
             </div>
           </CardContent>
         </Card>
@@ -177,7 +177,7 @@ export default function OrientadorDashboard() {
   return (
     <RoleGuard allowedRoles={["orientador"]}>
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-vocari-text">
+        <h1 className="text-2xl font-bold text-aura-ink">
           Dashboard Orientador
         </h1>
 
@@ -198,7 +198,7 @@ export default function OrientadorDashboard() {
               <CardTitle>Reviews pendientes</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-vocari-text-muted text-sm py-4">
+              <p className="text-aura-muted text-sm py-4">
                 No hay reviews pendientes.
               </p>
             </CardContent>

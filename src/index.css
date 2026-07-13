@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,10 +6,18 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 
   body {
     font-family: 'Inter', sans-serif;
+    background: #faf8ff;
+    color: #131b2e;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(79, 70, 229, 0.2);
   }
 }
 
@@ -28,6 +36,71 @@
 
   .section-padding {
     @apply py-16 px-4 sm:px-6 lg:px-8;
+  }
+
+  .aura-container {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+  }
+
+  .aura-section {
+    @apply relative py-20 md:py-24;
+  }
+
+  .aura-glass {
+    @apply rounded-3xl border border-white/70 bg-white/70 shadow-[0_20px_60px_-28px_rgba(79,70,229,0.28)] backdrop-blur-2xl;
+  }
+
+  .aura-kicker {
+    @apply inline-flex rounded-full border border-aura-primary/15 bg-aura-primary/5 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-aura-primary;
+  }
+
+  .aura-heading {
+    @apply font-display text-3xl font-bold tracking-[-0.03em] text-aura-ink sm:text-4xl lg:text-5xl;
+  }
+
+  .aura-copy {
+    @apply max-w-2xl text-base leading-7 text-aura-muted md:text-lg md:leading-8;
+  }
+
+  .aura-button-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-aura-primary to-aura-violet px-6 py-3.5 font-semibold text-white shadow-lg shadow-aura-primary/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-aura-primary/25 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aura-primary/25;
+  }
+
+  .aura-button-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-aura-primary/15 bg-white/75 px-6 py-3.5 font-semibold text-aura-primary shadow-sm backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-aura-primary/30 hover:bg-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aura-primary/20;
+  }
+
+  .aura-button-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-aura-primary/15 bg-white/50 px-6 py-3.5 font-semibold text-aura-primary transition hover:border-aura-primary/30 hover:bg-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aura-primary/20;
+  }
+}
+
+.aura-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+.skill-grid {
+  background-image:
+    linear-gradient(rgba(132, 204, 22, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(132, 204, 22, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

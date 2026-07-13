@@ -32,11 +32,11 @@ const GAME_ICONS: Record<string, typeof Gamepad2> = {
 };
 
 const GAME_COLORS: Record<string, string> = {
-  "logic-puzzle": "bg-blue-100 text-blue-600",
-  "pattern-recognition": "bg-purple-100 text-purple-600",
-  "decision-simulator": "bg-orange-100 text-orange-600",
-  "creativity-challenge": "bg-pink-100 text-pink-600",
-  "teamwork-scenario": "bg-green-100 text-green-600",
+  "logic-puzzle": "bg-aura-primary/10 text-aura-primary",
+  "pattern-recognition": "bg-aura-primary/10 text-aura-primary",
+  "decision-simulator": "bg-warning/10 text-warning",
+  "creativity-challenge": "bg-error/10 text-error",
+  "teamwork-scenario": "bg-success/10 text-success",
 };
 
 const GAME_DESCRIPTIONS: Record<string, string> = {
@@ -66,16 +66,16 @@ function GameCard({ game }: { game: Game }) {
 
   return (
     <Link href={`/estudiante/juegos/${game.slug}`}>
-      <Card className="hover:border-vocari-accent transition-colors cursor-pointer">
+      <Card className="hover:border-aura-teal transition-colors cursor-pointer">
         <CardContent className="flex items-center gap-4 p-4">
           <div className={`p-3 rounded-lg ${bgColor}`}>
             <Icon className="h-6 w-6" />
           </div>
           <div className="flex-1">
-            <h3 className="font-medium text-vocari-text">{game.name}</h3>
-            <p className="text-sm text-vocari-text-muted">{description}</p>
+            <h3 className="font-medium text-aura-ink">{game.name}</h3>
+            <p className="text-sm text-aura-muted">{description}</p>
             <div className="flex items-center gap-3 mt-2">
-              <span className="flex items-center gap-1 text-xs text-vocari-text-muted">
+              <span className="flex items-center gap-1 text-xs text-aura-muted">
                 <Clock className="h-3 w-3" />
                 {game.duration_minutes} min
               </span>
@@ -96,7 +96,7 @@ function GameCard({ game }: { game: Game }) {
               </Badge>
             </div>
           </div>
-          <ChevronRight className="h-5 w-5 text-vocari-text-muted" />
+          <ChevronRight className="h-5 w-5 text-aura-muted" />
         </CardContent>
       </Card>
     </Link>
@@ -133,7 +133,7 @@ function GameList() {
     return (
       <div className="text-center py-12">
         <Gamepad2 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-        <p className="text-vocari-text-muted">
+        <p className="text-aura-muted">
           No hay juegos disponibles actualmente
         </p>
       </div>
@@ -162,34 +162,34 @@ export default function JuegosPage() {
       <GameProvider>
         <div className="space-y-6">
           <div>
-            <h1 className="text-2xl font-bold text-vocari-text">
+            <h1 className="text-2xl font-bold text-aura-ink">
               Juegos de Habilidades
             </h1>
-            <p className="text-vocari-text-muted">
+            <p className="text-aura-muted">
               Evalua tus habilidades cognitivas y blandas con juegos interactivos
             </p>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h2 className="font-medium text-blue-800 mb-1">
+          <div className="bg-aura-primary/5 border border-aura-primary/20 rounded-lg p-4">
+            <h2 className="font-medium text-aura-ink mb-1">
               Como funcionan los juegos?
             </h2>
-            <p className="text-sm text-blue-700">
+            <p className="text-sm text-aura-primary">
               Cada juego evalua diferentes habilidades. Los resultados se guardan en
               tu perfil y te ayudan a descubrir tu perfil vocacional completo.
             </p>
           </div>
 
           {mainAction && (
-            <Card className="border-vocari-accent/30 bg-vocari-accent/5">
+            <Card className="border-aura-teal/30 bg-aura-teal/5">
               <CardContent className="p-4 md:p-5">
-                <p className="text-xs uppercase tracking-wide text-vocari-text-muted mb-2">
+                <p className="text-xs uppercase tracking-wide text-aura-muted mb-2">
                   Ruta recomendada para ti
                 </p>
-                <h2 className="text-lg font-semibold text-vocari-text mb-1">
+                <h2 className="text-lg font-semibold text-aura-ink mb-1">
                   {mainAction.label}
                 </h2>
-                <p className="text-sm text-vocari-text-muted mb-4">
+                <p className="text-sm text-aura-muted mb-4">
                   {mainAction.reason}
                 </p>
                 <div className="flex flex-wrap gap-2">

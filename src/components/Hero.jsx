@@ -1,197 +1,124 @@
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
+import { ArrowRight, BrainCircuit, Compass, Database, Play, Route, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Compass, Sparkles, FileText, Play, AlertTriangle } from 'lucide-react';
-import { fadeUp, scaleIn } from '../lib/animations';
 import { useLanguage } from '../lib/i18n/LanguageContext';
+import { SITE_LINKS } from '../lib/siteLinks';
 import { t, tx } from '../lib/i18n/translations';
 
-const Hero = ({ onStartTest }) => {
+const Hero = () => {
   const { lang } = useLanguage();
+
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-indigo-50 via-white to-amber-50/30 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-vocari-primary/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-vocari-accent/5 rounded-full blur-3xl"></div>
-      </div>
+    <section className="relative flex min-h-screen items-center overflow-hidden pt-24">
+      <div className="aura-orb -right-36 -top-20 h-[34rem] w-[34rem] bg-aura-primary/20" />
+      <div className="aura-orb -bottom-40 -left-48 h-[38rem] w-[38rem] bg-aura-teal/10" />
+      <div className="aura-orb left-[35%] top-[35%] h-80 w-80 bg-aura-violet/10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-            className="text-center lg:text-left"
-          >
-            {/* Pain message + Loss monetary */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
-              className="mb-6"
-            >
-              <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 rounded-full px-4 py-2 mb-4">
-                <AlertTriangle size={16} className="text-red-500" />
-                <span className="text-red-700 text-sm font-medium">{tx(t.hero.badge, lang)}</span>
+      <div className="aura-container relative grid items-center gap-14 py-16 lg:grid-cols-12 lg:py-24">
+        <Motion.div
+          initial={{ opacity: 0, x: -24 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="lg:col-span-6"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-aura-primary/15 bg-white/70 px-4 py-2 text-sm font-semibold text-aura-primary shadow-sm backdrop-blur-xl">
+            <Sparkles size={16} />
+            {tx(t.refresh.hero.badge, lang)}
+          </div>
+
+          <h1 className="mt-7 font-display text-4xl font-bold leading-[1.08] tracking-[-0.035em] text-aura-ink sm:text-5xl lg:text-6xl">
+            {tx(t.refresh.hero.title, lang)}
+            <span className="mt-2 block bg-gradient-to-r from-aura-primary via-aura-violet to-aura-teal bg-clip-text text-transparent">
+              {tx(t.refresh.hero.highlight, lang)}
+            </span>
+          </h1>
+
+          <p className="mt-6 max-w-xl text-lg leading-8 text-aura-muted">
+            {tx(t.refresh.hero.subtitle, lang)}
+          </p>
+
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Link to={SITE_LINKS.vocationalTest} className="aura-button-primary">
+              <Play size={18} />
+              {tx(t.refresh.hero.primaryCta, lang)}
+            </Link>
+            <a href={SITE_LINKS.careerTransition} target="_blank" rel="noopener noreferrer" className="aura-button-secondary">
+              <Route size={18} />
+              {tx(t.refresh.hero.secondaryCta, lang)}
+              <ArrowRight size={17} />
+            </a>
+          </div>
+
+          <div className="mt-12 grid max-w-lg grid-cols-2 gap-3">
+            <div className="aura-glass flex items-center gap-3 p-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-aura-teal/10 text-aura-teal">
+                <Database size={20} />
               </div>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                {tx(t.hero.tagline, lang)}
-              </p>
-              {/* Loss monetary highlight */}
-              <div className="mt-4 p-4 bg-amber-50 border-l-4 border-vocari-accent rounded-r-lg">
-                <p className="text-sm text-gray-600">{tx(t.hero.lossLabel, lang)}</p>
-                <p className="text-2xl font-bold text-vocari-dark">{tx(t.hero.lossAmount, lang)}</p>
-                <p className="text-xs text-gray-500">{tx(t.hero.lossNote, lang)}</p>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-aura-ink">{tx(t.refresh.hero.dataTitle, lang)}</p>
+                <p className="mt-1 text-xs text-aura-muted">{tx(t.refresh.hero.dataDescription, lang)}</p>
               </div>
-            </motion.div>
+            </div>
+            <div className="aura-glass flex items-center gap-3 p-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-aura-violet/10 text-aura-violet">
+                <BrainCircuit size={20} />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-aura-ink">{tx(t.refresh.hero.aiTitle, lang)}</p>
+                <p className="mt-1 text-xs text-aura-muted">{tx(t.refresh.hero.aiDescription, lang)}</p>
+              </div>
+            </div>
+          </div>
+        </Motion.div>
 
-            <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-poppins font-bold text-vocari-dark mb-6 leading-tight"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
-            >
-              {tx(t.hero.h1a, lang)}
-              <span className="block text-vocari-primary">{tx(t.hero.h1b, lang)}</span>
-            </motion.h1>
-
-            <motion.p
-              className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed max-w-lg"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.4 }}
-            >
-              {tx(t.hero.subtitle, lang)}
-            </motion.p>
-
-            {/* Primary CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.5 }}
-              className="mb-6"
-            >
-              <Link
-                to="/test"
-                className="inline-flex items-center justify-center gap-2 text-lg px-10 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 bg-vocari-primary text-white z-20 relative"
-              >
-                <Play size={20} />
-                {tx(t.hero.ctaPrimary, lang)}
-              </Link>
-            </motion.div>
-
-            {/* Secondary CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center z-10 relative"
-            >
-              <Link
-                to="/demo-informe"
-                className="bg-vocari-accent text-vocari-dark hover:bg-vocari-accent/80 text-sm px-6 py-3 flex items-center justify-center gap-2 font-semibold rounded-xl transition-colors shadow-md z-20 relative"
-              >
-                <FileText size={16} />
-                {tx(t.hero.ctaReport, lang)}
-              </Link>
-
-              <span className="text-gray-300 hidden sm:inline">|</span>
-
-              <a
-                href="#sobre-el-proyecto"
-                className="text-vocari-primary hover:text-vocari-light text-sm font-medium z-20 relative transition-colors underline hover:no-underline"
-              >
-                {tx(t.hero.ctaAbout, lang)}
-              </a>
-            </motion.div>
-
-            {/* Trust badges */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.8 }}
-              className="flex flex-wrap justify-center lg:justify-start gap-6 mt-10 text-sm text-gray-500"
-            >
-              <span className="flex items-center gap-1.5">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                {tx(t.hero.badge1, lang)}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <div className="w-2 h-2 bg-vocari-primary rounded-full"></div>
-                {tx(t.hero.badge2, lang)}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <div className="w-2 h-2 bg-vocari-accent rounded-full"></div>
-                {tx(t.hero.badge3, lang)}
-              </span>
-            </motion.div>
-          </motion.div>
-
-          {/* Illustration */}
-          <motion.div
-            {...scaleIn}
-            className="relative hidden lg:block"
-          >
-            <div className="relative z-10">
-              <svg
-                viewBox="0 0 400 400"
-                className="w-full h-auto max-w-md mx-auto"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="200" cy="200" r="180" fill="url(#gradient1)" opacity="0.08" />
-                <circle cx="200" cy="200" r="120" fill="#0B1A33" opacity="0.12" />
-                <circle cx="200" cy="200" r="100" fill="#0B1A33" opacity="0.18" />
-
-                <g transform="rotate(45 200 200)">
-                  <path d="M200 120 L220 200 L200 280 L180 200 Z" fill="#0B1A33" />
-                  <path d="M200 120 L180 200 L200 280 L220 200 Z" fill="#0B1A33" />
-                </g>
-
-                <circle cx="200" cy="200" r="8" fill="#FFFFFF" />
-
-                <text x="200" y="80" textAnchor="middle" fill="#0B1A33" fontSize="16" fontWeight="bold">N</text>
-                <text x="200" y="330" textAnchor="middle" fill="#0B1A33" fontSize="16" fontWeight="bold">S</text>
-                <text x="75" y="205" textAnchor="middle" fill="#0B1A33" fontSize="16" fontWeight="bold">O</text>
-                <text x="325" y="205" textAnchor="middle" fill="#0B1A33" fontSize="16" fontWeight="bold">E</text>
-
-                <circle cx="150" cy="150" r="4" fill="#D4AF37" opacity="0.6">
-                  <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="250" cy="250" r="3" fill="#0B1A33" opacity="0.8">
-                  <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.5s" repeatCount="indefinite" />
-                </circle>
-                <circle cx="280" cy="140" r="5" fill="#D4AF37" opacity="0.5">
-                  <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite" />
-                </circle>
-
-                <defs>
-                  <radialGradient id="gradient1" cx="0.5" cy="0.5" r="0.5">
-                    <stop offset="0%" stopColor="#0B1A33" />
-                    <stop offset="100%" stopColor="#D4AF37" />
-                  </radialGradient>
-                </defs>
-              </svg>
+        <Motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.12 }}
+          className="relative mx-auto w-full max-w-[34rem] lg:col-span-6"
+        >
+          <div className="relative aspect-square">
+            <div className="absolute inset-0 animate-[spin_28s_linear_infinite] rounded-full border border-dashed border-aura-primary/20 motion-reduce:animate-none" />
+            <div className="absolute inset-8 animate-[spin_36s_linear_infinite_reverse] rounded-full border border-dashed border-aura-teal/30 motion-reduce:animate-none" />
+            <div className="aura-glass absolute inset-14 flex items-center justify-center rounded-full shadow-2xl shadow-aura-primary/10">
+              <span className="absolute top-6 font-display font-bold text-aura-primary/35">N</span>
+              <span className="absolute bottom-6 font-display font-bold text-aura-primary/35">S</span>
+              <span className="absolute left-6 font-display font-bold text-aura-primary/35">O</span>
+              <span className="absolute right-6 font-display font-bold text-aura-primary/35">E</span>
+              <div className="relative flex h-36 w-36 rotate-45 items-center justify-center">
+                <div className="absolute h-32 w-7 rounded-full bg-gradient-to-b from-aura-primary via-aura-violet to-aura-teal shadow-lg shadow-aura-primary/30" />
+                <div className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-lg">
+                  <Compass size={18} className="-rotate-45 text-aura-primary" />
+                </div>
+              </div>
             </div>
 
-            <motion.div
-              className="absolute top-10 right-10 bg-white shadow-lg rounded-2xl p-3"
-              animate={{ y: [-8, 8, -8] }}
-              transition={{ duration: 3, repeat: Infinity }}
+            <Motion.a
+              href="#skill-graph"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              className="aura-glass absolute right-0 top-14 flex items-center gap-3 p-4 motion-reduce:transform-none"
             >
-              <Compass size={24} className="text-vocari-primary" />
-            </motion.div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-aura-violet to-aura-teal text-white">
+                <Route size={20} />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-aura-teal">{tx(t.refresh.hero.newLabel, lang)}</p>
+                <p className="text-sm font-semibold text-aura-ink">Skill Graph para IA</p>
+              </div>
+            </Motion.a>
 
-            <motion.div
-              className="absolute bottom-16 left-10 bg-white shadow-lg rounded-2xl p-3"
-              animate={{ y: [8, -8, 8] }}
-              transition={{ duration: 2.5, repeat: Infinity }}
+            <Motion.div
+              animate={{ y: [0, 9, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+              className="aura-glass absolute bottom-8 left-0 max-w-[17rem] p-5 motion-reduce:transform-none"
             >
-              <Sparkles size={24} className="text-vocari-accent" />
-            </motion.div>
-          </motion.div>
-        </div>
+              <p className="text-xs font-bold uppercase tracking-widest text-aura-primary">{tx(t.refresh.hero.cardEyebrow, lang)}</p>
+              <p className="mt-2 font-display text-lg font-bold text-aura-ink">{tx(t.refresh.hero.cardTitle, lang)}</p>
+              <p className="mt-2 text-sm leading-6 text-aura-muted">{tx(t.refresh.hero.cardDescription, lang)}</p>
+            </Motion.div>
+          </div>
+        </Motion.div>
       </div>
     </section>
   );

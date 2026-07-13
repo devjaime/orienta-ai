@@ -7,14 +7,14 @@ export default function InstitucionesPage() {
     <RoleGuard allowedRoles={["super_admin"]}>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-vocari-text">
+          <h1 className="text-2xl font-bold text-aura-ink">
             Instituciones
           </h1>
-          <p className="text-vocari-text-muted">
+          <p className="text-aura-muted">
             Gestion de instituciones en la plataforma
           </p>
         </div>
-        <p className="text-vocari-text-muted">
+        <p className="text-aura-muted">
           Pagina en construccion. Aqui podras ver y gestionar todas las instituciones.
         </p>
       </div>

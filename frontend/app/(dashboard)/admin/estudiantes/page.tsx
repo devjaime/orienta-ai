@@ -33,10 +33,10 @@ export default function AdminEstudiantesPage() {
     <RoleGuard allowedRoles={["admin_colegio"]}>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-vocari-text">Estudiantes</h1>
+          <h1 className="text-2xl font-bold text-aura-ink">Estudiantes</h1>
           <Link
             href="/admin/importar"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-vocari-primary text-white rounded-md hover:opacity-90 text-sm font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-aura-primary text-white rounded-md hover:opacity-90 text-sm font-medium"
           >
             <Upload className="h-4 w-4" />
             Importar CSV
@@ -59,12 +59,12 @@ export default function AdminEstudiantesPage() {
             ) : estudiantes.length === 0 ? (
               <div className="py-12 text-center">
                 <Users className="h-10 w-10 text-gray-300 mx-auto mb-3" />
-                <p className="text-vocari-text-muted mb-4">
+                <p className="text-aura-muted mb-4">
                   No hay estudiantes registrados.
                 </p>
                 <Link
                   href="/admin/importar"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-vocari-primary text-white rounded-md hover:opacity-90 text-sm"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-aura-primary text-white rounded-md hover:opacity-90 text-sm"
                 >
                   <Upload className="h-4 w-4" />
                   Importar estudiantes
@@ -75,8 +75,8 @@ export default function AdminEstudiantesPage() {
                 {estudiantes.map((e) => (
                   <li key={e.id} className="py-3 flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-vocari-text">{e.name}</p>
-                      <p className="text-xs text-vocari-text-muted">{e.email}</p>
+                      <p className="text-sm font-medium text-aura-ink">{e.name}</p>
+                      <p className="text-xs text-aura-muted">{e.email}</p>
                     </div>
                     <Badge variant={e.is_active ? "success" : "error"}>
                       {e.is_active ? "Activo" : "Inactivo"}

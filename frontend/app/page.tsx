@@ -1,28 +1,57 @@
+import type { Metadata } from "next";
+import PublicHeader from "@/components/landing/PublicHeader";
+import Hero from "@/components/landing/Hero";
+import CareerPaths from "@/components/landing/CareerPaths";
+import VocationalFlow from "@/components/landing/VocationalFlow";
+import SkillGraphSection from "@/components/landing/SkillGraphSection";
+import ProjectOverview from "@/components/landing/ProjectOverview";
+import FAQ from "@/components/landing/FAQ";
+import PublicFooter from "@/components/landing/PublicFooter";
+import { refresh } from "@/lib/i18n/refresh";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Vocari - Orientación vocacional basada en evidencia",
+    template: "%s | Vocari",
+  },
+  description: refresh.hero.subtitle,
+  keywords: [
+    "orientación vocacional",
+    "RIASEC",
+    "carreras Chile",
+    "reconversión laboral",
+    "skill graph",
+    "colegios",
+    "educación",
+    "inteligencia artificial",
+  ],
+  openGraph: {
+    title: "Vocari - Orientación vocacional basada en evidencia",
+    description: refresh.hero.subtitle,
+    type: "website",
+    locale: "es_CL",
+    siteName: "Vocari",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vocari - Orientación vocacional basada en evidencia",
+    description: refresh.hero.subtitle,
+  },
+};
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-vocari-bg flex flex-col items-center justify-center px-4">
-      <div className="text-center max-w-2xl">
-        <h1 className="text-4xl md:text-5xl font-bold text-vocari-primary mb-4">
-          Vocari
-        </h1>
-        <p className="text-xl md:text-2xl text-vocari-text-muted mb-8">
-          Orientacion vocacional inteligente para colegios chilenos
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="/auth/login"
-            className="inline-flex items-center justify-center px-6 py-3 bg-vocari-primary text-white font-medium rounded-md hover:opacity-90 transition-opacity"
-          >
-            Iniciar sesion
-          </a>
-          <a
-            href="/b2b"
-            className="inline-flex items-center justify-center px-6 py-3 border-2 border-vocari-primary text-vocari-primary font-medium rounded-md hover:bg-vocari-primary hover:text-white transition-colors"
-          >
-            Para colegios
-          </a>
-        </div>
-      </div>
-    </main>
+    <div className="min-h-screen overflow-x-hidden bg-aura-surface text-aura-ink">
+      <PublicHeader />
+      <main>
+        <Hero />
+        <CareerPaths />
+        <VocationalFlow />
+        <SkillGraphSection />
+        <ProjectOverview />
+        <FAQ />
+      </main>
+      <PublicFooter />
+    </div>
   );
 }

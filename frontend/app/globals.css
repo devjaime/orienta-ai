@@ -24,9 +24,20 @@
   --color-error: #f56565;
   --color-info: #4299e1;
 
-  /* Backgrounds */
-  --background: var(--vocari-bg);
-  --foreground: var(--vocari-text);
+  /* ===== Sistema Aura (landing y flows publicos) ===== */
+  --aura-surface: #faf8ff;
+  --aura-surface-low: #f2f3ff;
+  --aura-surface-high: #e2e7ff;
+  --aura-ink: #131b2e;
+  --aura-muted: #56566a;
+  --aura-primary: #4f46e5;
+  --aura-violet: #7c3aed;
+  --aura-teal: #06b6d4;
+  --aura-gold: #d9b44a;
+
+  /* Backgrounds publicos por defecto (aura) */
+  --background: var(--aura-surface);
+  --foreground: var(--aura-ink);
 }
 
 @theme inline {
@@ -53,19 +64,109 @@
   --color-error: var(--color-error);
   --color-info: var(--color-info);
 
+  /* Map Aura tokens to Tailwind theme */
+  --color-aura-surface: var(--aura-surface);
+  --color-aura-surface-low: var(--aura-surface-low);
+  --color-aura-surface-high: var(--aura-surface-high);
+  --color-aura-ink: var(--aura-ink);
+  --color-aura-muted: var(--aura-muted);
+  --color-aura-primary: var(--aura-primary);
+  --color-aura-violet: var(--aura-violet);
+  --color-aura-teal: var(--aura-teal);
+  --color-aura-gold: var(--aura-gold);
+
+  /* Tipografias */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
 
   /* Border radius */
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
+
+  /* Animaciones */
+  --animate-fade-in: fadeIn 0.6s ease-in-out;
+  --animate-slide-up: slideUp 0.8s ease-out;
+  --animate-slide-in: slideIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* ===== Base Styles ===== */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(79, 70, 229, 0.2);
 }
 
 /* Focus ring for accessibility */
@@ -90,4 +191,202 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--vocari-text);
+}
+
+/* ===== Componentes Aura ===== */
+@layer components {
+  .aura-container {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+  }
+
+  .aura-section {
+    @apply relative py-20 md:py-24;
+  }
+
+  .aura-glass {
+    @apply rounded-3xl border border-white/70 bg-white/70 shadow-[0_20px_60px_-28px_rgba(79,70,229,0.28)] backdrop-blur-2xl;
+  }
+
+  .aura-kicker {
+    @apply inline-flex rounded-full border bg-aura-primary/5 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-aura-primary;
+    border-color: color-mix(in oklab, var(--color-aura-primary) 15%, transparent);
+  }
+
+  .aura-heading {
+    @apply font-display text-3xl font-bold tracking-[-0.03em] text-aura-ink sm:text-4xl lg:text-5xl;
+  }
+
+  .aura-copy {
+    @apply max-w-2xl text-base leading-7 text-aura-muted md:text-lg md:leading-8;
+  }
+
+  .aura-button-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-aura-primary to-aura-violet px-6 py-3.5 font-semibold text-white shadow-lg shadow-aura-primary/20 transition duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-aura-primary/25 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aura-primary/25;
+  }
+
+  .aura-button-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border bg-white/75 px-6 py-3.5 font-semibold text-aura-primary shadow-sm backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aura-primary/20;
+    border-color: color-mix(in oklab, var(--color-aura-primary) 15%, transparent);
+  }
+
+  .aura-button-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border bg-white/50 px-6 py-3.5 font-semibold text-aura-primary transition hover:bg-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aura-primary/20;
+    border-color: color-mix(in oklab, var(--color-aura-primary) 15%, transparent);
+  }
+}
+
+/* Decorativos Aura */
+.aura-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+.skill-grid {
+  background-image:
+    linear-gradient(rgba(132, 204, 22, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(132, 204, 22, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===== Micro-interacciones (portadas desde src/index.css) ===== */
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fadeInDown {
+  animation: fadeInDown 0.6s ease-out forwards;
+}
+
+.animate-fadeInLeft {
+  animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+.animate-fadeInRight {
+  animation: fadeInRight 0.6s ease-out forwards;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
+.animate-pulse-soft {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Stagger children animations */
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.stagger-children > *:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.stagger-children > *:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.stagger-children > *:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.stagger-children > *:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.stagger-children > *:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.stagger-children > *:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+/* Hover effects */
+.hover-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
 }

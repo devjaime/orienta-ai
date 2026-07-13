@@ -35,14 +35,14 @@ function SalaryChart({ data }: { data: Array<{ year: number; salary: number }> }
         const width = ((item.salary - minSalary) / (maxSalary - minSalary)) * 100;
         return (
           <div key={item.year} className="flex items-center gap-3">
-            <span className="text-sm text-vocari-text-muted w-12">{item.year}</span>
+            <span className="text-sm text-aura-muted w-12">{item.year}</span>
             <div className="flex-1 h-6 bg-gray-100 rounded overflow-hidden">
               <div
-                className="h-full bg-green-500 transition-all"
+                className="h-full bg-success transition-all"
                 style={{ width: `${width}%` }}
               />
             </div>
-            <span className="text-sm font-medium text-vocari-text w-24 text-right">
+            <span className="text-sm font-medium text-aura-ink w-24 text-right">
               ${item.salary.toLocaleString("es-CL")}
             </span>
           </div>
@@ -62,8 +62,8 @@ function MilestonesTimeline({
       {milestones.map((milestone, index) => (
         <div key={milestone.year} className="flex gap-4">
           <div className="flex flex-col items-center">
-            <div className="w-10 h-10 rounded-full bg-vocari-primary/10 flex items-center justify-center">
-              <span className="text-sm font-bold text-vocari-primary">
+            <div className="w-10 h-10 rounded-full bg-aura-primary/10 flex items-center justify-center">
+              <span className="text-sm font-bold text-aura-primary">
                 {index + 1}
               </span>
             </div>
@@ -73,12 +73,12 @@ function MilestonesTimeline({
           </div>
           <div className="flex-1 pb-4">
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-sm font-bold text-vocari-primary">
+              <span className="text-sm font-bold text-aura-primary">
                 {milestone.year}
               </span>
-              <h4 className="font-medium text-vocari-text">{milestone.title}</h4>
+              <h4 className="font-medium text-aura-ink">{milestone.title}</h4>
             </div>
-            <p className="text-sm text-vocari-text-muted">{milestone.description}</p>
+            <p className="text-sm text-aura-muted">{milestone.description}</p>
           </div>
         </div>
       ))}
@@ -113,7 +113,7 @@ function SimulationContent() {
   if (!simulation) {
     return (
       <div className="text-center py-12">
-        <p className="text-vocari-text-muted">
+        <p className="text-aura-muted">
           No se pudo generar la simulacion
         </p>
       </div>
@@ -130,13 +130,13 @@ function SimulationContent() {
           href="/estudiante/carreras"
           className="p-2 hover:bg-gray-100 rounded-lg"
         >
-          <ArrowLeft className="h-5 w-5 text-vocari-text-muted" />
+          <ArrowLeft className="h-5 w-5 text-aura-muted" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-vocari-text">
+          <h1 className="text-2xl font-bold text-aura-ink">
             {simulation_data.career_name}
           </h1>
-          <p className="text-vocari-text-muted">
+          <p className="text-aura-muted">
             Simulacion de carrera vocacional
           </p>
         </div>
@@ -145,42 +145,42 @@ function SimulationContent() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardContent className="flex items-center gap-3 py-4">
-            <div className="p-2 bg-green-100 rounded-md">
-              <TrendingUp className="h-5 w-5 text-green-600" />
+            <div className="p-2 bg-success/10 rounded-md">
+              <TrendingUp className="h-5 w-5 text-success" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-vocari-text">
+              <p className="text-2xl font-bold text-aura-ink">
                 {Math.round(employability * 100)}%
               </p>
-              <p className="text-xs text-vocari-text-muted">Empleabilidad</p>
+              <p className="text-xs text-aura-muted">Empleabilidad</p>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="flex items-center gap-3 py-4">
-            <div className="p-2 bg-yellow-100 rounded-md">
-              <Target className="h-5 w-5 text-yellow-600" />
+            <div className="p-2 bg-warning/10 rounded-md">
+              <Target className="h-5 w-5 text-warning" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-vocari-text">
+              <p className="text-2xl font-bold text-aura-ink">
                 {Math.round(saturation_index * 100)}%
               </p>
-              <p className="text-xs text-vocari-text-muted">Saturacion</p>
+              <p className="text-xs text-aura-muted">Saturacion</p>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="flex items-center gap-3 py-4">
-            <div className="p-2 bg-blue-100 rounded-md">
-              <DollarSign className="h-5 w-5 text-blue-600" />
+            <div className="p-2 bg-aura-primary/10 rounded-md">
+              <DollarSign className="h-5 w-5 text-aura-primary" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-vocari-text">
+              <p className="text-2xl font-bold text-aura-ink">
                 ${salary_projection[0]?.salary.toLocaleString("es-CL") || "N/A"}
               </p>
-              <p className="text-xs text-vocari-text-muted">Salario inicial</p>
+              <p className="text-xs text-aura-muted">Salario inicial</p>
             </div>
           </CardContent>
         </Card>
@@ -220,7 +220,7 @@ function SimulationContent() {
         <CardContent>
           <div className="prose prose-sm max-w-none">
             {ai_narrative.split("\n").map((paragraph, index) => (
-              <p key={index} className="mb-2 text-vocari-text">
+              <p key={index} className="mb-2 text-aura-ink">
                 {paragraph}
               </p>
             ))}

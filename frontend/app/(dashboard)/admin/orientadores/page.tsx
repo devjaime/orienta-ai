@@ -28,7 +28,7 @@ export default function AdminOrientadoresPage() {
   return (
     <RoleGuard allowedRoles={["admin_colegio"]}>
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-vocari-text">Orientadores</h1>
+        <h1 className="text-2xl font-bold text-aura-ink">Orientadores</h1>
 
         <Card>
           <CardHeader>
@@ -42,7 +42,7 @@ export default function AdminOrientadoresPage() {
             ) : orientadores.length === 0 ? (
               <div className="py-12 text-center">
                 <UserCircle className="h-10 w-10 text-gray-300 mx-auto mb-3" />
-                <p className="text-vocari-text-muted">
+                <p className="text-aura-muted">
                   No hay orientadores registrados en tu institución.
                 </p>
               </div>
@@ -50,12 +50,12 @@ export default function AdminOrientadoresPage() {
               <ul className="divide-y divide-gray-100">
                 {orientadores.map((o) => (
                   <li key={o.id} className="py-4 flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-full bg-vocari-primary/10 flex items-center justify-center shrink-0">
-                      <UserCircle className="h-5 w-5 text-vocari-primary" />
+                    <div className="h-9 w-9 rounded-full bg-aura-primary/10 flex items-center justify-center shrink-0">
+                      <UserCircle className="h-5 w-5 text-aura-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-vocari-text truncate">{o.name}</p>
-                      <p className="text-xs text-vocari-text-muted">{o.sessions_count} sesiones</p>
+                      <p className="text-sm font-medium text-aura-ink truncate">{o.name}</p>
+                      <p className="text-xs text-aura-muted">{o.sessions_count} sesiones</p>
                     </div>
                     <Badge variant={o.is_available ? "success" : "neutral"} dot>
                       {o.is_available ? "Disponible" : "Ocupado"}

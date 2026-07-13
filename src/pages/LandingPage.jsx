@@ -1,70 +1,25 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
-import ProblemSection from '../components/ProblemSection';
-import HowItWorks from '../components/landing/HowItWorks';
-import PricingSection from '../components/landing/PricingSection';
+import CareerPaths from '../components/landing/CareerPaths';
+import VocationalFlow from '../components/landing/VocationalFlow';
+import SkillGraphSection from '../components/landing/SkillGraphSection';
+import ProjectOverview from '../components/landing/ProjectOverview';
 import FAQ from '../components/FAQ';
-import Benefits from '../components/Benefits';
-import Testimonials from '../components/Testimonials';
 import Footer from '../components/Footer';
-import AIChat from '../components/AIChat';
-import SobreElProyecto from '../components/landing/SobreElProyecto';
-import ArquitecturaSistema from '../components/landing/ArquitecturaSistema';
-import { useLanguage } from '../lib/i18n/LanguageContext';
-import { t, tx } from '../lib/i18n/translations';
 
 function LandingPage() {
-  const navigate = useNavigate();
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const { lang } = useLanguage();
-
-  const closeChat = () => setIsChatOpen(false);
-  const goToTest = () => navigate('/test');
-
   return (
-    <div className="min-h-screen bg-white">
-      <Header onStartTest={goToTest} />
-
-      {/* Banda de autoría — mt-16 para compensar el header fijo */}
-      <div className="bg-vocari-primary text-white text-center py-2 text-sm mt-16">
-        <span>
-          {tx(t.landing.authorBand, lang)}{' '}
-          <strong>Jaime Hernández</strong>
-          {' '}·{' '}
-          <a href="mailto:hernandez.hs@gmail.com" className="underline hover:no-underline">
-            hernandez.hs@gmail.com
-          </a>
-        </span>
-      </div>
-
+    <div className="min-h-screen overflow-x-hidden bg-aura-surface text-aura-ink">
+      <Header />
       <main>
-        <Hero onStartTest={goToTest} />
-        <ProblemSection />
-        <HowItWorks />
-        <Benefits />
-        <SobreElProyecto />
-        <ArquitecturaSistema />
-        <Testimonials />
-        <PricingSection />
+        <Hero />
+        <CareerPaths />
+        <VocationalFlow />
+        <SkillGraphSection />
+        <ProjectOverview />
         <FAQ />
-
-        {/* Nota de transparencia */}
-        <div className="bg-amber-50 border-t border-amber-200 py-8">
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <p className="text-amber-800 text-sm leading-relaxed">
-              <strong>{tx(t.landing.disclaimerTitle, lang)}</strong>{' '}
-              {tx(t.landing.disclaimerBody, lang)}{' '}
-              <a href="mailto:hernandez.hs@gmail.com" className="underline hover:no-underline">
-                {tx(t.landing.contactLabel, lang)} hernandez.hs@gmail.com
-              </a>
-            </p>
-          </div>
-        </div>
       </main>
       <Footer />
-      <AIChat isOpen={isChatOpen} onClose={closeChat} />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { FileText, Share2, Plus, ExternalLink, Copy } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { toast } from "@/components/ui/Toast";
+import { formatDateTimeCL } from "@/lib/utils/dates";
 
 interface Report {
   id: string;
@@ -31,26 +32,20 @@ function ReportCard({ report }: { report: Report }) {
   };
 
   return (
-    <Card className="hover:border-vocari-accent transition-colors">
+    <Card className="hover:border-aura-teal transition-colors">
       <CardContent className="p-4">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-100 rounded-lg flex-shrink-0">
-            <FileText className="h-6 w-6 text-blue-600" />
+          <div className="p-3 bg-aura-primary/10 rounded-lg flex-shrink-0">
+            <FileText className="h-6 w-6 text-aura-primary" />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-vocari-text">
+            <h3 className="font-medium text-aura-ink">
               Informe Vocacional Completo
             </h3>
-            <p className="text-sm text-vocari-text-muted">
-              {new Date(report.created_at).toLocaleDateString("es-CL", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+            <p className="text-sm text-aura-ink-muted">
+              {formatDateTimeCL(report.created_at)}
             </p>
-            <p className="text-xs text-vocari-text-muted mt-1 truncate">
+            <p className="text-xs text-aura-ink-muted mt-1 truncate">
               {shareUrl}
             </p>
           </div>
@@ -67,7 +62,7 @@ function ReportCard({ report }: { report: Report }) {
               href={shareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+              className="inline-flex items-center justify-center rounded-md p-2 text-aura-muted hover:text-aura-ink hover:bg-aura-primary/5 transition-colors"
             >
               <ExternalLink className="h-4 w-4" />
             </a>
@@ -99,9 +94,9 @@ function ReportList() {
   if (reports.length === 0) {
     return (
       <div className="text-center py-12">
-        <FileText className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-        <p className="text-vocari-text-muted">No tienes informes generados</p>
-        <p className="text-sm text-vocari-text-muted mt-1">
+        <FileText className="h-12 w-12 text-aura-muted/50 mx-auto mb-4" />
+        <p className="text-aura-ink-muted">No tienes informes generados</p>
+        <p className="text-sm text-aura-ink-muted mt-1">
           Genera tu primer informe vocacional con un link compartible
         </p>
       </div>
@@ -146,8 +141,8 @@ export default function ReportesPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-vocari-text">Mis Informes</h1>
-            <p className="text-vocari-text-muted">
+            <h1 className="text-2xl font-bold text-aura-ink">Mis Informes</h1>
+            <p className="text-aura-ink-muted">
               Genera y comparte tu informe vocacional completo
             </p>
           </div>
@@ -160,17 +155,17 @@ export default function ReportesPage() {
           </Button>
         </div>
 
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-5">
+        <div className="bg-gradient-to-r from-aura-primary/5 to-aura-violet/5 border border-aura-primary/20 rounded-lg p-5">
           <div className="flex items-start gap-3">
-            <Share2 className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+            <Share2 className="h-5 w-5 text-aura-primary mt-0.5 flex-shrink-0" />
             <div>
-              <h2 className="font-semibold text-blue-800 mb-1">
+              <h2 className="font-semibold text-aura-ink mb-1">
                 Informe compartible por link
               </h2>
-              <p className="text-sm text-blue-700 mb-2">
+              <p className="text-sm text-aura-muted mb-2">
                 Genera un informe completo de tu perfil vocacional y comparte el link con tu familia, orientador o postulaciones universitarias.
               </p>
-              <ul className="text-sm text-blue-700 space-y-0.5">
+              <ul className="text-sm text-aura-muted space-y-0.5">
                 <li>✦ Código Holland y perfil RIASEC</li>
                 <li>✦ Carreras recomendadas con sueldos reales (MINEDUC)</li>
                 <li>✦ Habilidades evaluadas en juegos</li>

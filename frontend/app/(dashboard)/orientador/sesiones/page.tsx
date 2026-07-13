@@ -30,7 +30,7 @@ export default function OrientadorSesionesPage() {
   return (
     <RoleGuard allowedRoles={["orientador", "admin_colegio"]}>
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-vocari-text">Gestión de Sesiones</h1>
+        <h1 className="text-2xl font-bold text-aura-ink">Gestión de Sesiones</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
@@ -43,7 +43,7 @@ export default function OrientadorSesionesPage() {
                   {[1, 2, 3].map((i) => <Skeleton key={i} variant="rect" height={56} />)}
                 </div>
               ) : pendientes.length === 0 ? (
-                <p className="text-vocari-text-muted text-sm py-4 text-center">
+                <p className="text-aura-muted text-sm py-4 text-center">
                   No hay sesiones pendientes.
                 </p>
               ) : (
@@ -52,11 +52,11 @@ export default function OrientadorSesionesPage() {
                     <li key={s.id}>
                       <Link
                         href={`/orientador/sesiones/${s.id}`}
-                        className="flex items-center justify-between py-3 hover:text-vocari-primary"
+                        className="flex items-center justify-between py-3 hover:text-aura-primary"
                       >
                         <div>
                           <p className="text-sm font-medium">{formatSessionDate(s.scheduled_at)}</p>
-                          <p className="text-xs text-vocari-text-muted">{s.duration_minutes} min</p>
+                          <p className="text-xs text-aura-muted">{s.duration_minutes} min</p>
                         </div>
                         <Badge variant={s.status === "confirmed" ? "success" : "info"} dot>
                           {STATUS_LABEL[s.status]}
@@ -79,7 +79,7 @@ export default function OrientadorSesionesPage() {
                   {[1, 2].map((i) => <Skeleton key={i} variant="rect" height={56} />)}
                 </div>
               ) : completadas.length === 0 ? (
-                <p className="text-vocari-text-muted text-sm py-4 text-center">
+                <p className="text-aura-muted text-sm py-4 text-center">
                   Aún no hay sesiones completadas.
                 </p>
               ) : (
@@ -88,9 +88,9 @@ export default function OrientadorSesionesPage() {
                     <li key={s.id}>
                       <Link
                         href={`/orientador/sesiones/${s.id}`}
-                        className="flex items-center justify-between py-3 hover:text-vocari-primary"
+                        className="flex items-center justify-between py-3 hover:text-aura-primary"
                       >
-                        <p className="text-sm text-vocari-text-muted">
+                        <p className="text-sm text-aura-muted">
                           {formatSessionDate(s.scheduled_at)}
                         </p>
                         <Badge variant="neutral">Completada</Badge>

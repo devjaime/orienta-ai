@@ -73,10 +73,10 @@ function StatsCards({ stats }: { stats: AdminDashboardResponse["institution_stat
               <card.icon className={`h-5 w-5 ${card.iconColor}`} />
             </div>
             <div>
-              <p className="text-2xl font-bold text-vocari-text">
+              <p className="text-2xl font-bold text-aura-ink">
                 {card.value}
               </p>
-              <p className="text-xs text-vocari-text-muted">{card.label}</p>
+              <p className="text-xs text-aura-muted">{card.label}</p>
             </div>
           </CardContent>
         </Card>
@@ -92,7 +92,7 @@ function OrientadorWorkload({
 }) {
   if (stats.length === 0) {
     return (
-      <p className="text-vocari-text-muted text-sm py-4">
+      <p className="text-aura-muted text-sm py-4">
         No hay orientadores en la institucion
       </p>
     );
@@ -106,14 +106,14 @@ function OrientadorWorkload({
           className="flex items-center justify-between p-3 rounded-lg bg-gray-50"
         >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-vocari-primary/10 flex items-center justify-center">
-              <span className="text-sm font-medium text-vocari-primary">
+            <div className="w-10 h-10 rounded-full bg-aura-primary/10 flex items-center justify-center">
+              <span className="text-sm font-medium text-aura-primary">
                 {o.orientador_name.charAt(0)}
               </span>
             </div>
             <div>
-              <p className="font-medium text-vocari-text">{o.orientador_name}</p>
-              <p className="text-xs text-vocari-text-muted">
+              <p className="font-medium text-aura-ink">{o.orientador_name}</p>
+              <p className="text-xs text-aura-muted">
                 {o.students_assigned} estudiantes | {o.sessions_completed} sesiones
               </p>
             </div>
@@ -130,7 +130,7 @@ function OrientadorWorkload({
             >
               {Math.round(o.workload_percentage)}%
             </p>
-            <p className="text-xs text-vocari-text-muted">carga</p>
+            <p className="text-xs text-aura-muted">carga</p>
           </div>
         </div>
       ))}
@@ -145,7 +145,7 @@ function EngagementChart({
 }) {
   if (trend.length === 0) {
     return (
-      <p className="text-vocari-text-muted text-sm py-4">
+      <p className="text-aura-muted text-sm py-4">
         No hay datos de engagement disponibles
       </p>
     );
@@ -157,14 +157,14 @@ function EngagementChart({
     <div className="space-y-2">
       {trend.map((item) => (
         <div key={item.week} className="flex items-center gap-3">
-          <span className="text-xs text-vocari-text-muted w-16">{item.week}</span>
+          <span className="text-xs text-aura-muted w-16">{item.week}</span>
           <div className="flex-1">
             <ProgressBar
               value={(item.active_students / maxValue) * 100}
-              color="bg-vocari-primary"
+              color="bg-aura-primary"
             />
           </div>
-          <span className="text-xs text-vocari-text-muted w-8 text-right">
+          <span className="text-xs text-aura-muted w-8 text-right">
             {item.active_students}
           </span>
         </div>
@@ -180,7 +180,7 @@ function TopCareers({
 }) {
   if (careers.length === 0) {
     return (
-      <p className="text-vocari-text-muted text-sm py-4">
+      <p className="text-aura-muted text-sm py-4">
         No hay carreras recomendadas
       </p>
     );
@@ -194,16 +194,16 @@ function TopCareers({
           className="flex items-center justify-between p-3 rounded-lg bg-gray-50"
         >
           <div className="flex items-center gap-3">
-            <GraduationCap className="h-5 w-5 text-vocari-accent" />
+            <GraduationCap className="h-5 w-5 text-aura-teal" />
             <div>
-              <p className="font-medium text-vocari-text">{career.name}</p>
-              <p className="text-xs text-vocari-text-muted">
+              <p className="font-medium text-aura-ink">{career.name}</p>
+              <p className="text-xs text-aura-muted">
                 {AREA_LABELS[career.area] || career.area}
               </p>
             </div>
           </div>
           <div className="text-right">
-            <p className="text-sm font-medium text-vocari-text">
+            <p className="text-sm font-medium text-aura-ink">
               {Math.round(career.employability * 100)}% empleabilidad
             </p>
           </div>
@@ -308,10 +308,10 @@ export default function AdminDashboard() {
     <RoleGuard allowedRoles={["admin_colegio"]}>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-vocari-text">
+          <h1 className="text-2xl font-bold text-aura-ink">
             Dashboard Administrador
           </h1>
-          <p className="text-vocari-text-muted">
+          <p className="text-aura-muted">
             Estadisticas y gestion de la institucion
           </p>
         </div>

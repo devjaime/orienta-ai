@@ -5,7 +5,7 @@ Vocari Backend - Schemas de Auth (Pydantic).
 import uuid
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, model_validator
 
 from app.auth.models import UserRole
 
@@ -17,6 +17,20 @@ class GoogleAuthRequest(BaseModel):
     """Sin body, solo inicia el flujo OAuth."""
 
     pass
+
+
+class MVPCredentialsLoginRequest(BaseModel):
+    """Login controlado para perfiles internos del MVP."""
+
+    username: str = Field(..., min_length=3, max_length=100)
+    password: str = Field(..., min_length=6, max_length=255)
+    role: UserRole
+
+    @model_validator(mode="after")
+    def validate_role(self) -> "MVPCredentialsLoginRequest":
+        if self.role not in {UserRole.ORIENTADOR, UserRole.ADMIN_COLEGIO}:
+            raise ValueError("El login MVP solo permite orientador o admin_colegio")
+        return self
 
 
 # --- Response Schemas ---

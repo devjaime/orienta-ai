@@ -11,28 +11,28 @@ export default function AdminConfiguracionPage() {
   return (
     <RoleGuard allowedRoles={["admin_colegio"]}>
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-vocari-text">Configuración</h1>
+        <h1 className="text-2xl font-bold text-aura-ink">Configuración</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Building2 className="h-5 w-5 text-vocari-primary" />
+                <Building2 className="h-5 w-5 text-aura-primary" />
                 Institución
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <p className="text-xs text-vocari-text-muted">Administrador</p>
-                <p className="text-sm font-medium text-vocari-text">{user?.full_name ?? "—"}</p>
+                <p className="text-xs text-aura-muted">Administrador</p>
+                <p className="text-sm font-medium text-aura-ink">{user?.full_name ?? "—"}</p>
               </div>
               <div>
-                <p className="text-xs text-vocari-text-muted">Correo</p>
-                <p className="text-sm font-medium text-vocari-text">{user?.email ?? "—"}</p>
+                <p className="text-xs text-aura-muted">Correo</p>
+                <p className="text-sm font-medium text-aura-ink">{user?.email ?? "—"}</p>
               </div>
               <div>
-                <p className="text-xs text-vocari-text-muted">ID Institución</p>
-                <p className="text-sm font-mono text-vocari-text-muted">
+                <p className="text-xs text-aura-muted">ID Institución</p>
+                <p className="text-sm font-mono text-aura-muted">
                   {user?.institution_id ?? "Sin institución"}
                 </p>
               </div>
@@ -42,12 +42,12 @@ export default function AdminConfiguracionPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Bell className="h-5 w-5 text-vocari-primary" />
+                <Bell className="h-5 w-5 text-aura-primary" />
                 Notificaciones
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-vocari-text-muted">
+              <p className="text-sm text-aura-muted">
                 La configuración de notificaciones estará disponible próximamente.
               </p>
             </CardContent>
@@ -56,17 +56,17 @@ export default function AdminConfiguracionPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-vocari-primary" />
+                <Users className="h-5 w-5 text-aura-primary" />
                 Acceso de estudiantes
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <p className="text-sm text-vocari-text-muted">
+              <p className="text-sm text-aura-muted">
                 Gestiona el acceso y los permisos de los estudiantes de tu institución.
               </p>
               <a
                 href="/admin/estudiantes"
-                className="inline-flex items-center text-sm text-vocari-primary hover:underline"
+                className="inline-flex items-center text-sm text-aura-primary hover:underline"
               >
                 Ver estudiantes →
               </a>
@@ -76,12 +76,12 @@ export default function AdminConfiguracionPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Settings className="h-5 w-5 text-vocari-primary" />
+                <Settings className="h-5 w-5 text-aura-primary" />
                 Configuración avanzada
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-vocari-text-muted">
+              <p className="text-sm text-aura-muted">
                 Para cambios avanzados en la configuración de tu institución,
                 contacta al equipo de soporte de Vocari.
               </p>

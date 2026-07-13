@@ -26,6 +26,7 @@ import { STALE_TIMES, RIASEC_COLORS } from "@/lib/utils/constants";
 import { RIASEC_LABELS } from "@/lib/types/career";
 import { RIASECRadar } from "@/components/charts/RIASECRadar";
 import type { RIASECScores, RIASECDimension } from "@/lib/types/career";
+import { formatDateCL } from "@/lib/utils/dates";
 
 /* ---------- Types ---------- */
 
@@ -98,7 +99,7 @@ function SkillsPanel({ skills }: { skills: ProfileData["skills"] }) {
 
   if (!hasData) {
     return (
-      <p className="text-vocari-text-muted text-sm py-4">
+      <p className="text-aura-ink-muted text-sm py-4">
         Aun no hay datos de habilidades. Completa tests y sesiones para
         que tu perfil se enriquezca.
       </p>
@@ -110,8 +111,8 @@ function SkillsPanel({ skills }: { skills: ProfileData["skills"] }) {
       {skillEntries.map((skill) => (
         <div key={skill.label}>
           <div className="flex justify-between text-sm mb-1">
-            <span className="text-vocari-text font-medium">{skill.label}</span>
-            <span className="text-vocari-text-muted">
+            <span className="text-aura-ink font-medium">{skill.label}</span>
+            <span className="text-aura-ink-muted">
               {skill.value.toFixed(1)}/10
             </span>
           </div>
@@ -141,7 +142,7 @@ function HappinessPanel({
 
   if (!hasData) {
     return (
-      <p className="text-vocari-text-muted text-sm py-4">
+      <p className="text-aura-ink-muted text-sm py-4">
         Los indicadores de bienestar se actualizan a medida que participas en
         sesiones de orientacion.
       </p>
@@ -153,12 +154,12 @@ function HappinessPanel({
       {items.map((item) => (
         <div
           key={item.label}
-          className="text-center p-3 rounded-lg bg-vocari-bg"
+          className="text-center p-3 rounded-lg bg-aura-surface-low"
         >
-          <p className="text-2xl font-bold text-vocari-text">
+          <p className="text-2xl font-bold text-aura-ink">
             {item.value.toFixed(1)}
           </p>
-          <p className="text-xs text-vocari-text-muted">{item.label}</p>
+          <p className="text-xs text-aura-ink-muted">{item.label}</p>
         </div>
       ))}
     </div>
@@ -190,13 +191,13 @@ function RIASECHistoryPanel({
   if (entries.length === 0) {
     return (
       <div className="text-center py-8">
-        <Target className="h-10 w-10 text-vocari-text-muted mx-auto mb-3" />
-        <p className="text-vocari-text-muted text-sm mb-3">
+        <Target className="h-10 w-10 text-aura-ink-muted mx-auto mb-3" />
+        <p className="text-aura-ink-muted text-sm mb-3">
           Aun no has completado un test RIASEC.
         </p>
         <a
           href="/estudiante/tests/riasec"
-          className="inline-flex px-4 py-2 bg-vocari-accent text-white text-sm rounded-md hover:opacity-90"
+          className="inline-flex px-4 py-2 bg-aura-teal text-white text-sm rounded-md hover:opacity-90"
         >
           Realizar test RIASEC
         </a>
@@ -213,7 +214,7 @@ function RIASECHistoryPanel({
 
       {/* Codigo Holland */}
       <div className="text-center">
-        <p className="text-sm text-vocari-text-muted mb-1">Tu codigo Holland</p>
+        <p className="text-sm text-aura-ink-muted mb-1">Tu codigo Holland</p>
         <div className="flex items-center justify-center gap-1">
           {latest.code.split("").map((letter, i) => (
             <span
@@ -253,17 +254,17 @@ function RIASECHistoryPanel({
         {(Object.keys(latest.scores) as RIASECDimension[]).map((dim) => (
           <div
             key={dim}
-            className="flex items-center gap-2 p-2 rounded-md bg-vocari-bg"
+            className="flex items-center gap-2 p-2 rounded-md bg-aura-surface-low"
           >
             <span
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: RIASEC_COLORS[dim] }}
             />
             <div>
-              <p className="text-xs text-vocari-text-muted">
+              <p className="text-xs text-aura-ink-muted">
                 {RIASEC_LABELS[dim]}
               </p>
-              <p className="text-sm font-bold text-vocari-text">
+              <p className="text-sm font-bold text-aura-ink">
                 {latest.scores[dim]}
               </p>
             </div>
@@ -274,7 +275,7 @@ function RIASECHistoryPanel({
       {/* Historial si hay mas de un test */}
       {entries.length > 1 && (
         <div>
-          <p className="text-sm font-medium text-vocari-text mb-2">
+          <p className="text-sm font-medium text-aura-ink mb-2">
             Historial de tests ({entries.length})
           </p>
           <ul className="space-y-2">
@@ -287,11 +288,11 @@ function RIASECHistoryPanel({
                   className="flex items-center justify-between p-2 rounded-md border border-gray-100"
                 >
                   <div>
-                    <span className="text-sm font-medium text-vocari-text">
+                    <span className="text-sm font-medium text-aura-ink">
                       {entry.code}
                     </span>
-                    <p className="text-xs text-vocari-text-muted">
-                      {new Date(entry.date).toLocaleDateString("es-CL")}
+                    <p className="text-xs text-aura-ink-muted">
+                      {formatDateCL(entry.date)}
                     </p>
                   </div>
                   {entry.certainty !== undefined && (
@@ -337,16 +338,16 @@ export default function PerfilPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-vocari-text">Mi Perfil</h1>
-            <p className="text-sm text-vocari-text-muted">
+            <h1 className="text-2xl font-bold text-aura-ink">Mi Perfil</h1>
+            <p className="text-sm text-aura-ink-muted">
               Tu perfil longitudinal se actualiza con cada test, sesion y juego.
             </p>
           </div>
           {profile?.last_updated && (
-            <div className="flex items-center gap-1 text-xs text-vocari-text-muted">
+            <div className="flex items-center gap-1 text-xs text-aura-ink-muted">
               <Calendar className="h-3 w-3" />
               Actualizado:{" "}
-              {new Date(profile.last_updated).toLocaleDateString("es-CL")}
+              {formatDateCL(profile.last_updated)}
             </div>
           )}
         </div>
@@ -364,7 +365,7 @@ export default function PerfilPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-vocari-accent" />
+                  <Brain className="h-5 w-5 text-aura-teal" />
                   Intereses Vocacionales (RIASEC)
                 </CardTitle>
               </CardHeader>
@@ -420,16 +421,16 @@ export default function PerfilPage() {
                     {profile.data_sources.map((source, i) => (
                       <li
                         key={i}
-                        className="flex items-center gap-2 text-sm text-vocari-text"
+                        className="flex items-center gap-2 text-sm text-aura-ink"
                       >
-                        <span className="w-2 h-2 rounded-full bg-vocari-accent" />
+                        <span className="w-2 h-2 rounded-full bg-aura-teal" />
                         {String(source)}
                       </li>
                     ))}
                   </ul>
                 ) : (
                   <div className="text-center py-4">
-                    <p className="text-vocari-text-muted text-sm">
+                    <p className="text-aura-ink-muted text-sm">
                       Tu perfil se alimenta de:
                     </p>
                     <div className="flex flex-wrap justify-center gap-2 mt-3">

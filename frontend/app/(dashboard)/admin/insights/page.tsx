@@ -101,7 +101,7 @@ export default function AdminInsightsPage() {
   return (
     <RoleGuard allowedRoles={["admin_colegio", "super_admin"]}>
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-vocari-text">Insights Institucionales</h1>
+        <h1 className="text-2xl font-bold text-aura-ink">Insights Institucionales</h1>
 
         <Card>
           <CardContent className="pt-6">
@@ -116,7 +116,7 @@ export default function AdminInsightsPage() {
                 ]}
               />
               <div className="w-full">
-                <label htmlFor="periodo" className="block text-sm font-medium text-vocari-text mb-1">
+                <label htmlFor="periodo" className="block text-sm font-medium text-aura-ink mb-1">
                   Período
                 </label>
                 <input
@@ -124,7 +124,7 @@ export default function AdminInsightsPage() {
                   type="month"
                   value={periodo}
                   onChange={(event) => setPeriodo(event.target.value)}
-                  className="w-full rounded-sm border border-gray-300 px-3 py-2 text-vocari-text"
+                  className="w-full rounded-sm border border-gray-300 px-3 py-2 text-aura-ink"
                 />
               </div>
               <div className="flex items-end">
@@ -133,7 +133,7 @@ export default function AdminInsightsPage() {
                     setCurso("");
                     setPeriodo("");
                   }}
-                  className="rounded-md border border-gray-300 px-3 py-2 text-sm text-vocari-text hover:bg-gray-50"
+                  className="rounded-md border border-gray-300 px-3 py-2 text-sm text-aura-ink hover:bg-gray-50"
                 >
                   Limpiar filtros
                 </button>
@@ -153,9 +153,9 @@ export default function AdminInsightsPage() {
                   {isLoading ? (
                     <Skeleton variant="rect" height={28} width={60} />
                   ) : (
-                    <p className="text-2xl font-bold text-vocari-text">{card.value}</p>
+                    <p className="text-2xl font-bold text-aura-ink">{card.value}</p>
                   )}
-                  <p className="text-xs text-vocari-text-muted">{card.label}</p>
+                  <p className="text-xs text-aura-muted">{card.label}</p>
                 </div>
               </CardContent>
             </Card>
@@ -203,18 +203,18 @@ export default function AdminInsightsPage() {
               ) : (
                 (data?.career_interest_by_course || []).map((cohort) => (
                   <div key={cohort.curso} className="rounded-md border border-gray-200 p-3">
-                    <p className="text-sm font-semibold text-vocari-text mb-2">{cohort.curso}</p>
+                    <p className="text-sm font-semibold text-aura-ink mb-2">{cohort.curso}</p>
                     {cohort.careers.length ? (
-                      <ul className="space-y-1 text-sm text-vocari-text-muted">
+                      <ul className="space-y-1 text-sm text-aura-muted">
                         {cohort.careers.slice(0, 5).map((career) => (
                           <li key={`${cohort.curso}-${career.career_name}`} className="flex justify-between">
                             <span>{career.career_name}</span>
-                            <span className="font-medium text-vocari-text">{career.count}</span>
+                            <span className="font-medium text-aura-ink">{career.count}</span>
                           </li>
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-sm text-vocari-text-muted">Sin datos de carreras para este curso.</p>
+                      <p className="text-sm text-aura-muted">Sin datos de carreras para este curso.</p>
                     )}
                   </div>
                 ))
@@ -245,8 +245,8 @@ export default function AdminInsightsPage() {
                   {(data?.indecision_alerts || []).map((alert) => (
                     <TableRow key={alert.student_id}>
                       <TableCell>
-                        <p className="font-medium text-vocari-text">{alert.student_name}</p>
-                        <p className="text-xs text-vocari-text-muted">{alert.student_email}</p>
+                        <p className="font-medium text-aura-ink">{alert.student_name}</p>
+                        <p className="text-xs text-aura-muted">{alert.student_email}</p>
                       </TableCell>
                       <TableCell>{alert.curso}</TableCell>
                       <TableCell>{alert.clarity_score.toFixed(1)}</TableCell>

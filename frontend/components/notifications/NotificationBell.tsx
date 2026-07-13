@@ -7,6 +7,7 @@ import { api } from "@/lib/api";
 import type { NotificationResponse, NotificationListResponse } from "@/lib/types";
 import { toast } from "@/components/ui/Toast";
 import { cn } from "@/lib/utils/validation";
+import { formatDateCL } from "@/lib/utils/dates";
 
 const TYPE_LABELS: Record<string, string> = {
   general: "General",
@@ -36,7 +37,7 @@ function NotificationItem({
     if (diffMins < 60) return `${diffMins}m`;
     if (diffHours < 24) return `${diffHours}h`;
     if (diffDays < 7) return `${diffDays}d`;
-    return date.toLocaleDateString("es-CL");
+    return formatDateCL(date);
   };
 
   return (

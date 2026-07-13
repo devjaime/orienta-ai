@@ -111,9 +111,9 @@ export default function AdminMetricasPage() {
 
   const colorMap: Record<string, string> = {
     blue: "bg-blue-100 text-blue-600",
-    green: "bg-green-100 text-green-600",
+    green: "bg-success text-success",
     purple: "bg-purple-100 text-purple-600",
-    yellow: "bg-yellow-100 text-yellow-600",
+    yellow: "bg-warning text-warning",
   };
 
   const handleExportCsv = () => {
@@ -133,7 +133,7 @@ export default function AdminMetricasPage() {
     <RoleGuard allowedRoles={["admin_colegio", "super_admin"]}>
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-2xl font-bold text-vocari-text">Métricas del Colegio</h1>
+          <h1 className="text-2xl font-bold text-aura-ink">Métricas del Colegio</h1>
           <Button
             variant="secondary"
             size="sm"
@@ -159,7 +159,7 @@ export default function AdminMetricasPage() {
                 ]}
               />
               <div className="w-full">
-                <label htmlFor="periodo" className="block text-sm font-medium text-vocari-text mb-1">
+                <label htmlFor="periodo" className="block text-sm font-medium text-aura-ink mb-1">
                   Período
                 </label>
                 <input
@@ -167,7 +167,7 @@ export default function AdminMetricasPage() {
                   type="month"
                   value={periodo}
                   onChange={(event) => setPeriodo(event.target.value)}
-                  className="w-full rounded-sm border border-gray-300 px-3 py-2 text-vocari-text"
+                  className="w-full rounded-sm border border-gray-300 px-3 py-2 text-aura-ink"
                 />
               </div>
               <div className="flex items-end">
@@ -196,11 +196,11 @@ export default function AdminMetricasPage() {
                   {isLoading ? (
                     <Skeleton variant="rect" height={28} width={60} />
                   ) : (
-                    <p className="text-2xl font-bold text-vocari-text">
+                    <p className="text-2xl font-bold text-aura-ink">
                       {stat.value ?? "N/D"}
                     </p>
                   )}
-                  <p className="text-xs text-vocari-text-muted">{stat.label}</p>
+                  <p className="text-xs text-aura-muted">{stat.label}</p>
                 </div>
               </CardContent>
             </Card>
@@ -251,12 +251,12 @@ export default function AdminMetricasPage() {
                     key={career.career_name}
                     className="flex items-center justify-between rounded-md border border-gray-200 px-3 py-2 text-sm"
                   >
-                    <span className="text-vocari-text">{career.career_name}</span>
-                    <span className="font-semibold text-vocari-text">{career.count}</span>
+                    <span className="text-aura-ink">{career.career_name}</span>
+                    <span className="font-semibold text-aura-ink">{career.count}</span>
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-vocari-text-muted">Aún no hay datos de carreras para este filtro.</p>
+                <p className="text-sm text-aura-muted">Aún no hay datos de carreras para este filtro.</p>
               )}
             </CardContent>
           </Card>
