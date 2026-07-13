@@ -8,6 +8,7 @@ import { ArrowLeft, CheckCircle2, Circle, PlusCircle } from "lucide-react";
 import { RoleGuard } from "@/components/auth/RoleGuard";
 import { api } from "@/lib/api";
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Skeleton, Textarea } from "@/components/ui";
+import { formatDateTimeCL } from "@/lib/utils/dates";
 
 interface Student {
   id: string;
@@ -204,7 +205,7 @@ export default function OrientadorStudentProfilePage() {
     <RoleGuard allowedRoles={["orientador", "admin_colegio"]}>
       <div className="space-y-6" id="student-report-print">
         <div className="flex items-center gap-3">
-          <Link href="/orientador/estudiantes" className="text-vocari-primary hover:underline text-sm inline-flex items-center gap-1">
+          <Link href="/orientador/estudiantes" className="text-aura-primary hover:underline text-sm inline-flex items-center gap-1">
             <ArrowLeft className="w-4 h-4" />
             Volver
           </Link>
@@ -265,7 +266,7 @@ export default function OrientadorStudentProfilePage() {
               {followupsLoading ? (
                 <Skeleton variant="rect" height={140} />
               ) : followups.length === 0 ? (
-                <p className="text-sm text-vocari-text-muted">No hay seguimientos programados para este estudiante.</p>
+                <p className="text-sm text-aura-ink-muted">No hay seguimientos programados para este estudiante.</p>
               ) : (
                 <div className="space-y-2">
                   {followups.map((item) => (
@@ -275,12 +276,12 @@ export default function OrientadorStudentProfilePage() {
                         <Badge className={followupStatusClass[item.status]}>
                           {followupStatusLabel[item.status]}
                         </Badge>
-                        <span className="text-xs text-vocari-text-muted">
-                          Programado: {new Date(item.scheduled_at).toLocaleString("es-CL")}
+                        <span className="text-xs text-aura-ink-muted">
+                          Programado: {formatDateTimeCL(item.scheduled_at)}
                         </span>
                         {item.sent_at && (
-                          <span className="text-xs text-vocari-text-muted">
-                            Enviado: {new Date(item.sent_at).toLocaleString("es-CL")}
+                          <span className="text-xs text-aura-ink-muted">
+                            Enviado: {formatDateTimeCL(item.sent_at)}
                           </span>
                         )}
                       </div>
@@ -318,13 +319,13 @@ export default function OrientadorStudentProfilePage() {
             </CardHeader>
             <CardContent>
               {ai_reports.length === 0 ? (
-                <p className="text-sm text-vocari-text-muted">Aún no hay informes IA para este estudiante.</p>
+                <p className="text-sm text-aura-ink-muted">Aún no hay informes IA para este estudiante.</p>
               ) : (
                 <div className="space-y-3">
                   {ai_reports.map((report) => (
                     <details key={report.id} className="rounded-md border border-gray-200 bg-white p-3">
-                      <summary className="cursor-pointer text-sm font-medium text-vocari-text">
-                        {new Date(report.created_at).toLocaleString("es-CL")} · {report.model_name}
+                      <summary className="cursor-pointer text-sm font-medium text-aura-ink">
+                        {formatDateTimeCL(report.created_at)} · {report.model_name}
                       </summary>
                       <div className="mt-3 space-y-3 text-sm">
                         {report.report_json?.resumen_personalizado && (
@@ -352,7 +353,7 @@ export default function OrientadorStudentProfilePage() {
                           <p className="font-medium mb-1">Texto completo</p>
                           <p className="whitespace-pre-wrap">{report.report_text}</p>
                         </div>
-                        <p className="text-xs text-vocari-text-muted">
+                        <p className="text-xs text-aura-ink-muted">
                           Prompt: {report.prompt_version}
                         </p>
                       </div>
@@ -388,13 +389,13 @@ export default function OrientadorStudentProfilePage() {
 
               <div className="space-y-2 max-h-72 overflow-auto pr-1">
                 {notes.length === 0 ? (
-                  <p className="text-sm text-vocari-text-muted">Aún no hay notas registradas.</p>
+                  <p className="text-sm text-aura-ink-muted">Aún no hay notas registradas.</p>
                 ) : (
                   notes.map((note) => (
                     <div key={note.id} className="rounded-md border border-gray-200 p-3">
-                      <p className="text-sm text-vocari-text whitespace-pre-wrap">{note.note}</p>
-                      <p className="text-xs text-vocari-text-muted mt-2">
-                        {new Date(note.created_at).toLocaleString("es-CL")}
+                      <p className="text-sm text-aura-ink whitespace-pre-wrap">{note.note}</p>
+                      <p className="text-xs text-aura-ink-muted mt-2">
+                        {formatDateTimeCL(note.created_at)}
                       </p>
                     </div>
                   ))
@@ -427,21 +428,21 @@ export default function OrientadorStudentProfilePage() {
 
               <div className="space-y-2 max-h-72 overflow-auto pr-1">
                 {tasks.length === 0 ? (
-                  <p className="text-sm text-vocari-text-muted">Aún no hay tareas creadas.</p>
+                  <p className="text-sm text-aura-ink-muted">Aún no hay tareas creadas.</p>
                 ) : (
                   tasks.map((task) => (
                     <div key={task.id} className="rounded-md border border-gray-200 p-3">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <p className="text-sm font-medium text-vocari-text">{task.title}</p>
-                          <p className="text-xs text-vocari-text-muted mt-1">
+                          <p className="text-sm font-medium text-aura-ink">{task.title}</p>
+                          <p className="text-xs text-aura-ink-muted mt-1">
                             Estado: {taskStatusLabel[task.status]}
                           </p>
                         </div>
                         {task.status === "completada" ? (
                           <CheckCircle2 className="w-4 h-4 text-green-600" />
                         ) : (
-                          <Circle className="w-4 h-4 text-vocari-text-muted" />
+                          <Circle className="w-4 h-4 text-aura-ink-muted" />
                         )}
                       </div>
                       <div className="mt-2 flex gap-2 flex-wrap">
@@ -492,7 +493,7 @@ export default function OrientadorStudentProfilePage() {
 
       {printing && (
         <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 print:hidden">
-          <div className="bg-white rounded-lg px-4 py-3 text-sm text-vocari-text shadow">
+          <div className="bg-white rounded-lg px-4 py-3 text-sm text-aura-ink shadow">
             Preparando informe para PDF...
           </div>
         </div>

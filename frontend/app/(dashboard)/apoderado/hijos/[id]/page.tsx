@@ -21,7 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { api } from "@/lib/api";
 import type { ChildDashboardInfo, ParentDashboardResponse, SessionSummary, TestResultSummary } from "@/lib/types";
-import { formatSessionDate } from "@/lib/utils/dates";
+import { formatSessionDate, formatDateCL } from "@/lib/utils/dates";
 
 const RIASEC_LABELS: Record<string, string> = {
   R: "Realista",
@@ -58,10 +58,10 @@ function RIASECChart({ scores }: { scores: Record<string, number> }) {
       {sortedEntries.map(([type, score]) => (
         <div key={type}>
           <div className="flex justify-between text-sm mb-1">
-            <span className="font-medium text-vocari-text">
+            <span className="font-medium text-aura-ink">
               {RIASEC_LABELS[type] || type}
             </span>
-            <span className="text-vocari-text-muted">{score}%</span>
+            <span className="text-aura-ink-muted">{score}%</span>
           </div>
           <ProgressBar
             value={score}
@@ -76,7 +76,7 @@ function RIASECChart({ scores }: { scores: Record<string, number> }) {
 function SessionsList({ sessions }: { sessions: SessionSummary[] }) {
   if (sessions.length === 0) {
     return (
-      <p className="text-vocari-text-muted text-sm py-2">
+      <p className="text-aura-ink-muted text-sm py-2">
         No hay sesiones registradas
       </p>
     );
@@ -89,10 +89,10 @@ function SessionsList({ sessions }: { sessions: SessionSummary[] }) {
         return (
           <li key={s.id} className="flex items-center justify-between p-2 rounded bg-gray-50">
             <div>
-              <p className="text-sm font-medium text-vocari-text">
+              <p className="text-sm font-medium text-aura-ink">
                 {formatSessionDate(s.scheduled_at)}
               </p>
-              <p className="text-xs text-vocari-text-muted">
+              <p className="text-xs text-aura-ink-muted">
                 {s.duration_minutes} minutos
               </p>
             </div>
@@ -109,7 +109,7 @@ function SessionsList({ sessions }: { sessions: SessionSummary[] }) {
 function TestsList({ tests }: { tests: TestResultSummary[] }) {
   if (tests.length === 0) {
     return (
-      <p className="text-vocari-text-muted text-sm py-2">
+      <p className="text-aura-ink-muted text-sm py-2">
         No hay tests completados
       </p>
     );
@@ -120,11 +120,11 @@ function TestsList({ tests }: { tests: TestResultSummary[] }) {
       {tests.slice(0, 5).map((t) => (
         <li key={t.id} className="flex items-center justify-between p-2 rounded bg-gray-50">
           <div>
-            <p className="text-sm font-medium text-vocari-text">
+            <p className="text-sm font-medium text-aura-ink">
               {TEST_TYPE_LABELS[t.test_type] || t.test_type}
             </p>
-            <p className="text-xs text-vocari-text-muted">
-              {new Date(t.created_at).toLocaleDateString("es-CL")}
+            <p className="text-xs text-aura-ink-muted">
+              {formatDateCL(t.created_at)}
             </p>
           </div>
           {t.result_code && (
@@ -146,10 +146,10 @@ function ChildDetail({ child }: { child: ChildDashboardInfo }) {
           <Heart className="h-8 w-8 text-pink-600" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-vocari-text">
+          <h1 className="text-2xl font-bold text-aura-ink">
             {child.student_name}
           </h1>
-          <p className="text-vocari-text-muted">{child.student_email}</p>
+          <p className="text-aura-ink-muted">{child.student_email}</p>
         </div>
         {child.happiness_indicator !== null && child.happiness_indicator !== undefined && (
           <Badge variant="success" className="ml-auto">
@@ -170,7 +170,7 @@ function ChildDetail({ child }: { child: ChildDashboardInfo }) {
             {Object.keys(riasecScores).length > 0 ? (
               <RIASECChart scores={riasecScores} />
             ) : (
-              <p className="text-vocari-text-muted text-sm">
+              <p className="text-aura-ink-muted text-sm">
                 El perfil RIASEC aun no ha sido calculado. El estudiante debe
                 completar el test.
               </p>
@@ -213,7 +213,7 @@ function ChildDetail({ child }: { child: ChildDashboardInfo }) {
             {child.upcoming_sessions.length > 0 ? (
               <SessionsList sessions={child.upcoming_sessions} />
             ) : (
-              <p className="text-vocari-text-muted text-sm">
+              <p className="text-aura-ink-muted text-sm">
                 No hay sesiones programadas
               </p>
             )}
@@ -270,12 +270,12 @@ export default function ChildDetailPage() {
       <RoleGuard allowedRoles={["apoderado"]}>
         <div className="text-center py-12">
           <User className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-          <p className="text-vocari-text-muted">
+          <p className="text-aura-ink-muted">
             No se encontro informacion de este estudiante
           </p>
           <a
             href="/apoderado"
-            className="text-vocari-accent hover:underline mt-2 inline-block"
+            className="text-aura-teal hover:underline mt-2 inline-block"
           >
             Volver al dashboard
           </a>

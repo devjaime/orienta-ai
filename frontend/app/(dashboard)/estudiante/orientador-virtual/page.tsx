@@ -5,7 +5,9 @@ import { RoleGuard } from "@/components/auth/RoleGuard";
 import { Send, ArrowUpRight } from "lucide-react";
 import { api } from "@/lib/api";
 import OrientadorVirtualVideoMoments from "@/components/orientador/OrientadorVirtualVideoMoments";
+import ElevenLabsVoiceDemo from "@/components/orientador/ElevenLabsVoiceDemo";
 import Link from "next/link";
+import { formatTimeCL } from "@/lib/utils/dates";
 
 /* ---------- Types ---------- */
 
@@ -53,7 +55,7 @@ function ValeriaAvatar({ size = "md" }: { size?: "sm" | "md" }) {
   const sizeClass = size === "sm" ? "h-7 w-7 text-xs" : "h-9 w-9 text-sm";
   return (
     <div
-      className={`${sizeClass} rounded-full bg-vocari-primary flex items-center justify-center text-white font-bold shrink-0`}
+      className={`${sizeClass} rounded-full bg-aura-primary flex items-center justify-center text-white font-bold shrink-0`}
     >
       V
     </div>
@@ -64,7 +66,7 @@ function LoadingDots() {
   return (
     <div className="flex items-end gap-2 mb-3">
       <ValeriaAvatar />
-      <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
+      <div className="bg-white border border-aura-primary/20 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
         <div className="flex gap-1 items-center h-5">
           <span className="block h-2 w-2 rounded-full bg-gray-400 animate-bounce [animation-delay:0ms]" />
           <span className="block h-2 w-2 rounded-full bg-gray-400 animate-bounce [animation-delay:150ms]" />
@@ -76,7 +78,7 @@ function LoadingDots() {
 }
 
 function formatTime(date: Date): string {
-  return date.toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" });
+  return formatTimeCL(date, { hour: "2-digit", minute: "2-digit" });
 }
 
 function ChatBubble({ message }: { message: Message }) {
@@ -85,10 +87,10 @@ function ChatBubble({ message }: { message: Message }) {
   if (isUser) {
     return (
       <div className="flex flex-col items-end mb-3">
-        <div className="bg-vocari-primary text-white rounded-2xl rounded-br-sm px-4 py-2.5 max-w-[75%] shadow-sm">
+        <div className="bg-aura-primary text-white rounded-2xl rounded-br-sm px-4 py-2.5 max-w-[75%] shadow-sm">
           <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
         </div>
-        <span className="text-xs text-vocari-text-muted mt-1 mr-1">
+        <span className="text-xs text-aura-ink-muted mt-1 mr-1">
           {formatTime(message.timestamp)}
         </span>
       </div>
@@ -99,8 +101,8 @@ function ChatBubble({ message }: { message: Message }) {
     <div className="flex items-end gap-2 mb-3">
       <ValeriaAvatar />
       <div className="flex flex-col">
-        <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-4 py-2.5 max-w-[75%] shadow-sm">
-          <p className="text-sm leading-relaxed text-vocari-text whitespace-pre-wrap">
+        <div className="bg-white border border-aura-primary/20 rounded-2xl rounded-bl-sm px-4 py-2.5 max-w-[75%] shadow-sm">
+          <p className="text-sm leading-relaxed text-aura-ink whitespace-pre-wrap">
             {message.content}
           </p>
           {message.actions && message.actions.length > 0 && (
@@ -109,7 +111,7 @@ function ChatBubble({ message }: { message: Message }) {
                 <Link
                   key={`${message.id}-${action.type}-${action.url}`}
                   href={action.url}
-                  className="flex items-center justify-between rounded-lg border border-vocari-primary/25 bg-vocari-primary/5 px-3 py-2 text-sm text-vocari-primary hover:bg-vocari-primary/10 transition-colors"
+                  className="flex items-center justify-between rounded-lg border border-aura-primary/25 bg-aura-primary/5 px-3 py-2 text-sm text-aura-primary hover:bg-aura-primary/10 transition-colors"
                 >
                   <span>{action.label}</span>
                   <ArrowUpRight className="h-4 w-4" />
@@ -118,7 +120,7 @@ function ChatBubble({ message }: { message: Message }) {
             </div>
           )}
         </div>
-        <span className="text-xs text-vocari-text-muted mt-1 ml-1">
+        <span className="text-xs text-aura-ink-muted mt-1 ml-1">
           Valeria &middot; {formatTime(message.timestamp)}
         </span>
       </div>
@@ -210,13 +212,13 @@ function OrientadorVirtualContent() {
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)] max-w-2xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-3 pb-4 border-b border-gray-200 mb-4 shrink-0">
-        <div className="h-11 w-11 rounded-full bg-vocari-primary flex items-center justify-center text-white font-bold text-lg">
+      <div className="flex items-center gap-3 pb-4 border-b border-aura-primary/20 mb-4 shrink-0">
+        <div className="h-11 w-11 rounded-full bg-aura-primary flex items-center justify-center text-white font-bold text-lg">
           V
         </div>
         <div>
-          <h1 className="text-lg font-bold text-vocari-text">Valeria</h1>
-          <p className="text-xs text-vocari-text-muted">Orientadora Vocacional Virtual</p>
+          <h1 className="text-lg font-bold text-aura-ink">Valeria</h1>
+          <p className="text-xs text-aura-ink-muted">Orientadora Vocacional Virtual</p>
         </div>
         <div className="ml-auto flex items-center gap-1.5">
           <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
@@ -226,6 +228,10 @@ function OrientadorVirtualContent() {
 
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto px-1 py-2">
+        <div className="mb-4">
+          <ElevenLabsVoiceDemo disabled={isLoading} onStartDemo={sendMessage} />
+        </div>
+
         <div className="mb-4">
           <OrientadorVirtualVideoMoments userMessageCount={userMessageCount} />
         </div>
@@ -239,7 +245,7 @@ function OrientadorVirtualContent() {
         {/* Suggested questions - shown before first user message */}
         {!hasUserSentMessage && !isLoading && (
           <div className="mt-4 mb-2">
-            <p className="text-xs text-vocari-text-muted mb-2 ml-11">
+            <p className="text-xs text-aura-ink-muted mb-2 ml-11">
               Preguntas sugeridas:
             </p>
             <div className="flex flex-col gap-2 ml-11">
@@ -247,7 +253,7 @@ function OrientadorVirtualContent() {
                 <button
                   key={q}
                   onClick={() => sendMessage(q)}
-                  className="text-left text-sm text-vocari-primary border border-vocari-primary/30 rounded-xl px-3 py-2 hover:bg-vocari-primary/5 transition-colors"
+                  className="text-left text-sm text-aura-primary border border-aura-primary/30 rounded-xl px-3 py-2 hover:bg-aura-primary/5 transition-colors"
                 >
                   {q}
                 </button>
@@ -267,7 +273,7 @@ function OrientadorVirtualContent() {
       )}
 
       {/* Input area */}
-      <div className="shrink-0 pt-3 border-t border-gray-200">
+      <div className="shrink-0 pt-3 border-t border-aura-primary/20">
         <div className="flex items-end gap-2">
           <textarea
             ref={inputRef}
@@ -277,19 +283,19 @@ function OrientadorVirtualContent() {
             placeholder="Escribe tu mensaje... (Enter para enviar)"
             rows={1}
             disabled={isLoading}
-            className="flex-1 resize-none rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-vocari-text placeholder-vocari-text-muted focus:outline-none focus:ring-2 focus:ring-vocari-primary/40 focus:border-vocari-primary disabled:opacity-60 max-h-32 overflow-y-auto"
+            className="flex-1 resize-none rounded-xl border border-aura-primary/20 px-4 py-2.5 text-sm text-aura-ink placeholder-aura-muted focus:outline-none focus:ring-2 focus:ring-aura-primary/40 focus:border-aura-primary disabled:opacity-60 max-h-32 overflow-y-auto"
             style={{ fieldSizing: "content" } as React.CSSProperties}
           />
           <button
             onClick={() => sendMessage(input)}
             disabled={!input.trim() || isLoading}
-            className="h-10 w-10 rounded-xl bg-vocari-primary text-white flex items-center justify-center hover:bg-vocari-primary/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
+            className="h-10 w-10 rounded-xl bg-aura-primary text-white flex items-center justify-center hover:bg-aura-primary/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
             aria-label="Enviar mensaje"
           >
             <Send className="h-4 w-4" />
           </button>
         </div>
-        <p className="text-xs text-vocari-text-muted mt-1.5 text-center">
+        <p className="text-xs text-aura-ink-muted mt-1.5 text-center">
           Valeria es una asistente virtual. Sus respuestas son orientativas.
         </p>
       </div>
