@@ -43,7 +43,7 @@ const Header = () => {
     { label: tx(t.refresh.header.paths, lang), href: `${homePrefix}#caminos` },
     { label: tx(t.refresh.header.how, lang), href: `${homePrefix}#como-funciona` },
     { label: 'Skill Graph', href: `${homePrefix}#skill-graph` },
-    { label: 'Blog 2030', href: SITE_LINKS.futureLabor2030 },
+    { label: 'Blog', href: '/blog', emphasis: true },
     { label: tx(t.refresh.header.project, lang), href: `${homePrefix}#proyecto` },
   ];
 
@@ -62,7 +62,15 @@ const Header = () => {
 
         <nav className="hidden items-center gap-6 lg:flex" aria-label={tx(t.refresh.header.navigationLabel, lang)}>
           {navItems.map((item) => (
-            <a key={item.href} href={item.href} className="text-sm font-medium text-aura-muted transition hover:text-aura-primary focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aura-primary/20">
+            <a
+              key={item.href}
+              href={item.href}
+              className={`rounded-full text-sm font-medium transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-aura-primary/20 ${
+                item.emphasis
+                  ? 'bg-aura-primary/10 px-3 py-2 text-aura-primary hover:bg-aura-primary/15'
+                  : 'text-aura-muted hover:text-aura-primary'
+              }`}
+            >
               {item.label}
             </a>
           ))}
@@ -101,7 +109,16 @@ const Header = () => {
           <Motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="border-t border-aura-primary/10 bg-white/95 lg:hidden">
             <nav className="aura-container flex flex-col gap-1 py-4" aria-label={tx(t.refresh.header.mobileNavigationLabel, lang)}>
               {navItems.map((item) => (
-                <a key={item.href} href={item.href} onClick={() => setIsMenuOpen(false)} className="rounded-xl px-4 py-3 font-medium text-aura-muted hover:bg-aura-primary/5 hover:text-aura-primary">
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`rounded-xl px-4 py-3 font-medium transition ${
+                    item.emphasis
+                      ? 'bg-aura-primary/10 text-aura-primary hover:bg-aura-primary/15'
+                      : 'text-aura-muted hover:bg-aura-primary/5 hover:text-aura-primary'
+                  }`}
+                >
                   {item.label}
                 </a>
               ))}
