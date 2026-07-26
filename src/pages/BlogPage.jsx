@@ -184,9 +184,17 @@ export default function BlogPage() {
                 className="group mb-10 grid overflow-hidden rounded-[2rem] border border-aura-primary/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-aura-primary/10 md:grid-cols-[0.9fr_1.1fr]"
               >
                 <div className="flex min-h-64 items-center justify-center bg-gradient-to-br from-aura-primary/10 via-aura-violet/10 to-aura-teal/10 p-8">
-                  <span className="rounded-3xl bg-white/70 px-6 py-4 font-display text-4xl font-extrabold text-aura-primary shadow-sm">
-                    {destacado.emoji}
-                  </span>
+                  {destacado.imagenPortada ? (
+                    <img
+                      src={destacado.imagenPortada}
+                      alt={destacado.imagenPortadaAlt || destacado.titulo}
+                      className="max-h-96 w-full rounded-3xl object-cover object-top shadow-xl shadow-aura-primary/10"
+                    />
+                  ) : (
+                    <span className="rounded-3xl bg-white/70 px-6 py-4 font-display text-4xl font-extrabold text-aura-primary shadow-sm">
+                      {destacado.emoji}
+                    </span>
+                  )}
                 </div>
                 <article className="p-6 md:p-8">
                   <div className="mb-4 flex flex-wrap items-center gap-2">

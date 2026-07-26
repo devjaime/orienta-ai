@@ -7,6 +7,111 @@ import { sourceLibrary } from "./futureLabor2030";
  */
 export const blogPosts = [
   {
+    slug: "vocari-mobile-app-gamificada-reconversion-vocacional",
+    titulo: "Vocari Mobile: una ruta gamificada para descubrir, contrastar y construir tu próximo paso laboral",
+    resumen:
+      "La visión completa de una aplicación móvil de sesiones breves para reconversión y exploración vocacional: misiones, desafíos, rutas posibles y un plan de 30 días.",
+    categoria: "Reconversión",
+    audiencia: "mixto",
+    autor: "Equipo Vocari",
+    fecha: "2026-07-25",
+    emoji: "APP",
+    lectura: 12,
+    imagenPortada: "/blog/vocari-mobile/mockup-ruta-diaria.png",
+    imagenPortadaAlt: "Mockup conceptual de la ruta diaria en Vocari Mobile",
+    mockups: [
+      {
+        src: "/blog/vocari-mobile/mockup-ruta-diaria.png",
+        alt: "Pantalla conceptual con el recorrido de misiones de Vocari Mobile",
+        titulo: "Camino diario",
+        descripcion: "Una siguiente acción clara, progreso semanal, racha flexible y nodos que se desbloquean con evidencia.",
+      },
+      {
+        src: "/blog/vocari-mobile/mockup-desafio-energia.png",
+        alt: "Pantalla conceptual del desafío de energía laboral de Vocari Mobile",
+        titulo: "Desafío de energía",
+        descripcion: "Microdecisiones para reconocer qué actividades energizan, son neutrales o drenan a la persona.",
+      },
+      {
+        src: "/blog/vocari-mobile/mockup-mapa-resultados.png",
+        alt: "Pantalla conceptual del mapa de posibilidades y plan de 30 días",
+        titulo: "Mapa de posibilidades",
+        descripcion: "Rutas explicadas con ajuste estimado, tiempo, fricción y una primera acción verificable.",
+      },
+    ],
+    roles: {
+      tecnologicos: ["Flutter", "Backend API", "Diseño de producto", "Analítica"],
+      noTecnologicos: ["Orientación", "Psicología vocacional", "Contenido", "Investigación de usuarios"],
+    },
+    rutas: [
+      "Validar el recorrido adulto con entrevistas y un prototipo navegable.",
+      "Preparar autenticación móvil, seguridad de sesiones, idempotencia y sincronización.",
+      "Construir el MVP Flutter con cuatro desafíos, tres rutas y un plan de 30 días.",
+      "Lanzar una beta cerrada y medir acciones reales de exploración, no solo tiempo dentro de la app.",
+    ],
+    contenido: `
+      <h2>De un test aislado a un proceso que acompaña</h2>
+      <p>La idea de Vocari Mobile es convertir la orientación vocacional y la reconversión laboral en un recorrido de sesiones breves. En lugar de responder muchas preguntas y recibir un veredicto, la persona avanza por misiones que le ayudan a descubrir señales, contrastarlas y probar una posibilidad en el mundo real.</p>
+      <p>La aplicación tomaría inspiración del aprendizaje por caminos y del feedback inmediato, pero no copiaría una interfaz o sistema de otra marca. La meta no es mantener a la persona mirando una pantalla: es ayudarla a realizar mejores preguntas, investigar rutas y actuar.</p>
+
+      <h2>¿Para quién se diseñaría primero?</h2>
+      <p>El primer recorrido estaría enfocado en adultos que sienten estancamiento, desempleo, agotamiento o necesidad de adquirir una especialidad. Es una audiencia que suele tener experiencia valiosa, pero necesita traducirla a habilidades transferibles y oportunidades concretas.</p>
+      <p>Más adelante, el mismo núcleo podría ofrecer un camino para estudiantes que eligen su primera carrera. Ese recorrido necesitaría otro lenguaje, actividades propias y reglas específicas de consentimiento. Separar ambos caminos evita tratar a un adulto como estudiante o pedirle a un adolescente decisiones para las que todavía no tiene contexto laboral.</p>
+
+      <h2>El recorrido: descubrir, contrastar, explorar y actuar</h2>
+      <ol>
+        <li><strong>Descubrir:</strong> un diagnóstico dividido en bloques pequeños, un mapa de energía laboral y un inventario de habilidades transferibles.</li>
+        <li><strong>Contrastar:</strong> escenarios y decisiones con tensiones reales, como ingreso actual versus crecimiento, estabilidad versus autonomía o formación corta versus estudio largo.</li>
+        <li><strong>Explorar:</strong> tres rutas recomendadas con sus ventajas, brechas, tiempo, fricción, necesidad de inglés y contexto de ingresos.</li>
+        <li><strong>Actuar:</strong> elegir una hipótesis y completar un plan de 30 días con tareas como revisar ofertas, conversar con alguien del área o probar una actividad.</li>
+      </ol>
+
+      <h2>Una sesión diaria de cinco a ocho minutos</h2>
+      <p>La pantalla inicial mostraría una sola siguiente acción. Al completar la misión, la persona recibiría una explicación breve sobre la señal obtenida, XP por haber avanzado y el desbloqueo del siguiente nodo. Las recompensas reconocerían comportamientos saludables: investigar, comparar, conversar, probar y reflexionar.</p>
+      <p>La racha sería flexible y tendría un comodín semanal. No se usarían castigos, ligas competitivas ni mensajes que provoquen culpa. En una decisión de vida, la retención solo es valiosa cuando acompaña progreso real.</p>
+
+      <h2>Los primeros desafíos</h2>
+      <ul>
+        <li><strong>Mapa de energía:</strong> clasificar actividades entre “me energiza”, “neutral” y “me drena”.</li>
+        <li><strong>Habilidades transferibles:</strong> reconocer capacidades que pueden moverse entre industrias y respaldarlas con ejemplos.</li>
+        <li><strong>Trade-offs:</strong> decidir entre escenarios con costos y beneficios reales.</li>
+        <li><strong>Un día en el rol:</strong> explorar tareas habituales de una ruta antes de idealizarla.</li>
+      </ul>
+      <p>Cada desafío debe producir una señal útil para el perfil. No habría respuestas “correctas” ni XP adicional por elegir una opción determinada.</p>
+
+      <h2>Cómo se mostrarían las recomendaciones</h2>
+      <p>Vocari hablaría de <strong>mapa de posibilidades</strong>, ajuste estimado e hipótesis. Cada ruta explicaría por qué aparece, qué habilidades previas aprovecha, cuánto aprendizaje requiere, qué fricciones existen y cuál es la primera forma de validarla.</p>
+      <p>Los datos laborales indicarían país, fuente y fecha. La felicidad o el éxito futuro nunca se presentarían como una predicción cierta. El objetivo es aumentar claridad y calidad de decisión, no reemplazar a un orientador ni diagnosticar a una persona.</p>
+
+      <h2>Animaciones con propósito</h2>
+      <p>Las animaciones servirían para orientar la atención, confirmar una respuesta y celebrar un avance. Flutter permitiría combinar transiciones nativas, respuesta háptica y recursos Rive para un acompañante visual propio. Las celebraciones serían breves y existiría un modo de movimiento reducido.</p>
+
+      <h2>Qué tecnología aprovecharía</h2>
+      <p>La aplicación Flutter viviría en un repositorio separado para administrar versiones, firma y publicación en iOS y Android. No necesitaría otro backend: consumiría la API FastAPI de Vocari y reutilizaría el scoring de reconversión, las carreras, los datos laborales y los informes existentes.</p>
+      <p>Antes de conectar el móvil se reforzarían la autenticación de invitados, la seguridad de sesiones públicas, las migraciones de base de datos y la idempotencia. También se incorporaría sincronización offline para que una respuesta no se pierda cuando cambia la conexión.</p>
+
+      <h2>Qué incluiría la primera beta</h2>
+      <ul>
+        <li>Aplicaciones para iOS y Android en español.</li>
+        <li>Recorrido adulto de reconversión.</li>
+        <li>Cuatro desafíos y guardado automático.</li>
+        <li>Tres rutas recomendadas y una alternativa.</li>
+        <li>Plan de acción de 30 días.</li>
+        <li>XP, nivel, racha flexible y logros por acciones.</li>
+        <li>Notificaciones configurables y un informe compartible.</li>
+      </ul>
+      <p>No incluiría ranking público, economía virtual, feed social ni una conversación de IA abierta. Esas funciones aumentarían complejidad antes de validar si el recorrido realmente ayuda.</p>
+
+      <h2>Cómo sabríamos si funciona</h2>
+      <p>La métrica central no sería cuántos minutos pasa alguien en la aplicación. Mediríamos cuántas personas completan una acción de validación vocacional real por semana: revisar ofertas, hablar con una persona del sector, terminar un proyecto breve o comparar una formación.</p>
+      <p>También observaríamos finalización de la primera misión, retorno al día siguiente, rutas guardadas, planes iniciados, claridad autopercibida y estabilidad técnica. Una beta inicial podría realizarse con 20 a 50 personas antes de ampliar el producto.</p>
+
+      <h2>Una base que ya existe</h2>
+      <p>Vocari ya cuenta con un flujo de reconversión de cuatro fases, scoring, simulaciones, informes y un backend preparado para evolucionar. Por eso esta idea no parte de cero: reorganiza capacidades existentes en una experiencia móvil progresiva y convierte un resultado en acompañamiento.</p>
+      <p>La documentación técnica, arquitectura, roadmap y criterios del MVP quedan versionados junto al código. Estos mockups son una dirección conceptual para conversar y probar; el diseño definitivo debe construirse con investigación de usuarios, accesibilidad y evidencia.</p>
+    `,
+  },
+  {
     slug: "trabajo-2030-que-cambiara-y-que-no",
     titulo: "Trabajo 2030: qué cambiará y qué no",
     resumen:
