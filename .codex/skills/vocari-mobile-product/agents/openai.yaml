@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vocari Mobile Product"
+  short_description: "Planifica y construye la experiencia móvil Vocari"
+  default_prompt: "Usa $vocari-mobile-product para diseñar o implementar una funcionalidad de la app móvil Vocari."

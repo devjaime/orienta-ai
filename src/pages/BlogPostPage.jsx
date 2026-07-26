@@ -138,6 +138,16 @@ export default function BlogPostPage() {
                 {post.lectura} min de lectura
               </span>
             </div>
+
+            {post.imagenPortada && (
+              <figure className="mt-8 overflow-hidden rounded-[2rem] border border-aura-primary/10 bg-white shadow-xl shadow-aura-primary/10">
+                <img
+                  src={post.imagenPortada}
+                  alt={post.imagenPortadaAlt || post.titulo}
+                  className="max-h-[42rem] w-full object-cover object-top"
+                />
+              </figure>
+            )}
           </Motion.div>
         </div>
       </section>
@@ -159,6 +169,41 @@ export default function BlogPostPage() {
               prose-a:text-aura-primary hover:prose-a:underline"
             dangerouslySetInnerHTML={{ __html: post.contenido }}
           />
+
+          {post.mockups?.length > 0 && (
+            <section className="mt-10 border-t border-aura-primary/10 pt-10">
+              <p className="aura-kicker">Dirección visual</p>
+              <h2 className="mt-4 font-display text-3xl font-bold tracking-[-0.03em]">
+                Mockups conceptuales
+              </h2>
+              <p className="mt-3 leading-7 text-aura-muted">
+                Estas imágenes expresan intención, jerarquía y tono. El diseño final se validará con personas usuarias y criterios de accesibilidad.
+              </p>
+              <div className="mt-6 grid gap-5 md:grid-cols-2">
+                {post.mockups.map((mockup) => (
+                  <figure
+                    key={mockup.src}
+                    className="overflow-hidden rounded-3xl border border-aura-primary/10 bg-aura-surface"
+                  >
+                    <img
+                      src={mockup.src}
+                      alt={mockup.alt}
+                      loading="lazy"
+                      className="aspect-[3/4] w-full object-cover object-top"
+                    />
+                    <figcaption className="p-5">
+                      <h3 className="font-display text-lg font-bold text-aura-ink">
+                        {mockup.titulo}
+                      </h3>
+                      <p className="mt-2 text-sm leading-6 text-aura-muted">
+                        {mockup.descripcion}
+                      </p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </section>
+          )}
 
           {post.rutas?.length > 0 && (
             <section className="mt-10 rounded-3xl border border-aura-primary/10 bg-aura-surface p-6">
