@@ -10,13 +10,13 @@ export const blogPosts = [
     slug: "vocari-mobile-app-gamificada-reconversion-vocacional",
     titulo: "Vocari Mobile: una ruta gamificada para descubrir, contrastar y construir tu próximo paso laboral",
     resumen:
-      "La visión completa de una aplicación móvil de sesiones breves para reconversión y exploración vocacional: misiones, desafíos, rutas posibles y un plan de 30 días.",
+      "De una idea escrita a una demo Flutter funcionando en Android y iPhone: producto, animaciones, agentes, infraestructura local y aprendizajes de desarrollo agéntico con Codex.",
     categoria: "Reconversión",
     audiencia: "mixto",
     autor: "Equipo Vocari",
-    fecha: "2026-07-25",
+    fecha: "2026-08-02T12:00:00-04:00",
     emoji: "APP",
-    lectura: 12,
+    lectura: 22,
     imagenPortada: "/blog/vocari-mobile/mockup-ruta-diaria.png",
     imagenPortadaAlt: "Mockup conceptual de la ruta diaria en Vocari Mobile",
     mockups: [
@@ -50,6 +50,11 @@ export const blogPosts = [
       "Lanzar una beta cerrada y medir acciones reales de exploración, no solo tiempo dentro de la app.",
     ],
     contenido: `
+      <h2>Actualización: la idea ya se convirtió en una aplicación real</h2>
+      <p>Este artículo comenzó como una especificación de producto. Una semana después, la propuesta ya tiene un repositorio Flutter independiente, una demo automática funcionando en un emulador Android y una instalación local ejecutándose en un iPhone físico. No es todavía una aplicación publicada ni un servicio productivo, pero sí un MVP navegable que permite evaluar la experiencia, las animaciones y el relato completo antes de invertir en backend móvil o distribución.</p>
+      <p>El código está disponible en el repositorio público <a href="https://github.com/devjaime/vocari-mobile-demo" target="_blank" rel="noopener noreferrer">devjaime/vocari-mobile-demo</a>. La demostración reúne diez escenas animadas, misiones de energía y habilidades transferibles, decisiones con trade-offs, tres hipótesis profesionales, un plan de 30 días y dos agentes conceptuales. Todo funciona localmente y sin enviar respuestas personales a un modelo de IA.</p>
+      <blockquote><strong>Resultado observable:</strong> una sola persona pudo pasar de la intención escrita a una aplicación móvil multiplataforma instalada en equipos reales, acompañada por especificaciones, pruebas, scripts de ejecución, documentación y control de versiones.</blockquote>
+
       <h2>De un test aislado a un proceso que acompaña</h2>
       <p>La idea de Vocari Mobile es convertir la orientación vocacional y la reconversión laboral en un recorrido de sesiones breves. En lugar de responder muchas preguntas y recibir un veredicto, la persona avanza por misiones que le ayudan a descubrir señales, contrastarlas y probar una posibilidad en el mundo real.</p>
       <p>La aplicación tomaría inspiración del aprendizaje por caminos y del feedback inmediato, pero no copiaría una interfaz o sistema de otra marca. La meta no es mantener a la persona mirando una pantalla: es ayudarla a realizar mejores preguntas, investigar rutas y actuar.</p>
@@ -86,9 +91,68 @@ export const blogPosts = [
       <h2>Animaciones con propósito</h2>
       <p>Las animaciones servirían para orientar la atención, confirmar una respuesta y celebrar un avance. Flutter permitiría combinar transiciones nativas, respuesta háptica y recursos Rive para un acompañante visual propio. Las celebraciones serían breves y existiría un modo de movimiento reducido.</p>
 
+      <h2>Koa: una mascota propia para acompañar sin presionar</h2>
+      <p>La demo incorporó a <strong>Koa</strong>, un mono guía original de Vocari con chaqueta violeta, insignia V y acentos turquesa. Koa flota, parpadea, saluda cuando la persona lo toca y aparece en la celebración final. No busca copiar una mascota existente: su identidad, silueta y comportamiento fueron diseñados para el lenguaje visual de Vocari.</p>
+      <p>La primera versión se dibujó directamente con vectores y <code>CustomPainter</code> de Flutter. Esto evitó agregar un recurso pesado, permitió que funcionara offline y facilitó modificar ojos, brazos, cola, colores y expresiones desde código. En una etapa posterior podría migrarse a Rive si las pruebas de usuario justifican estados más complejos.</p>
+      <p>Su rol también tiene un límite de producto: Koa celebra que la persona investigue o complete un experimento, nunca que elija una respuesta o profesión específica. Cuando iOS o Android tienen activado “reducir movimiento”, conserva su mensaje y accesibilidad, pero detiene la flotación.</p>
+
       <h2>Qué tecnología aprovecharía</h2>
       <p>La aplicación Flutter viviría en un repositorio separado para administrar versiones, firma y publicación en iOS y Android. No necesitaría otro backend: consumiría la API FastAPI de Vocari y reutilizaría el scoring de reconversión, las carreras, los datos laborales y los informes existentes.</p>
       <p>Antes de conectar el móvil se reforzarían la autenticación de invitados, la seguridad de sesiones públicas, las migraciones de base de datos y la idempotencia. También se incorporaría sincronización offline para que una respuesta no se pierda cuando cambia la conexión.</p>
+
+      <h2>La arquitectura que probamos</h2>
+      <ul>
+        <li><strong>Cliente:</strong> Flutter y Dart, con Material 3, animaciones implícitas, <code>AnimatedSwitcher</code>, <code>TweenAnimationBuilder</code> y dibujo vectorial.</li>
+        <li><strong>Estado local:</strong> progreso demostrativo persistido con <code>shared_preferences</code>, sin credenciales ni información sensible.</li>
+        <li><strong>Android:</strong> SDK 36, Android 16/API 36 ARM64 y un dispositivo Pixel virtual.</li>
+        <li><strong>iOS:</strong> Xcode 26.6, CocoaPods, firma Personal Team y un iPhone físico en Modo Desarrollador.</li>
+        <li><strong>Calidad:</strong> análisis estático limpio y cinco pruebas Flutter para progreso, recorrido automático, agentes, datos públicos y movimiento reducido.</li>
+        <li><strong>Distribución del código:</strong> Git y GitHub, sin subir builds, cachés, certificados ni identificadores de dispositivos.</li>
+      </ul>
+      <p>La demo mantiene la lógica vocacional determinista. Lumi, el agente vocacional, transforma señales en preguntas e hipótesis; Atlas, el agente de reconversión, combina habilidades transferibles con un mapa de Chile y datos agregados de SENCE–SABE. Ninguno toma la decisión por la persona.</p>
+
+      <h2>Vibecoding no significa improvisar</h2>
+      <p>“Vibecoding” suele describir una forma de construir software conversando con un modelo y evaluando resultados rápidamente. La experiencia de Vocari Mobile muestra su versión más útil: comenzar desde una intención clara, convertirla en especificaciones, permitir que un agente inspeccione el entorno, implementar incrementos pequeños y verificar cada avance en equipos reales.</p>
+      <p>La diferencia entre una demo frágil y un proyecto que puede continuar no fue escribir prompts más largos. Fue dejar contexto durable: un <code>AGENTS.md</code> con convenciones, una skill específica de producto móvil, specs de producto y arquitectura, criterios de accesibilidad, comandos repetibles y una definición explícita de “terminado”. La guía oficial de <a href="https://learn.chatgpt.com/guides/best-practices" target="_blank" rel="noopener noreferrer">buenas prácticas de Codex</a> recomienda precisamente entregar objetivo, contexto, restricciones y condición de éxito, y convertir patrones repetibles en instrucciones o skills.</p>
+
+      <h2>Qué aportó Codex durante el desarrollo</h2>
+      <p>Codex no se limitó a generar widgets. Ayudó a recorrer el ciclo completo:</p>
+      <ol>
+        <li>Leer la idea y transformarla en especificaciones de producto, arquitectura y tickets.</li>
+        <li>Auditar el computador, detectar espacio disponible y separar el repositorio móvil.</li>
+        <li>Instalar Flutter, Android SDK, Java, emuladores, Xcode y CocoaPods.</li>
+        <li>Construir las pantallas, animaciones, agentes conceptuales y la mascota Koa.</li>
+        <li>Ejecutar análisis, pruebas y capturas para detectar desbordes visuales.</li>
+        <li>Diagnosticar firma, perfiles y diferencias entre builds debug, profile y release en iOS.</li>
+        <li>Documentar comandos, crear commits intencionales y publicar el repositorio en GitHub.</li>
+      </ol>
+      <p>La documentación actual de Codex presenta <a href="https://learn.chatgpt.com/docs/models#recommended-models" target="_blank" rel="noopener noreferrer">GPT-5.6 Sol</a> como la opción recomendada para trabajo complejo, abierto y de alto valor que necesita análisis, juicio y pulido. Ese perfil encaja con una tarea como esta: producto, Flutter, herramientas del sistema, pruebas, depuración y documentación dentro de un mismo objetivo. Sol no reemplaza la validación; permite sostener más contexto y completar ciclos más largos con herramientas.</p>
+
+      <h2>Las skills convierten experiencia en un proceso reutilizable</h2>
+      <p>Una skill es más que un prompt guardado. Puede incluir instrucciones, referencias, scripts y criterios de validación que el agente debe leer antes de actuar. En este proyecto se creó una skill de Vocari Mobile para recordar principios que no deben perderse entre sesiones: premiar exploración, presentar rutas como hipótesis, mantener IA opcional, validar movimiento reducido y conservar Flutter en un repositorio independiente.</p>
+      <p>Esto es especialmente importante cuando la persona que dirige el producto no domina cada tecnología. El conocimiento técnico puede quedar empaquetado en un flujo repetible: cómo preparar Android, cómo firmar iOS, qué probar antes de un commit o qué datos nunca deben presentarse como una promesa laboral. La guía oficial explica cómo <a href="https://learn.chatgpt.com/docs/build-skills" target="_blank" rel="noopener noreferrer">construir skills</a> y cómo usar <a href="https://learn.chatgpt.com/docs/agent-configuration/agents-md" target="_blank" rel="noopener noreferrer">AGENTS.md</a> para convenciones durables del repositorio.</p>
+
+      <h2>Problemas reales que aparecieron</h2>
+      <p>El trabajo no fue una secuencia perfecta. Varias dificultades fueron de equipos e infraestructura, no de Flutter:</p>
+      <ul>
+        <li><strong>Poco espacio interno:</strong> Xcode, runtimes y cachés compiten por decenas de gigabytes. Flutter, Android, Java, datos derivados y respaldos se trasladaron a un SSD KINGSTON externo. También se movieron cachés regenerables y videos para recuperar espacio.</li>
+        <li><strong>Runtime incorrecto:</strong> una primera descarga instaló iOS 26.5 build 23F73, mientras Xcode necesitaba la revisión 23F77. Hubo que eliminar solo ese runtime, conservar un respaldo externo e instalar el componente correcto.</li>
+        <li><strong>Firma del iPhone:</strong> fue necesario habilitar Modo Desarrollador, seleccionar un Personal Team y confiar en el certificado desde el teléfono.</li>
+        <li><strong>La app se cerraba desde el icono:</strong> el primer instalador dejaba un build Flutter debug. Desde iOS 14, ese modo necesita Flutter o Xcode conectado. La demo autónoma quedó resuelta con un build profile firmado localmente.</li>
+        <li><strong>Release y cuenta gratuita:</strong> el build release se compiló e instaló, pero el perfil gratuito no superó el preflight de seguridad. Profile permitió probar rendimiento y apertura autónoma sin publicar.</li>
+        <li><strong>Caducidad:</strong> un perfil Personal Team gratuito dura siete días. Es suficiente para validar la idea, pero no sustituye TestFlight ni una cuenta de distribución.</li>
+        <li><strong>Responsive real:</strong> las pruebas detectaron un desborde de 33 píxeles en el rótulo de Koa. El problema se corrigió antes de reinstalar en los equipos.</li>
+      </ul>
+      <p>Estos tropiezos son parte del valor del prototipo. Permiten descubrir temprano requisitos de almacenamiento, firma, accesibilidad, rendimiento y operación que un mockup no revela.</p>
+
+      <h2>Una buena experiencia: observar, corregir y volver a instalar</h2>
+      <p>El ciclo más productivo fue muy concreto: implementar una escena, ejecutar pruebas, levantar el emulador, capturar la pantalla, observar una transición real, corregir el layout y reinstalar. En iPhone se verificó además que el proceso siguiera vivo después de desconectar Flutter. Cada problema tuvo evidencia antes de una solución.</p>
+      <p>Flutter mostró una ventaja importante para un equipo pequeño: el mismo código de interfaz llegó a Android e iOS, mientras los scripts encapsularon las diferencias de SDK, firma e instalación. La interfaz no quedó idéntica por casualidad; quedó compartida porque el proyecto evitó duplicar pantallas nativas.</p>
+
+      <h2>¿Puede una sola persona construir todo esto?</h2>
+      <p>Hoy la barrera de entrada es considerablemente menor. Una persona que entiende bien el problema, sabe describir a quién ayuda y puede evaluar si el resultado tiene sentido puede coordinar con Codex una aplicación móvil, documentación, pruebas, repositorios e incluso evolución de backend. Ya no necesita memorizar cada comando de Gradle, Xcode, Git o Flutter antes de comenzar.</p>
+      <p>Pero “menos experiencia técnica” no significa “sin responsabilidad técnica”. Para pasar de una demo a producción todavía hacen falta decisiones sobre seguridad, privacidad, accesibilidad, contratos de API, observabilidad, costos, publicación y soporte. El agente puede investigar, implementar y verificar mucho trabajo; la persona sigue siendo responsable de definir la intención, autorizar cambios importantes, probar con usuarios y reconocer cuándo necesita revisión especializada.</p>
+      <p>La habilidad más valiosa cambia: menos tiempo recordando sintaxis y más tiempo formulando el problema, aportando contexto, revisando evidencia y decidiendo qué significa calidad. Una idea clara puede avanzar muchísimo con una sola persona asistida, siempre que el proceso incluya pruebas y límites explícitos.</p>
 
       <h2>Qué incluiría la primera beta</h2>
       <ul>
@@ -109,6 +173,20 @@ export const blogPosts = [
       <h2>Una base que ya existe</h2>
       <p>Vocari ya cuenta con un flujo de reconversión de cuatro fases, scoring, simulaciones, informes y un backend preparado para evolucionar. Por eso esta idea no parte de cero: reorganiza capacidades existentes en una experiencia móvil progresiva y convierte un resultado en acompañamiento.</p>
       <p>La documentación técnica, arquitectura, roadmap y criterios del MVP quedan versionados junto al código. Estos mockups son una dirección conceptual para conversar y probar; el diseño definitivo debe construirse con investigación de usuarios, accesibilidad y evidencia.</p>
+
+      <h2>Qué falta antes de llamarla producto</h2>
+      <ul>
+        <li>Probar el recorrido con adultos en reconversión y observar comprensión, no solo agrado visual.</li>
+        <li>Conectar autenticación segura, invitados recuperables y separación entre tokens de edición e informes compartibles.</li>
+        <li>Implementar sincronización offline e idempotencia para no duplicar respuestas ni XP.</li>
+        <li>Mantener scoring y progreso canónico en el backend, sin trasladar decisiones sensibles al teléfono.</li>
+        <li>Incorporar analítica sin respuestas sensibles, crash reporting y controles de eliminación de datos.</li>
+        <li>Preparar distribución real mediante TestFlight y Google Play Internal Testing.</li>
+      </ul>
+
+      <h2>Conclusión: de “algún día” a una evidencia que se puede tocar</h2>
+      <p>El mayor aprendizaje no es que un agente pueda escribir mucho código. Es que puede ayudar a una persona a mantener conectado un objetivo de producto con diseño, infraestructura, depuración, documentación y entrega. Vocari Mobile pasó de una conversación a una aplicación que se puede abrir, observar y criticar.</p>
+      <p>Codex y modelos como GPT-5.6 Sol hacen posible que una sola persona avance por dominios que antes exigían varios especialistas desde el primer día. La oportunidad no consiste en eliminar equipos, sino en llegar a la conversación con usuarios y especialistas con una evidencia mucho más madura. Construir se vuelve más accesible; decidir qué vale la pena construir sigue siendo profundamente humano.</p>
     `,
   },
   {
