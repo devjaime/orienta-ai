@@ -11,12 +11,9 @@ from fastapi import APIRouter, Depends, Query
 from app.auth.middleware import get_current_user
 from app.auth.models import User, UserRole
 from app.auth.permissions import require_roles
-from app.common.database import get_async_session
-from app.common.pagination import PaginationParams
 from app.careers.schemas import (
     CareerCreate,
     CareerListResponse,
-    CareerRecommendation,
     CareerRecommendationsResponse,
     CareerResponse,
     CareerSimulationCreate,
@@ -32,6 +29,8 @@ from app.careers.service import (
     list_careers,
     update_career,
 )
+from app.common.database import get_async_session
+from app.common.pagination import PaginationParams
 from app.tests_vocational.service import get_latest_riasec_result
 
 router = APIRouter()

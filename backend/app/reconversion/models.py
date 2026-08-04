@@ -41,7 +41,9 @@ class AdultReconversionSession(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     nivel_ingles: Mapped[str | None] = mapped_column(String(60), nullable=True)
     situacion_actual: Mapped[str | None] = mapped_column(String(120), nullable=True)
     disponibilidad_para_estudiar: Mapped[str | None] = mapped_column(String(120), nullable=True)
-    disponibilidad_para_relocalizarse: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    disponibilidad_para_relocalizarse: Mapped[str | None] = mapped_column(
+        String(120), nullable=True
+    )
     status: Mapped[str] = mapped_column(String(40), nullable=False, default="in_progress")
     current_phase: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     summary_json: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
@@ -86,4 +88,6 @@ class AdultReconversionReport(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     report_json: Mapped[dict] = mapped_column(JSON_DOCUMENT, nullable=False, default=dict)
     report_text: Mapped[str] = mapped_column(Text, nullable=False, default="")
     model_name: Mapped[str] = mapped_column(String(120), nullable=False, default="pending")
-    prompt_version: Mapped[str] = mapped_column(String(40), nullable=False, default="adult-reconversion-v1")
+    prompt_version: Mapped[str] = mapped_column(
+        String(40), nullable=False, default="adult-reconversion-v1"
+    )

@@ -83,10 +83,14 @@ class TestFollowupsRouter:
         lead_id = uuid.UUID(data["lead_id"])
 
         rows = (
-            await db_session.execute(
-                select(FollowupEvent).where(FollowupEvent.lead_id == lead_id)
+            (
+                await db_session.execute(
+                    select(FollowupEvent).where(FollowupEvent.lead_id == lead_id)
+                )
             )
-        ).scalars().all()
+            .scalars()
+            .all()
+        )
         assert len(rows) == 3
         assert {row.journey_step for row in rows} == {"D0", "D7", "D21"}
 

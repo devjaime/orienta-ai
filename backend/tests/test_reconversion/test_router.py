@@ -22,18 +22,12 @@ def _phase_two_answers() -> dict[int, str]:
 
 def _phase_three_answers() -> dict[int, int]:
     pattern = [5, 4, 4, 5, 3, 4, 5, 4, 4, 5, 5, 4]
-    return {
-        question_id: pattern[question_id - 1]
-        for question_id in range(1, 13)
-    }
+    return {question_id: pattern[question_id - 1] for question_id in range(1, 13)}
 
 
 def _phase_four_answers() -> dict[int, str]:
     pattern = ["c", "b", "a", "b", "a", "b", "b", "c"]
-    return {
-        scenario_id: pattern[scenario_id - 1]
-        for scenario_id in range(1, 9)
-    }
+    return {scenario_id: pattern[scenario_id - 1] for scenario_id in range(1, 9)}
 
 
 class TestReconversionRouter:
@@ -454,11 +448,7 @@ class TestReconversionRouter:
         body = response.json()
         assert body["total"] >= 1
         assert len(body["items"]) >= 1
-        matching_item = next(
-            item
-            for item in body["items"]
-            if item["session_id"] == session_id
-        )
+        matching_item = next(item for item in body["items"] if item["session_id"] == session_id)
         assert matching_item["nombre"] == "Patricia Nunez"
         assert matching_item["public_url"].endswith(session_body["share_token"])
         assert matching_item["top_routes"]

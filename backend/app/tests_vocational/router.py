@@ -67,9 +67,7 @@ async def list_my_test_results(
     """Lista los resultados de tests del usuario autenticado."""
     tenant_id = None if user.role == UserRole.SUPER_ADMIN else user.institution_id
     pagination = PaginationParams(page=page, per_page=per_page)
-    result = await list_test_results_by_user(
-        db, user.id, pagination, test_type, tenant_id
-    )
+    result = await list_test_results_by_user(db, user.id, pagination, test_type, tenant_id)
     return TestResultListResponse(
         items=[TestResultResponse.model_validate(r) for r in result.items],
         total=result.total,
@@ -106,9 +104,7 @@ async def list_student_test_results(
     """Lista los resultados de tests de un estudiante. Solo orientadores, admins y apoderados."""
     tenant_id = None if user.role == UserRole.SUPER_ADMIN else user.institution_id
     pagination = PaginationParams(page=page, per_page=per_page)
-    result = await list_test_results_by_user(
-        db, student_id, pagination, test_type, tenant_id
-    )
+    result = await list_test_results_by_user(db, student_id, pagination, test_type, tenant_id)
     return TestResultListResponse(
         items=[TestResultResponse.model_validate(r) for r in result.items],
         total=result.total,

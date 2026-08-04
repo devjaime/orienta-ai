@@ -196,9 +196,7 @@ async def sample_orientador(db_session: AsyncSession, sample_institution: Instit
 
 
 @pytest_asyncio.fixture
-async def sample_admin_colegio(
-    db_session: AsyncSession, sample_institution: Institution
-) -> User:
+async def sample_admin_colegio(db_session: AsyncSession, sample_institution: Institution) -> User:
     """Crea un usuario admin_colegio de prueba (vinculado a institucion)."""
     user = User(
         id=uuid.uuid4(),
