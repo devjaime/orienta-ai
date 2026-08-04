@@ -37,7 +37,7 @@ interface RIASECTestProps {
 export function RIASECTest({ onComplete }: RIASECTestProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState<Record<number, number>>({});
-  const [startTime] = useState(Date.now());
+  const [startTime] = useState(() => Date.now());
 
   const question = riasecQuestions[currentQuestion];
   const totalQuestions = riasecQuestions.length;

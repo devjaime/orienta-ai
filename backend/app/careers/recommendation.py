@@ -10,38 +10,28 @@ def calcular_compatibilidad(codigo_usuario: str, codigos_carrera: list[str]) -> 
     Calcula compatibilidad (0-100) entre un codigo Holland del usuario y los codigos de una carrera.
 
     Algoritmo:
-    - Por cada letra del codigo del usuario, verificar si esta en los codigos de la carrera
-    - Peso: primera letra = 40pts, segunda = 30pts, tercera = 20pts
-    - Si la letra esta presente pero no en la misma posicion: +10pts extra
-    - Maximo posible: 100
+    - Usa solo el primer codigo Holland de la carrera
+    - Coincidencia exacta: primera letra = 40pts, segunda = 25pts, tercera = 15pts
+    - Letra presente en otra posicion: 10pts
+    - Requiere codigos completos de tres letras
     """
     if not codigo_usuario or not codigos_carrera:
         return 0.0
 
-    # Combinar todos los codigos en un solo string para buscar
-    # Acepta tanto ["R", "I", "C"] como ["RIC"]
-    codigo_combinado = ""
-    for c in codigos_carrera:
-        if isinstance(c, str):
-            codigo_combinado += c
-    
-    if len(codigo_combinado) < 1 or len(codigo_usuario) < 1:
+    codigo_carrera = codigos_carrera[0] if isinstance(codigos_carrera[0], str) else ""
+    if len(codigo_usuario) < 3 or len(codigo_carrera) < 3:
         return 0.0
 
     score = 0.0
-    weights = [40.0, 30.0, 20.0]
+    weights = [40.0, 25.0, 15.0]
 
-    # Verificar cada letra del codigo del usuario
-    for i, letra in enumerate(codigo_usuario[:3]):  # Solo las primeras 3 letras
-        peso = weights[i] if i < len(weights) else 10.0
-        
-        if letra in codigo_combinado:
-            score += peso
-            # Bonus si la letra esta en la misma posicion
-            if i < len(codigo_combinado) and codigo_combinado[i] == letra:
-                score += 5.0  # Bonus por posicion exacta
+    for i, letra in enumerate(codigo_usuario[:3]):
+        if codigo_carrera[i] == letra:
+            score += weights[i]
+        elif letra in codigo_carrera:
+            score += 10.0
 
-    return min(100.0, score)
+    return score
 
 
 def generar_razones_match(

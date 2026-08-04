@@ -118,7 +118,7 @@ class TestFollowupsRouter:
         assert len(items) == 3
 
         # Fuerza D0 a pendiente de envío y procesa
-        first_id = items[-1]["id"]
+        first_id = uuid.UUID(items[-1]["id"])
         d0 = (
             await db_session.execute(select(FollowupEvent).where(FollowupEvent.id == first_id))
         ).scalar_one()

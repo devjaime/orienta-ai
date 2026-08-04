@@ -1,5 +1,24 @@
 # VOCARI - Backlog Técnico y Plan de Iteraciones
 
+## Actualización Vigente (Marzo 2026)
+
+### Arquitectura real en producción
+- `vocari.cl`: React/Vite + Netlify (sitio público y adquisición).
+- `app.vocari.cl`: Next.js + FastAPI + PostgreSQL (producto institucional).
+
+### Prioridad vigente
+1. Consolidar flujo test gratis -> informe IA -> encuesta -> revisión leads.
+2. Implementar panel orientador (lista, detalle, notas, tareas).
+3. Implementar panel admin colegio (adopción, distribución RIASEC, indecisión).
+4. Agregar seguimiento automático D0/D7/D21.
+
+### Specs fuente (vigentes)
+- `specs/product-b2b-saas-spec.md`
+- `specs/plan-desarrollo-dual.md`
+- `specs/saas-colegios-execution-spec-v1.md`
+
+---
+
 ## Estado Actual del Proyecto
 
 ### ✅ Implementado

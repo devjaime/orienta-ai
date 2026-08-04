@@ -56,6 +56,16 @@ async def list_all_careers(
     )
 
 
+@router.get("/public/recommendations", response_model=CareerRecommendationsResponse)
+async def get_public_recommendations(
+    holland_code: str = Query(..., min_length=1, max_length=6),
+    limit: int = Query(default=6, ge=1, le=20),
+    db=Depends(get_async_session),
+) -> CareerRecommendationsResponse:
+    """Recomendaciones publicas para test-gratis (sin autenticacion)."""
+    return await get_recommendations(db, holland_code.upper(), limit)
+
+
 @router.get("/recommendations", response_model=CareerRecommendationsResponse)
 async def get_my_recommendations(
     limit: int = Query(default=10, ge=1, le=50),

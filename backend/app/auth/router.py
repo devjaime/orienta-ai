@@ -107,6 +107,9 @@ async def _get_or_create_internal_mvp_user(
     institution_id: uuid.UUID | None,
 ) -> User:
     """Crea o actualiza un usuario interno del MVP para login por clave fija."""
+    if isinstance(institution_id, str):
+        institution_id = uuid.UUID(institution_id)
+
     user_defs = {
         UserRole.ORIENTADOR: {
             "email": "devjaime.orientador@vocari.cl",
@@ -235,9 +238,14 @@ async def refresh_access_token(
     if not user_id:
         raise AuthenticationError("Refresh token invalido: sin subject")
 
+    try:
+        user_uuid = uuid.UUID(user_id)
+    except (TypeError, ValueError) as error:
+        raise AuthenticationError("Refresh token invalido: subject malformado") from error
+
     # Buscar usuario en BD para obtener rol actual y verificar que siga activo
     result = await db.execute(
-        select(User).where(User.id == user_id, User.is_active == True)  # noqa: E712
+        select(User).where(User.id == user_uuid, User.is_active == True)  # noqa: E712
     )
     user = result.scalar_one_or_none()
 

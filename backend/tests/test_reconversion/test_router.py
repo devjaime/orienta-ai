@@ -139,6 +139,32 @@ class TestReconversionRouter:
         )
         assert response.status_code == 422
 
+    async def test_phase_one_allows_resubmission_without_duplicate_error(self, client) -> None:
+        create_response = await client.post(
+            "/api/v1/reconversion/sessions",
+            json={
+                "nombre": "Reintento Seguro",
+                "email": "reintento@example.com",
+                "profesion_actual": "Vendedor",
+                "edad": 34,
+            },
+        )
+        session_id = create_response.json()["id"]
+
+        first_response = await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": _phase_one_answers()},
+        )
+        assert first_response.status_code == 200
+
+        updated_answers = {question_id: 5 for question_id in range(1, 31)}
+        second_response = await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": updated_answers},
+        )
+        assert second_response.status_code == 200
+        assert second_response.json()["phase_key"] == "phase_1"
+
     async def test_phase_two_rejects_invalid_values(self, client) -> None:
         create_response = await client.post(
             "/api/v1/reconversion/sessions",

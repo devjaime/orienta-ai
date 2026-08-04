@@ -7,6 +7,7 @@ import uuid
 from datetime import UTC, date, datetime, time, timedelta
 
 from sqlalchemy import func, or_, select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.models import User
@@ -1232,35 +1233,66 @@ async def get_report_record(
     return result.scalars().first()
 
 
+async def _persist_phase_result(
+    db: AsyncSession,
+    session_id: uuid.UUID,
+    phase_key: str,
+    phase_number: int,
+    answers_payload: dict,
+    summary_payload: dict,
+    *,
+    status: str | None = None,
+) -> None:
+    """Guarda una fase de forma idempotente para tolerar reintentos del cliente."""
+    for attempt in range(2):
+        session = await get_session_by_id(db, session_id)
+        phase_result = await get_phase_result(db, session_id, phase_key)
+
+        if phase_result is None:
+            phase_result = AdultReconversionPhaseResult(
+                session_id=session_id,
+                phase_key=phase_key,
+                answers_json=answers_payload,
+                derived_scores_json=summary_payload,
+            )
+            db.add(phase_result)
+        else:
+            phase_result.answers_json = answers_payload
+            phase_result.derived_scores_json = summary_payload
+            phase_result.completed_at = datetime.now(UTC)
+
+        session.current_phase = max(session.current_phase, phase_number)
+        if status is not None:
+            session.status = status
+        session.summary_json = {
+            **(session.summary_json or {}),
+            phase_key: summary_payload,
+        }
+
+        try:
+            await db.commit()
+            return
+        except IntegrityError:
+            await db.rollback()
+            if attempt == 1:
+                raise
+
+
 async def submit_phase_one(
     db: AsyncSession,
     session_id: uuid.UUID,
     data: AdultReconversionPhaseOneRequest,
 ) -> AdultReconversionPhaseSummary:
     """Guarda la fase 1 y calcula el resumen base."""
-    session = await get_session_by_id(db, session_id)
     summary = _score_phase_one(data.answers)
-
-    phase_result = await get_phase_result(db, session_id, "phase_1")
-    if phase_result is None:
-        phase_result = AdultReconversionPhaseResult(
-            session_id=session_id,
-            phase_key="phase_1",
-            answers_json={"answers": data.answers},
-            derived_scores_json=summary.model_dump(),
-        )
-        db.add(phase_result)
-    else:
-        phase_result.answers_json = {"answers": data.answers}
-        phase_result.derived_scores_json = summary.model_dump()
-
-    session.current_phase = max(session.current_phase, 1)
-    session.summary_json = {
-        **(session.summary_json or {}),
-        "phase_1": summary.model_dump(),
-    }
-
-    await db.commit()
+    await _persist_phase_result(
+        db,
+        session_id=session_id,
+        phase_key="phase_1",
+        phase_number=1,
+        answers_payload={"answers": data.answers},
+        summary_payload=summary.model_dump(),
+    )
     return summary
 
 
@@ -1270,29 +1302,15 @@ async def submit_phase_two(
     data: AdultReconversionPhaseTwoRequest,
 ) -> AdultReconversionPhaseTwoSummary:
     """Guarda la fase 2 y calcula el resumen del desafio intencional."""
-    session = await get_session_by_id(db, session_id)
     summary = _score_phase_two(data.answers)
-
-    phase_result = await get_phase_result(db, session_id, "phase_2")
-    if phase_result is None:
-        phase_result = AdultReconversionPhaseResult(
-            session_id=session_id,
-            phase_key="phase_2",
-            answers_json={"answers": data.answers},
-            derived_scores_json=summary.model_dump(),
-        )
-        db.add(phase_result)
-    else:
-        phase_result.answers_json = {"answers": data.answers}
-        phase_result.derived_scores_json = summary.model_dump()
-
-    session.current_phase = max(session.current_phase, 2)
-    session.summary_json = {
-        **(session.summary_json or {}),
-        "phase_2": summary.model_dump(),
-    }
-
-    await db.commit()
+    await _persist_phase_result(
+        db,
+        session_id=session_id,
+        phase_key="phase_2",
+        phase_number=2,
+        answers_payload={"answers": data.answers},
+        summary_payload=summary.model_dump(),
+    )
     return summary
 
 
@@ -1302,7 +1320,6 @@ async def submit_phase_three(
     data: AdultReconversionPhaseThreeRequest,
 ) -> AdultReconversionPhaseThreeSummary:
     """Guarda la fase 3 y calcula la señal confirmatoria."""
-    session = await get_session_by_id(db, session_id)
     phase_one_result = await get_phase_result(db, session_id, "phase_1")
     phase_two_result = await get_phase_result(db, session_id, "phase_2")
 
@@ -1317,26 +1334,14 @@ async def submit_phase_three(
     )
     summary = _score_phase_three(data.answers, phase_one_summary, phase_two_summary)
 
-    phase_result = await get_phase_result(db, session_id, "phase_3")
-    if phase_result is None:
-        phase_result = AdultReconversionPhaseResult(
-            session_id=session_id,
-            phase_key="phase_3",
-            answers_json={"answers": data.answers},
-            derived_scores_json=summary.model_dump(),
-        )
-        db.add(phase_result)
-    else:
-        phase_result.answers_json = {"answers": data.answers}
-        phase_result.derived_scores_json = summary.model_dump()
-
-    session.current_phase = max(session.current_phase, 3)
-    session.summary_json = {
-        **(session.summary_json or {}),
-        "phase_3": summary.model_dump(),
-    }
-
-    await db.commit()
+    await _persist_phase_result(
+        db,
+        session_id=session_id,
+        phase_key="phase_3",
+        phase_number=3,
+        answers_payload={"answers": data.answers},
+        summary_payload=summary.model_dump(),
+    )
     return summary
 
 
@@ -1357,27 +1362,15 @@ async def submit_phase_four(
     )
     summary = _score_phase_four(data.answers, session, phase_three_summary)
 
-    phase_result = await get_phase_result(db, session_id, "phase_4")
-    if phase_result is None:
-        phase_result = AdultReconversionPhaseResult(
-            session_id=session_id,
-            phase_key="phase_4",
-            answers_json={"answers": data.answers},
-            derived_scores_json=summary.model_dump(),
-        )
-        db.add(phase_result)
-    else:
-        phase_result.answers_json = {"answers": data.answers}
-        phase_result.derived_scores_json = summary.model_dump()
-
-    session.current_phase = max(session.current_phase, 4)
-    session.status = "ready_for_report"
-    session.summary_json = {
-        **(session.summary_json or {}),
-        "phase_4": summary.model_dump(),
-    }
-
-    await db.commit()
+    await _persist_phase_result(
+        db,
+        session_id=session_id,
+        phase_key="phase_4",
+        phase_number=4,
+        answers_payload={"answers": data.answers},
+        summary_payload=summary.model_dump(),
+        status="ready_for_report",
+    )
     return summary
 
 

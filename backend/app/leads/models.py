@@ -5,11 +5,13 @@ Vocari Backend - Modelo de Leads.
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, Float, ForeignKey, String, Text
-from sqlalchemy.dialects.postgresql import JSON, JSONB, UUID
+from sqlalchemy import JSON, DateTime, Float, ForeignKey, String, Text
+from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.common.base_model import Base, TimestampMixin, UUIDPrimaryKeyMixin
+
+JSON_DOCUMENT = JSON().with_variant(JSONB(), "postgresql")
 
 
 class Lead(UUIDPrimaryKeyMixin, TimestampMixin, Base):
@@ -56,7 +58,7 @@ class AIReport(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         index=True,
     )
     report_text: Mapped[str] = mapped_column(Text, nullable=False)
-    report_json: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    report_json: Mapped[dict] = mapped_column(JSON_DOCUMENT, nullable=False, default=dict)
     holland_code: Mapped[str | None] = mapped_column(String(20), nullable=True, index=True)
     clarity_score: Mapped[float | None] = mapped_column(Float, nullable=True)
     model_name: Mapped[str] = mapped_column(String(120), nullable=False, default="fallback-local")
