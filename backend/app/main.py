@@ -49,6 +49,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         import app.orientador.models
         import app.followups.models
         import app.reconversion.models
+        import app.mobile.models
+        import app.common.idempotency  # noqa: F401
         
         engine = get_engine()
 
@@ -373,7 +375,12 @@ def create_app() -> FastAPI:
 
     app = FastAPI(
         title="Vocari API",
-        description="API de la plataforma de orientacion vocacional Vocari",
+        description=(
+            "API de la plataforma de orientacion vocacional Vocari. "
+            "El contrato movil vive en /api/v1/mobile. Las escrituras reintentables "
+            "aceptan Idempotency-Key. El token de edicion de una sesion publica "
+            "(X-Vocari-Edit-Token) es distinto del enlace de informe."
+        ),
         version="0.1.0",
         docs_url="/docs" if not settings.is_production else None,
         redoc_url="/redoc" if not settings.is_production else None,
@@ -443,6 +450,7 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     from app.profiles.router import router as profiles_router
     from app.reports.router import router as reports_router
     from app.reconversion.router import router as reconversion_router
+    from app.mobile.router import router as mobile_router
     from app.sessions.router import router as sessions_router
     from app.student_import.router import router as student_import_router
     from app.students.router import router as students_router
@@ -479,6 +487,7 @@ def _include_routers(app: FastAPI, settings: object) -> None:
     app.include_router(games_router, prefix=f"{prefix}/games", tags=["games"])
     app.include_router(reports_router, prefix=f"{prefix}/reports", tags=["reports"])
     app.include_router(reconversion_router, prefix=f"{prefix}/reconversion", tags=["reconversion"])
+    app.include_router(mobile_router, prefix=f"{prefix}/mobile", tags=["mobile"])
 
     from app.chat.router import router as chat_router
     app.include_router(chat_router, prefix=f"{prefix}/chat", tags=["chat"])

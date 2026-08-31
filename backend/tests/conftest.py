@@ -4,6 +4,7 @@ Vocari Backend - Fixtures de pytest para tests de integracion y unitarios.
 Provee sesion de BD, cliente HTTP, usuarios de ejemplo y headers JWT.
 """
 
+import os
 import uuid
 from collections.abc import AsyncGenerator
 from typing import Any
@@ -19,8 +20,11 @@ from sqlalchemy.ext.asyncio import (
 )
 
 from app.auth.models import User, UserRole
+from app.common import idempotency as _idempotency  # noqa: F401
 from app.common.base_model import Base
 from app.institutions.models import Institution, InstitutionPlan
+from app.mobile import models as _mobile_models  # noqa: F401
+from app.reconversion import models as _reconversion_models  # noqa: F401
 
 # ---------------------------------------------------------------------------
 # Base de datos de test
@@ -39,6 +43,15 @@ def _get_test_database_url() -> str:
     if _test_db_url is not None:
         return _test_db_url
 
+    configured_url = os.getenv("VOCARI_TEST_DATABASE_URL")
+    if configured_url:
+        _test_db_url = configured_url
+        return _test_db_url
+
+    if os.getenv("VOCARI_TEST_USE_POSTGRES", "false").lower() != "true":
+        _test_db_url = "sqlite+aiosqlite:///:memory:"
+        return _test_db_url
+
     try:
         from testcontainers.postgres import PostgresContainer
 
@@ -48,7 +61,7 @@ def _get_test_database_url() -> str:
         _test_db_url = pg.get_connection_url()
         return _test_db_url
     except Exception:
-        _test_db_url = "sqlite+aiosqlite:///./test.db"
+        _test_db_url = "sqlite+aiosqlite:///:memory:"
         return _test_db_url
 
 

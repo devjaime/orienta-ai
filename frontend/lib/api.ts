@@ -120,10 +120,11 @@ export async function apiFetch<T>(
 export const api = {
   get: <T>(path: string) => apiFetch<T>(path),
 
-  post: <T>(path: string, body?: unknown) =>
+  post: <T>(path: string, body?: unknown, extraHeaders?: HeadersInit) =>
     apiFetch<T>(path, {
       method: "POST",
       body: body ? JSON.stringify(body) : undefined,
+      headers: extraHeaders,
     }),
 
   put: <T>(path: string, body?: unknown) =>

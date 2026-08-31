@@ -7,12 +7,19 @@ Vocari Backend - Router del flujo de reconversion vocacional para adultos.
 import uuid
 from datetime import date
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.models import User, UserRole
 from app.auth.permissions import require_roles
 from app.common.database import get_async_session
+from app.common.idempotency import store_idempotent_response
+from app.reconversion.deps import (
+    begin_reconversion_write,
+    limit_public_reconversion,
+    require_editable_session,
+)
+from app.reconversion.models import AdultReconversionSession
 from app.reconversion.schemas import (
     AdultReconversionGenerateReportResponse,
     AdultReconversionPhaseFourRequest,
@@ -26,6 +33,7 @@ from app.reconversion.schemas import (
     AdultReconversionPublicReportResponse,
     AdultReconversionReviewListResponse,
     AdultReconversionSessionCreateRequest,
+    AdultReconversionSessionCreateResponse,
     AdultReconversionSessionDetailResponse,
     AdultReconversionSessionResponse,
 )
@@ -46,45 +54,59 @@ from app.reconversion.service import (
 router = APIRouter()
 
 
-@router.post("/sessions", response_model=AdultReconversionSessionResponse, status_code=201)
+def _session_response(session: AdultReconversionSession) -> AdultReconversionSessionResponse:
+    return AdultReconversionSessionResponse.model_validate(session)
+
+
+def _detail_response(
+    session: AdultReconversionSession,
+    completed_phases: list[str],
+    phase_1,
+    phase_2,
+    phase_3,
+    phase_4,
+) -> AdultReconversionSessionDetailResponse:
+    return AdultReconversionSessionDetailResponse(
+        session=_session_response(session),
+        completed_phases=completed_phases,
+        phase_1_summary=(phase_1.derived_scores_json if phase_1 is not None else None),
+        phase_2_summary=(phase_2.derived_scores_json if phase_2 is not None else None),
+        phase_3_summary=(phase_3.derived_scores_json if phase_3 is not None else None),
+        phase_4_summary=(phase_4.derived_scores_json if phase_4 is not None else None),
+    )
+
+
+@router.post(
+    "/sessions",
+    response_model=AdultReconversionSessionCreateResponse,
+    status_code=201,
+    dependencies=[Depends(limit_public_reconversion)],
+)
 async def create_reconversion_session(
     data: AdultReconversionSessionCreateRequest,
     db: AsyncSession = Depends(get_async_session),
-) -> AdultReconversionSessionResponse:
+) -> AdultReconversionSessionCreateResponse:
     """Crea una sesion publica de reconversion."""
-    session = await create_public_session(db, data)
-    return AdultReconversionSessionResponse.model_validate(session)
+    session, edit_token = await create_public_session(db, data)
+    payload = AdultReconversionSessionCreateResponse(
+        **_session_response(session).model_dump(),
+        edit_token=edit_token,
+    )
+    return payload
 
 
 @router.get("/sessions/{session_id}", response_model=AdultReconversionSessionDetailResponse)
 async def get_reconversion_session(
-    session_id: uuid.UUID,
+    session: AdultReconversionSession = Depends(require_editable_session),
     db: AsyncSession = Depends(get_async_session),
 ) -> AdultReconversionSessionDetailResponse:
     """Obtiene una sesion publica y sus fases completadas."""
-    session = await get_session_by_id(db, session_id)
-    completed_phases = await get_completed_phases(db, session_id)
-    phase_1 = await get_phase_result(db, session_id, "phase_1")
-    phase_2 = await get_phase_result(db, session_id, "phase_2")
-    phase_3 = await get_phase_result(db, session_id, "phase_3")
-    phase_4 = await get_phase_result(db, session_id, "phase_4")
-
-    return AdultReconversionSessionDetailResponse(
-        session=AdultReconversionSessionResponse.model_validate(session),
-        completed_phases=completed_phases,
-        phase_1_summary=(
-            phase_1.derived_scores_json if phase_1 is not None else None
-        ),
-        phase_2_summary=(
-            phase_2.derived_scores_json if phase_2 is not None else None
-        ),
-        phase_3_summary=(
-            phase_3.derived_scores_json if phase_3 is not None else None
-        ),
-        phase_4_summary=(
-            phase_4.derived_scores_json if phase_4 is not None else None
-        ),
-    )
+    completed_phases = await get_completed_phases(db, session.id)
+    phase_1 = await get_phase_result(db, session.id, "phase_1")
+    phase_2 = await get_phase_result(db, session.id, "phase_2")
+    phase_3 = await get_phase_result(db, session.id, "phase_3")
+    phase_4 = await get_phase_result(db, session.id, "phase_4")
+    return _detail_response(session, completed_phases, phase_1, phase_2, phase_3, phase_4)
 
 
 @router.post(
@@ -94,19 +116,31 @@ async def get_reconversion_session(
 async def submit_reconversion_phase_one(
     session_id: uuid.UUID,
     data: AdultReconversionPhaseOneRequest,
+    request: Request,
+    write_ctx: tuple[AdultReconversionSession, str | None] = Depends(begin_reconversion_write),
     db: AsyncSession = Depends(get_async_session),
 ) -> AdultReconversionPhaseOneResponse:
     """Guarda la fase 1 del flujo publico adulto."""
-    summary = await submit_phase_one(db, session_id, data)
-    session = await get_session_by_id(db, session_id)
-
-    return AdultReconversionPhaseOneResponse(
+    del session_id
+    session, idempotency_key = write_ctx
+    summary = await submit_phase_one(db, session.id, data)
+    session = await get_session_by_id(db, session.id)
+    payload = AdultReconversionPhaseOneResponse(
         success=True,
         session_id=session.id,
         current_phase=session.current_phase,
         phase_key="phase_1",
         summary=summary,
     )
+    await store_idempotent_response(
+        db,
+        request,
+        f"session:{session.id}",
+        idempotency_key,
+        200,
+        payload.model_dump(mode="json"),
+    )
+    return payload
 
 
 @router.post(
@@ -116,19 +150,31 @@ async def submit_reconversion_phase_one(
 async def submit_reconversion_phase_two(
     session_id: uuid.UUID,
     data: AdultReconversionPhaseTwoRequest,
+    request: Request,
+    write_ctx: tuple[AdultReconversionSession, str | None] = Depends(begin_reconversion_write),
     db: AsyncSession = Depends(get_async_session),
 ) -> AdultReconversionPhaseTwoResponse:
     """Guarda la fase 2 del flujo publico adulto."""
-    summary = await submit_phase_two(db, session_id, data)
-    session = await get_session_by_id(db, session_id)
-
-    return AdultReconversionPhaseTwoResponse(
+    del session_id
+    session, idempotency_key = write_ctx
+    summary = await submit_phase_two(db, session.id, data)
+    session = await get_session_by_id(db, session.id)
+    payload = AdultReconversionPhaseTwoResponse(
         success=True,
         session_id=session.id,
         current_phase=session.current_phase,
         phase_key="phase_2",
         summary=summary,
     )
+    await store_idempotent_response(
+        db,
+        request,
+        f"session:{session.id}",
+        idempotency_key,
+        200,
+        payload.model_dump(mode="json"),
+    )
+    return payload
 
 
 @router.post(
@@ -138,19 +184,31 @@ async def submit_reconversion_phase_two(
 async def submit_reconversion_phase_three(
     session_id: uuid.UUID,
     data: AdultReconversionPhaseThreeRequest,
+    request: Request,
+    write_ctx: tuple[AdultReconversionSession, str | None] = Depends(begin_reconversion_write),
     db: AsyncSession = Depends(get_async_session),
 ) -> AdultReconversionPhaseThreeResponse:
     """Guarda la fase 3 confirmatoria del flujo publico adulto."""
-    summary = await submit_phase_three(db, session_id, data)
-    session = await get_session_by_id(db, session_id)
-
-    return AdultReconversionPhaseThreeResponse(
+    del session_id
+    session, idempotency_key = write_ctx
+    summary = await submit_phase_three(db, session.id, data)
+    session = await get_session_by_id(db, session.id)
+    payload = AdultReconversionPhaseThreeResponse(
         success=True,
         session_id=session.id,
         current_phase=session.current_phase,
         phase_key="phase_3",
         summary=summary,
     )
+    await store_idempotent_response(
+        db,
+        request,
+        f"session:{session.id}",
+        idempotency_key,
+        200,
+        payload.model_dump(mode="json"),
+    )
+    return payload
 
 
 @router.post(
@@ -160,19 +218,31 @@ async def submit_reconversion_phase_three(
 async def submit_reconversion_phase_four(
     session_id: uuid.UUID,
     data: AdultReconversionPhaseFourRequest,
+    request: Request,
+    write_ctx: tuple[AdultReconversionSession, str | None] = Depends(begin_reconversion_write),
     db: AsyncSession = Depends(get_async_session),
 ) -> AdultReconversionPhaseFourResponse:
     """Guarda la fase 4 de trade-offs del flujo publico adulto."""
-    summary = await submit_phase_four(db, session_id, data)
-    session = await get_session_by_id(db, session_id)
-
-    return AdultReconversionPhaseFourResponse(
+    del session_id
+    session, idempotency_key = write_ctx
+    summary = await submit_phase_four(db, session.id, data)
+    session = await get_session_by_id(db, session.id)
+    payload = AdultReconversionPhaseFourResponse(
         success=True,
         session_id=session.id,
         current_phase=session.current_phase,
         phase_key="phase_4",
         summary=summary,
     )
+    await store_idempotent_response(
+        db,
+        request,
+        f"session:{session.id}",
+        idempotency_key,
+        200,
+        payload.model_dump(mode="json"),
+    )
+    return payload
 
 
 @router.post(
@@ -181,15 +251,29 @@ async def submit_reconversion_phase_four(
 )
 async def generate_reconversion_report(
     session_id: uuid.UUID,
+    request: Request,
+    write_ctx: tuple[AdultReconversionSession, str | None] = Depends(begin_reconversion_write),
     db: AsyncSession = Depends(get_async_session),
 ) -> AdultReconversionGenerateReportResponse:
     """Genera el informe final de reconversion para una sesion pública."""
-    return await generate_report(db, session_id)
+    del session_id
+    session, idempotency_key = write_ctx
+    payload = await generate_report(db, session.id)
+    await store_idempotent_response(
+        db,
+        request,
+        f"session:{session.id}",
+        idempotency_key,
+        200,
+        payload.model_dump(mode="json"),
+    )
+    return payload
 
 
 @router.get(
     "/public/{share_token}",
     response_model=AdultReconversionPublicReportResponse,
+    dependencies=[Depends(limit_public_reconversion)],
 )
 async def get_public_reconversion_report(
     share_token: str,

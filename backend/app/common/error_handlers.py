@@ -14,6 +14,7 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 
 from app.common.exceptions import VocariException
+from app.common.idempotency import IdempotencyReplay
 from app.config import get_settings
 
 logger = structlog.get_logger()
@@ -137,7 +138,10 @@ async def generic_exception_handler(request: Request, exc: Exception) -> JSONRes
 
 def register_error_handlers(app: FastAPI) -> None:
     """Registra todos los handlers de excepciones en la aplicacion FastAPI."""
+    from app.common.idempotency import idempotency_replay_handler
+
     app.add_exception_handler(VocariException, vocari_exception_handler)  # type: ignore[arg-type]
+    app.add_exception_handler(IdempotencyReplay, idempotency_replay_handler)  # type: ignore[arg-type]
     app.add_exception_handler(RequestValidationError, validation_exception_handler)  # type: ignore[arg-type]
     app.add_exception_handler(HTTPException, http_exception_handler)  # type: ignore[arg-type]
     app.add_exception_handler(Exception, generic_exception_handler)  # type: ignore[arg-type]

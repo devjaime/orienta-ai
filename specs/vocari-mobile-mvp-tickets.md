@@ -15,6 +15,7 @@
 - Auditar endpoints actuales de reconversión.
 - Definir OpenAPI, errores e idempotencia.
 - Aceptación: DTO de cada pantalla documentado y versionado.
+- Estado: implementado en `backend/app/mobile/` y documentado en `specs/vocari-mobile-openapi-v1.md`.
 
 ### MOB-003 — Prototipo probado
 
@@ -29,6 +30,7 @@
 - Crear `vocari-mobile`.
 - Configurar ambientes development, staging y production.
 - Añadir lint, pruebas, CI y gestión de secretos.
+- Estado: repo en KINGSTON (`vocari-mobile`) con Riverpod, GoRouter, Dio, CI y shell de onboarding/journey.
 
 ### MOB-011 — Invitado y cuenta
 
@@ -41,12 +43,14 @@
 - Token privado de edición, rate limiting e idempotencia.
 - Separar enlace público de informe.
 - Aceptación: un UUID ajeno no permite leer PII ni modificar progreso.
+- Estado: `X-Vocari-Edit-Token` hasheado, `share_token` solo para informe público, rate limit e `Idempotency-Key`.
 
 ### MOB-013 — Migraciones confiables
 
 - Llevar tablas y cambios móviles a Alembic.
 - Retirar cambios equivalentes del arranque.
 - Aceptación: base vacía y base existente llegan al mismo esquema.
+- Estado: migración `c3f8a91d4e20_mobile_reconversion_security.py`. El arranque sigue usando `create_all` como red de seguridad del resto del schema legado.
 
 ## Hito 2 — Núcleo Flutter (semanas 4 y 5)
 

@@ -148,7 +148,7 @@ class AdultReconversionPhaseFourSummary(BaseModel):
 
 
 class AdultReconversionSessionResponse(BaseModel):
-    """Respuesta base de sesion."""
+    """Respuesta de sesion editable. No incluye el token de edicion."""
 
     id: uuid.UUID
     share_token: str
@@ -163,6 +163,20 @@ class AdultReconversionSessionResponse(BaseModel):
     updated_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class AdultReconversionSessionCreateResponse(AdultReconversionSessionResponse):
+    """Alta de sesion: el token de edicion se entrega una sola vez."""
+
+    edit_token: str
+
+
+class AdultReconversionPublicSessionSnapshot(BaseModel):
+    """Vista publica sin PII de contacto ni capacidad de edicion."""
+
+    nombre: str
+    current_phase: int
+    status: str
 
 
 class AdultReconversionSessionDetailResponse(BaseModel):
@@ -282,7 +296,7 @@ class AdultReconversionPublicReportResponse(BaseModel):
     generated_at: datetime | None = None
     model_name: str
     prompt_version: str
-    session: AdultReconversionSessionResponse
+    session: AdultReconversionPublicSessionSnapshot
     report: AdultReconversionReportPayload
 
 

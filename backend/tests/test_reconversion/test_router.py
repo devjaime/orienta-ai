@@ -36,6 +36,11 @@ def _phase_four_answers() -> dict[int, str]:
     }
 
 
+def _edit_auth(create_response) -> tuple[str, dict[str, str]]:
+    body = create_response.json()
+    return body["id"], {"X-Vocari-Edit-Token": body["edit_token"]}
+
+
 class TestReconversionRouter:
     async def test_create_session(self, client) -> None:
         payload = {
@@ -58,6 +63,8 @@ class TestReconversionRouter:
         assert body["email"] == "carla@example.com"
         assert body["current_phase"] == 0
         assert body["share_token"]
+        assert body["edit_token"]
+        assert body["edit_token"] != body["share_token"]
 
     async def test_submit_phase_one_and_retrieve_session(self, client) -> None:
         create_response = await client.post(
@@ -69,11 +76,12 @@ class TestReconversionRouter:
                 "edad": 41,
             },
         )
-        session_id = create_response.json()["id"]
+        session_id, headers = _edit_auth(create_response)
 
         phase_response = await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-1",
             json={"answers": _phase_one_answers()},
+            headers=headers,
         )
         assert phase_response.status_code == 200
         phase_body = phase_response.json()
@@ -81,7 +89,10 @@ class TestReconversionRouter:
         assert phase_body["phase_key"] == "phase_1"
         assert len(phase_body["summary"]["top_dimensions"]) == 3
 
-        detail_response = await client.get(f"/api/v1/reconversion/sessions/{session_id}")
+        detail_response = await client.get(
+            f"/api/v1/reconversion/sessions/{session_id}",
+            headers=headers,
+        )
         assert detail_response.status_code == 200
         detail_body = detail_response.json()
         assert "phase_1" in detail_body["completed_phases"]
@@ -97,16 +108,18 @@ class TestReconversionRouter:
                 "edad": 36,
             },
         )
-        session_id = create_response.json()["id"]
+        session_id, headers = _edit_auth(create_response)
 
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-1",
             json={"answers": _phase_one_answers()},
+            headers=headers,
         )
 
         phase_two_response = await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-2",
             json={"answers": _phase_two_answers()},
+            headers=headers,
         )
         assert phase_two_response.status_code == 200
         phase_two_body = phase_two_response.json()
@@ -114,7 +127,10 @@ class TestReconversionRouter:
         assert phase_two_body["phase_key"] == "phase_2"
         assert "challenge_readout" in phase_two_body["summary"]
 
-        detail_response = await client.get(f"/api/v1/reconversion/sessions/{session_id}")
+        detail_response = await client.get(
+            f"/api/v1/reconversion/sessions/{session_id}",
+            headers=headers,
+        )
         assert detail_response.status_code == 200
         detail_body = detail_response.json()
         assert "phase_2" in detail_body["completed_phases"]
@@ -130,14 +146,43 @@ class TestReconversionRouter:
                 "edad": 38,
             },
         )
-        session_id = create_response.json()["id"]
+        session_id, headers = _edit_auth(create_response)
 
         invalid_answers = {question_id: 3 for question_id in range(1, 12)}
         response = await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-1",
             json={"answers": invalid_answers},
+            headers=headers,
         )
         assert response.status_code == 422
+
+    async def test_phase_one_allows_resubmission_without_duplicate_error(self, client) -> None:
+        create_response = await client.post(
+            "/api/v1/reconversion/sessions",
+            json={
+                "nombre": "Reintento Seguro",
+                "email": "reintento@example.com",
+                "profesion_actual": "Vendedor",
+                "edad": 34,
+            },
+        )
+        session_id, headers = _edit_auth(create_response)
+
+        first_response = await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": _phase_one_answers()},
+            headers=headers,
+        )
+        assert first_response.status_code == 200
+
+        updated_answers = {question_id: 5 for question_id in range(1, 31)}
+        second_response = await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": updated_answers},
+            headers=headers,
+        )
+        assert second_response.status_code == 200
+        assert second_response.json()["phase_key"] == "phase_1"
 
     async def test_phase_two_rejects_invalid_values(self, client) -> None:
         create_response = await client.post(
@@ -149,12 +194,13 @@ class TestReconversionRouter:
                 "edad": 40,
             },
         )
-        session_id = create_response.json()["id"]
+        session_id, headers = _edit_auth(create_response)
 
         invalid_answers = {scenario_id: "otra_cosa" for scenario_id in range(1, 13)}
         response = await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-2",
             json={"answers": invalid_answers},
+            headers=headers,
         )
         assert response.status_code == 422
 
@@ -168,20 +214,23 @@ class TestReconversionRouter:
                 "edad": 37,
             },
         )
-        session_id = create_response.json()["id"]
+        session_id, headers = _edit_auth(create_response)
 
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-1",
             json={"answers": _phase_one_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-2",
             json={"answers": _phase_two_answers()},
+            headers=headers,
         )
 
         phase_three_response = await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-3",
             json={"answers": _phase_three_answers()},
+            headers=headers,
         )
         assert phase_three_response.status_code == 200
         phase_three_body = phase_three_response.json()
@@ -189,7 +238,10 @@ class TestReconversionRouter:
         assert phase_three_body["phase_key"] == "phase_3"
         assert "confidence_score" in phase_three_body["summary"]
 
-        detail_response = await client.get(f"/api/v1/reconversion/sessions/{session_id}")
+        detail_response = await client.get(
+            f"/api/v1/reconversion/sessions/{session_id}",
+            headers=headers,
+        )
         assert detail_response.status_code == 200
         detail_body = detail_response.json()
         assert "phase_3" in detail_body["completed_phases"]
@@ -205,16 +257,18 @@ class TestReconversionRouter:
                 "edad": 42,
             },
         )
-        session_id = create_response.json()["id"]
+        session_id, headers = _edit_auth(create_response)
 
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-1",
             json={"answers": _phase_one_answers()},
+            headers=headers,
         )
 
         response = await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-3",
             json={"answers": _phase_three_answers()},
+            headers=headers,
         )
         assert response.status_code == 422
 
@@ -231,24 +285,28 @@ class TestReconversionRouter:
                 "disponibilidad_para_relocalizarse": "regional",
             },
         )
-        session_id = create_response.json()["id"]
+        session_id, headers = _edit_auth(create_response)
 
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-1",
             json={"answers": _phase_one_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-2",
             json={"answers": _phase_two_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-3",
             json={"answers": _phase_three_answers()},
+            headers=headers,
         )
 
         phase_four_response = await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-4",
             json={"answers": _phase_four_answers()},
+            headers=headers,
         )
         assert phase_four_response.status_code == 200
         phase_four_body = phase_four_response.json()
@@ -257,7 +315,10 @@ class TestReconversionRouter:
         assert "change_readiness" in phase_four_body["summary"]
         assert "tradeoff_profile" in phase_four_body["summary"]
 
-        detail_response = await client.get(f"/api/v1/reconversion/sessions/{session_id}")
+        detail_response = await client.get(
+            f"/api/v1/reconversion/sessions/{session_id}",
+            headers=headers,
+        )
         assert detail_response.status_code == 200
         detail_body = detail_response.json()
         assert "phase_4" in detail_body["completed_phases"]
@@ -273,20 +334,23 @@ class TestReconversionRouter:
                 "edad": 35,
             },
         )
-        session_id = create_response.json()["id"]
+        session_id, headers = _edit_auth(create_response)
 
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-1",
             json={"answers": _phase_one_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-2",
             json={"answers": _phase_two_answers()},
+            headers=headers,
         )
 
         response = await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-4",
             json={"answers": _phase_four_answers()},
+            headers=headers,
         )
         assert response.status_code == 422
 
@@ -304,29 +368,33 @@ class TestReconversionRouter:
                 "ingreso_actual_aprox": 950000,
             },
         )
-        session_body = create_response.json()
-        session_id = session_body["id"]
-        share_token = session_body["share_token"]
+        session_id, headers = _edit_auth(create_response)
+        share_token = create_response.json()["share_token"]
 
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-1",
             json={"answers": _phase_one_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-2",
             json={"answers": _phase_two_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-3",
             json={"answers": _phase_three_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-4",
             json={"answers": _phase_four_answers()},
+            headers=headers,
         )
 
         generate_response = await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/generate-report",
+            headers=headers,
         )
         assert generate_response.status_code == 200
         generate_body = generate_response.json()
@@ -342,6 +410,7 @@ class TestReconversionRouter:
         public_body = public_response.json()
         assert public_body["share_token"] == share_token
         assert public_body["session"]["nombre"] == "Andrea Silva"
+        assert "email" not in public_body["session"]
         assert public_body["report"]["resumen_personalizado"]
 
     async def test_generate_report_requires_phase_four(self, client) -> None:
@@ -354,23 +423,27 @@ class TestReconversionRouter:
                 "edad": 34,
             },
         )
-        session_id = create_response.json()["id"]
+        session_id, headers = _edit_auth(create_response)
 
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-1",
             json={"answers": _phase_one_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-2",
             json={"answers": _phase_two_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-3",
             json={"answers": _phase_three_answers()},
+            headers=headers,
         )
 
         response = await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/generate-report",
+            headers=headers,
         )
         assert response.status_code == 422
 
@@ -393,27 +466,32 @@ class TestReconversionRouter:
                 "ingreso_actual_aprox": 1250000,
             },
         )
+        session_id, headers = _edit_auth(create_response)
         session_body = create_response.json()
-        session_id = session_body["id"]
 
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-1",
             json={"answers": _phase_one_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-2",
             json={"answers": _phase_two_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-3",
             json={"answers": _phase_three_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/phase-4",
             json={"answers": _phase_four_answers()},
+            headers=headers,
         )
         await client.post(
             f"/api/v1/reconversion/sessions/{session_id}/generate-report",
+            headers=headers,
         )
 
         response = await client.get(
@@ -436,3 +514,49 @@ class TestReconversionRouter:
         assert matching_item["nombre"] == "Patricia Nunez"
         assert matching_item["public_url"].endswith(session_body["share_token"])
         assert matching_item["top_routes"]
+
+    async def test_foreign_uuid_cannot_read_or_edit_session(self, client) -> None:
+        create_response = await client.post(
+            "/api/v1/reconversion/sessions",
+            json={
+                "nombre": "Ana Privada",
+                "email": "ana.privada@example.com",
+                "profesion_actual": "Analista",
+                "edad": 33,
+            },
+        )
+        session_id, headers = _edit_auth(create_response)
+
+        missing = await client.get(f"/api/v1/reconversion/sessions/{session_id}")
+        assert missing.status_code == 401
+
+        foreign = await client.get(
+            f"/api/v1/reconversion/sessions/{session_id}",
+            headers={"X-Vocari-Edit-Token": "token-ajeno-invalido"},
+        )
+        assert foreign.status_code == 404
+        assert "ana.privada" not in foreign.text.lower()
+
+        forbidden_write = await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": _phase_one_answers()},
+        )
+        assert forbidden_write.status_code == 401
+
+        replay_headers = {
+            **headers,
+            "Idempotency-Key": "phase-1-ana",
+        }
+        first = await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": _phase_one_answers()},
+            headers=replay_headers,
+        )
+        second = await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": {question_id: 1 for question_id in range(1, 31)}},
+            headers=replay_headers,
+        )
+        assert first.status_code == 200
+        assert second.status_code == 200
+        assert second.json() == first.json()

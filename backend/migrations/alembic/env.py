@@ -27,6 +27,12 @@ import app.profiles.models  # noqa: F401
 import app.consent.models  # noqa: F401
 import app.audit.models  # noqa: F401
 import app.ai_engine.cost_tracking  # noqa: F401  (AIUsageLog model)
+import app.reconversion.models  # noqa: F401
+import app.mobile.models  # noqa: F401
+import app.common.idempotency  # noqa: F401
+import app.leads.models  # noqa: F401
+import app.followups.models  # noqa: F401
+import app.notifications.models  # noqa: F401
 
 # Alembic Config object
 config = context.config

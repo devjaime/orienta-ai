@@ -41,6 +41,7 @@ type Stage = "phase_0" | "phase_1" | "phase_2" | "phase_3" | "phase_4" | "done";
 interface SessionResponse {
   id: string;
   share_token: string;
+  edit_token?: string;
   nombre: string;
   email: string;
   profesion_actual: string;
@@ -160,6 +161,7 @@ export default function ReconversionGratisPage() {
   const [stage, setStage] = useState<Stage>("phase_0");
   const [form, setForm] = useState(initialForm);
   const [session, setSession] = useState<SessionResponse | null>(null);
+  const [editToken, setEditToken] = useState("");
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [phaseTwoAnswers, setPhaseTwoAnswers] = useState<
@@ -224,6 +226,11 @@ export default function ReconversionGratisPage() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
+  function editHeaders(): HeadersInit | undefined {
+    if (!editToken) return undefined;
+    return { "X-Vocari-Edit-Token": editToken };
+  }
+
   async function handleCreateSession() {
     setLoading(true);
     setError("");
@@ -242,6 +249,7 @@ export default function ReconversionGratisPage() {
         payload,
       );
       setSession(response);
+      setEditToken(response.edit_token ?? "");
       setStage("phase_1");
     } catch (requestError) {
       const message =
@@ -264,6 +272,7 @@ export default function ReconversionGratisPage() {
       const response = await api.post<PhaseOneResponse>(
         `/api/v1/reconversion/sessions/${session.id}/phase-1`,
         { answers },
+        editHeaders(),
       );
       setPhaseSummary(response.summary);
       setStage("phase_2");
@@ -288,6 +297,7 @@ export default function ReconversionGratisPage() {
       const response = await api.post<PhaseTwoResponse>(
         `/api/v1/reconversion/sessions/${session.id}/phase-2`,
         { answers: phaseTwoAnswers },
+        editHeaders(),
       );
       setPhaseTwoSummary(response.summary);
       setCurrentConfirmQuestionIndex(0);
@@ -313,6 +323,7 @@ export default function ReconversionGratisPage() {
       const response = await api.post<PhaseThreeResponse>(
         `/api/v1/reconversion/sessions/${session.id}/phase-3`,
         { answers: phaseThreeAnswers },
+        editHeaders(),
       );
       setPhaseThreeSummary(response.summary);
       setCurrentTradeoffIndex(0);
@@ -338,6 +349,7 @@ export default function ReconversionGratisPage() {
       const response = await api.post<PhaseFourResponse>(
         `/api/v1/reconversion/sessions/${session.id}/phase-4`,
         { answers: phaseFourAnswers },
+        editHeaders(),
       );
       setPhaseFourSummary(response.summary);
       setStage("done");
@@ -362,6 +374,8 @@ export default function ReconversionGratisPage() {
     try {
       const response = await api.post<GenerateReportResponse>(
         `/api/v1/reconversion/sessions/${session.id}/generate-report`,
+        undefined,
+        editHeaders(),
       );
       setReportUrl(response.public_url);
       setReportGeneratedAt(response.generated_at);
