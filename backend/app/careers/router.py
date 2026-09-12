@@ -11,12 +11,9 @@ from fastapi import APIRouter, Depends, Query
 from app.auth.middleware import get_current_user
 from app.auth.models import User, UserRole
 from app.auth.permissions import require_roles
-from app.common.database import get_async_session
-from app.common.pagination import PaginationParams
 from app.careers.schemas import (
     CareerCreate,
     CareerListResponse,
-    CareerRecommendation,
     CareerRecommendationsResponse,
     CareerResponse,
     CareerSimulationCreate,
@@ -32,6 +29,8 @@ from app.careers.service import (
     list_careers,
     update_career,
 )
+from app.common.database import get_async_session
+from app.common.pagination import PaginationParams
 from app.tests_vocational.service import get_latest_riasec_result
 
 router = APIRouter()
@@ -54,6 +53,16 @@ async def list_all_careers(
         page=result.page,
         per_page=result.per_page,
     )
+
+
+@router.get("/public/recommendations", response_model=CareerRecommendationsResponse)
+async def get_public_recommendations(
+    holland_code: str = Query(..., min_length=1, max_length=6),
+    limit: int = Query(default=6, ge=1, le=20),
+    db=Depends(get_async_session),
+) -> CareerRecommendationsResponse:
+    """Recomendaciones publicas para test-gratis (sin autenticacion)."""
+    return await get_recommendations(db, holland_code.upper(), limit)
 
 
 @router.get("/recommendations", response_model=CareerRecommendationsResponse)

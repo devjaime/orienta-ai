@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore, type AuthState } from "@/lib/stores/auth-store";
 import { ROLE_HOME_ROUTES } from "@/lib/utils/constants";
@@ -11,25 +11,18 @@ function AuthCallbackContent() {
   const searchParams = useSearchParams();
   const handleAuthCallback = useAuthStore((s: AuthState) => s.handleAuthCallback);
   const user = useAuthStore((s: AuthState) => s.user);
-  const [error, setError] = useState<string | null>(null);
+  const accessToken = searchParams.get("access_token");
+  const refreshToken = searchParams.get("refresh_token");
+  const callbackError = searchParams.get("error");
+  const error = callbackError || (!accessToken || !refreshToken
+    ? "Faltan tokens de autenticacion"
+    : null);
 
   useEffect(() => {
-    const accessToken = searchParams.get("access_token");
-    const refreshToken = searchParams.get("refresh_token");
-    const errorParam = searchParams.get("error");
-
-    if (errorParam) {
-      setError(errorParam);
-      return;
-    }
-
-    if (!accessToken || !refreshToken) {
-      setError("Faltan tokens de autenticacion");
-      return;
-    }
+    if (!accessToken || !refreshToken || callbackError) return;
 
     handleAuthCallback(accessToken, refreshToken);
-  }, [searchParams, handleAuthCallback]);
+  }, [accessToken, refreshToken, callbackError, handleAuthCallback]);
 
   // Once user is loaded, redirect to role home
   useEffect(() => {

@@ -5,11 +5,23 @@ Vocari Backend - Modelos para reconversion vocacional de adultos.
 import uuid
 from datetime import UTC, datetime
 
-from sqlalchemy import DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint, func
-from sqlalchemy.dialects.postgresql import JSON, JSONB, UUID
+from sqlalchemy import (
+    JSON,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+    func,
+)
+from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.common.base_model import Base, TimestampMixin, UUIDPrimaryKeyMixin
+
+JSON_DOCUMENT = JSON().with_variant(JSONB(), "postgresql")
 
 
 class AdultReconversionSession(UUIDPrimaryKeyMixin, TimestampMixin, Base):
@@ -29,7 +41,9 @@ class AdultReconversionSession(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     nivel_ingles: Mapped[str | None] = mapped_column(String(60), nullable=True)
     situacion_actual: Mapped[str | None] = mapped_column(String(120), nullable=True)
     disponibilidad_para_estudiar: Mapped[str | None] = mapped_column(String(120), nullable=True)
-    disponibilidad_para_relocalizarse: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    disponibilidad_para_relocalizarse: Mapped[str | None] = mapped_column(
+        String(120), nullable=True
+    )
     status: Mapped[str] = mapped_column(String(40), nullable=False, default="in_progress")
     current_phase: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     summary_json: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
@@ -71,7 +85,9 @@ class AdultReconversionReport(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         nullable=False,
         index=True,
     )
-    report_json: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+    report_json: Mapped[dict] = mapped_column(JSON_DOCUMENT, nullable=False, default=dict)
     report_text: Mapped[str] = mapped_column(Text, nullable=False, default="")
     model_name: Mapped[str] = mapped_column(String(120), nullable=False, default="pending")
-    prompt_version: Mapped[str] = mapped_column(String(40), nullable=False, default="adult-reconversion-v1")
+    prompt_version: Mapped[str] = mapped_column(
+        String(40), nullable=False, default="adult-reconversion-v1"
+    )

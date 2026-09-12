@@ -4,6 +4,7 @@ Vocari Backend - Fixtures de pytest para tests de integracion y unitarios.
 Provee sesion de BD, cliente HTTP, usuarios de ejemplo y headers JWT.
 """
 
+import os
 import uuid
 from collections.abc import AsyncGenerator
 from typing import Any
@@ -39,6 +40,15 @@ def _get_test_database_url() -> str:
     if _test_db_url is not None:
         return _test_db_url
 
+    configured_url = os.getenv("VOCARI_TEST_DATABASE_URL")
+    if configured_url:
+        _test_db_url = configured_url
+        return _test_db_url
+
+    if os.getenv("VOCARI_TEST_USE_POSTGRES", "false").lower() != "true":
+        _test_db_url = "sqlite+aiosqlite:///:memory:"
+        return _test_db_url
+
     try:
         from testcontainers.postgres import PostgresContainer
 
@@ -48,7 +58,7 @@ def _get_test_database_url() -> str:
         _test_db_url = pg.get_connection_url()
         return _test_db_url
     except Exception:
-        _test_db_url = "sqlite+aiosqlite:///./test.db"
+        _test_db_url = "sqlite+aiosqlite:///:memory:"
         return _test_db_url
 
 
@@ -186,9 +196,7 @@ async def sample_orientador(db_session: AsyncSession, sample_institution: Instit
 
 
 @pytest_asyncio.fixture
-async def sample_admin_colegio(
-    db_session: AsyncSession, sample_institution: Institution
-) -> User:
+async def sample_admin_colegio(db_session: AsyncSession, sample_institution: Institution) -> User:
     """Crea un usuario admin_colegio de prueba (vinculado a institucion)."""
     user = User(
         id=uuid.uuid4(),

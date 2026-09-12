@@ -7,6 +7,7 @@ import uuid
 from datetime import UTC, date, datetime, time, timedelta
 
 from sqlalchemy import func, or_, select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth.models import User
@@ -595,9 +596,7 @@ def _build_route_recommendation(
 
     happiness = round(
         _clamp(
-            route_fit * 0.72
-            + phase_four_summary.change_readiness * 0.18
-            + (100 - friction) * 0.10,
+            route_fit * 0.72 + phase_four_summary.change_readiness * 0.18 + (100 - friction) * 0.10,
             48,
             94,
         ),
@@ -621,15 +620,11 @@ def _build_route_recommendation(
         else "El ingles suma, pero no debiera bloquear el primer movimiento."
     )
 
-    highest_signals = [
-        label
-        for label in phase_three_summary.confirmed_signals[:2]
-        if label
-    ]
-    signals_text = ", ".join(highest_signals) if highest_signals else "las señales combinadas de tu perfil"
-    because = (
-        f"Encaja porque cruza {signals_text} con {template['porque']}"
+    highest_signals = [label for label in phase_three_summary.confirmed_signals[:2] if label]
+    signals_text = (
+        ", ".join(highest_signals) if highest_signals else "las señales combinadas de tu perfil"
     )
+    because = f"Encaja porque cruza {signals_text} con {template['porque']}"
 
     return AdultReconversionRouteRecommendation(
         nombre_ruta=template["nombre_ruta"],
@@ -666,9 +661,8 @@ def _build_alerts(
         alerts.append(
             "Una ruta con demasiada exigencia formativa podria agotarte; mejor partir por aprendizaje modular."
         )
-    if (
-        (session.nivel_ingles or "").lower() in {"", "nulo", "basico"}
-        and any(route.necesita_ingles for route in top_routes)
+    if (session.nivel_ingles or "").lower() in {"", "nulo", "basico"} and any(
+        route.necesita_ingles for route in top_routes
     ):
         alerts.append(
             "El ingles no tiene que frenarte, pero si aparece como palanca importante en al menos una de tus mejores rutas."
@@ -707,7 +701,10 @@ def _build_report_payload(
     ]
     top_routes = sorted(
         route_candidates,
-        key=lambda item: (item.felicidad_estimada, item.ingreso_estimado - item.friccion_cambio * 5000),
+        key=lambda item: (
+            item.felicidad_estimada,
+            item.ingreso_estimado - item.friccion_cambio * 5000,
+        ),
         reverse=True,
     )[:3]
 
@@ -796,10 +793,7 @@ def _score_phase_one(answers: dict[int, int]) -> AdultReconversionPhaseSummary:
     ]
 
     top_labels = [DIMENSION_LABELS.get(item, item) for item in top_dimensions]
-    profile_summary = (
-        "Tu perfil inicial muestra mayor afinidad con "
-        f"{', '.join(top_labels[:2])}"
-    )
+    profile_summary = f"Tu perfil inicial muestra mayor afinidad con {', '.join(top_labels[:2])}"
     if len(top_labels) >= 3:
         profile_summary += f", junto con una señal importante en {top_labels[2]}"
     profile_summary += "."
@@ -834,8 +828,7 @@ def _score_phase_two(answers: dict[int, str]) -> AdultReconversionPhaseTwoSummar
             drain_counts[dimension] = drain_counts.get(dimension, 0) + 1
 
     energy_scores = {
-        dimension: round(((score + 6) / 12) * 100, 2)
-        for dimension, score in grouped_scores.items()
+        dimension: round(((score + 6) / 12) * 100, 2) for dimension, score in grouped_scores.items()
     }
 
     energy_map = [
@@ -872,13 +865,10 @@ def _score_phase_two(answers: dict[int, str]) -> AdultReconversionPhaseTwoSummar
 
     if energy_map:
         challenge_readout = (
-            "Este desafio muestra que hoy te activan especialmente "
-            f"{', '.join(energy_map[:2])}."
+            f"Este desafio muestra que hoy te activan especialmente {', '.join(energy_map[:2])}."
         )
     else:
-        challenge_readout = (
-            "Este desafio muestra una senal mas mixta; todavia no aparece una fuente de energia claramente dominante."
-        )
+        challenge_readout = "Este desafio muestra una senal mas mixta; todavia no aparece una fuente de energia claramente dominante."
 
     if drain_map:
         transition_signal = (
@@ -886,9 +876,7 @@ def _score_phase_two(answers: dict[int, str]) -> AdultReconversionPhaseTwoSummar
             f"{', '.join(drain_map[:2])}."
         )
     else:
-        transition_signal = (
-            "No aparece un drenaje fuerte en esta etapa, lo que sugiere buena apertura para explorar varios caminos."
-        )
+        transition_signal = "No aparece un drenaje fuerte en esta etapa, lo que sugiere buena apertura para explorar varios caminos."
 
     return AdultReconversionPhaseTwoSummary(
         energy_scores=energy_scores,
@@ -962,9 +950,7 @@ def _score_phase_three(
             f"{', '.join(confirmed_signals[:2])}."
         )
     else:
-        confirmation_readout = (
-            "La tercera fase todavia muestra un perfil abierto, por lo que conviene seguir contrastando escenarios."
-        )
+        confirmation_readout = "La tercera fase todavia muestra un perfil abierto, por lo que conviene seguir contrastando escenarios."
 
     if tension_signals:
         confirmation_readout += (
@@ -1067,9 +1053,13 @@ def _score_phase_four(
 
     growth_gap = tradeoff_scores["future_growth"] - tradeoff_scores["security"]
     if growth_gap >= 15:
-        income_tension = "Aceptas resignar algo de seguridad hoy a cambio de mayor proyeccion futura."
+        income_tension = (
+            "Aceptas resignar algo de seguridad hoy a cambio de mayor proyeccion futura."
+        )
     elif growth_gap <= -15:
-        income_tension = "Necesitas cuidar ingresos y estabilidad de corto plazo mientras haces el cambio."
+        income_tension = (
+            "Necesitas cuidar ingresos y estabilidad de corto plazo mientras haces el cambio."
+        )
     else:
         income_tension = "Buscas un equilibrio entre seguridad presente y crecimiento futuro."
 
@@ -1142,9 +1132,7 @@ async def create_public_session(
         nivel_ingles=data.nivel_ingles.strip() if data.nivel_ingles else None,
         situacion_actual=data.situacion_actual.strip() if data.situacion_actual else None,
         disponibilidad_para_estudiar=(
-            data.disponibilidad_para_estudiar.strip()
-            if data.disponibilidad_para_estudiar
-            else None
+            data.disponibilidad_para_estudiar.strip() if data.disponibilidad_para_estudiar else None
         ),
         disponibilidad_para_relocalizarse=(
             data.disponibilidad_para_relocalizarse.strip()
@@ -1181,9 +1169,7 @@ async def get_session_by_share_token(
 ) -> AdultReconversionSession:
     """Obtiene una sesion publica por share token."""
     result = await db.execute(
-        select(AdultReconversionSession).where(
-            AdultReconversionSession.share_token == share_token
-        )
+        select(AdultReconversionSession).where(AdultReconversionSession.share_token == share_token)
     )
     session = result.scalar_one_or_none()
     if session is None:
@@ -1232,35 +1218,66 @@ async def get_report_record(
     return result.scalars().first()
 
 
+async def _persist_phase_result(
+    db: AsyncSession,
+    session_id: uuid.UUID,
+    phase_key: str,
+    phase_number: int,
+    answers_payload: dict,
+    summary_payload: dict,
+    *,
+    status: str | None = None,
+) -> None:
+    """Guarda una fase de forma idempotente para tolerar reintentos del cliente."""
+    for attempt in range(2):
+        session = await get_session_by_id(db, session_id)
+        phase_result = await get_phase_result(db, session_id, phase_key)
+
+        if phase_result is None:
+            phase_result = AdultReconversionPhaseResult(
+                session_id=session_id,
+                phase_key=phase_key,
+                answers_json=answers_payload,
+                derived_scores_json=summary_payload,
+            )
+            db.add(phase_result)
+        else:
+            phase_result.answers_json = answers_payload
+            phase_result.derived_scores_json = summary_payload
+            phase_result.completed_at = datetime.now(UTC)
+
+        session.current_phase = max(session.current_phase, phase_number)
+        if status is not None:
+            session.status = status
+        session.summary_json = {
+            **(session.summary_json or {}),
+            phase_key: summary_payload,
+        }
+
+        try:
+            await db.commit()
+            return
+        except IntegrityError:
+            await db.rollback()
+            if attempt == 1:
+                raise
+
+
 async def submit_phase_one(
     db: AsyncSession,
     session_id: uuid.UUID,
     data: AdultReconversionPhaseOneRequest,
 ) -> AdultReconversionPhaseSummary:
     """Guarda la fase 1 y calcula el resumen base."""
-    session = await get_session_by_id(db, session_id)
     summary = _score_phase_one(data.answers)
-
-    phase_result = await get_phase_result(db, session_id, "phase_1")
-    if phase_result is None:
-        phase_result = AdultReconversionPhaseResult(
-            session_id=session_id,
-            phase_key="phase_1",
-            answers_json={"answers": data.answers},
-            derived_scores_json=summary.model_dump(),
-        )
-        db.add(phase_result)
-    else:
-        phase_result.answers_json = {"answers": data.answers}
-        phase_result.derived_scores_json = summary.model_dump()
-
-    session.current_phase = max(session.current_phase, 1)
-    session.summary_json = {
-        **(session.summary_json or {}),
-        "phase_1": summary.model_dump(),
-    }
-
-    await db.commit()
+    await _persist_phase_result(
+        db,
+        session_id=session_id,
+        phase_key="phase_1",
+        phase_number=1,
+        answers_payload={"answers": data.answers},
+        summary_payload=summary.model_dump(),
+    )
     return summary
 
 
@@ -1270,29 +1287,15 @@ async def submit_phase_two(
     data: AdultReconversionPhaseTwoRequest,
 ) -> AdultReconversionPhaseTwoSummary:
     """Guarda la fase 2 y calcula el resumen del desafio intencional."""
-    session = await get_session_by_id(db, session_id)
     summary = _score_phase_two(data.answers)
-
-    phase_result = await get_phase_result(db, session_id, "phase_2")
-    if phase_result is None:
-        phase_result = AdultReconversionPhaseResult(
-            session_id=session_id,
-            phase_key="phase_2",
-            answers_json={"answers": data.answers},
-            derived_scores_json=summary.model_dump(),
-        )
-        db.add(phase_result)
-    else:
-        phase_result.answers_json = {"answers": data.answers}
-        phase_result.derived_scores_json = summary.model_dump()
-
-    session.current_phase = max(session.current_phase, 2)
-    session.summary_json = {
-        **(session.summary_json or {}),
-        "phase_2": summary.model_dump(),
-    }
-
-    await db.commit()
+    await _persist_phase_result(
+        db,
+        session_id=session_id,
+        phase_key="phase_2",
+        phase_number=2,
+        answers_payload={"answers": data.answers},
+        summary_payload=summary.model_dump(),
+    )
     return summary
 
 
@@ -1302,7 +1305,6 @@ async def submit_phase_three(
     data: AdultReconversionPhaseThreeRequest,
 ) -> AdultReconversionPhaseThreeSummary:
     """Guarda la fase 3 y calcula la señal confirmatoria."""
-    session = await get_session_by_id(db, session_id)
     phase_one_result = await get_phase_result(db, session_id, "phase_1")
     phase_two_result = await get_phase_result(db, session_id, "phase_2")
 
@@ -1317,26 +1319,14 @@ async def submit_phase_three(
     )
     summary = _score_phase_three(data.answers, phase_one_summary, phase_two_summary)
 
-    phase_result = await get_phase_result(db, session_id, "phase_3")
-    if phase_result is None:
-        phase_result = AdultReconversionPhaseResult(
-            session_id=session_id,
-            phase_key="phase_3",
-            answers_json={"answers": data.answers},
-            derived_scores_json=summary.model_dump(),
-        )
-        db.add(phase_result)
-    else:
-        phase_result.answers_json = {"answers": data.answers}
-        phase_result.derived_scores_json = summary.model_dump()
-
-    session.current_phase = max(session.current_phase, 3)
-    session.summary_json = {
-        **(session.summary_json or {}),
-        "phase_3": summary.model_dump(),
-    }
-
-    await db.commit()
+    await _persist_phase_result(
+        db,
+        session_id=session_id,
+        phase_key="phase_3",
+        phase_number=3,
+        answers_payload={"answers": data.answers},
+        summary_payload=summary.model_dump(),
+    )
     return summary
 
 
@@ -1357,27 +1347,15 @@ async def submit_phase_four(
     )
     summary = _score_phase_four(data.answers, session, phase_three_summary)
 
-    phase_result = await get_phase_result(db, session_id, "phase_4")
-    if phase_result is None:
-        phase_result = AdultReconversionPhaseResult(
-            session_id=session_id,
-            phase_key="phase_4",
-            answers_json={"answers": data.answers},
-            derived_scores_json=summary.model_dump(),
-        )
-        db.add(phase_result)
-    else:
-        phase_result.answers_json = {"answers": data.answers}
-        phase_result.derived_scores_json = summary.model_dump()
-
-    session.current_phase = max(session.current_phase, 4)
-    session.status = "ready_for_report"
-    session.summary_json = {
-        **(session.summary_json or {}),
-        "phase_4": summary.model_dump(),
-    }
-
-    await db.commit()
+    await _persist_phase_result(
+        db,
+        session_id=session_id,
+        phase_key="phase_4",
+        phase_number=4,
+        answers_payload={"answers": data.answers},
+        summary_payload=summary.model_dump(),
+        status="ready_for_report",
+    )
     return summary
 
 
@@ -1562,9 +1540,7 @@ async def list_review_reports(
             situacion_actual=session.situacion_actual,
             current_phase=session.current_phase,
             status=session.status,
-            resumen_personalizado=str(
-                (report.report_json or {}).get("resumen_personalizado", "")
-            ),
+            resumen_personalizado=str((report.report_json or {}).get("resumen_personalizado", "")),
             top_routes=[
                 str(route.get("nombre_ruta", ""))
                 for route in (report.report_json or {}).get("rutas_recomendadas", [])

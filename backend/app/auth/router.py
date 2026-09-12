@@ -4,6 +4,7 @@ Vocari Backend - Auth Router.
 Endpoints de autenticacion: Google OAuth, JWT refresh, perfil.
 """
 
+import contextlib
 import os
 import uuid
 
@@ -40,6 +41,7 @@ router = APIRouter()
 async def _ensure_demo_institution(db: AsyncSession) -> uuid.UUID | None:
     """Obtiene o crea una institucion demo para perfiles internos del MVP."""
     from sqlalchemy import text as _text
+
     from app.institutions.models import Institution, InstitutionPlan
 
     institution_id: uuid.UUID | None = None
@@ -48,9 +50,7 @@ async def _ensure_demo_institution(db: AsyncSession) -> uuid.UUID | None:
         async with db.begin_nested():
             row = (
                 await db.execute(
-                    _text(
-                        "SELECT id FROM institutions WHERE name = 'Colegio Demo Vocari' LIMIT 1"
-                    )
+                    _text("SELECT id FROM institutions WHERE name = 'Colegio Demo Vocari' LIMIT 1")
                 )
             ).fetchone()
             if row:
@@ -72,10 +72,8 @@ async def _ensure_demo_institution(db: AsyncSession) -> uuid.UUID | None:
                     "UPDATE institutions SET is_active=true WHERE id=:id",
                     "UPDATE institutions SET max_students=200 WHERE id=:id",
                 ]:
-                    try:
+                    with contextlib.suppress(Exception):
                         await db.execute(_text(col_sql), {"id": str(new_id)})
-                    except Exception:
-                        pass
                 institution_id = new_id
     except Exception:
         result = await db.execute(
@@ -107,6 +105,9 @@ async def _get_or_create_internal_mvp_user(
     institution_id: uuid.UUID | None,
 ) -> User:
     """Crea o actualiza un usuario interno del MVP para login por clave fija."""
+    if isinstance(institution_id, str):
+        institution_id = uuid.UUID(institution_id)
+
     user_defs = {
         UserRole.ORIENTADOR: {
             "email": "devjaime.orientador@vocari.cl",
@@ -192,7 +193,9 @@ async def google_callback(
 
     # Redirigir al frontend con los tokens en la URL
     frontend_url = os.getenv("FRONTEND_URL", "https://app.vocari.cl")
-    callback_url = f"{frontend_url}/auth/callback?access_token={access_token}&refresh_token={refresh_token}"
+    callback_url = (
+        f"{frontend_url}/auth/callback?access_token={access_token}&refresh_token={refresh_token}"
+    )
 
     # Setear refresh token en httpOnly cookie sobre el RedirectResponse
     redirect = RedirectResponse(url=callback_url)
@@ -235,9 +238,14 @@ async def refresh_access_token(
     if not user_id:
         raise AuthenticationError("Refresh token invalido: sin subject")
 
+    try:
+        user_uuid = uuid.UUID(user_id)
+    except (TypeError, ValueError) as error:
+        raise AuthenticationError("Refresh token invalido: subject malformado") from error
+
     # Buscar usuario en BD para obtener rol actual y verificar que siga activo
     result = await db.execute(
-        select(User).where(User.id == user_id, User.is_active == True)  # noqa: E712
+        select(User).where(User.id == user_uuid, User.is_active == True)  # noqa: E712
     )
     user = result.scalar_one_or_none()
 
@@ -346,9 +354,8 @@ async def setup_test_users(
     SOLO para testing — requiere DEV_TOKEN_SECRET.
     """
     import uuid as _uuid
+
     from app.auth.models import UserRole as _UserRole
-    from app.institutions.models import Institution as _Institution, InstitutionPlan as _InstitutionPlan
-    from sqlalchemy import select as _select
 
     dev_secret = os.getenv("DEV_TOKEN_SECRET", "")
     if not dev_secret or secret != dev_secret:
@@ -360,43 +367,80 @@ async def setup_test_users(
     institution_id = None
     try:
         from sqlalchemy import text as _text
+
         async with db.begin_nested():
-            row = (await db.execute(
-                _text("SELECT id FROM institutions WHERE name = 'Colegio Demo Vocari' LIMIT 1")
-            )).fetchone()
+            row = (
+                await db.execute(
+                    _text("SELECT id FROM institutions WHERE name = 'Colegio Demo Vocari' LIMIT 1")
+                )
+            ).fetchone()
             if row:
                 institution_id = row[0]
             else:
                 new_id = _uuid.uuid4()
                 # Columnas mínimas seguras (las demás tienen default o son nullable)
-                await db.execute(_text("""
+                await db.execute(
+                    _text("""
                     INSERT INTO institutions (id, name, code)
                     VALUES (:id, 'Colegio Demo Vocari', 'demo-vocari-001')
                     ON CONFLICT DO NOTHING
-                """), {"id": str(new_id)})
+                """),
+                    {"id": str(new_id)},
+                )
                 # Actualizar slug e is_active por separado (columnas que pueden no existir)
                 for col_sql in [
                     "UPDATE institutions SET slug='colegio-demo-vocari' WHERE id=:id",
                     "UPDATE institutions SET is_active=true WHERE id=:id",
                     "UPDATE institutions SET max_students=200 WHERE id=:id",
                 ]:
-                    try:
+                    with contextlib.suppress(Exception):
                         await db.execute(_text(col_sql), {"id": str(new_id)})
-                    except Exception:
-                        pass
                 institution_id = new_id
     except Exception as inst_err:
         institution_id = None
         import structlog as _sl
-        _sl.get_logger().warning("dev/setup: no se pudo crear institución", error=str(inst_err)[:200])
+
+        _sl.get_logger().warning(
+            "dev/setup: no se pudo crear institución", error=str(inst_err)[:200]
+        )
 
     # Definicion de usuarios de prueba
     test_users_def = [
-        {"email": "test.estudiante@vocari.cl", "name": "Ana García (Estudiante)", "role": _UserRole.ESTUDIANTE, "institution_id": institution_id, "google_id": "test-google-estudiante-001"},
-        {"email": "test.apoderado@vocari.cl", "name": "Carlos García (Apoderado)", "role": _UserRole.APODERADO, "institution_id": institution_id, "google_id": "test-google-apoderado-001"},
-        {"email": "test.orientador@vocari.cl", "name": "María López (Orientadora)", "role": _UserRole.ORIENTADOR, "institution_id": institution_id, "google_id": "test-google-orientador-001"},
-        {"email": "test.admin.colegio@vocari.cl", "name": "Pedro Rojas (Admin Colegio)", "role": _UserRole.ADMIN_COLEGIO, "institution_id": institution_id, "google_id": "test-google-admincolegio-001"},
-        {"email": "test.superadmin@vocari.cl", "name": "Super Admin Test", "role": _UserRole.SUPER_ADMIN, "institution_id": None, "google_id": "test-google-superadmin-001"},
+        {
+            "email": "test.estudiante@vocari.cl",
+            "name": "Ana García (Estudiante)",
+            "role": _UserRole.ESTUDIANTE,
+            "institution_id": institution_id,
+            "google_id": "test-google-estudiante-001",
+        },
+        {
+            "email": "test.apoderado@vocari.cl",
+            "name": "Carlos García (Apoderado)",
+            "role": _UserRole.APODERADO,
+            "institution_id": institution_id,
+            "google_id": "test-google-apoderado-001",
+        },
+        {
+            "email": "test.orientador@vocari.cl",
+            "name": "María López (Orientadora)",
+            "role": _UserRole.ORIENTADOR,
+            "institution_id": institution_id,
+            "google_id": "test-google-orientador-001",
+        },
+        {
+            "email": "test.admin.colegio@vocari.cl",
+            "name": "Pedro Rojas (Admin Colegio)",
+            "role": _UserRole.ADMIN_COLEGIO,
+            "institution_id": institution_id,
+            "google_id": "test-google-admincolegio-001",
+        },
+        {
+            "email": "test.superadmin@vocari.cl",
+            "name": "Super Admin Test",
+            "role": _UserRole.SUPER_ADMIN,
+            "institution_id": None,
+            "google_id": "test-google-superadmin-001",
+        },
     ]
 
     users_result = []
@@ -422,20 +466,24 @@ async def setup_test_users(
             user.is_active = True
 
         at = create_access_token(
-            user_id=user.id, role=user.role.value,
-            email=user.email, name=user.name,
+            user_id=user.id,
+            role=user.role.value,
+            email=user.email,
+            name=user.name,
             institution_id=user.institution_id,
         )
         rt = create_refresh_token(user.id)
 
-        users_result.append({
-            "role": user.role.value,
-            "email": user.email,
-            "name": user.name,
-            "access_token": at,
-            "refresh_token": rt,
-            "login_url": f"{frontend_url}/auth/callback?access_token={at}&refresh_token={rt}",
-        })
+        users_result.append(
+            {
+                "role": user.role.value,
+                "email": user.email,
+                "name": user.name,
+                "access_token": at,
+                "refresh_token": rt,
+                "login_url": f"{frontend_url}/auth/callback?access_token={at}&refresh_token={rt}",
+            }
+        )
 
     await db.commit()
     return {"status": "ok", "users": users_result}
@@ -457,9 +505,7 @@ async def get_dev_token(
     if not dev_secret or secret != dev_secret:
         raise AuthenticationError("Secret invalido o endpoint deshabilitado")
 
-    result = await db.execute(
-        select(User).where(User.email == email, User.is_active.is_(True))
-    )
+    result = await db.execute(select(User).where(User.email == email, User.is_active.is_(True)))
     user = result.scalar_one_or_none()
 
     if not user:

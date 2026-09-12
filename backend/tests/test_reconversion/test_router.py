@@ -22,18 +22,12 @@ def _phase_two_answers() -> dict[int, str]:
 
 def _phase_three_answers() -> dict[int, int]:
     pattern = [5, 4, 4, 5, 3, 4, 5, 4, 4, 5, 5, 4]
-    return {
-        question_id: pattern[question_id - 1]
-        for question_id in range(1, 13)
-    }
+    return {question_id: pattern[question_id - 1] for question_id in range(1, 13)}
 
 
 def _phase_four_answers() -> dict[int, str]:
     pattern = ["c", "b", "a", "b", "a", "b", "b", "c"]
-    return {
-        scenario_id: pattern[scenario_id - 1]
-        for scenario_id in range(1, 9)
-    }
+    return {scenario_id: pattern[scenario_id - 1] for scenario_id in range(1, 9)}
 
 
 class TestReconversionRouter:
@@ -138,6 +132,32 @@ class TestReconversionRouter:
             json={"answers": invalid_answers},
         )
         assert response.status_code == 422
+
+    async def test_phase_one_allows_resubmission_without_duplicate_error(self, client) -> None:
+        create_response = await client.post(
+            "/api/v1/reconversion/sessions",
+            json={
+                "nombre": "Reintento Seguro",
+                "email": "reintento@example.com",
+                "profesion_actual": "Vendedor",
+                "edad": 34,
+            },
+        )
+        session_id = create_response.json()["id"]
+
+        first_response = await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": _phase_one_answers()},
+        )
+        assert first_response.status_code == 200
+
+        updated_answers = {question_id: 5 for question_id in range(1, 31)}
+        second_response = await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": updated_answers},
+        )
+        assert second_response.status_code == 200
+        assert second_response.json()["phase_key"] == "phase_1"
 
     async def test_phase_two_rejects_invalid_values(self, client) -> None:
         create_response = await client.post(
@@ -428,11 +448,7 @@ class TestReconversionRouter:
         body = response.json()
         assert body["total"] >= 1
         assert len(body["items"]) >= 1
-        matching_item = next(
-            item
-            for item in body["items"]
-            if item["session_id"] == session_id
-        )
+        matching_item = next(item for item in body["items"] if item["session_id"] == session_id)
         assert matching_item["nombre"] == "Patricia Nunez"
         assert matching_item["public_url"].endswith(session_body["share_token"])
         assert matching_item["top_routes"]
