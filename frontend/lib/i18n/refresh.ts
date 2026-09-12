@@ -69,10 +69,16 @@ export const refresh = {
     secondaryCta: "Ver informe de ejemplo",
   },
   skillGraph: {
-    badge: "Vocari presenta · Skill Graph",
-    title: "Tu experiencia también puede convertirse en una ruta hacia IA",
+    badge: "El grafo vocacional de Vocari",
+    title: "Mira cómo Vocari conecta quién eres con lo que puedes llegar a ser",
     subtitle:
-      "Skill Graph es un mapa vivo en español que transforma tu rol actual en un roadmap práctico con habilidades, ejercicios, recursos y certificaciones.",
+      "Nuestro mapa convierte intereses, habilidades, experiencia y datos reales en rutas que puedes explorar y entender paso a paso.",
+    demoHint: "Prueba la demo: cambia de camino y selecciona cada nodo.",
+    demoLabel: "Demo interactiva del grafo vocacional",
+    demoTitle: "Tu sistema vocacional",
+    modeLabel: "Seleccionar tipo de orientación",
+    demoDisclaimer:
+      "Ejemplo ilustrativo. Tus conexiones reales se generan con tus respuestas y evidencia.",
     languageNote: "Disponible actualmente en español",
     primaryCta: "Explorar mi ruta hacia IA",
     secondaryCta: "Diagnosticar mi reconversión",
