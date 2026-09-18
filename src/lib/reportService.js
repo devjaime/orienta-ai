@@ -1,20 +1,14 @@
+import { supabase, getCurrentUser } from './supabase';
+
 /**
  * Servicio de Informes Pagados - Vocari
  *
  * Gestión de informes vocacionales pagados (B2C):
  * - Consultar planes disponibles
- * - Crear orden de pago con PayPal
+ * - Crear orden de pago con Flow.cl
  * - Consultar informes del usuario
  * - Aprobar/rechazar informes (admin/orientador)
  */
-
-// ========================================
-// PAYMENT LINKS - PayPal NCP
-// ========================================
-const PAYMENT_LINKS = {
-  esencial: 'https://www.paypal.com/ncp/payment/DCEGNNL4FVNHA',
-  premium: 'https://www.paypal.com/ncp/payment/4CB6YZZS7G5VQ',
-};
 
 // ========================================
 // PLANES
@@ -24,38 +18,56 @@ const PAYMENT_LINKS = {
  * Obtiene los planes de informe activos
  * @returns {Promise<Array>} Lista de planes activos
  */
+const LOCAL_REPORT_PLANS = [
+  {
+    id: 'esencial',
+    name: 'esencial',
+    display_name: 'Plan Esencial',
+    price_clp: 10990,
+    price_usd: 12,
+    features: [
+      'Informe PDF completo',
+      'Análisis RIASEC detallado',
+      'Carreras recomendadas con datos MINEDUC',
+      'Revisado por orientadores calificados'
+    ]
+  },
+  {
+    id: 'premium',
+    name: 'premium',
+    display_name: 'Plan Premium',
+    price_clp: 14990,
+    price_usd: 20,
+    features: [
+      'Informe PDF completo',
+      'Análisis RIASEC detallado',
+      'Carreras recomendadas con datos MINEDUC',
+      'Revisado por orientadores calificados',
+      'Explicación visual personalizada',
+      'Resumen ejecutivo animado'
+    ]
+  }
+];
+
 export async function getReportPlans() {
-  // En producción, esto vendría de la DB. Por ahora retornamos datos locales.
-  return [
-    {
-      id: 'esencial',
-      name: 'esencial',
-      display_name: 'Plan Esencial',
-      price_clp: 10990,
-      price_usd: 12,
-      features: [
-        'Informe PDF completo',
-        'Análisis RIASEC detallado',
-        'Carreras recomendadas con datos MINEDUC',
-        'Revisado por orientadores calificados'
-      ]
-    },
-    {
-      id: 'premium',
-      name: 'premium',
-      display_name: 'Plan Premium',
-      price_clp: 14990,
-      price_usd: 20,
-      features: [
-        'Informe PDF completo',
-        'Análisis RIASEC detallado',
-        'Carreras recomendadas con datos MINEDUC',
-        'Revisado por orientadores calificados',
-        'Explicación visual personalizada',
-        'Resumen ejecutivo animado'
-      ]
+  try {
+    const { data, error } = await supabase
+      .from('report_plans')
+      .select('*')
+      .eq('is_active', true)
+      .order('price_clp', { ascending: true });
+
+    if (!error && data?.length) {
+      return data;
     }
-  ];
+    if (error) {
+      console.warn('No se pudieron cargar planes desde Supabase, usando fallback local:', error.message);
+    }
+  } catch (err) {
+    console.warn('Error cargando planes, usando fallback local:', err);
+  }
+
+  return LOCAL_REPORT_PLANS;
 }
 
 // ========================================
@@ -63,18 +75,47 @@ export async function getReportPlans() {
 // ========================================
 
 /**
- * Crea una orden de pago con PayPal
- * @param {string} planId - ID del plan seleccionado (esencial | premium)
- * @returns {Promise<string>} URL de pago de PayPal
+ * Crea una orden de pago con Flow.cl vía Netlify Function
+ * @param {string} planId - UUID del plan o name (esencial | premium)
+ * @param {{ userId?: string, userEmail?: string }} [options]
+ * @returns {Promise<{ url: string, token?: string, commerceOrder?: string }>}
  */
-export async function createCheckoutSession(planId) {
-  // Mapear planId al enlace de PayPal
-  const paymentUrl = PAYMENT_LINKS[planId] || PAYMENT_LINKS.esencial;
-  
-  // En el futuro, aquí podríamos crear una sesión en nuestro backend
-  // y obtener un token de PayPal para un flujo más controlado.
-  // Por ahora, usamos enlaces directos NCP.
-  return paymentUrl;
+export async function createCheckoutSession(planId, options = {}) {
+  let userId = options.userId;
+  let userEmail = options.userEmail;
+
+  if (!userId || !userEmail) {
+    const user = await getCurrentUser();
+    if (!user) {
+      throw new Error('Debes iniciar sesión para continuar con el pago');
+    }
+    userId = userId || user.id;
+    userEmail = userEmail || user.email;
+  }
+
+  if (!planId) {
+    throw new Error('Debes seleccionar un plan');
+  }
+
+  const response = await fetch('/.netlify/functions/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ planId, userId, userEmail })
+  });
+
+  let data = null;
+  try {
+    data = await response.json();
+  } catch {
+    data = null;
+  }
+
+  if (!response.ok || !data?.ok || !data?.url) {
+    const message = data?.error || 'No pudimos iniciar el pago con Flow.cl. Intenta de nuevo en unos minutos.';
+    throw new Error(message);
+  }
+
+  return { url: data.url, token: data.token, commerceOrder: data.commerceOrder };
 }
 
 // ========================================
@@ -220,7 +261,6 @@ const SUPABASE_URL = 'https://cbtdgaptdpfhaufyijnd.supabase.co';
  */
 export async function generateReport(testResult, plan, userEmail) {
   try {
-    // Llamar a la Edge Function
     const response = await fetch(`${SUPABASE_URL}/functions/v1/generate-report`, {
       method: 'POST',
       headers: {
@@ -243,7 +283,6 @@ export async function generateReport(testResult, plan, userEmail) {
       throw new Error(result.error || 'Failed to generate report');
     }
 
-    // Guardar en la base de datos
     const { data: reportData, error: dbError } = await supabase
       .from('reports')
       .insert({

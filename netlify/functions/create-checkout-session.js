@@ -84,13 +84,16 @@ exports.handler = async function handler(event) {
   try {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Obtener plan de la base de datos
-    const { data: plan, error: planError } = await supabase
+    // Obtener plan por UUID o por name (esencial | premium)
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(planId);
+    let planQuery = supabase
       .from('report_plans')
       .select('*')
-      .eq('id', planId)
-      .eq('is_active', true)
-      .single();
+      .eq('is_active', true);
+
+    planQuery = isUuid ? planQuery.eq('id', planId) : planQuery.eq('name', planId);
+
+    const { data: plan, error: planError } = await planQuery.single();
 
     if (planError || !plan) {
       return {
@@ -172,7 +175,7 @@ exports.handler = async function handler(event) {
       .from('paid_reports')
       .insert({
         user_id: userId,
-        plan_id: planId,
+        plan_id: plan.id,
         status: 'pending_payment',
         flow_token: flowData.token,
         flow_order: commerceOrder,

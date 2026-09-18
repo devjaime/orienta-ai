@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
-import { FileText, Download, Check, Loader } from 'lucide-react';
-import { getLatestTestResult } from '../lib/supabase';
+import { useState, useEffect } from 'react';
+import { FileText, Check, Loader, AlertCircle } from 'lucide-react';
+import { getCurrentUser, getLatestTestResult } from '../lib/supabase';
+import { createCheckoutSession } from '../lib/reportService';
 
 const PLAN_FEATURES = {
   esencial: {
     title: 'Plan Esencial',
-    price: '$12 USD',
+    price: '$10.990 CLP',
     features: [
       'Informe PDF completo de 10+ páginas',
       'Análisis RIASEC detallado',
@@ -14,8 +15,8 @@ const PLAN_FEATURES = {
     ]
   },
   premium: {
-    title: 'Plan Premium', 
-    price: '$20 USD',
+    title: 'Plan Premium',
+    price: '$14.990 CLP',
     features: [
       'Informe PDF de 15+ páginas',
       'Análisis RIASEC con visuales',
@@ -26,208 +27,87 @@ const PLAN_FEATURES = {
   }
 };
 
-export default function SimpleCheckout({ plan = 'esencial', onClose, onSuccess }) {
-  const [loading, setLoading] = useState(false);
-  const [generating, setGenerating] = useState(false);
-  const [reportHtml, setReportHtml] = useState(null);
-  const [testResult, setTestResult] = useState(null);
-  const reportRef = useRef(null);
+function resolvePlanKey(plan) {
+  if (!plan) return 'esencial';
+  if (typeof plan === 'string') {
+    if (plan === 'premium' || plan === 'esencial') return plan;
+    return 'esencial';
+  }
+  const name = plan.name || plan.id;
+  if (name === 'premium' || name === 'esencial') return name;
+  return 'esencial';
+}
 
-  const planData = PLAN_FEATURES[plan];
+function resolvePlanId(plan) {
+  if (!plan) return 'esencial';
+  if (typeof plan === 'string') return plan;
+  return plan.id || plan.name || 'esencial';
+}
+
+export default function SimpleCheckout({ plan = 'esencial', user: userProp, onClose, onSuccess }) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [testResult, setTestResult] = useState(null);
+  const [user, setUser] = useState(userProp || null);
+
+  const planKey = resolvePlanKey(plan);
+  const planId = resolvePlanId(plan);
+  const planData = PLAN_FEATURES[planKey] || PLAN_FEATURES.esencial;
 
   useEffect(() => {
-    loadTestResult();
+    loadContext();
   }, []);
 
-  const loadTestResult = async () => {
+  const loadContext = async () => {
     try {
-      const result = await getLatestTestResult();
-      setTestResult(result);
-    } catch (error) {
-      console.error('Error loading test result:', error);
+      const [latestTest, currentUser] = await Promise.all([
+        getLatestTestResult(),
+        userProp ? Promise.resolve(userProp) : getCurrentUser()
+      ]);
+      setTestResult(latestTest);
+      if (currentUser) setUser(currentUser);
+    } catch (err) {
+      console.error('Error loading checkout context:', err);
     }
   };
 
   const handlePay = async () => {
+    setError(null);
     setLoading(true);
-    // Simular procesamiento de pago
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setLoading(false);
-    
-    // Abrir PayPal
-    const paypalUrl = plan === 'premium' 
-      ? 'https://www.paypal.com/ncp/payment/4CB6YZZS7G5VQ'
-      : 'https://www.paypal.com/ncp/payment/DCEGNNL4FVNHA';
-    window.open(paypalUrl, '_blank');
-  };
-
-  const generateReport = async () => {
-    if (!testResult) {
-      alert('Primero completa el test vocacional');
-      return;
-    }
-
-    setGenerating(true);
 
     try {
-      // Generar reporte localmente
-      const riasecScores = testResult.riasec || { R: 30, I: 30, A: 30, S: 30, E: 30, C: 30 };
-      const dominant = Object.entries(riasecScores).sort((a, b) => b[1] - a[1])[0][0];
-      
-      const perfiles = {
-        R: { nombre: 'Realista', descripcion: 'Te gusta trabajar con tus manos y resolver problemas prácticos. Disfrutas de actividades al aire libre y el trabajo manual.', trabajos: ['Técnico', 'Mecánico', 'Ingeniero', 'Constructor'] },
-        I: { nombre: 'Investigativo', descripcion: 'Te interesa analizar problemas, investigar y buscar soluciones científicas. Disfrutas de la lectura y el pensamiento abstracto.', trabajos: ['Científico', 'Médico', 'Investigador', 'Analista'] },
-        A: { nombre: 'Artístico', descripcion: 'Expresas tu creatividad a través de arte, música o escritura. Valoras la originalidad y la libertad.', trabajos: ['Artista', 'Diseñador', 'Escritor', 'Músico'] },
-        S: { nombre: 'Social', descripcion: 'Te gusta ayudar, enseñar y trabajar con personas. Disfrutas de la interacción social.', trabajos: ['Profesor', 'Psicólogo', 'Enfermero', 'Trabajador Social'] },
-        E: { nombre: 'Emprendedor', descripcion: 'Te atraen el liderazgo y la toma de decisiones. Eres competitivo y persuasivo.', trabajos: ['Emprendedor', 'Vendedor', 'Gerente', 'Abogado'] },
-        C: { nombre: 'Convencional', descripcion: 'Te desempeñas bien en tareas ordenadas y con números. Valoras la precisión y el detalle.', trabajos: ['Contador', 'Administrador', 'Analista', 'Secretario'] },
-      };
+      const currentUser = user || (await getCurrentUser());
+      if (!currentUser) {
+        setError('Debes iniciar sesión para pagar tu informe.');
+        setLoading(false);
+        return;
+      }
 
-      const perfil = perfiles[dominant];
-      
-      const carreras = [
-        { nombre: 'Ingeniería Civil', area: 'Ingeniería', duracion: '12 semestres', promedio: 600, empleabilidad: 88 },
-        { nombre: 'Medicina', area: 'Salud', duracion: '14 semestres', promedio: 650, empleabilidad: 95 },
-        { nombre: 'Ingeniería Comercial', area: 'Negocios', duracion: '10 semestres', promedio: 550, empleabilidad: 82 },
-        { nombre: 'Derecho', area: 'Derecho', duracion: '10 semestres', promedio: 580, empleabilidad: 75 },
-        { nombre: 'Psicología', area: 'Salud', duracion: '10 semestres', promedio: 520, empleabilidad: 78 },
-        { nombre: 'Pedagogía', area: 'Educación', duracion: '8 semestres', promedio: 480, empleabilidad: 85 },
-        { nombre: 'Ingeniería Sistemas', area: 'Tecnología', duracion: '10 semestres', promedio: 540, empleabilidad: 92 },
-        { nombre: 'Arquitectura', area: 'Diseño', duracion: '12 semestres', promedio: 570, empleabilidad: 70 },
-        { nombre: 'Enfermería', area: 'Salud', duracion: '8 semestres', promedio: 500, empleabilidad: 90 },
-        { nombre: 'Comunicación', area: 'Comunicación', duracion: '8 semestres', promedio: 510,empleabilidad: 72 },
-      ];
+      if (!testResult) {
+        setError('Primero completa el test vocacional para generar tu informe.');
+        setLoading(false);
+        return;
+      }
 
-      const compatibilidad = plan === 'premium' ? 15 : 10;
+      const session = await createCheckoutSession(planId, {
+        userId: currentUser.id,
+        userEmail: currentUser.email
+      });
 
-      const html = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Informe Vocacional Vocari</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 40px; }
-    .header { text-align: center; border-bottom: 3px solid #0B1A33; padding-bottom: 20px; margin-bottom: 30px; }
-    .header h1 { color: #0B1A33; font-size: 28px; }
-    .header .subtitle { color: #666; font-size: 14px; }
-    .section { margin-bottom: 30px; }
-    .section h2 { color: #0B1A33; font-size: 20px; margin-bottom: 15px; border-left: 4px solid #D4AF37; padding-left: 10px; }
-    .perfil { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px; margin-bottom: 20px; }
-    .perfil h3 { font-size: 24px; margin-bottom: 10px; }
-    .perfil .dominante { font-size: 48px; font-weight: bold; opacity: 0.3; position: absolute; right: 20px; top: 20px; }
-    .perfil-card { background: #f8f9fa; padding: 20px; border-radius: 10px; }
-    .carreras { display: grid; gap: 15px; }
-    .carrera { border: 1px solid #e0e0e0; padding: 20px; border-radius: 10px; transition: all 0.3s; }
-    .carrera:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: translateY(-2px); }
-    .carrera-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .carrera h3 { color: #0B1A33; font-size: 18px; }
-    .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-    .badge-alta { background: #4CAF50; color: white; }
-    .badge-media { background: #FFC107; color: black; }
-    .carrera-details { display: flex; gap: 20px; font-size: 14px; color: #666; }
-    .chart { margin: 20px 0; }
-    .bar { display: flex; align-items: center; margin: 8px 0; }
-    .bar-label { width: 30px; font-weight: bold; }
-    .bar-value { flex: 1; height: 25px; background: #D4AF37; border-radius: 5px; position: relative; }
-    .bar-text { position: absolute; right: 10px; color: #333; font-size: 12px; font-weight: bold; }
-    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; font-size: 12px; color: #999; }
-    @media print { body { padding: 20px; } .carrera { break-inside: avoid; } }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <h1>📊 Informe Vocacional Vocari</h1>
-    <p class="subtitle">Fecha: ${new Date().toLocaleDateString('es-CL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-  </div>
-
-  <div class="section">
-    <h2>🎯 Tu Perfil RIASEC</h2>
-    <div class="perfil">
-      <div class="dominante">${dominant}</div>
-      <h3>${perfil.nombre}</h3>
-      <p>${perfil.descripcion}</p>
-    </div>
-    
-    <div class="perfil-card">
-      <h4 style="margin-bottom: 10px;">Tus puntajes:</h4>
-      <div class="chart">
-        ${Object.entries(riasecScores).map(([key, value]) => `
-          <div class="bar">
-            <div class="bar-label">${key}</div>
-            <div class="bar-value" style="width: ${value}%">
-              <span class="bar-text">${value}</span>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>🎓 Carreras Recomendadas</h2>
-    <p style="margin-bottom: 20px; color: #666;">Basadas en tu perfil y datos oficiales del MINEDUC 2025:</p>
-    <div class="carreras">
-      ${carreras.slice(0, compatibilidad).map((c, i) => `
-        <div class="carrera">
-          <div class="carrera-header">
-            <h3>${i + 1}. ${c.nombre}</h3>
-            <span class="badge ${c.empleabilidad >= 85 ? 'badge-alta' : 'badge-media'}">${c.empleabilidad}% empleabilidad</span>
-          </div>
-          <div class="carrera-details">
-            <span>📚 ${c.area}</span>
-            <span>⏱️ ${c.duracion}</span>
-            <span>📈 Puntaje promedio: ${c.promedio}</span>
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>💼 Trabajos relacionados con tu perfil</h2>
-    <ul style="list-style: none; padding: 0;">
-      ${perfil.trabajos.map(t => `<li style="padding: 8px 0; border-bottom: 1px solid #eee;">✓ ${t}</li>`).join('')}
-    </ul>
-  </div>
-
-  <div class="footer">
-    <p><strong>Nota importante:</strong> Este informe es generado automáticamente basado en el test RIASEC y datos públicos del MINEDUC. 
-    Las recomendaciones son orientativas y no constituyen asesoramiento profesional definitivo.</p>
-    <p style="margin-top: 10px;">© ${new Date().getFullYear()} Vocari - vocari.cl | Tu guía vocacional de confianza</p>
-  </div>
-</body>
-</html>
-      `;
-
-      setReportHtml(html);
-    } catch (error) {
-      console.error('Error generating report:', error);
-      alert('Error al generar reporte. Intenta de nuevo.');
-    } finally {
-      setGenerating(false);
+      if (onSuccess) onSuccess(session);
+      window.location.href = session.url;
+    } catch (err) {
+      console.error('Error creating Flow checkout:', err);
+      setError(
+        err?.message ||
+          'No pudimos iniciar el pago con Flow.cl. Verifica la configuración o intenta más tarde.'
+      );
+      setLoading(false);
     }
-  };
-
-  const downloadPDF = () => {
-    if (!reportHtml) return;
-    
-    // Crear blob y descargar
-    const blob = new Blob([reportHtml], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Informe-Vocari-${new Date().toISOString().split('T')[0]}.html`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   };
 
   return (
     <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-      {/* Header */}
       <div className="bg-gradient-to-r from-vocari-primary to-vocari-light p-6 text-white">
         <div className="flex items-center justify-between">
           <div>
@@ -238,7 +118,6 @@ export default function SimpleCheckout({ plan = 'esencial', onClose, onSuccess }
         </div>
       </div>
 
-      {/* Features */}
       <div className="p-6">
         <ul className="space-y-3 mb-6">
           {planData.features.map((feature, i) => (
@@ -249,49 +128,13 @@ export default function SimpleCheckout({ plan = 'esencial', onClose, onSuccess }
           ))}
         </ul>
 
-        {/* Generate Report Button */}
-        {testResult && (
-          <div className="mb-6 p-4 bg-blue-50 rounded-xl">
-            <p className="text-blue-800 font-medium mb-3">
-              ✅ Test completado. ¿Generar reporte ahora?
-            </p>
-            <button
-              onClick={generateReport}
-              disabled={generating}
-              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {generating ? (
-                <>
-                  <Loader size={20} className="animate-spin" />
-                  Generando...
-                </>
-              ) : (
-                <>
-                  <FileText size={20} />
-                  Generar Reporte Gratis
-                </>
-              )}
-            </button>
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
+            <AlertCircle size={20} className="text-red-500 flex-shrink-0 mt-0.5" />
+            <p className="text-red-700 text-sm">{error}</p>
           </div>
         )}
 
-        {/* Download Report */}
-        {reportHtml && (
-          <div className="mb-6 p-4 bg-green-50 rounded-xl">
-            <p className="text-green-800 font-medium mb-3">
-              ✅ Reporte generado exitosamente
-            </p>
-            <button
-              onClick={downloadPDF}
-              className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
-            >
-              <Download size={20} />
-              Descargar Reporte
-            </button>
-          </div>
-        )}
-
-        {/* Pay Button */}
         <button
           onClick={handlePay}
           disabled={loading}
@@ -300,18 +143,26 @@ export default function SimpleCheckout({ plan = 'esencial', onClose, onSuccess }
           {loading ? (
             <>
               <Loader size={20} className="animate-spin" />
-              Procesando...
+              Redirigiendo a Flow...
             </>
           ) : (
-            <>
-              💳 Pagar con PayPal
-            </>
+            <>💳 Pagar con Flow (WebPay y más)</>
           )}
         </button>
 
         <p className="text-center text-gray-500 text-sm mt-4">
-          🔒 Pago seguro con PayPal. Tarjeta o cuenta PayPal.
+          🔒 Pago seguro con Flow.cl. WebPay, tarjetas y transferencias.
         </p>
+
+        {onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full mt-3 text-gray-500 hover:text-gray-700 text-sm"
+          >
+            Cancelar
+          </button>
+        )}
       </div>
     </div>
   );
