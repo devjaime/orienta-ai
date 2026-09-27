@@ -41,6 +41,42 @@ def _edit_auth(create_response) -> tuple[str, dict[str, str]]:
     return body["id"], {"X-Vocari-Edit-Token": body["edit_token"]}
 
 
+def test_normalize_legacy_report_payload_maps_old_keys() -> None:
+    """Los informes guardados antes del renombrado siguen abriendo con
+    procedencia explicita en lugar de claves predictivas."""
+    from app.reconversion.service import _normalize_legacy_report_payload
+
+    legacy = {
+        "rutas_recomendadas": [
+            {
+                "nombre_ruta": "Analista de datos aplicados",
+                "felicidad_estimada": 80.0,
+                "ingreso_estimado": 1300000.0,
+            }
+        ],
+        "grafico_bienestar_ingreso": [
+            {"ruta": "Analista de datos aplicados", "felicidad": 80.0, "dinero": 1300000.0}
+        ],
+    }
+
+    normalized = _normalize_legacy_report_payload(legacy)
+
+    route = normalized["rutas_recomendadas"][0]
+    assert route["compatibilidad"] == 80.0
+    assert route["ingreso_referencia"] == 1300000.0
+    assert route["ingreso_procedencia"]
+    assert "felicidad_estimada" not in route
+
+    point = normalized["grafico_compatibilidad_ingreso"][0]
+    assert point["compatibilidad"] == 80.0
+    assert point["ingreso_referencia"] == 1300000.0
+
+    assert "grafico_bienestar_ingreso" not in normalized
+
+    current = {"rutas_recomendadas": [{"compatibilidad": 70.0}]}
+    assert _normalize_legacy_report_payload(current) is current
+
+
 class TestReconversionRouter:
     async def test_create_session(self, client) -> None:
         payload = {
@@ -401,7 +437,7 @@ class TestReconversionRouter:
         assert generate_body["share_token"] == share_token
         assert generate_body["public_url"].endswith(share_token)
         assert len(generate_body["report"]["rutas_recomendadas"]) == 3
-        assert len(generate_body["report"]["grafico_bienestar_ingreso"]) == 3
+        assert len(generate_body["report"]["grafico_compatibilidad_ingreso"]) == 3
 
         public_response = await client.get(
             f"/api/v1/reconversion/public/{share_token}",
@@ -412,6 +448,71 @@ class TestReconversionRouter:
         assert public_body["session"]["nombre"] == "Andrea Silva"
         assert "email" not in public_body["session"]
         assert public_body["report"]["resumen_personalizado"]
+
+    async def test_report_income_is_reference_not_salary_floor(
+        self, client
+    ) -> None:
+        """Un sueldo alto con preferencia de seguridad alta no genera un piso
+        salarial del 92% presentado como ingreso."""
+        create_response = await client.post(
+            "/api/v1/reconversion/sessions",
+            json={
+                "nombre": "Hernan Lagos",
+                "email": "hernan@example.com",
+                "profesion_actual": "Jefe de area comercial",
+                "edad": 52,
+                "nivel_ingles": "Intermedio",
+                "disponibilidad_para_estudiar": "media",
+                "disponibilidad_para_relocalizarse": "regional",
+                "ingreso_actual_aprox": 2_000_000,
+            },
+        )
+        session_id, headers = _edit_auth(create_response)
+
+        await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-1",
+            json={"answers": _phase_one_answers()},
+            headers=headers,
+        )
+        await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-2",
+            json={"answers": _phase_two_answers()},
+            headers=headers,
+        )
+        await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-3",
+            json={"answers": _phase_three_answers()},
+            headers=headers,
+        )
+        # Todas las opciones que maximizan seguridad: raw 8/8 -> tradeoff 100.
+        security_answers = {scenario_id: "a" for scenario_id in range(1, 9)}
+        await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/phase-4",
+            json={"answers": security_answers},
+            headers=headers,
+        )
+
+        generate_response = await client.post(
+            f"/api/v1/reconversion/sessions/{session_id}/generate-report",
+            headers=headers,
+        )
+        assert generate_response.status_code == 200
+        report = generate_response.json()["report"]
+
+        assert len(report["rutas_recomendadas"]) == 3
+        for route in report["rutas_recomendadas"]:
+            assert "felicidad_estimada" not in route
+            assert "ingreso_estimado" not in route
+            assert "compatibilidad" in route
+            assert "ingreso_procedencia" in route
+            # Sin piso del 92% del sueldo declarado.
+            assert route["ingreso_referencia"] < 0.92 * 2_000_000
+
+        for point in report["grafico_compatibilidad_ingreso"]:
+            assert "compatibilidad" in point
+            assert "ingreso_referencia" in point
+            assert "felicidad" not in point
+            assert "dinero" not in point
 
     async def test_generate_report_requires_phase_four(self, client) -> None:
         create_response = await client.post(

@@ -568,6 +568,17 @@ def _infer_route_fit(
     return round(phase_three_fit * 0.55 + phase_four_fit * 0.25 + energy_fit * 0.20, 2)
 
 
+INGRESO_REFERENCIA_NOTA = (
+    "Monto de referencia interna basado en plantillas de rutas; no es una oferta "
+    "de mercado ni una proyeccion de sueldo. Verificalo con fuentes reales "
+    "(portales de empleo, conversaciones del area)."
+)
+INGRESO_REFERENCIA_NOTA_LEGACY = (
+    "Monto generado por una version anterior de Vocari; no es una oferta de "
+    "mercado ni una proyeccion de sueldo. Verificalo con fuentes reales."
+)
+
+
 def _build_route_recommendation(
     template: dict,
     session: AdultReconversionSession,
@@ -596,7 +607,7 @@ def _build_route_recommendation(
 
     friction = round(_clamp(friction, 18, 92), 2)
 
-    happiness = round(
+    compatibilidad = round(
         _clamp(
             route_fit * 0.72
             + phase_four_summary.change_readiness * 0.18
@@ -607,9 +618,7 @@ def _build_route_recommendation(
         2,
     )
 
-    income_estimate = float(template["base_income"])
-    if session.ingreso_actual_aprox and phase_four_summary.tradeoff_scores.get("security", 0) >= 70:
-        income_estimate = max(income_estimate, session.ingreso_actual_aprox * 0.92)
+    ingreso_referencia = float(template["base_income"])
 
     needs_relocation = template["mobility"] == "recommended"
     relocation_detail = (
@@ -638,8 +647,9 @@ def _build_route_recommendation(
         nombre_ruta=template["nombre_ruta"],
         tipo=template["tipo"],
         porque_encaja=because,
-        felicidad_estimada=happiness,
-        ingreso_estimado=round(income_estimate, 0),
+        compatibilidad=compatibilidad,
+        ingreso_referencia=round(ingreso_referencia, 0),
+        ingreso_procedencia=INGRESO_REFERENCIA_NOTA,
         friccion_cambio=friction,
         necesita_relocalizacion=needs_relocation,
         relocalizacion_detalle=relocation_detail,
@@ -710,7 +720,7 @@ def _build_report_payload(
     ]
     top_routes = sorted(
         route_candidates,
-        key=lambda item: (item.felicidad_estimada, item.ingreso_estimado - item.friccion_cambio * 5000),
+        key=lambda item: (item.compatibilidad, item.ingreso_referencia - item.friccion_cambio * 5000),
         reverse=True,
     )[:3]
 
@@ -724,8 +734,8 @@ def _build_report_payload(
     graph_points = [
         AdultReconversionGraphPoint(
             ruta=route.nombre_ruta,
-            felicidad=route.felicidad_estimada,
-            dinero=route.ingreso_estimado,
+            compatibilidad=route.compatibilidad,
+            ingreso_referencia=route.ingreso_referencia,
         )
         for route in top_routes
     ]
@@ -753,7 +763,7 @@ def _build_report_payload(
         resumen_personalizado=summary,
         perfil_actual=current_profile,
         rutas_recomendadas=top_routes,
-        grafico_bienestar_ingreso=graph_points,
+        grafico_compatibilidad_ingreso=graph_points,
         plan_30_dias=plan_30_dias,
         plan_90_dias=plan_90_dias,
         alertas=alerts,
@@ -763,7 +773,7 @@ def _build_report_payload(
 def _build_report_text(report: AdultReconversionReportPayload) -> str:
     route_lines = "\n".join(
         [
-            f"- {route.nombre_ruta}: bienestar estimado {route.felicidad_estimada}/100, ingreso estimado {int(route.ingreso_estimado)} CLP, friccion {route.friccion_cambio}/100."
+            f"- {route.nombre_ruta}: criterio de compatibilidad {route.compatibilidad}/100, ingreso de referencia {int(route.ingreso_referencia)} CLP (referencia interna, no oferta de mercado), friccion {route.friccion_cambio}/100."
             for route in report.rutas_recomendadas
         ]
     )
@@ -1451,6 +1461,50 @@ async def generate_report(
     )
 
 
+def _normalize_legacy_report_payload(data: dict) -> dict:
+    """Mapea report_json legado al esquema actual sin apariencia predictiva.
+
+    Los informes generados antes del renombrado usaban felicidad_estimada /
+    ingreso_estimado / grafico_bienestar_ingreso. Esta funcion los reetiqueta
+    con procedencia explicita en lugar de romper el enlace publico.
+    """
+    routes = data.get("rutas_recomendadas") or []
+    has_legacy_routes = any(
+        "felicidad_estimada" in route or "ingreso_estimado" in route
+        for route in routes
+        if isinstance(route, dict)
+    )
+    has_legacy_graph = "grafico_bienestar_ingreso" in data
+    if not has_legacy_routes and not has_legacy_graph:
+        return data
+
+    data = dict(data)
+    if has_legacy_routes:
+        normalized_routes: list[dict] = []
+        for route in routes:
+            route = dict(route)
+            if "felicidad_estimada" in route:
+                route["compatibilidad"] = route.pop("felicidad_estimada")
+            if "ingreso_estimado" in route:
+                route["ingreso_referencia"] = route.pop("ingreso_estimado")
+            if "ingreso_procedencia" not in route:
+                route["ingreso_procedencia"] = INGRESO_REFERENCIA_NOTA_LEGACY
+            normalized_routes.append(route)
+        data["rutas_recomendadas"] = normalized_routes
+    legacy_graph = data.pop("grafico_bienestar_ingreso", None)
+    if legacy_graph is not None:
+        data["grafico_compatibilidad_ingreso"] = [
+            {
+                "ruta": point.get("ruta", ""),
+                "compatibilidad": point.get("felicidad", 0),
+                "ingreso_referencia": point.get("dinero", 0),
+            }
+            for point in legacy_graph
+            if isinstance(point, dict)
+        ]
+    return data
+
+
 async def get_public_report(
     db: AsyncSession,
     share_token: str,
@@ -1473,7 +1527,9 @@ async def get_public_report(
             current_phase=session.current_phase,
             status=session.status,
         ),
-        report=AdultReconversionReportPayload.model_validate(report_record.report_json),
+        report=AdultReconversionReportPayload.model_validate(
+            _normalize_legacy_report_payload(report_record.report_json)
+        ),
     )
 
 

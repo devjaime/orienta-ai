@@ -15,8 +15,8 @@ import { formatCLP } from "@/lib/utils/currency";
 
 export interface WellbeingIncomePoint {
   ruta: string;
-  felicidad: number;
-  dinero: number;
+  compatibilidad: number;
+  ingreso_referencia: number;
 }
 
 interface WellbeingIncomeChartProps {
@@ -39,15 +39,15 @@ function CustomTooltip({
     <div className="rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-lg">
       <p className="text-sm font-semibold text-slate-900">{point.ruta}</p>
       <p className="text-sm text-slate-600">
-        Bienestar estimado:{" "}
+        Compatibilidad (criterio interno):{" "}
         <span className="font-semibold text-slate-900">
-          {point.felicidad}/100
+          {point.compatibilidad}/100
         </span>
       </p>
       <p className="text-sm text-slate-600">
-        Ingreso estimado:{" "}
+        Ingreso de referencia:{" "}
         <span className="font-semibold text-slate-900">
-          {formatCLP(point.dinero)}
+          {formatCLP(point.ingreso_referencia)}
         </span>
       </p>
     </div>
@@ -66,20 +66,20 @@ export function WellbeingIncomeChart({
           <CartesianGrid stroke="#dbe4f0" strokeDasharray="4 4" />
           <XAxis
             type="number"
-            dataKey="dinero"
+            dataKey="ingreso_referencia"
             domain={["dataMin - 120000", "dataMax + 120000"]}
             tick={{ fill: "#64748b", fontSize: 12 }}
             tickFormatter={(value: number) =>
               `${Math.round(value / 1_000_000)}M`
             }
-            name="Ingreso"
+            name="Ingreso de referencia"
           />
           <YAxis
             type="number"
-            dataKey="felicidad"
+            dataKey="compatibilidad"
             domain={[40, 100]}
             tick={{ fill: "#64748b", fontSize: 12 }}
-            name="Bienestar"
+            name="Compatibilidad"
           />
           <Tooltip
             content={<CustomTooltip />}
@@ -96,8 +96,9 @@ export function WellbeingIncomeChart({
         </ScatterChart>
       </ResponsiveContainer>
       <p className="mt-3 text-xs text-slate-500">
-        El eje horizontal muestra ingreso estimado mensual y el vertical el
-        indice estimado de bienestar laboral.
+        El eje horizontal muestra el ingreso de referencia mensual y el
+        vertical el criterio interno de compatibilidad. Los montos son
+        referencias internas, no ofertas de mercado.
       </p>
     </div>
   );

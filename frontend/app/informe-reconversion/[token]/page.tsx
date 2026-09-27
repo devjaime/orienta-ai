@@ -15,8 +15,9 @@ interface RouteRecommendation {
   nombre_ruta: string;
   tipo: string;
   porque_encaja: string;
-  felicidad_estimada: number;
-  ingreso_estimado: number;
+  compatibilidad: number;
+  ingreso_referencia: number;
+  ingreso_procedencia: string;
   friccion_cambio: number;
   necesita_relocalizacion: boolean;
   relocalizacion_detalle: string;
@@ -28,15 +29,15 @@ interface RouteRecommendation {
 
 interface GraphPoint {
   ruta: string;
-  felicidad: number;
-  dinero: number;
+  compatibilidad: number;
+  ingreso_referencia: number;
 }
 
 interface ReportPayload {
   resumen_personalizado: string;
   perfil_actual: ProfileSnapshot;
   rutas_recomendadas: RouteRecommendation[];
-  grafico_bienestar_ingreso: GraphPoint[];
+  grafico_compatibilidad_ingreso: GraphPoint[];
   plan_30_dias: string[];
   plan_90_dias: string[];
   alertas: string[];
@@ -103,7 +104,7 @@ export async function generateMetadata({
   return {
     title: `Informe de reconversión de ${report.session.nombre} — Vocari`,
     description:
-      "Informe público de reconversión vocacional con rutas sugeridas, bienestar estimado e ingreso proyectado.",
+      "Informe público de reconversión vocacional con rutas sugeridas, criterio de compatibilidad e ingreso de referencia.",
   };
 }
 
@@ -229,14 +230,17 @@ export default async function InformeReconversionPage({
               Gráfico central
             </p>
             <h2 className="mt-2 text-2xl font-bold text-aura-ink">
-              Bienestar vs ingreso
+              Compatibilidad vs ingreso de referencia
             </h2>
             <p className="mt-2 text-sm leading-6 text-aura-muted">
-              No muestra una verdad absoluta: es una estimación útil para
-              comparar rutas posibles de reconversión.
+              No muestra una verdad absoluta: es un criterio interno calculado
+              desde tus respuestas para comparar rutas posibles de reconversión,
+              no una predicción validada.
             </p>
             <div className="mt-6 rounded-[1.5rem] border border-aura-primary/10 bg-aura-surface-low p-4">
-              <WellbeingIncomeChart data={report.grafico_bienestar_ingreso} />
+              <WellbeingIncomeChart
+                data={report.grafico_compatibilidad_ingreso}
+              />
             </div>
           </aside>
         </section>
@@ -270,9 +274,12 @@ export default async function InformeReconversionPage({
                     </p>
                   </div>
                   <div className="rounded-2xl bg-aura-surface-low px-3 py-2 text-right">
-                    <p className="text-xs text-aura-muted">Bienestar</p>
+                    <p className="text-xs text-aura-muted">Compatibilidad</p>
                     <p className="text-lg font-bold text-aura-ink">
-                      {route.felicidad_estimada}/100
+                      {route.compatibilidad}/100
+                    </p>
+                    <p className="text-[10px] leading-3 text-aura-muted">
+                      criterio interno, no predicción
                     </p>
                   </div>
                 </div>
@@ -283,11 +290,14 @@ export default async function InformeReconversionPage({
 
                 <div className="mt-5 grid gap-3 rounded-3xl bg-aura-surface-low p-4">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-aura-muted">Ingreso estimado</span>
+                    <span className="text-aura-muted">Ingreso de referencia</span>
                     <span className="font-semibold text-aura-ink">
-                      {formatCLP(route.ingreso_estimado)}
+                      {formatCLP(route.ingreso_referencia)}
                     </span>
                   </div>
+                  <p className="text-xs leading-5 text-aura-muted">
+                    {route.ingreso_procedencia}
+                  </p>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-aura-muted">Fricción de cambio</span>
                     <span className="font-semibold text-aura-ink">

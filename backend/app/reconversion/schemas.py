@@ -244,8 +244,9 @@ class AdultReconversionRouteRecommendation(BaseModel):
     nombre_ruta: str
     tipo: str
     porque_encaja: str
-    felicidad_estimada: float
-    ingreso_estimado: float
+    compatibilidad: float
+    ingreso_referencia: float
+    ingreso_procedencia: str
     friccion_cambio: float
     necesita_relocalizacion: bool
     relocalizacion_detalle: str
@@ -256,11 +257,11 @@ class AdultReconversionRouteRecommendation(BaseModel):
 
 
 class AdultReconversionGraphPoint(BaseModel):
-    """Punto del grafico bienestar vs ingreso."""
+    """Punto del grafico compatibilidad vs ingreso de referencia."""
 
     ruta: str
-    felicidad: float
-    dinero: float
+    compatibilidad: float
+    ingreso_referencia: float
 
 
 class AdultReconversionReportPayload(BaseModel):
@@ -269,7 +270,7 @@ class AdultReconversionReportPayload(BaseModel):
     resumen_personalizado: str
     perfil_actual: AdultReconversionProfileSnapshot
     rutas_recomendadas: list[AdultReconversionRouteRecommendation]
-    grafico_bienestar_ingreso: list[AdultReconversionGraphPoint]
+    grafico_compatibilidad_ingreso: list[AdultReconversionGraphPoint]
     plan_30_dias: list[str]
     plan_90_dias: list[str]
     alertas: list[str]
