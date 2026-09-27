@@ -88,3 +88,29 @@ completa corre en ~2 s.
   -a -f` directo tarda 0,35 s; sin `index.lock`; `gentle-ai` CLI 3.7.0.
   Pendiente: reintentar START del workspace cuando el maquinario del
   proveedor funcione, o diagnóstico del proveedor en sesión aparte.
+
+### Diagnóstico del incidente (cerrado, con causa raíz)
+
+- **Causa raíz confirmada**: clase de defecto conocida y pública del
+  proveedor — la materialización del candidato recorre el repo completo
+  bajo un timeout fijo de 10 s por comando Git (gentle-pi issue #252,
+  cerrado fixed 2.2.0; gentle-ai issues #1778 y #1957, amplificación
+  per-path de subprocesos Git). Nuestro repo tiene 1.137 archivos y la
+  máquina está bajo presión de memoria sostenida (swap 3,1/4 GB, uptime
+  27 días): algún hijo de git del lote de `checkout-index` supera los 10 s.
+- Fuente instalada: `gentle-pi@3.7.0`, `lib/review-candidate-view.ts:12`
+  (`CANDIDATE_GIT_TIMEOUT_MS = 10_000`) y `:797` (`checkout-index -f --
+  <lote>` por lotes de ~16 KB).
+- **Escape hatch documentado del proveedor**: variable de entorno
+  `GENTLE_PI_CANDIDATE_GIT_TIMEOUT_MS` (default 10.000 ms, máximo 120.000
+  ms), leída del `process.env` del host de pi.
+- Equivalentes manuales medidos (todos ≤0,5 s en la misma máquina):
+  `read-tree` + `checkout-index` con índice temporal, hacia `/tmp` y hacia
+  `.git/gentle-ai/candidate-views/`, `worktree add`, spawn de git (~5 ms).
+- **Workaround recomendado**: reiniciar la máquina (27 días de uptime,
+  swap saturada) y relanzar pi con
+  `GENTLE_PI_CANDIDATE_GIT_TIMEOUT_MS=120000`; después reintentar el START
+  del candidato workspace (elección ya registrada arriba).
+- Restos de los intentos fallidos: dos vistas de candidato con 0 archivos
+  en `.git/gentle-ai/candidate-views/` — inofensivas, el proveedor las
+  regenera por intento.
