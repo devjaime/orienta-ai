@@ -52,7 +52,7 @@ Fecha: 2026-09-27 · Rama: feat/vocari-mobile-api · Estado: en curso
    - `tsc --noEmit` → 15 errores preexistentes TS2688 por directorios
      `@types/* 2` duplicados en node_modules; ninguno en los archivos de esta
      feature. Bloqueo preexistente registrado, no corregido aquí.
-4. [ ] Cierre: commit work-unit `fix(reconversion): ...` solo con los archivos de
+4. [x] Cierre: commit work-unit `fix(reconversion): ...` solo con los archivos de
    esta feature; registro de identidad del commit abajo.
 
 ### Nota de incidente (diagnóstico separado)
@@ -71,6 +71,20 @@ completa corre en ~2 s.
 
 ## Registro de commits
 
-- `5e20e4b` (rama `feat/vocari-mobile-api`) — fix(reconversion): retirar
-  apariencia predictiva del informe adulto. 6 archivos, +288/−45
-  (incluye este documento).
+- `b11ac02` (rama `feat/vocari-mobile-api`, padre `678976a`) —
+  fix(reconversion): retirar apariencia predictiva del informe adulto.
+  6 archivos, +290/−45 (incluye este documento).
+
+## Revisión nativa (RDD)
+
+- Inspect listo; el único START ofrecido proyecta los cambios sin commitear
+  del workspace (32 archivos de trabajo previo de otras sesiones), no este
+  commit. El proveedor rechazó proyectar el rango commiteado
+  (`candidate-target-projection-drift`).
+- El usuario eligió revisar el candidato del workspace.
+- El START falló 3 veces de forma determinista:
+  `candidate-view Git checkout-index timed out after 10000ms`. Sin lineage
+  creado y sin mutación. Diagnóstico ambiental aparte: `git checkout-index
+  -a -f` directo tarda 0,35 s; sin `index.lock`; `gentle-ai` CLI 3.7.0.
+  Pendiente: reintentar START del workspace cuando el maquinario del
+  proveedor funcione, o diagnóstico del proveedor en sesión aparte.
